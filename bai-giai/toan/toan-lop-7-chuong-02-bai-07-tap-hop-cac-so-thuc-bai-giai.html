@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 7. Tập hợp các số thực — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương II. Số thực</div>
+    <div class="hang1">
+      <h1>Bài 7. Tập hợp các số thực — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương II. Số thực</div><h1>Bài 7. Tập hợp các số thực — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 5 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-so-thuc"><b class="ten">Số thực</b>
+      Số hữu tỉ và số vô tỉ được gọi chung là <b>số thực</b>. Tập hợp các số thực được kí hiệu là <span class="m">ℝ</span>.<br>
+      Cũng như số hữu tỉ, mỗi số thực <span class="m">a</span> đều có một <i>số đối</i> kí hiệu là <span class="m">−a</span>.</div>
+    <div class="kt" id="kt-vo-ti"><b class="ten">Số vô tỉ (Bài 6)</b>
+      <b>Số vô tỉ</b> là số viết được dưới dạng số thập phân vô hạn không tuần hoàn (tập hợp 𝕀). <i>Lời Pi:</i> Căn bậc hai số học của một số tự nhiên không chính phương luôn là một số vô tỉ.</div>
+    <div class="kt" id="kt-truc-so"><b class="ten">Trục số thực</b>
+      Mỗi số thực đều được biểu diễn bởi một điểm trên trục số. Ngược lại, mỗi điểm trên trục số đều biểu diễn một số thực.<br>
+      Biểu diễn <span class="m">√2</span>: vẽ hình vuông <span class="m"><i>MNPQ</i></span> cạnh 2, <span class="m">E</span> là giao điểm hai đường chéo; vẽ đường tròn tâm <span class="m">O</span> bán kính <span class="m"><i>ME</i></span>, giao điểm <span class="m">A</span> của đường tròn với tia <span class="m"><i>Ox</i></span> là điểm biểu diễn <span class="m">√2</span>.</div>
+    <div class="kt" id="kt-so-sanh"><b class="ten">Thứ tự trong tập hợp các số thực</b>
+      Với hai số thực <span class="m">a</span> và <span class="m">b</span> bất kì ta luôn có <span class="m">a = b</span> hoặc <span class="m">a &lt; b</span> hoặc <span class="m">a &gt; b</span>. Nếu <span class="m">a &lt; b</span> và <span class="m">b &lt; c</span> thì <span class="m">a &lt; c</span> (<i>tính chất bắc cầu</i>). Trên trục số thực, nếu <span class="m">a &lt; b</span> thì điểm <span class="m">a</span> nằm trước điểm <span class="m">b</span>.<br>
+      <b>Chú ý.</b> Nếu <span class="m">0 &lt; a &lt; b</span> thì <span class="m">√a &lt; √b</span>.</div>
+    <div class="kt" id="kt-gttd"><b class="ten">Giá trị tuyệt đối</b>
+      Khoảng cách từ điểm <span class="m">a</span> trên trục số đến gốc <span class="m">O</span> là <b>giá trị tuyệt đối</b> của số <span class="m">a</span>, kí hiệu là <span class="m">|a|</span>.<br>
+      <span class="m">|a| = a</span> khi <span class="m">a &gt; 0</span>; <span class="m">|a| = −a</span> khi <span class="m">a &lt; 0</span>; <span class="m">|0| = 0</span>. <i>Lời Tròn:</i> Hai số đối nhau thì có giá trị tuyệt đối bằng nhau.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập một — Bài 7. Tập hợp các số thực (ý thứ hai: Bài 6).</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Kí hiệu tập hợp, số đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>a) Cách viết nào sau đây là đúng: <span class="m">√2 ∈ ℚ</span>; <span class="m">π ∈ 𝕀</span>; <span class="m">15 ∈ ℝ</span>?</p>
+    <p>b) Viết số đối của các số: <span class="m">5,08(299)</span>; <span class="m">−√5</span>.</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung"><span class="m">√2 ∈ ℚ</span></span><button class="chon chu" data-dung="0">Đúng</button><button class="chon chu" data-dung="1">Sai</button><span class="phan-hoi" data-dung-txt="Chính xác! √2 là số vô tỉ." data-sai-txt="Chưa đúng — có số hữu tỉ nào bình phương bằng 2 không?"></span></div>
+    <div class="cau-thu"><span class="noi-dung"><span class="m">π ∈ 𝕀</span></span><button class="chon chu" data-dung="1">Đúng</button><button class="chon chu" data-dung="0">Sai</button><span class="phan-hoi" data-dung-txt="Chính xác! π = 3,14159… là số vô tỉ." data-sai-txt="Chưa đúng — π có phải số thập phân vô hạn không tuần hoàn không?"></span></div>
+    <div class="cau-thu"><span class="noi-dung"><span class="m">15 ∈ ℝ</span></span><button class="chon chu" data-dung="1">Đúng</button><button class="chon chu" data-dung="0">Sai</button><span class="phan-hoi" data-dung-txt="Chính xác! 15 là số hữu tỉ, nên cũng là số thực." data-sai-txt="Chưa đúng — số thực gồm những loại số nào?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Nhớ ba tập hợp: <span class="m">ℚ</span> (hữu tỉ), 𝕀 (vô tỉ), <span class="m">ℝ</span> (thực). Tập nào chứa cả hai tập kia?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">√2</span> và <span class="m">π</span> là số vô tỉ (Bài 6). Số thực gồm cả số hữu tỉ lẫn số vô tỉ. Số đối của <span class="m">a</span> là <span class="m">−a</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a: xét từng cách viết</h4>
+      <p><span class="m">√2 = 1,4142…</span> là số vô tỉ, không phải số hữu tỉ → <span class="m">√2 ∈ ℚ</span> <b>sai</b>.</p>
+      <p><span class="m">π = 3,14159…</span> là số vô tỉ → <span class="m">π ∈ 𝕀</span> <b>đúng</b>.</p>
+      <p><span class="m">15</span> là số hữu tỉ, mà số hữu tỉ cũng là số thực → <span class="m">15 ∈ ℝ</span> <b>đúng</b>.</p>
+      <a class="xem-lai" href="#kt-so-thuc">📌 Xem lại: số thực</a></div>
+    <div class="buoc" data-so="2"><h4>Câu b: viết số đối</h4>
+      <p>Số đối của <span class="m">5,08(299)</span> là <span class="m">−5,08(299)</span>; số đối của <span class="m">−√5</span> là <span class="m">√5</span>.</p>
+      <p class="vi-sao">Số đối của <span class="m">a</span> là <span class="m">−a</span>; số đối của <span class="m">−√5</span> là <span class="m">−(−√5) = √5</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Đúng: <span class="m">π ∈ 𝕀</span> và <span class="m">15 ∈ ℝ</span>; sai: <span class="m">√2 ∈ ℚ</span> (vì <span class="m">√2</span> là số vô tỉ). b) Số đối của <span class="m">5,08(299)</span> là <span class="m">−5,08(299)</span>; số đối của <span class="m">−√5</span> là <span class="m">√5</span>.</div>
+    <div class="bay">Cho rằng <span class="m">15 ∈ ℝ</span> sai vì “15 là số tự nhiên chứ đâu phải số thực”. Số tự nhiên, số nguyên đều là số hữu tỉ, mà mọi số hữu tỉ đều là số thực.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch1" data-ten="Câu hỏi (mục 1)" data-muc="nb" data-chip="Câu hỏi ①">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 1)</span><span class="nhan nb">Nhận biết</span><span class="nhan">Trục số thực</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Điểm nào trong Hình 2.4 biểu diễn số <span class="m">−√2</span>? Em có nhận xét gì về các điểm biểu diễn của hai số đối nhau?</p>
+    <p><i>(Hình 2.4: trục số thực có các vạch số nguyên từ <span class="m">−4</span> đến <span class="m">5</span>; các điểm được đánh dấu: <span class="m">−2<span class="frac"><b>1</b><span>3</span></span></span>; <span class="m">−√2</span> là điểm <span class="m">N</span> (giữa <span class="m">−2</span> và <span class="m">−1</span>); <span class="m"><span class="frac"><b>−3</b><span>5</span></span></span>; <span class="m">0</span>; <span class="m">0,3</span>; <span class="m">√2</span> là điểm <span class="m">M</span> (giữa 1 và 2); <span class="m">√3</span>; <span class="m">2<span class="frac"><b>1</b><span>3</span></span></span>; <span class="m">4,1(6)</span>.)</i></p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m">−√2</span> nằm trước hay sau gốc <span class="m">O</span>? Nằm giữa hai số nguyên nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">√2 = 1,414…</span> nên <span class="m">−√2 = −1,414…</span>, nằm giữa <span class="m">−2</span> và <span class="m">−1</span>. Rồi so sánh vị trí của <span class="m">M</span> (<span class="m">√2</span>) và <span class="m">N</span> (<span class="m">−√2</span>) so với <span class="m">O</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm điểm biểu diễn <span class="m">−√2</span></h4>
+      <p><span class="m">−√2 = −1,414…</span> nằm giữa <span class="m">−2</span> và <span class="m">−1</span>: đó là điểm <span class="m">N</span>.</p>
+      <svg viewBox="0 0 500 158" role="img" aria-label="Trục số: điểm N biểu diễn −√2 và điểm M biểu diễn √2 nằm hai phía gốc O, cùng cách O một đoạn √2" style="max-width:500px"><line x1="14" y1="62" x2="480" y2="62" stroke="#5c6577" stroke-width="2"/><polygon points="480,57 490,62 480,67" fill="#5c6577"/><line x1="30.0" y1="53" x2="30.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="65.8" y1="57" x2="65.8" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="101.7" y1="53" x2="101.7" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="137.5" y1="57" x2="137.5" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="173.3" y1="53" x2="173.3" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="209.2" y1="57" x2="209.2" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="245.0" y1="53" x2="245.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="280.8" y1="57" x2="280.8" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="316.7" y1="53" x2="316.7" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="352.5" y1="57" x2="352.5" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="388.3" y1="53" x2="388.3" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="424.2" y1="57" x2="424.2" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="460.0" y1="53" x2="460.0" y2="71" stroke="#5c6577" stroke-width="2"/><g font-family="Cambria Math,Times New Roman,serif" font-size="20" text-anchor="middle" fill="#1f2430"><text x="30.0" y="92">−3</text><text x="101.7" y="92">−2</text><text x="173.3" y="92">−1</text><text x="245.0" y="92">0</text><text x="316.7" y="92">1</text><text x="388.3" y="92">2</text><text x="460.0" y="92">3</text><text x="233.0" y="49" font-style="italic" font-size="17">O</text><circle cx="143.6" cy="62" r="6" fill="#c93c3c"/><text x="143.6" y="46" font-weight="700" fill="#c93c3c" font-style="italic">N</text><circle cx="346.4" cy="62" r="6" fill="#0f8a68"/><text x="346.4" y="46" font-weight="700" fill="#0f8a68" font-style="italic">M</text><line x1="147.6" y1="114" x2="241.0" y2="114" stroke="#c93c3c" stroke-width="1.6"/><polygon points="143.6,114 151.6,110 151.6,118" fill="#c93c3c"/><polygon points="245.0,114 237.0,110 237.0,118" fill="#c93c3c"/><text x="194.3" y="138" fill="#c93c3c" font-size="18">√2</text><line x1="249.0" y1="114" x2="342.4" y2="114" stroke="#0f8a68" stroke-width="1.6"/><polygon points="245.0,114 253.0,110 253.0,118" fill="#0f8a68"/><polygon points="346.4,114 338.4,110 338.4,118" fill="#0f8a68"/><text x="295.7" y="138" fill="#0f8a68" font-size="18">√2</text></g></svg>
+      <a class="xem-lai" href="#kt-truc-so">📌 Xem lại: trục số thực</a></div>
+    <div class="buoc" data-so="2"><h4>Nhận xét về hai số đối nhau</h4>
+      <p><span class="m">M</span> (biểu diễn <span class="m">√2</span>) và <span class="m">N</span> (biểu diễn <span class="m">−√2</span>) nằm về hai phía của gốc <span class="m">O</span> và cách đều <span class="m">O</span>.</p>
+      <p class="vi-sao">Giống như với số hữu tỉ: điểm <span class="m">a</span> và điểm <span class="m">−a</span> đối xứng nhau qua gốc <span class="m">O</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Điểm <span class="m">N</span> biểu diễn số <span class="m">−√2</span>. Hai điểm biểu diễn hai số đối nhau nằm về hai phía khác nhau của gốc <span class="m">O</span> và cách đều gốc <span class="m">O</span>.</div>
+    <div class="bay">Chọn điểm biểu diễn <span class="m"><span class="frac"><b>−3</b><span>5</span></span></span> vì “cũng là số âm gần <span class="m">O</span>”. <span class="m">−√2 = −1,414…</span> nhỏ hơn <span class="m">−1</span>, nên điểm của nó phải nằm <b>trước</b> điểm <span class="m">−1</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="vd">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan vd">Vận dụng</span><span class="nhan">Biểu diễn trên trục số</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho biết nếu một tam giác vuông có hai cạnh góc vuông bằng 1 và 3 thì cạnh huyền của tam giác bằng <span class="m">√10</span>. Em hãy vẽ điểm biểu diễn số <span class="m">−√10</span> trên trục số.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Muốn có một đoạn thẳng dài đúng <span class="m">√10</span>, em hãy tìm một tam giác vuông có hai cạnh góc vuông 1 và 3 ngay trên trục số.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Làm giống cách SGK biểu diễn <span class="m">√2</span>: dựng một đoạn thẳng dài <span class="m">√10</span> có một đầu ở gốc <span class="m">O</span>, rồi dùng compa “quay” đoạn đó xuống trục số — lần này quay về <b>phía trước</b> <span class="m">O</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Dựng đoạn thẳng dài <span class="m">√10</span></h4>
+      <p>Trên giấy kẻ ô vuông, chọn cạnh mỗi ô là 1 đơn vị. Vẽ hình chữ nhật có một cạnh là đoạn từ <span class="m">O</span> đến điểm <span class="m">−3</span> (dài 3) và cạnh kia dài 1, nằm phía trên trục số. Gọi <span class="m">B</span> là đỉnh đối diện với <span class="m">O</span>.</p>
+      <p>Tam giác có ba đỉnh <span class="m">O</span>, điểm <span class="m">−3</span> và <span class="m">B</span> là tam giác vuông với hai cạnh góc vuông 3 và 1, nên cạnh huyền <span class="m"><i>OB</i> = √10</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Quay đoạn <span class="m"><i>OB</i></span> xuống trục số</h4>
+      <p>Vẽ đường tròn tâm <span class="m">O</span>, bán kính <span class="m"><i>OB</i></span>. Nó cắt trục số tại một điểm nằm trước gốc <span class="m">O</span> (giữa <span class="m">−4</span> và <span class="m">−3</span>). Điểm đó cách <span class="m">O</span> một đoạn <span class="m">√10</span> và nằm trước <span class="m">O</span>, nên biểu diễn số <span class="m">−√10</span>.</p>
+      <svg viewBox="0 0 500 214" role="img" aria-label="Vẽ điểm −√10: hình chữ nhật 3 × 1 dựng trên trục số, đường chéo OB dài √10; cung tròn tâm O bán kính OB cắt trục số tại điểm −√10" style="max-width:500px"><rect x="138.4" y="61.1" width="236.8" height="78.9" fill="#eef3ff" stroke="#2f6fdb" stroke-width="1.3" stroke-dasharray="5 4"/><line x1="14" y1="140" x2="474" y2="140" stroke="#5c6577" stroke-width="2"/><polygon points="474,135 484,140 474,145" fill="#5c6577"/><line x1="59.5" y1="132" x2="59.5" y2="148" stroke="#5c6577" stroke-width="2"/><line x1="138.4" y1="132" x2="138.4" y2="148" stroke="#5c6577" stroke-width="2"/><line x1="217.4" y1="132" x2="217.4" y2="148" stroke="#5c6577" stroke-width="2"/><line x1="296.3" y1="132" x2="296.3" y2="148" stroke="#5c6577" stroke-width="2"/><line x1="375.3" y1="132" x2="375.3" y2="148" stroke="#5c6577" stroke-width="2"/><line x1="454.2" y1="132" x2="454.2" y2="148" stroke="#5c6577" stroke-width="2"/><line x1="375.3" y1="140" x2="138.4" y2="61.1" stroke="#2f6fdb" stroke-width="2.6"/><path d="M 138.4 61.1 A 249.7 249.7 0 0 0 125.6 140.0" fill="none" stroke="#c93c3c" stroke-width="2.2" stroke-dasharray="6 4"/><circle cx="125.6" cy="140" r="6" fill="#c93c3c"/><circle cx="138.4" cy="61.1" r="4.5" fill="#2f6fdb"/><g font-family="Cambria Math,Times New Roman,serif" font-size="20" text-anchor="middle" fill="#1f2430"><text x="59.5" y="170">−4</text><text x="150.4" y="170">−3</text><text x="217.4" y="170">−2</text><text x="296.3" y="170">−1</text><text x="375.3" y="170">0</text><text x="454.2" y="170">1</text><text x="388.3" y="131" font-style="italic" font-size="18">O</text><text x="140.4" y="51.1" font-style="italic" font-weight="700" fill="#2f6fdb">B</text><text x="109.6" y="200" font-weight="700" fill="#c93c3c">−√10</text><text x="256.8" y="53.1" fill="#5c6577" font-size="18">3</text><text x="387.3" y="96.5" fill="#5c6577" font-size="18">1</text><text x="260.8" y="88.5" fill="#2f6fdb" font-size="19" font-weight="700">√10</text></g></svg>
+      <p class="vi-sao">Mọi điểm trên đường tròn tâm <span class="m">O</span> đều cách <span class="m">O</span> một đoạn bằng bán kính <span class="m"><i>OB</i> = √10</span>. Điểm nằm trước <span class="m">O</span> biểu diễn số âm.</p>
+      <a class="xem-lai" href="#kt-truc-so">📌 Xem lại: biểu diễn √2 trên trục số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Dựng tam giác vuông có hai cạnh góc vuông 3 (đoạn từ <span class="m">O</span> đến điểm <span class="m">−3</span>) và 1, cạnh huyền <span class="m"><i>OB</i> = √10</span>; đường tròn tâm <span class="m">O</span> bán kính <span class="m"><i>OB</i></span> cắt trục số tại điểm nằm trước <span class="m">O</span> (giữa <span class="m">−4</span> và <span class="m">−3</span>) — đó là điểm biểu diễn <span class="m">−√10</span>.</div>
+    <div class="bay">Lấy giao điểm nằm <b>sau</b> <span class="m">O</span> — đó là điểm <span class="m">√10</span>. Số <span class="m">−√10</span> là số âm nên điểm biểu diễn nằm trước gốc <span class="m">O</span>.</div>
+    <div class="gv-note">Cũng có thể dựng tam giác ở phía sau <span class="m">O</span> (đoạn từ <span class="m">O</span> đến điểm 3) rồi lấy giao điểm của đường tròn với tia đối của tia <span class="m"><i>Ox</i></span>. Kiểm tra bằng máy: <span class="m">√10 ≈ 3,16</span> nên điểm <span class="m">−√10</span> ở gần <span class="m">−3</span> hơn <span class="m">−4</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt3" data-ten="Luyện tập 3" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 3</span><span class="nhan th">Thông hiểu</span><span class="nhan">So sánh số thực</span><span class="trang-thai"></span></div>
+  <div class="de"><p>So sánh:</p>
+    <p>a) <span class="m">1,313233…</span> và <span class="m">1,(32)</span>; &nbsp;&nbsp; b) <span class="m">√5</span> và <span class="m">2,36</span> (có thể dùng máy tính cầm tay để tính <span class="m">√5</span>).</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Viết hai số thành số thập phân rồi so sánh từng hàng từ trái sang phải — gặp chữ số khác nhau đầu tiên là dừng.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) Viết bung <span class="m">1,(32) = 1,3232…</span> b) Bấm máy tính <span class="m">√5</span> rồi so sánh với <span class="m">2,36</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a</h4>
+      <p><span class="m">1,(32) = 1,323232…</span> So sánh <span class="m">1,313233…</span> với <span class="m">1,323232…</span>: phần nguyên bằng nhau, hàng phần mười đều là 3, hàng phần trăm: <span class="m">1 &lt; 2</span>.</p>
+      <p>Vậy <span class="m">1,313233… &lt; 1,(32)</span>.</p>
+      <a class="xem-lai" href="#kt-so-sanh">📌 Xem lại: so sánh hai số thực</a></div>
+    <div class="buoc" data-so="2"><h4>Câu b</h4>
+      <p>Bấm máy: <code>√■</code> <code>5</code> <code>=</code> → 2,236067977. So sánh <span class="m">2,236…</span> với <span class="m">2,36</span>: hàng phần mười <span class="m">2 &lt; 3</span>.</p>
+      <p>Vậy <span class="m">√5 &lt; 2,36</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">1,313233… &lt; 1,(32)</span>; &nbsp; b) <span class="m">√5 &lt; 2,36</span> (vì <span class="m">√5 = 2,236…</span>).</div>
+    <div class="bay">Câu a: thấy <span class="m">1,313233…</span> có nhiều chữ số hơn nên cho là lớn hơn. So sánh số thập phân là so <b>từng hàng</b>, không phải đếm số chữ số.</div>
+    <div class="gv-note">Câu b không cần máy: <span class="m">2,36<sup>2</sup> = 5,5696 &gt; 5</span>, nên theo Chú ý (<span class="m">0 &lt; a &lt; b</span> thì <span class="m">√a &lt; √b</span>): <span class="m">√5 &lt; √<span style="border-top:1.4px solid currentColor;padding:1px 1px 0 1px">5,5696</span> = 2,36</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Khoảng cách đến gốc O</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu diễn các số 3 và <span class="m">−2</span> trên trục số rồi cho biết mỗi điểm ấy nằm cách gốc <span class="m">O</span> bao nhiêu đơn vị.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đếm số đoạn đơn vị từ điểm đó về gốc <span class="m">O</span> — khoảng cách thì không bao giờ âm.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Điểm 3 nằm sau <span class="m">O</span>, điểm <span class="m">−2</span> nằm trước <span class="m">O</span>. Đếm số đoạn thẳng đơn vị từ mỗi điểm đến <span class="m">O</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Biểu diễn và đếm</h4>
+      <svg viewBox="0 0 500 158" role="img" aria-label="Trục số: điểm −2 cách O 2 đơn vị, điểm 3 cách O 3 đơn vị" style="max-width:500px"><line x1="14" y1="62" x2="480" y2="62" stroke="#5c6577" stroke-width="2"/><polygon points="480,57 490,62 480,67" fill="#5c6577"/><line x1="30.0" y1="53" x2="30.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="91.4" y1="53" x2="91.4" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="152.9" y1="53" x2="152.9" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="214.3" y1="53" x2="214.3" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="275.7" y1="53" x2="275.7" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="337.1" y1="53" x2="337.1" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="398.6" y1="53" x2="398.6" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="460.0" y1="53" x2="460.0" y2="71" stroke="#5c6577" stroke-width="2"/><g font-family="Cambria Math,Times New Roman,serif" font-size="20" text-anchor="middle" fill="#1f2430"><text x="30.0" y="92">−3</text><text x="91.4" y="92">−2</text><text x="152.9" y="92">−1</text><text x="214.3" y="92">0</text><text x="275.7" y="92">1</text><text x="337.1" y="92">2</text><text x="398.6" y="92">3</text><text x="460.0" y="92">4</text><text x="202.3" y="49" font-style="italic" font-size="17">O</text><circle cx="91.4" cy="62" r="6" fill="#c93c3c"/><circle cx="398.6" cy="62" r="6" fill="#0f8a68"/><line x1="95.4" y1="114" x2="210.3" y2="114" stroke="#c93c3c" stroke-width="1.6"/><polygon points="91.4,114 99.4,110 99.4,118" fill="#c93c3c"/><polygon points="214.3,114 206.3,110 206.3,118" fill="#c93c3c"/><text x="152.9" y="138" fill="#c93c3c" font-size="18">2 đơn vị</text><line x1="218.3" y1="114" x2="394.6" y2="114" stroke="#0f8a68" stroke-width="1.6"/><polygon points="214.3,114 222.3,110 222.3,118" fill="#0f8a68"/><polygon points="398.6,114 390.6,110 390.6,118" fill="#0f8a68"/><text x="306.4" y="138" fill="#0f8a68" font-size="18">3 đơn vị</text></g></svg>
+      <p>Điểm 3 nằm sau <span class="m">O</span>, cách <span class="m">O</span> 3 đơn vị; điểm <span class="m">−2</span> nằm trước <span class="m">O</span>, cách <span class="m">O</span> 2 đơn vị.</p>
+      <p class="vi-sao">Khoảng cách là độ dài đoạn thẳng nên luôn là số không âm, dù điểm nằm trước hay sau <span class="m">O</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Điểm 3 cách gốc <span class="m">O</span> 3 đơn vị; điểm <span class="m">−2</span> cách gốc <span class="m">O</span> 2 đơn vị.</div>
+    <div class="bay">Trả lời điểm <span class="m">−2</span> cách <span class="m">O</span> “<span class="m">−2</span> đơn vị”. Khoảng cách không thể âm — dấu “−” chỉ cho biết điểm nằm trước <span class="m">O</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Khoảng cách đến gốc O</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Không vẽ hình, hãy cho biết khoảng cách của mỗi điểm sau đến gốc <span class="m">O</span>: <span class="m">−4</span>; <span class="m">−1</span>; <span class="m">0</span>; <span class="m">1</span>; <span class="m">4</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai điểm <span class="m">−4</span> và <span class="m">4</span> có gì giống nhau khi nhìn từ gốc <span class="m">O</span>?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Như HĐ1: khoảng cách từ điểm <span class="m">a</span> đến <span class="m">O</span> là số đơn vị giữa chúng — bỏ qua chuyện nằm trước hay sau.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Từng điểm</h4>
+      <p>Điểm <span class="m">−4</span>: 4 đơn vị; điểm <span class="m">−1</span>: 1 đơn vị; điểm <span class="m">0</span>: 0 (chính là gốc <span class="m">O</span>); điểm <span class="m">1</span>: 1 đơn vị; điểm <span class="m">4</span>: 4 đơn vị.</p>
+      <p class="vi-sao">Hai số đối nhau (<span class="m">−4</span> và <span class="m">4</span>; <span class="m">−1</span> và <span class="m">1</span>) nằm hai phía của <span class="m">O</span> nhưng cách <span class="m">O</span> như nhau.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Khoảng cách đến gốc <span class="m">O</span>: điểm <span class="m">−4</span> là 4; điểm <span class="m">−1</span> là 1; điểm <span class="m">0</span> là 0; điểm <span class="m">1</span> là 1; điểm <span class="m">4</span> là 4.</div>
+    <div class="bay">Quên điểm <span class="m">0</span> hoặc nói “không có khoảng cách”. Điểm 0 trùng gốc <span class="m">O</span> nên khoảng cách bằng 0.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch2" data-ten="Câu hỏi (mục 3, câu 1)" data-muc="nb" data-chip="Câu hỏi ②">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 3, câu 1)</span><span class="nhan nb">Nhận biết</span><span class="nhan">Giá trị tuyệt đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Từ HĐ1 và HĐ2, hãy tìm giá trị tuyệt đối của các số: <span class="m">3</span>; <span class="m">−2</span>; <span class="m">0</span>; <span class="m">4</span> và <span class="m">−4</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Giá trị tuyệt đối chính là khoảng cách em vừa đếm ở HĐ1, HĐ2.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">|a|</span> là khoảng cách từ điểm <span class="m">a</span> đến gốc <span class="m">O</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đọc lại khoảng cách</h4>
+      <p><span class="m">|3| = 3</span>; <span class="m">|−2| = 2</span>; <span class="m">|0| = 0</span>; <span class="m">|4| = 4</span>; <span class="m">|−4| = 4</span>.</p>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">|3| = 3</span>; <span class="m">|−2| = 2</span>; <span class="m">|0| = 0</span>; <span class="m">|4| = 4</span>; <span class="m">|−4| = 4</span>.</div>
+    <div class="bay">Viết <span class="m">|−4| = −4</span> vì “giữ nguyên số”. Giá trị tuyệt đối là khoảng cách nên không bao giờ âm.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch3" data-ten="Câu hỏi (mục 3, câu 2)" data-muc="nb" data-chip="Câu hỏi ③">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 3, câu 2)</span><span class="nhan nb">Nhận biết</span><span class="nhan">Giá trị tuyệt đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Minh viết <span class="m">|−2,5| = −2,5</span> đúng hay sai?</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung"><span class="m">|−2,5| = −2,5</span></span><button class="chon chu" data-dung="0">Đúng</button><button class="chon chu" data-dung="1">Sai</button><span class="phan-hoi" data-dung-txt="Chính xác! |−2,5| = 2,5." data-sai-txt="Chưa đúng — khoảng cách từ điểm −2,5 đến O có thể là số âm không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Giá trị tuyệt đối có thể là một số âm không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">−2,5</span> là số âm. Giá trị tuyệt đối của một số âm là số đối của nó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Áp dụng nhận xét</h4>
+      <p><span class="m">−2,5 &lt; 0</span> nên <span class="m">|−2,5| = −(−2,5) = 2,5</span>.</p>
+      <p class="vi-sao">Điểm <span class="m">−2,5</span> cách gốc <span class="m">O</span> 2,5 đơn vị; khoảng cách không thể là <span class="m">−2,5</span>.</p>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Minh viết sai. Đúng là <span class="m">|−2,5| = 2,5</span>.</div>
+    <div class="bay">Nghĩ “<span class="m">|a| = −a</span> khi <span class="m">a &lt; 0</span>” nghĩa là kết quả âm. Ở đây <span class="m">a = −2,5</span> nên <span class="m">−a = 2,5</span> — là số <b>dương</b>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt4" data-ten="Luyện tập 4" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 4</span><span class="nhan nb">Nhận biết</span><span class="nhan">Giá trị tuyệt đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính: a) <span class="m">|−2,3|</span>; &nbsp;&nbsp; b) <span class="m">|<span class="frac"><b>7</b><span>5</span></span>|</span>; &nbsp;&nbsp; c) <span class="m">|−11|</span>; &nbsp;&nbsp; d) <span class="m">|−√8|</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Với mỗi số, hỏi trước: số này dương, âm hay bằng 0?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Số dương: giá trị tuyệt đối là chính nó. Số âm: giá trị tuyệt đối là số đối của nó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Các số âm: a, c, d</h4>
+      <p><span class="m">|−2,3| = 2,3</span>; &nbsp; <span class="m">|−11| = 11</span>; &nbsp; <span class="m">|−√8| = √8</span>.</p>
+      <p class="vi-sao"><span class="m">−2,3</span>; <span class="m">−11</span>; <span class="m">−√8</span> đều âm nên giá trị tuyệt đối là số đối: <span class="m">2,3</span>; <span class="m">11</span>; <span class="m">√8</span>.</p>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+    <div class="buoc" data-so="2"><h4>Số dương: b</h4>
+      <p><span class="m"><span class="frac"><b>7</b><span>5</span></span> &gt; 0</span> nên <span class="m">|<span class="frac"><b>7</b><span>5</span></span>| = <span class="frac"><b>7</b><span>5</span></span></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">2,3</span>; &nbsp; b) <span class="m"><span class="frac"><b>7</b><span>5</span></span></span>; &nbsp; c) <span class="m">11</span>; &nbsp; d) <span class="m">√8</span>.</div>
+    <div class="bay">Câu d viết <span class="m">|−√8| = −√8</span> hoặc <span class="m">= 8</span>. Giá trị tuyệt đối chỉ bỏ dấu “−” của số âm; nó không làm mất dấu căn: <span class="m">|−√8| = √8</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tt" data-ten="Thử thách nhỏ" data-muc="vd">
+  <div class="bai-dau"><span class="so">Thử thách nhỏ</span><span class="nhan vd">Vận dụng</span><span class="nhan">Liệt kê phần tử</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Liệt kê các phần tử của tập hợp <span class="m">A = {x | x ∈ ℤ, |x| &lt; 5}</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai điều kiện: <span class="m">x</span> là số nguyên, và điểm <span class="m">x</span> cách <span class="m">O</span> <b>dưới</b> 5 đơn vị. Có tính cả số âm không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">|x| &lt; 5</span> nghĩa là điểm <span class="m">x</span> cách gốc <span class="m">O</span> chưa tới 5 đơn vị. Tìm các số nguyên như vậy ở cả hai phía của <span class="m">O</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Các số nguyên không âm</h4>
+      <p>Với <span class="m">x ≥ 0</span>: <span class="m">|x| = x &lt; 5</span> → <span class="m">x</span> là <span class="m">0; 1; 2; 3; 4</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Các số nguyên âm</h4>
+      <p>Với <span class="m">x &lt; 0</span>: <span class="m">|x| = −x &lt; 5</span> → <span class="m">−x</span> là <span class="m">1; 2; 3; 4</span>, tức <span class="m">x</span> là <span class="m">−1; −2; −3; −4</span>.</p>
+      <p class="vi-sao">Hai số đối nhau có giá trị tuyệt đối bằng nhau: <span class="m">|−4| = |4| = 4 &lt; 5</span>, còn <span class="m">|−5| = |5| = 5</span> không nhỏ hơn 5.</p>
+      <svg viewBox="0 0 500 158" role="img" aria-label="Trục số: các số nguyên cách O dưới 5 đơn vị là từ −4 đến 4, tô màu xanh" style="max-width:500px"><line x1="14" y1="62" x2="480" y2="62" stroke="#5c6577" stroke-width="2"/><polygon points="480,57 490,62 480,67" fill="#5c6577"/><line x1="30.0" y1="53" x2="30.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="65.8" y1="53" x2="65.8" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="101.7" y1="53" x2="101.7" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="137.5" y1="53" x2="137.5" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="173.3" y1="53" x2="173.3" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="209.2" y1="53" x2="209.2" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="245.0" y1="53" x2="245.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="280.8" y1="53" x2="280.8" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="316.7" y1="53" x2="316.7" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="352.5" y1="53" x2="352.5" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="388.3" y1="53" x2="388.3" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="424.2" y1="53" x2="424.2" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="460.0" y1="53" x2="460.0" y2="71" stroke="#5c6577" stroke-width="2"/><g font-family="Cambria Math,Times New Roman,serif" font-size="19" text-anchor="middle" fill="#1f2430"><text x="30.0" y="92">−6</text><text x="65.8" y="92">−5</text><text x="101.7" y="92">−4</text><text x="137.5" y="92">−3</text><text x="173.3" y="92">−2</text><text x="209.2" y="92">−1</text><text x="245.0" y="92">0</text><text x="280.8" y="92">1</text><text x="316.7" y="92">2</text><text x="352.5" y="92">3</text><text x="388.3" y="92">4</text><text x="424.2" y="92">5</text><text x="460.0" y="92">6</text><text x="233.0" y="49" font-style="italic" font-size="16">O</text><circle cx="101.7" cy="62" r="6" fill="#0f8a68"/><circle cx="137.5" cy="62" r="6" fill="#0f8a68"/><circle cx="173.3" cy="62" r="6" fill="#0f8a68"/><circle cx="209.2" cy="62" r="6" fill="#0f8a68"/><circle cx="245.0" cy="62" r="6" fill="#0f8a68"/><circle cx="280.8" cy="62" r="6" fill="#0f8a68"/><circle cx="316.7" cy="62" r="6" fill="#0f8a68"/><circle cx="352.5" cy="62" r="6" fill="#0f8a68"/><circle cx="388.3" cy="62" r="6" fill="#0f8a68"/><line x1="69.8" y1="114" x2="241.0" y2="114" stroke="#c93c3c" stroke-width="1.6"/><polygon points="65.8,114 73.8,110 73.8,118" fill="#c93c3c"/><polygon points="245.0,114 237.0,110 237.0,118" fill="#c93c3c"/><text x="155.4" y="138" fill="#c93c3c" font-size="17">5</text><line x1="249.0" y1="114" x2="420.2" y2="114" stroke="#c93c3c" stroke-width="1.6"/><polygon points="245.0,114 253.0,110 253.0,118" fill="#c93c3c"/><polygon points="424.2,114 416.2,110 416.2,118" fill="#c93c3c"/><text x="334.6" y="138" fill="#c93c3c" font-size="17">5</text></g></svg>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">A</span> <span class="m">= {−4; −3; −2; −1; 0; 1; 2; 3; 4}</span>.</div>
+    <div class="bay">Chỉ liệt kê <span class="m">{0; 1; 2; 3; 4}</span> — quên các số nguyên âm; hoặc thêm <span class="m">5</span> và <span class="m">−5</span> vào. Điều kiện là <span class="m">|x| &lt; 5</span> (nhỏ hơn, không có “bằng”).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b213" data-ten="Bài 2.13" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 2.13</span><span class="nhan th">Thông hiểu</span><span class="nhan">Số hữu tỉ, số vô tỉ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Xét tập hợp <span class="m">A</span> <span class="m">= {7,1; −2,(61); 0; 5,14; <span class="frac"><b>4</b><span>7</span></span>; √15; −√81}</span>. Bằng cách liệt kê các phần tử, hãy viết tập hợp <span class="m">B</span> gồm các số hữu tỉ thuộc tập <span class="m">A</span> và tập hợp <span class="m">C</span> gồm các số vô tỉ thuộc tập <span class="m">A</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Có hai số mang dấu căn — nhưng chỉ một trong hai là số vô tỉ. Số nào “giả dạng”?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tính <span class="m">√81</span> trước. Với <span class="m">√15</span>: 15 có phải số chính phương không? Nhớ lời Pi ở Bài 6.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Các số hữu tỉ</h4>
+      <p><span class="m">7,1</span>; <span class="m">0</span>; <span class="m">5,14</span>; <span class="m"><span class="frac"><b>4</b><span>7</span></span></span> là số hữu tỉ (số thập phân hữu hạn, số nguyên, phân số).</p>
+      <p><span class="m">−2,(61)</span> là số thập phân vô hạn <b>tuần hoàn</b> nên không phải số vô tỉ — nó là số hữu tỉ.</p>
+      <p><span class="m">−√81 = −9</span> (vì <span class="m">9<sup>2</sup> = 81</span>) là số hữu tỉ.</p>
+      <a class="xem-lai" href="#kt-so-thuc">📌 Xem lại: số thực</a></div>
+    <div class="buoc" data-so="2"><h4>Số vô tỉ</h4>
+      <p>15 không phải số chính phương (<span class="m">3<sup>2</sup> = 9</span>, <span class="m">4<sup>2</sup> = 16</span>) nên <span class="m">√15</span> là số vô tỉ.</p>
+      <a class="xem-lai" href="#kt-vo-ti">📌 Xem lại: lời Pi</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">B</span> <span class="m">= {7,1; −2,(61); 0; 5,14; <span class="frac"><b>4</b><span>7</span></span>; −√81}</span>; &nbsp; <span class="m">C = {√15}</span>.</div>
+    <div class="bay">Xếp <span class="m">−√81</span> vào tập số vô tỉ vì “có dấu căn”. <span class="m">√81 = 9</span> nên <span class="m">−√81 = −9</span> là số nguyên — số hữu tỉ.</div>
+    <div class="gv-note">Chấp nhận viết <span class="m">−9</span> thay cho <span class="m">−√81</span> trong tập <span class="m">B</span>. Số vô hạn tuần hoàn là số hữu tỉ: lập luận bằng định nghĩa số vô tỉ (vô hạn <i>không</i> tuần hoàn) và “số thực = số hữu tỉ hoặc số vô tỉ”.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b214" data-ten="Bài 2.14" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 2.14</span><span class="nhan nb">Nhận biết</span><span class="nhan">Số đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Gọi <span class="m">A'</span> là tập hợp các số đối của các số thuộc tập hợp <span class="m">A</span> trong Bài tập 2.13. Liệt kê các phần tử của <span class="m">A'</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bảy số trong <span class="m">A</span> → bảy số đối. Số đối của 0 là gì?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Số đối của <span class="m">a</span> là <span class="m">−a</span>: đổi dấu từng số. Số đối của một số âm là số dương.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đổi dấu từng phần tử</h4>
+      <p><span class="m">7,1 → −7,1</span>; &nbsp; <span class="m">−2,(61) → 2,(61)</span>; &nbsp; <span class="m">0 → 0</span>; &nbsp; <span class="m">5,14 → −5,14</span>;</p>
+      <p><span class="m"><span class="frac"><b>4</b><span>7</span></span> → −<span class="frac"><b>4</b><span>7</span></span></span>; &nbsp; <span class="m">√15 → −√15</span>; &nbsp; <span class="m">−√81 → √81</span> (bằng 9).</p>
+      <a class="xem-lai" href="#kt-so-thuc">📌 Xem lại: số đối của số thực</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">A'</span> <span class="m">= {−7,1; 2,(61); 0; −5,14; −<span class="frac"><b>4</b><span>7</span></span>; −√15; √81}</span> (có thể viết <span class="m">9</span> thay cho <span class="m">√81</span>).</div>
+    <div class="bay">Viết số đối của <span class="m">−2,(61)</span> là <span class="m">−2,(16)</span> hoặc giữ nguyên dấu “−”. Số đối chỉ đổi dấu, giữ nguyên phần chữ số: <span class="m">2,(61)</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b215" data-ten="Bài 2.15" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 2.15</span><span class="nhan th">Thông hiểu</span><span class="nhan">Đọc số trên trục số</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Các điểm <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span>, <span class="m">D</span> trong hình sau biểu diễn những số thực nào?</p>
+    <p><i>(Hình: a) Trục số từ gốc <span class="m">O</span> (số 0) đến vạch 1, đoạn từ 0 đến 1 được chia thành 10 phần bằng nhau. Điểm <span class="m">A</span> nằm chính giữa vạch chia thứ 6 và vạch chia thứ 7 (tính từ <span class="m">O</span>); điểm <span class="m">B</span> nằm chính giữa vạch chia thứ 9 và vạch 1. b) Trục số từ vạch 4,6 đến vạch 4,7, đoạn này được chia thành 10 phần bằng nhau. Điểm <span class="m">C</span> nằm chính giữa vạch chia thứ nhất và vạch chia thứ hai (tính từ 4,6); điểm <span class="m">D</span> nằm đúng tại vạch chia thứ năm (tính từ 4,6).)</i></p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Mỗi khoảng chia nhỏ bằng bao nhiêu? Ở hình b, nó nhỏ hơn hình a mười lần đấy!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Hình a: mỗi phần dài <span class="m">0,1</span>. Hình b: đoạn dài <span class="m">0,1</span> chia 10 phần nên mỗi phần dài <span class="m">0,01</span>. Điểm “chính giữa” hai vạch thì bằng trung bình của hai số ở hai vạch.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Hình a: mỗi phần 0,1</h4>
+      <p>Vạch thứ 6 là <span class="m">0,6</span>, vạch thứ 7 là <span class="m">0,7</span>; <span class="m">A</span> ở chính giữa nên <span class="m">A</span> biểu diễn <span class="m">0,65</span>.</p>
+      <p>Vạch thứ 9 là <span class="m">0,9</span>; <span class="m">B</span> ở chính giữa <span class="m">0,9</span> và <span class="m">1</span> nên <span class="m">B</span> biểu diễn <span class="m">0,95</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Hình b: mỗi phần 0,01</h4>
+      <p>Vạch thứ nhất là <span class="m">4,61</span>, vạch thứ hai là <span class="m">4,62</span>; <span class="m">C</span> ở chính giữa nên <span class="m">C</span> biểu diễn <span class="m">4,615</span>.</p>
+      <p>Vạch thứ năm là <span class="m">4,6 + 5 · 0,01 = 4,65</span>; <span class="m">D</span> biểu diễn <span class="m">4,65</span>.</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px"><svg viewBox="0 0 420 108" role="img" aria-label="Hình a: đoạn từ 0 đến 1 chia 10 phần; A ở 0,65, B ở 0,95" style="width:380px;max-width:100%;margin:0"><line x1="14" y1="62" x2="400" y2="62" stroke="#5c6577" stroke-width="2"/><polygon points="400,57 410,62 400,67" fill="#5c6577"/><line x1="30.0" y1="53" x2="30.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="65.0" y1="57" x2="65.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="100.0" y1="57" x2="100.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="135.0" y1="57" x2="135.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="170.0" y1="57" x2="170.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="205.0" y1="57" x2="205.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="240.0" y1="57" x2="240.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="275.0" y1="57" x2="275.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="310.0" y1="57" x2="310.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="345.0" y1="57" x2="345.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="380.0" y1="53" x2="380.0" y2="71" stroke="#5c6577" stroke-width="2"/><g font-family="Cambria Math,Times New Roman,serif" font-size="20" text-anchor="middle" fill="#1f2430"><text x="30.0" y="92">0</text><text x="205.0" y="92">0,5</text><text x="380.0" y="92">1</text><text x="18.0" y="49" font-style="italic" font-size="17">O</text><circle cx="257.5" cy="62" r="6" fill="#c93c3c"/><text x="257.5" y="46" font-weight="700" fill="#c93c3c" font-style="italic">A</text><circle cx="362.5" cy="62" r="6" fill="#2f6fdb"/><text x="362.5" y="46" font-weight="700" fill="#2f6fdb" font-style="italic">B</text></g></svg><svg viewBox="0 0 420 108" role="img" aria-label="Hình b: đoạn từ 4,6 đến 4,7 chia 10 phần; C ở 4,615, D ở 4,65" style="width:380px;max-width:100%;margin:0"><line x1="14" y1="62" x2="400" y2="62" stroke="#5c6577" stroke-width="2"/><polygon points="400,57 410,62 400,67" fill="#5c6577"/><line x1="30.0" y1="53" x2="30.0" y2="71" stroke="#5c6577" stroke-width="2"/><line x1="65.0" y1="57" x2="65.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="100.0" y1="57" x2="100.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="135.0" y1="57" x2="135.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="170.0" y1="57" x2="170.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="205.0" y1="57" x2="205.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="240.0" y1="57" x2="240.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="275.0" y1="57" x2="275.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="310.0" y1="57" x2="310.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="345.0" y1="57" x2="345.0" y2="67" stroke="#5c6577" stroke-width="1.2"/><line x1="380.0" y1="53" x2="380.0" y2="71" stroke="#5c6577" stroke-width="2"/><g font-family="Cambria Math,Times New Roman,serif" font-size="20" text-anchor="middle" fill="#1f2430"><text x="30.0" y="92">4,6</text><text x="205.0" y="92">4,65</text><text x="380.0" y="92">4,7</text><circle cx="82.5" cy="62" r="6" fill="#6b4fc9"/><text x="82.5" y="46" font-weight="700" fill="#6b4fc9" font-style="italic">C</text><circle cx="205.0" cy="62" r="6" fill="#0f8a68"/><text x="205.0" y="46" font-weight="700" fill="#0f8a68" font-style="italic">D</text></g></svg></div>
+      <p class="vi-sao">Điểm chính giữa hai vạch cách mỗi vạch nửa khoảng chia: nửa của <span class="m">0,1</span> là <span class="m">0,05</span>, nửa của <span class="m">0,01</span> là <span class="m">0,005</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">A</span> biểu diễn <span class="m">0,65</span>; <span class="m">B</span> biểu diễn <span class="m">0,95</span>; <span class="m">C</span> biểu diễn <span class="m">4,615</span>; <span class="m">D</span> biểu diễn <span class="m">4,65</span>.</div>
+    <div class="bay">Ở hình b vẫn coi mỗi phần là <span class="m">0,1</span>, nên đọc <span class="m">D</span> là <span class="m">5,1</span> (vượt ra ngoài đoạn từ 4,6 đến 4,7!). Đoạn chỉ dài <span class="m">4,7 − 4,6 = 0,1</span>, chia 10 phần thì mỗi phần <span class="m">0,01</span>.</div>
+    <div class="gv-note">Đáp số dựa trên mô tả hình trong kho (A, B, C ở chính giữa hai vạch; D đúng vạch thứ năm). Nên cho HS nhìn hình SGK để xác nhận vị trí.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b216" data-ten="Bài 2.16" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 2.16</span><span class="nhan nb">Nhận biết</span><span class="nhan">Giá trị tuyệt đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính: a) <span class="m">|−3,5|</span>; &nbsp;&nbsp; b) <span class="m">|<span class="frac"><b>−4</b><span>9</span></span>|</span>; &nbsp;&nbsp; c) <span class="m">|0|</span>; &nbsp;&nbsp; d) <span class="m">|2,0(3)|</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu b: dấu “−” nằm ở tử số — phân số này âm hay dương?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Xét dấu từng số: số âm → lấy số đối; số dương → giữ nguyên; <span class="m">|0| = 0</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Hai số âm</h4>
+      <p><span class="m">|−3,5| = 3,5</span>; &nbsp; <span class="m"><span class="frac"><b>−4</b><span>9</span></span> &lt; 0</span> nên <span class="m">|<span class="frac"><b>−4</b><span>9</span></span>| = <span class="frac"><b>4</b><span>9</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+    <div class="buoc" data-so="2"><h4>Số 0 và số dương</h4>
+      <p><span class="m">|0| = 0</span>; &nbsp; <span class="m">2,0(3) &gt; 0</span> nên <span class="m">|2,0(3)| = 2,0(3)</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">3,5</span>; &nbsp; b) <span class="m"><span class="frac"><b>4</b><span>9</span></span></span>; &nbsp; c) <span class="m">0</span>; &nbsp; d) <span class="m">2,0(3)</span>.</div>
+    <div class="bay">Câu b chỉ bỏ dấu ở tử thành <span class="m">|<span class="frac"><b>−4</b><span>9</span></span>| = <span class="frac"><b>4</b><span>−9</span></span></span> hay giữ nguyên <span class="m"><span class="frac"><b>−4</b><span>9</span></span></span>. Giá trị tuyệt đối phải là số không âm: <span class="m"><span class="frac"><b>4</b><span>9</span></span></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b217" data-ten="Bài 2.17" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 2.17</span><span class="nhan nb">Nhận biết</span><span class="nhan">Dấu, giá trị tuyệt đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Xác định dấu và giá trị tuyệt đối của mỗi số sau:</p>
+    <p>a) <span class="m">a = 1,25</span>; &nbsp;&nbsp; b) <span class="m">b = −4,1</span>; &nbsp;&nbsp; c) <span class="m">c = −1,414213562…</span></p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai việc cho mỗi số: số đó dương hay âm, và nó cách gốc <span class="m">O</span> bao xa.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Có dấu “−” phía trước → số âm, giá trị tuyệt đối là số đối. Không có → số dương, giá trị tuyệt đối là chính nó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Từng số</h4>
+      <p>a) <span class="m">a = 1,25 &gt; 0</span>: <span class="m">a</span> là số dương, <span class="m">|a| = 1,25</span>.</p>
+      <p>b) <span class="m">b = −4,1 &lt; 0</span>: <span class="m">b</span> là số âm, <span class="m">|b| = 4,1</span>.</p>
+      <p>c) <span class="m">c = −1,414213562… &lt; 0</span>: <span class="m">c</span> là số âm, <span class="m">|c| = 1,414213562…</span></p>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">a</span> dương, <span class="m">|a| = 1,25</span>; &nbsp; b) <span class="m">b</span> âm, <span class="m">|b| = 4,1</span>; &nbsp; c) <span class="m">c</span> âm, <span class="m">|c| = 1,414213562…</span></div>
+    <div class="bay">Câu c làm tròn <span class="m">|c|</span> thành <span class="m">1,41</span> — đề không yêu cầu làm tròn. Giá trị tuyệt đối giữ nguyên các chữ số: <span class="m">1,414213562…</span></div>
+    <div class="gv-note">Có thể hỏi thêm: <span class="m">c</span> chính là số nào đã học? (<span class="m">c = −√2</span>, vì <span class="m">√2 = 1,414213562…</span>.)</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b218" data-ten="Bài 2.18" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 2.18</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tìm x có giá trị tuyệt đối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tìm tất cả các số thực <span class="m">x</span> thoả mãn điều kiện <span class="m">|x| = 2,5</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Có bao nhiêu điểm trên trục số cách gốc <span class="m">O</span> đúng 2,5 đơn vị? Nhìn cả hai phía!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">|x| = 2,5</span> nghĩa là điểm <span class="m">x</span> cách gốc <span class="m">O</span> đúng <span class="m">2,5</span> đơn vị. Hai số đối nhau có giá trị tuyệt đối bằng nhau.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Hiểu điều kiện bằng khoảng cách</h4>
+      <p>Điểm <span class="m">x</span> cách <span class="m">O</span> đúng <span class="m">2,5</span> đơn vị: có một điểm ở sau <span class="m">O</span> (số <span class="m">2,5</span>) và một điểm ở trước <span class="m">O</span> (số <span class="m">−2,5</span>).</p>
+      <a class="xem-lai" href="#kt-gttd">📌 Xem lại: giá trị tuyệt đối</a></div>
+    <div class="buoc" data-so="2"><h4>Kiểm tra</h4>
+      <p><span class="m">|2,5| = 2,5</span> và <span class="m">|−2,5| = 2,5</span>. Không còn số nào khác cách <span class="m">O</span> đúng <span class="m">2,5</span> đơn vị.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">x = 2,5</span> hoặc <span class="m">x = −2,5</span>.</div>
+    <div class="bay">Chỉ tìm được <span class="m">x = 2,5</span>. Bài hỏi “<b>tất cả</b>” các số — điểm <span class="m">−2,5</span> ở phía bên kia gốc <span class="m">O</span> cũng cách <span class="m">O</span> đúng <span class="m">2,5</span> đơn vị.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 7. Tập hợp các số thực — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c02-b07';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-02-bai-07-tap-hop-cac-so-thuc-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-02-bai-07-tap-hop-cac-so-thuc-bai-giai.nguon.html" data-phien-ban="10614a2de2f7">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

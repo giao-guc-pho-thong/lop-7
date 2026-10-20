@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://giao-guc-pho-thong.github.io/lop-7/sitemap.xml

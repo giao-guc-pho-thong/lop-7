@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương I. Số hữu tỉ</div>
+    <div class="hang1">
+      <h1>Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương I. Số hữu tỉ</div><h1>Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 4 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-luy-thua"><b class="ten">Luỹ thừa bậc n của số hữu tỉ x</b>
+      <b>Luỹ thừa bậc <span class="m">n</span></b> của một số hữu tỉ <span class="m">x</span>, kí hiệu <span class="m">x<sup>n</sup></span>, là tích của <span class="m">n</span> thừa số <span class="m">x</span> (<span class="m">n</span> là số tự nhiên lớn hơn 1): <span class="m">x<sup>n</sup> = x · x · … · x</span> (<span class="m">n</span> thừa số). <span class="m">x</span> gọi là <b>cơ số</b>, <span class="m">n</span> gọi là <b>số mũ</b>.<br>
+      <i>Quy ước:</i> <span class="m">x<sup>0</sup> = 1</span> <span class="m">(x ≠ 0)</span>; <span class="m">x<sup>1</sup> = x</span>.</div>
+    <div class="kt" id="kt-tich-thuong"><b class="ten">Luỹ thừa của một tích, một thương</b>
+      Luỹ thừa của một tích bằng tích các luỹ thừa; luỹ thừa của một thương bằng thương các luỹ thừa.<br>
+      <i>Lời Pi:</i> <span class="m">(x · y)<sup>n</sup> = x<sup>n</sup> · y<sup>n</sup></span>; &nbsp; <span class="m">(<span class="frac"><b>x</b><span>y</span></span>)<sup>n</sup> = <span class="frac"><b>x<sup>n</sup></b><span>y<sup>n</sup></span></span></span> <span class="m">(y ≠ 0)</span>.</div>
+    <div class="kt" id="kt-nhan-chia-lt"><b class="ten">Nhân, chia hai luỹ thừa cùng cơ số</b>
+      Khi nhân hai luỹ thừa cùng cơ số, ta giữ nguyên cơ số và cộng hai số mũ: <span class="m">x<sup>m</sup> · x<sup>n</sup> = x<sup>m+n</sup></span>.<br>
+      Khi chia hai luỹ thừa cùng cơ số khác 0, ta giữ nguyên cơ số và lấy số mũ của luỹ thừa bị chia trừ số mũ của luỹ thừa chia: <span class="m">x<sup>m</sup> : x<sup>n</sup> = x<sup>m−n</sup></span> <span class="m">(x ≠ 0, m ≥ n)</span>.</div>
+    <div class="kt" id="kt-lt-cua-lt"><b class="ten">Luỹ thừa của luỹ thừa</b>
+      Khi tính luỹ thừa của một luỹ thừa, ta giữ nguyên cơ số và nhân hai số mũ: <span class="m">(x<sup>m</sup>)<sup>n</sup> = x<sup>m · n</sup></span>.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập một — Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ.</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Viết dạng luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết các tích sau dưới dạng luỹ thừa rồi chỉ ra cơ số và số mũ của luỹ thừa đó.</p>
+    <p>a) <span class="m">2 · 2 · 2 · 2</span>; &nbsp;&nbsp; b) <span class="m">5 · 5 · 5</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đếm số thừa số giống nhau — đó chính là số mũ.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Lời Tròn: <span class="m">a<sup>n</sup> = a · a · … · a</span> (<span class="m">n</span> thừa số). Thừa số lặp lại là cơ số.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đếm thừa số</h4>
+      <p>a) Bốn thừa số 2: <span class="m">2 · 2 · 2 · 2 = 2<sup>4</sup></span> — cơ số 2, số mũ 4.</p>
+      <p>b) Ba thừa số 5: <span class="m">5 · 5 · 5 = 5<sup>3</sup></span> — cơ số 5, số mũ 3.</p>
+      <a class="xem-lai" href="#kt-luy-thua">📌 Xem lại: luỹ thừa, cơ số, số mũ</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">2<sup>4</sup></span> (cơ số 2, số mũ 4); &nbsp; b) <span class="m">5<sup>3</sup></span> (cơ số 5, số mũ 3).</div>
+    <div class="bay">Viết <span class="m">2 · 2 · 2 · 2 = 2 · 4</span> — nhầm luỹ thừa với phép nhân. <span class="m">2<sup>4</sup> = 16</span>, còn <span class="m">2 · 4 = 8</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Tính tích</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thực hiện phép tính:</p>
+    <p>a) <span class="m">(−2) · (−2) · (−2)</span>; &nbsp;&nbsp; b) <span class="m">(−0,5) · (−0,5)</span>; &nbsp;&nbsp; c) <span class="m"><span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu a có ba thừa số âm — tích mang dấu gì?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhân lần lượt từ trái sang phải. Số thừa số âm chẵn → tích dương; lẻ → tích âm.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhân lần lượt</h4>
+      <p>a) <span class="m">(−2) · (−2) · (−2) = 4 · (−2)</span> <span class="m">= −8</span>.</p>
+      <p>b) <span class="m">(−0,5) · (−0,5) = 0,25</span>.</p>
+      <p>c) <span class="m"><span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span></span> <span class="m">= <span class="frac"><b>1 · 1 · 1 · 1</b><span>2 · 2 · 2 · 2</span></span> = <span class="frac"><b>1</b><span>16</span></span></span>.</p>
+      <p class="vi-sao">Ba thừa số âm (lẻ) nên tích âm; hai thừa số âm (chẵn) nên tích dương.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">−8</span>; &nbsp; b) <span class="m">0,25</span>; &nbsp; c) <span class="m"><span class="frac"><b>1</b><span>16</span></span></span>.</div>
+    <div class="bay">Câu b viết <span class="m">(−0,5) · (−0,5) = −0,25</span> hoặc <span class="m">2,5</span>. Tích hai số âm là số dương, và <span class="m">0,5 · 0,5 = 0,25</span> (hai chữ số thập phân).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd3" data-ten="HĐ3" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ3</span><span class="nhan nb">Nhận biết</span><span class="nhan">Viết dạng luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hãy viết các biểu thức trong HĐ2 dưới dạng luỹ thừa tương tự như luỹ thừa của số tự nhiên.</p>
+    <p>(HĐ2: a) <span class="m">(−2) · (−2) · (−2)</span>; &nbsp; b) <span class="m">(−0,5) · (−0,5)</span>; &nbsp; c) <span class="m"><span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span></span>.)</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Cơ số âm hay cơ số là phân số thì phải “đóng gói” vào đâu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cơ số là cả số <span class="m">−2</span> (hoặc <span class="m">−0,5</span>, <span class="m"><span class="frac"><b>1</b><span>2</span></span></span>) nên phải đặt trong dấu ngoặc.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết thành luỹ thừa</h4>
+      <p>a) <span class="m">(−2) · (−2) · (−2) = (−2)<sup>3</sup></span>.</p>
+      <p>b) <span class="m">(−0,5) · (−0,5) = (−0,5)<sup>2</sup></span>.</p>
+      <p>c) <span class="m"><span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>4</sup></span>.</p>
+      <p class="vi-sao">Thiếu ngoặc thì <span class="m">−2<sup>3</sup></span> chỉ là “số đối của <span class="m">2<sup>3</sup></span>”, và <span class="m"><span class="frac"><b>1</b><span>2<sup>4</sup></span></span></span> chỉ có mẫu được luỹ thừa.</p>
+      <a class="xem-lai" href="#kt-luy-thua">📌 Xem lại: định nghĩa luỹ thừa</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">(−2)<sup>3</sup></span>; &nbsp; b) <span class="m">(−0,5)<sup>2</sup></span>; &nbsp; c) <span class="m">(<span class="frac"><b>1</b><span>2</span></span>)<sup>4</sup></span>.</div>
+    <div class="bay">Viết <span class="m">−2<sup>3</sup></span> thay cho <span class="m">(−2)<sup>3</sup></span>. Ở đây hai cách cùng bằng <span class="m">−8</span> (tình cờ), nhưng <span class="m">(−0,5)<sup>2</sup> = 0,25</span> còn <span class="m">−0,5<sup>2</sup> = −0,25</span> — khác nhau!</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Tính luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính:</p>
+    <p>a) <span class="m">(−<span class="frac"><b>4</b><span>5</span></span>)<sup>4</sup></span>; &nbsp;&nbsp; b) <span class="m">(0,7)<sup>3</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Số mũ chẵn hay lẻ? Điều đó quyết định dấu của kết quả câu a.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Luỹ thừa của một phân số: tử luỹ thừa, mẫu luỹ thừa. <span class="m">(0,7)<sup>3</sup> = 0,7 · 0,7 · 0,7</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a</h4>
+      <p><span class="m">(−<span class="frac"><b>4</b><span>5</span></span>)<sup>4</sup> = <span class="frac"><b>(−4)<sup>4</sup></b><span>5<sup>4</sup></span></span> = <span class="frac"><b>256</b><span>625</span></span></span>.</p>
+      <p class="vi-sao">Bốn thừa số âm (số chẵn) nên kết quả dương; <span class="m">4<sup>4</sup> = 256</span>, <span class="m">5<sup>4</sup> = 625</span>.</p>
+      <a class="xem-lai" href="#kt-tich-thuong">📌 Xem lại: luỹ thừa của một thương</a></div>
+    <div class="buoc" data-so="2"><h4>Câu b</h4>
+      <p><span class="m">(0,7)<sup>3</sup> = 0,7 · 0,7 · 0,7</span> <span class="m">= 0,49 · 0,7 = 0,343</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m"><span class="frac"><b>256</b><span>625</span></span></span>; &nbsp; b) <span class="m">0,343</span>.</div>
+    <div class="bay">Câu b tính <span class="m">0,7<sup>3</sup> = 2,1</span> (lấy <span class="m">0,7 · 3</span>). Luỹ thừa là nhân số đó với chính nó, không phải nhân với số mũ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Luỹ thừa của tích, thương</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính:</p>
+    <p>a) <span class="m">(<span class="frac"><b>2</b><span>3</span></span>)<sup>10</sup> · 3<sup>10</sup></span>; &nbsp;&nbsp; b) <span class="m">(−125)<sup>3</sup> : 25<sup>3</sup></span>; &nbsp;&nbsp; c) <span class="m">(0,08)<sup>3</sup> · 10<sup>3</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ba câu, cả ba đều có hai luỹ thừa <b>cùng số mũ</b>. Lời Pi giúp gì ở đây?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đọc lời Pi theo chiều ngược: <span class="m">x<sup>n</sup> · y<sup>n</sup> = (x · y)<sup>n</sup></span> và <span class="m">x<sup>n</sup> : y<sup>n</sup> = (x : y)<sup>n</sup></span>. Gộp lại trước, rồi mới tính.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a</h4>
+      <p><span class="m">(<span class="frac"><b>2</b><span>3</span></span>)<sup>10</sup> · 3<sup>10</sup> = (<span class="frac"><b>2</b><span>3</span></span> · 3)<sup>10</sup> = 2<sup>10</sup></span> <span class="m">= 1 024</span>.</p>
+      <a class="xem-lai" href="#kt-tich-thuong">📌 Xem lại: luỹ thừa của một tích</a></div>
+    <div class="buoc" data-so="2"><h4>Câu b</h4>
+      <p><span class="m">(−125)<sup>3</sup> : 25<sup>3</sup> = [(−125) : 25]<sup>3</sup></span> <span class="m">= (−5)<sup>3</sup> = −125</span>.</p></div>
+    <div class="buoc" data-so="3"><h4>Câu c</h4>
+      <p><span class="m">(0,08)<sup>3</sup> · 10<sup>3</sup> = (0,08 · 10)<sup>3</sup></span> <span class="m">= 0,8<sup>3</sup> = 0,512</span>.</p>
+      <p class="vi-sao">Gộp trước thì cơ số trở nên rất gọn (2; <span class="m">−5</span>; 0,8) — tránh phải tính <span class="m">3<sup>10</sup></span> hay <span class="m">125<sup>3</sup></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">1 024</span>; &nbsp; b) <span class="m">−125</span>; &nbsp; c) <span class="m">0,512</span>.</div>
+    <div class="bay">Câu a nhân hai số mũ hoặc cộng số mũ: <span class="m">(<span class="frac"><b>2</b><span>3</span></span> · 3)<sup>20</sup></span>. Hai luỹ thừa <b>cùng số mũ</b> thì nhân hai cơ số, <b>giữ nguyên</b> số mũ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd" data-ten="Vận dụng" data-muc="th">
+  <div class="bai-dau"><span class="so">Vận dụng</span><span class="nhan th">Thông hiểu</span><span class="nhan">Luỹ thừa trong thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết công thức tính thể tích của hình lập phương cạnh <span class="m">a</span> dưới dạng luỹ thừa. Từ đó viết biểu thức luỹ thừa để tính toàn bộ lượng nước trên Trái Đất trong <i>bài toán mở đầu</i> (đơn vị kilômét khối).</p>
+    <p>(Bài toán mở đầu: nếu gom hết toàn bộ lượng nước trên Trái Đất để đổ đầy vào một bể chứa hình lập phương thì kích thước cạnh của bể phải lên tới 1 111,34 km.)</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Thể tích hình lập phương là cạnh nhân với chính nó mấy lần?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">V = a · a · a</span> — viết gọn bằng luỹ thừa. Rồi thay <span class="m">a = 1 111,34</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Công thức thể tích</h4>
+      <p><span class="m">V = a · a · a = a<sup>3</sup></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Lượng nước trên Trái Đất</h4>
+      <p>Bể có cạnh 1 111,34 km nên lượng nước là <span class="m">1 111,34<sup>3</sup></span> (km³).</p>
+      <p class="vi-sao">Biểu thức <span class="m">1 111,34 × 1 111,34 × 1 111,34</span> ở bài toán mở đầu chính là luỹ thừa bậc 3 của <span class="m">1 111,34</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">V = a<sup>3</sup></span>; lượng nước trên Trái Đất là <span class="m">1 111,34<sup>3</sup></span> km³.</div>
+    <div class="bay">Viết <span class="m">V = 3a</span> hoặc <span class="m">a<sup>2</sup></span>. Thể tích lập phương là tích <b>ba</b> cạnh: <span class="m">a<sup>3</sup></span> (<span class="m">a<sup>2</sup></span> là diện tích một mặt).</div>
+    <div class="gv-note">Đề chỉ yêu cầu viết biểu thức. Nếu HS tò mò: <span class="m">1 111,34<sup>3</sup></span> là khoảng 1,37 tỉ km³ (tính bằng máy tính cầm tay).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd4" data-ten="HĐ4" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ4</span><span class="nhan nb">Nhận biết</span><span class="nhan">Nhân, chia luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính và so sánh:</p>
+    <p>a) <span class="m">(−3)<sup>2</sup> · (−3)<sup>4</sup></span> và <span class="m">(−3)<sup>6</sup></span>; &nbsp;&nbsp; b) <span class="m">0,6<sup>3</sup> : 0,6<sup>2</sup></span> và <span class="m">0,6</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Tính hai vế rồi so sánh — em sẽ phát hiện ra một quy tắc.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Lời Vuông: viết bung <span class="m">(−3)<sup>2</sup> · (−3)<sup>4</sup></span> <span class="m">= (−3) · (−3) · (−3) · …</span> rồi đếm số thừa số.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a</h4>
+      <p><span class="m">(−3)<sup>2</sup> · (−3)<sup>4</sup> = 9 · 81 = 729</span> và <span class="m">(−3)<sup>6</sup> = 729</span>.</p>
+      <p>Vậy <span class="m">(−3)<sup>2</sup> · (−3)<sup>4</sup> = (−3)<sup>6</sup></span>.</p>
+      <p class="vi-sao">Viết bung: 2 thừa số <span class="m">(−3)</span> nhân với 4 thừa số <span class="m">(−3)</span> là 6 thừa số <span class="m">(−3)</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Câu b</h4>
+      <p><span class="m">0,6<sup>3</sup> = 0,216</span>; <span class="m">0,6<sup>2</sup> = 0,36</span>; <span class="m">0,216 : 0,36 = 0,6</span>.</p>
+      <p>Vậy <span class="m">0,6<sup>3</sup> : 0,6<sup>2</sup> = 0,6</span>.</p>
+      <a class="xem-lai" href="#kt-nhan-chia-lt">📌 Xem lại: nhân, chia hai luỹ thừa cùng cơ số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">(−3)<sup>2</sup> · (−3)<sup>4</sup> = 729 = (−3)<sup>6</sup></span>; &nbsp; b) <span class="m">0,6<sup>3</sup> : 0,6<sup>2</sup> = 0,6</span>.</div>
+    <div class="bay">Nghĩ <span class="m">(−3)<sup>2</sup> · (−3)<sup>4</sup> = (−3)<sup>8</sup></span> (nhân hai số mũ). Đếm thừa số: <span class="m">2 + 4 = 6</span> thừa số — cộng số mũ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt3" data-ten="Luyện tập 3" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 3</span><span class="nhan nb">Nhận biết</span><span class="nhan">Nhân, chia luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết kết quả của các phép tính sau dưới dạng luỹ thừa.</p>
+    <p>a) <span class="m">(−2)<sup>3</sup> · (−2)<sup>4</sup></span>; &nbsp;&nbsp; b) <span class="m">(0,25)<sup>7</sup> : (0,25)<sup>3</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đề yêu cầu “dưới dạng luỹ thừa” — không cần tính ra số.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cùng cơ số: nhân thì cộng số mũ, chia thì trừ số mũ.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Áp dụng quy tắc</h4>
+      <p>a) <span class="m">(−2)<sup>3</sup> · (−2)<sup>4</sup> = (−2)<sup>3+4</sup> = (−2)<sup>7</sup></span>.</p>
+      <p>b) <span class="m">(0,25)<sup>7</sup> : (0,25)<sup>3</sup> = (0,25)<sup>7−3</sup></span> <span class="m">= (0,25)<sup>4</sup></span>.</p>
+      <a class="xem-lai" href="#kt-nhan-chia-lt">📌 Xem lại: nhân, chia hai luỹ thừa cùng cơ số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">(−2)<sup>7</sup></span>; &nbsp; b) <span class="m">(0,25)<sup>4</sup></span>.</div>
+    <div class="bay">Câu b chia số mũ: <span class="m">(0,25)<sup>7 : 3</sup></span>. Chia luỹ thừa cùng cơ số thì <b>trừ</b> số mũ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd5" data-ten="HĐ5" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ5</span><span class="nhan nb">Nhận biết</span><span class="nhan">Luỹ thừa của luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết số <span class="m">(2<sup>2</sup>)<sup>3</sup></span> dưới dạng luỹ thừa cơ số 2 và số <span class="m">[(−3)<sup>2</sup>]<sup>2</sup></span> dưới dạng luỹ thừa cơ số <span class="m">−3</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m">(2<sup>2</sup>)<sup>3</sup></span> nghĩa là lấy <span class="m">2<sup>2</sup></span> nhân với chính nó mấy lần?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Lời Tròn: <span class="m">(2<sup>2</sup>)<sup>3</sup> = 2<sup>2</sup> · 2<sup>2</sup> · 2<sup>2</sup> = …</span> Rồi dùng quy tắc nhân hai luỹ thừa cùng cơ số.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết bung rồi cộng số mũ</h4>
+      <p><span class="m">(2<sup>2</sup>)<sup>3</sup> = 2<sup>2</sup> · 2<sup>2</sup> · 2<sup>2</sup> = 2<sup>2+2+2</sup> = 2<sup>6</sup></span>.</p>
+      <p><span class="m">[(−3)<sup>2</sup>]<sup>2</sup> = (−3)<sup>2</sup> · (−3)<sup>2</sup> = (−3)<sup>2+2</sup></span> <span class="m">= (−3)<sup>4</sup></span>.</p>
+      <p class="vi-sao">Ba lần số mũ 2 cộng lại là <span class="m">2 · 3 = 6</span> — đó là lí do “luỹ thừa của luỹ thừa thì nhân hai số mũ”.</p>
+      <a class="xem-lai" href="#kt-lt-cua-lt">📌 Xem lại: luỹ thừa của luỹ thừa</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">(2<sup>2</sup>)<sup>3</sup> = 2<sup>6</sup></span>; &nbsp; <span class="m">[(−3)<sup>2</sup>]<sup>2</sup> = (−3)<sup>4</sup></span>.</div>
+    <div class="bay">Viết <span class="m">(2<sup>2</sup>)<sup>3</sup> = 2<sup>5</sup></span> (cộng <span class="m">2 + 3</span>). Đó là quy tắc của <b>tích</b> <span class="m">2<sup>2</sup> · 2<sup>3</sup></span>; ở đây là luỹ thừa của luỹ thừa: <span class="m">2<sup>2 · 3</sup></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt4" data-ten="Luyện tập 4" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Đổi cơ số</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết các số <span class="m">(<span class="frac"><b>1</b><span>4</span></span>)<sup>8</sup></span>; <span class="m">(<span class="frac"><b>1</b><span>8</span></span>)<sup>3</sup></span> dưới dạng luỹ thừa cơ số <span class="m"><span class="frac"><b>1</b><span>2</span></span></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m"><span class="frac"><b>1</b><span>4</span></span></span> và <span class="m"><span class="frac"><b>1</b><span>8</span></span></span> là luỹ thừa mấy của <span class="m"><span class="frac"><b>1</b><span>2</span></span></span>?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m"><span class="frac"><b>1</b><span>4</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>2</sup></span>; <span class="m"><span class="frac"><b>1</b><span>8</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>3</sup></span>. Sau đó dùng quy tắc luỹ thừa của luỹ thừa.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết cơ số dưới dạng luỹ thừa của <span class="m"><span class="frac"><b>1</b><span>2</span></span></span></h4>
+      <p><span class="m"><span class="frac"><b>1</b><span>4</span></span> = <span class="frac"><b>1</b><span>2</span></span> · <span class="frac"><b>1</b><span>2</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>2</sup></span>; &nbsp; <span class="m"><span class="frac"><b>1</b><span>8</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>3</sup></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Nhân hai số mũ</h4>
+      <p><span class="m">(<span class="frac"><b>1</b><span>4</span></span>)<sup>8</sup> = [(<span class="frac"><b>1</b><span>2</span></span>)<sup>2</sup>]<sup>8</sup> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>16</sup></span>.</p>
+      <p><span class="m">(<span class="frac"><b>1</b><span>8</span></span>)<sup>3</sup> = [(<span class="frac"><b>1</b><span>2</span></span>)<sup>3</sup>]<sup>3</sup> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>9</sup></span>.</p>
+      <a class="xem-lai" href="#kt-lt-cua-lt">📌 Xem lại: luỹ thừa của luỹ thừa</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">(<span class="frac"><b>1</b><span>4</span></span>)<sup>8</sup> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>16</sup></span>; &nbsp; <span class="m">(<span class="frac"><b>1</b><span>8</span></span>)<sup>3</sup> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>9</sup></span>.</div>
+    <div class="bay">Viết <span class="m"><span class="frac"><b>1</b><span>4</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>4</sup></span> hoặc <span class="m"><span class="frac"><b>1</b><span>8</span></span> = (<span class="frac"><b>1</b><span>2</span></span>)<sup>4</sup></span> vì “4 = 2 · 2”. Phải là <span class="m">2<sup>2</sup> = 4</span>, <span class="m">2<sup>3</sup> = 8</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tt" data-ten="Thử thách nhỏ" data-muc="vdc">
+  <div class="bai-dau"><span class="so">Thử thách nhỏ</span><span class="nhan vdc">Vận dụng cao</span><span class="nhan">Hình vuông kì diệu</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho hình vuông như Hình 1.12. Em hãy thay mỗi dấu “?” bằng một luỹ thừa của 2, biết tích các luỹ thừa trên mỗi hàng, mỗi cột và mỗi đường chéo đều bằng nhau.</p>
+    <table style="max-width:240px;margin:6px auto;text-align:center"><tr><td><span class="m">2<sup>3</sup></span></td><td>?</td><td>?</td></tr><tr><td>?</td><td><span class="m">2<sup>4</sup></span></td><td>?</td></tr><tr><td>?</td><td><span class="m">2<sup>6</sup></span></td><td><span class="m">2<sup>5</sup></span></td></tr></table></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Có một đường đã đủ cả ba ô. Bắt đầu từ đó!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đường chéo <span class="m">2<sup>3</sup> · 2<sup>4</sup> · 2<sup>5</sup></span> đã đủ, tính được tích chung. Rồi tìm ô thiếu ở hàng dưới cùng (đã có hai ô).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm tích chung</h4>
+      <p>Đường chéo: <span class="m">2<sup>3</sup> · 2<sup>4</sup> · 2<sup>5</sup> = 2<sup>3+4+5</sup> = 2<sup>12</sup></span>. Mỗi hàng, cột, đường chéo có tích <span class="m">2<sup>12</sup></span>.</p>
+      <p class="vi-sao">Nhân các luỹ thừa cùng cơ số thì cộng số mũ — nên bài toán thành: tổng số mũ trên mỗi đường bằng 12.</p>
+      <a class="xem-lai" href="#kt-nhan-chia-lt">📌 Xem lại: nhân hai luỹ thừa cùng cơ số</a></div>
+    <div class="buoc" data-so="2"><h4>Điền lần lượt các ô</h4>
+      <p>Hàng dưới: <span class="m">2<sup>6</sup> · 2<sup>5</sup> = 2<sup>11</sup></span> nên <span class="m">? · 2<sup>11</sup> = 2<sup>12</sup></span> → <span class="m">? = 2<sup>12</sup> : 2<sup>11</sup> = 2<sup>1</sup></span>.</p>
+      <p>Đường chéo còn lại: <span class="m">? · 2<sup>4</sup> · 2<sup>1</sup> = 2<sup>12</sup></span> → ô góc trên phải là <span class="m">2<sup>7</sup></span>.</p>
+      <p>Hàng trên: <span class="m">2<sup>3</sup> · ? · 2<sup>7</sup> = 2<sup>12</sup></span> → <span class="m">? = 2<sup>2</sup></span>.</p>
+      <p>Cột trái: <span class="m">2<sup>3</sup> · ? · 2<sup>1</sup> = 2<sup>12</sup></span> → <span class="m">? = 2<sup>8</sup></span>.</p>
+      <p>Hàng giữa: <span class="m">2<sup>8</sup> · 2<sup>4</sup> · ? = 2<sup>12</sup></span> → <span class="m">? = 2<sup>0</sup></span>.</p></div>
+    <div class="buoc" data-so="3"><h4>Kiểm tra lại</h4>
+      <table style="max-width:240px;margin:6px auto;text-align:center"><tr><td><span class="m">2<sup>3</sup></span></td><td style="background:#e6f7f1"><span class="m">2<sup>2</sup></span></td><td style="background:#e6f7f1"><span class="m">2<sup>7</sup></span></td></tr><tr><td style="background:#e6f7f1"><span class="m">2<sup>8</sup></span></td><td><span class="m">2<sup>4</sup></span></td><td style="background:#e6f7f1"><span class="m">2<sup>0</sup></span></td></tr><tr><td style="background:#e6f7f1"><span class="m">2<sup>1</sup></span></td><td><span class="m">2<sup>6</sup></span></td><td><span class="m">2<sup>5</sup></span></td></tr></table>
+      <p>Cột giữa: <span class="m">2 + 4 + 6 = 12</span>; cột phải: <span class="m">7 + 0 + 5 = 12</span> (cộng các số mũ) — đúng.</p>
+      <p class="vi-sao"><span class="m">2<sup>0</sup> = 1</span> theo quy ước <span class="m">x<sup>0</sup> = 1</span> — vẫn là một luỹ thừa của 2.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Hàng 1: <span class="m">2<sup>3</sup></span>; <span class="m">2<sup>2</sup></span>; <span class="m">2<sup>7</sup></span>. &nbsp; Hàng 2: <span class="m">2<sup>8</sup></span>; <span class="m">2<sup>4</sup></span>; <span class="m">2<sup>0</sup></span>. &nbsp; Hàng 3: <span class="m">2<sup>1</sup></span>; <span class="m">2<sup>6</sup></span>; <span class="m">2<sup>5</sup></span>. (Tích mỗi hàng, cột, đường chéo là <span class="m">2<sup>12</sup></span>.)</div>
+    <div class="bay">Nghĩ ô hàng giữa bên phải “không điền được vì <span class="m">8 + 4 = 12</span> rồi”. Vẫn điền được: <span class="m">2<sup>0</sup> = 1</span> (quy ước).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Mỗi ô là một “túi” chứa các thừa số 2; số mũ là số thừa số 2 trong túi. Mỗi đường phải có đúng 12 thừa số 2 — chỉ cần đếm cho đủ 12.</div>
+  </div>
+</article>
+
+<article class="the bai" id="b118" data-ten="Bài 1.18" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 1.18</span><span class="nhan nb">Nhận biết</span><span class="nhan">Viết dạng luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết các số 125; 3 125 dưới dạng luỹ thừa của 5.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Nhân 5 với chính nó nhiều lần — cần bao nhiêu thừa số 5 thì được 125, được 3 125?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">5 · 5 = 25</span>; <span class="m">25 · 5 = 125</span>; … nhân tiếp cho tới 3 125.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhân liên tiếp với 5</h4>
+      <p><span class="m">5<sup>1</sup> = 5</span>; <span class="m">5<sup>2</sup> = 25</span>; <span class="m">5<sup>3</sup> = 125</span>; <span class="m">5<sup>4</sup> = 625</span>; <span class="m">5<sup>5</sup> = 3 125</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">125 = 5<sup>3</sup></span>; &nbsp; <span class="m">3 125 = 5<sup>5</sup></span>.</div>
+    <div class="bay">Viết <span class="m">125 = 5<sup>25</sup></span> vì “<span class="m">125 = 5 · 25</span>”. Số mũ là <b>số thừa số 5</b>: <span class="m">125 = 5 · 5 · 5</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b119" data-ten="Bài 1.19" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 1.19</span><span class="nhan th">Thông hiểu</span><span class="nhan">Đổi cơ số</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết các số <span class="m">(<span class="frac"><b>1</b><span>9</span></span>)<sup>5</sup></span>; <span class="m">(<span class="frac"><b>1</b><span>27</span></span>)<sup>7</sup></span> dưới dạng luỹ thừa cơ số <span class="m"><span class="frac"><b>1</b><span>3</span></span></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Giống Luyện tập 4: viết cơ số mới dưới dạng luỹ thừa của <span class="m"><span class="frac"><b>1</b><span>3</span></span></span> trước.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m"><span class="frac"><b>1</b><span>9</span></span> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>2</sup></span>; <span class="m"><span class="frac"><b>1</b><span>27</span></span> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>3</sup></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Luỹ thừa của luỹ thừa</h4>
+      <p><span class="m">(<span class="frac"><b>1</b><span>9</span></span>)<sup>5</sup> = [(<span class="frac"><b>1</b><span>3</span></span>)<sup>2</sup>]<sup>5</sup> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>10</sup></span>.</p>
+      <p><span class="m">(<span class="frac"><b>1</b><span>27</span></span>)<sup>7</sup> = [(<span class="frac"><b>1</b><span>3</span></span>)<sup>3</sup>]<sup>7</sup> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>21</sup></span>.</p>
+      <a class="xem-lai" href="#kt-lt-cua-lt">📌 Xem lại: luỹ thừa của luỹ thừa</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">(<span class="frac"><b>1</b><span>9</span></span>)<sup>5</sup> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>10</sup></span>; &nbsp; <span class="m">(<span class="frac"><b>1</b><span>27</span></span>)<sup>7</sup> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>21</sup></span>.</div>
+    <div class="bay">Cộng số mũ: <span class="m">(<span class="frac"><b>1</b><span>3</span></span>)<sup>2+5</sup> = (<span class="frac"><b>1</b><span>3</span></span>)<sup>7</sup></span>. Luỹ thừa của luỹ thừa thì <b>nhân</b>: <span class="m">2 · 5 = 10</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b120" data-ten="Bài 1.20" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 1.20</span><span class="nhan th">Thông hiểu</span><span class="nhan">Dãy luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thay mỗi dấu “?” bởi một luỹ thừa của 3, biết rằng từ ô thứ ba, luỹ thừa cần tìm là tích của hai luỹ thừa ở hai ô liền trước.</p>
+    <table style="text-align:center"><tr><td><span class="m">3<sup>0</sup></span></td><td><span class="m">3<sup>1</sup></span></td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr></table></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 “Tích hai luỹ thừa cùng cơ số” — em chỉ cần làm việc với các số mũ.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Ô thứ ba: <span class="m">3<sup>0</sup> · 3<sup>1</sup> = 3<sup>0+1</sup></span>. Mỗi số mũ mới bằng tổng hai số mũ liền trước.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính lần lượt từng ô</h4>
+      <table>
+        <tr><th>Ô</th><th>Cách tính</th><th>Kết quả</th></tr>
+        <tr><td>3</td><td><span class="m">3<sup>0</sup> · 3<sup>1</sup></span></td><td style="background:#e6f7f1"><span class="m">3<sup>1</sup></span></td></tr>
+        <tr><td>4</td><td><span class="m">3<sup>1</sup> · 3<sup>1</sup></span></td><td style="background:#e6f7f1"><span class="m">3<sup>2</sup></span></td></tr>
+        <tr><td>5</td><td><span class="m">3<sup>1</sup> · 3<sup>2</sup></span></td><td style="background:#e6f7f1"><span class="m">3<sup>3</sup></span></td></tr>
+        <tr><td>6</td><td><span class="m">3<sup>2</sup> · 3<sup>3</sup></span></td><td style="background:#e6f7f1"><span class="m">3<sup>5</sup></span></td></tr>
+        <tr><td>7</td><td><span class="m">3<sup>3</sup> · 3<sup>5</sup></span></td><td style="background:#e6f7f1"><span class="m">3<sup>8</sup></span></td></tr>
+      </table>
+      <p class="vi-sao">Nhân hai luỹ thừa cùng cơ số: giữ cơ số 3, cộng số mũ. Dãy số mũ: 0; 1; 1; 2; 3; 5; 8.</p>
+      <a class="xem-lai" href="#kt-nhan-chia-lt">📌 Xem lại: nhân hai luỹ thừa cùng cơ số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">3<sup>0</sup></span>; <span class="m">3<sup>1</sup></span>; <span class="m">3<sup>1</sup></span>; <span class="m">3<sup>2</sup></span>; <span class="m">3<sup>3</sup></span>; <span class="m">3<sup>5</sup></span>; <span class="m">3<sup>8</sup></span>.</div>
+    <div class="bay">Ô thứ ba ghi <span class="m">3<sup>0</sup></span> vì “<span class="m">0 · 1 = 0</span>” — nhân hai số mũ. Nhân hai luỹ thừa thì <b>cộng</b> số mũ: <span class="m">0 + 1 = 1</span>.</div>
+    <div class="gv-note">Dãy số mũ 0; 1; 1; 2; 3; 5; 8 là dãy Fibonacci — có thể giới thiệu vui cho lớp.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b121" data-ten="Bài 1.21" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 1.21</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tính luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Không sử dụng máy tính, hãy tính:</p>
+    <p>a) <span class="m">(−3)<sup>8</sup></span>, biết <span class="m">(−3)<sup>7</sup> = −2 187</span>;</p>
+    <p>b) <span class="m">(−<span class="frac"><b>2</b><span>3</span></span>)<sup>12</sup></span>, biết <span class="m">(−<span class="frac"><b>2</b><span>3</span></span>)<sup>11</sup> = <span class="frac"><b>−2 048</b><span>177 147</span></span></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đã biết luỹ thừa bậc 7 (bậc 11) — chỉ cần nhân thêm một thừa số nữa.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">(−3)<sup>8</sup> = (−3)<sup>7</sup> · (−3)</span> (vì <span class="m">7 + 1 = 8</span>).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a</h4>
+      <p><span class="m">(−3)<sup>8</sup> = (−3)<sup>7</sup> · (−3)</span> <span class="m">= (−2 187) · (−3) = 6 561</span>.</p>
+      <a class="xem-lai" href="#kt-nhan-chia-lt">📌 Xem lại: nhân hai luỹ thừa cùng cơ số</a></div>
+    <div class="buoc" data-so="2"><h4>Câu b</h4>
+      <p><span class="m">(−<span class="frac"><b>2</b><span>3</span></span>)<sup>12</sup> = (−<span class="frac"><b>2</b><span>3</span></span>)<sup>11</sup> · (−<span class="frac"><b>2</b><span>3</span></span>)</span> <span class="m">= <span class="frac"><b>−2 048</b><span>177 147</span></span> · <span class="frac"><b>−2</b><span>3</span></span></span></p>
+      <p><span class="m">= <span class="frac"><b>4 096</b><span>531 441</span></span></span>.</p>
+      <p class="vi-sao">Số mũ chẵn (8, 12) nên kết quả dương: tích hai số âm là số dương.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">(−3)<sup>8</sup> = 6 561</span>; &nbsp; b) <span class="m">(−<span class="frac"><b>2</b><span>3</span></span>)<sup>12</sup> = <span class="frac"><b>4 096</b><span>531 441</span></span></span>.</div>
+    <div class="bay">Câu a ghi <span class="m">−6 561</span> vì “đề cho số âm”. <span class="m">(−3)<sup>7</sup></span> âm, nhân thêm <span class="m">(−3)</span> thì đổi thành dương.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b122" data-ten="Bài 1.22" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 1.22</span><span class="nhan vd">Vận dụng</span><span class="nhan">Luỹ thừa của tích, thương</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết các biểu thức sau dưới dạng luỹ thừa của một số hữu tỉ.</p>
+    <p>a) <span class="m">15<sup>8</sup> · 2<sup>4</sup></span>; &nbsp;&nbsp; b) <span class="m">27<sup>5</sup> : 32<sup>3</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Muốn gộp hai luỹ thừa thành một, chúng cần cùng cơ số hoặc cùng số mũ.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) <span class="m">15<sup>8</sup> = (15<sup>2</sup>)<sup>4</sup></span> — đưa về cùng số mũ 4. b) <span class="m">27 = 3<sup>3</sup></span>, <span class="m">32 = 2<sup>5</sup></span> — đưa về cùng số mũ 15.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a: đưa về cùng số mũ 4</h4>
+      <p><span class="m">15<sup>8</sup> · 2<sup>4</sup> = (15<sup>2</sup>)<sup>4</sup> · 2<sup>4</sup> = 225<sup>4</sup> · 2<sup>4</sup></span> <span class="m">= (225 · 2)<sup>4</sup> = 450<sup>4</sup></span>.</p>
+      <a class="xem-lai" href="#kt-tich-thuong">📌 Xem lại: luỹ thừa của một tích</a></div>
+    <div class="buoc" data-so="2"><h4>Câu b: đưa về cùng số mũ 15</h4>
+      <p><span class="m">27<sup>5</sup> = (3<sup>3</sup>)<sup>5</sup> = 3<sup>15</sup></span>; &nbsp; <span class="m">32<sup>3</sup> = (2<sup>5</sup>)<sup>3</sup> = 2<sup>15</sup></span>.</p>
+      <p><span class="m">27<sup>5</sup> : 32<sup>3</sup> = 3<sup>15</sup> : 2<sup>15</sup> = (<span class="frac"><b>3</b><span>2</span></span>)<sup>15</sup></span>.</p>
+      <p class="vi-sao">Hai luỹ thừa khác cơ số chỉ gộp được khi <b>cùng số mũ</b>: <span class="m">x<sup>n</sup> : y<sup>n</sup> = (<span class="frac"><b>x</b><span>y</span></span>)<sup>n</sup></span>.</p>
+      <a class="xem-lai" href="#kt-lt-cua-lt">📌 Xem lại: luỹ thừa của luỹ thừa</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">15<sup>8</sup> · 2<sup>4</sup> = 450<sup>4</sup></span>; &nbsp; b) <span class="m">27<sup>5</sup> : 32<sup>3</sup> = (<span class="frac"><b>3</b><span>2</span></span>)<sup>15</sup></span>.</div>
+    <div class="bay">Câu a nhân hai cơ số và cộng số mũ: <span class="m">30<sup>12</sup></span>. Chỉ được nhân hai cơ số khi hai luỹ thừa <b>cùng số mũ</b>.</div>
+    <div class="gv-note">Chấp nhận mọi kết quả đúng dạng một luỹ thừa, chẳng hạn câu a: <span class="m">(15<sup>2</sup> · 2)<sup>4</sup></span> hoặc <span class="m">450<sup>4</sup></span>. Bài này luyện chiều ngược của lời Pi: <span class="m">x<sup>n</sup> · y<sup>n</sup> = (x · y)<sup>n</sup></span>, <span class="m">x<sup>n</sup> : y<sup>n</sup> = (<span class="frac"><b>x</b><span>y</span></span>)<sup>n</sup></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b123" data-ten="Bài 1.23" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 1.23</span><span class="nhan th">Thông hiểu</span><span class="nhan">Giá trị biểu thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính:</p>
+    <p>a) <span class="m">(1 + <span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>4</span></span>)<sup>2</sup> · (2 + <span class="frac"><b>3</b><span>7</span></span>)</span>; &nbsp;&nbsp; b) <span class="m">4 : (<span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>3</span></span>)<sup>3</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Trong ngoặc trước, luỹ thừa sau, rồi mới nhân / chia.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Câu a: <span class="m">1 + <span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>4</span></span> = <span class="frac"><b>5</b><span>4</span></span></span>. Câu b: <span class="m"><span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>3</span></span> = <span class="frac"><b>1</b><span>6</span></span></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a</h4>
+      <p><span class="m">1 + <span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>4</span></span> = <span class="frac"><b>4</b><span>4</span></span> + <span class="frac"><b>2</b><span>4</span></span> − <span class="frac"><b>1</b><span>4</span></span></span> <span class="m">= <span class="frac"><b>5</b><span>4</span></span></span>; &nbsp; <span class="m">2 + <span class="frac"><b>3</b><span>7</span></span> = <span class="frac"><b>17</b><span>7</span></span></span>.</p>
+      <p><span class="m">(<span class="frac"><b>5</b><span>4</span></span>)<sup>2</sup> · <span class="frac"><b>17</b><span>7</span></span> = <span class="frac"><b>25</b><span>16</span></span> · <span class="frac"><b>17</b><span>7</span></span> = <span class="frac"><b>425</b><span>112</span></span></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Câu b</h4>
+      <p><span class="m"><span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>3</span></span> = <span class="frac"><b>3</b><span>6</span></span> − <span class="frac"><b>2</b><span>6</span></span> = <span class="frac"><b>1</b><span>6</span></span></span>; &nbsp; <span class="m">(<span class="frac"><b>1</b><span>6</span></span>)<sup>3</sup> = <span class="frac"><b>1</b><span>216</span></span></span>.</p>
+      <p><span class="m">4 : <span class="frac"><b>1</b><span>216</span></span> = 4 · 216 = 864</span>.</p>
+      <p class="vi-sao">Chia cho <span class="m"><span class="frac"><b>1</b><span>216</span></span></span> là nhân với số nghịch đảo 216.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m"><span class="frac"><b>425</b><span>112</span></span></span>; &nbsp; b) <span class="m">864</span>.</div>
+    <div class="bay">Câu b tính <span class="m">4 : <span class="frac"><b>1</b><span>6</span></span></span> trước rồi mới luỹ thừa: <span class="m">24<sup>3</sup></span>. Luỹ thừa chỉ áp dụng cho ngoặc <span class="m">(<span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>1</b><span>3</span></span>)</span>, phải tính luỹ thừa trước phép chia.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b124" data-ten="Bài 1.24" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 1.24</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Khoảng cách từ Trái Đất đến Mặt Trời bằng khoảng <span class="m">1,5 · 10<sup>8</sup></span> km. Khoảng cách từ Mộc tinh đến Mặt Trời khoảng <span class="m">7,78 · 10<sup>8</sup></span> km. Hỏi khoảng cách từ Mộc tinh đến Mặt Trời gấp khoảng bao nhiêu lần khoảng cách từ Trái Đất đến Mặt Trời?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai khoảng cách có cùng “đuôi” <span class="m">10<sup>8</sup></span>. Điều đó giúp gì cho phép chia?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> “Gấp bao nhiêu lần” là phép chia. <span class="m">10<sup>8</sup> : 10<sup>8</sup> = 10<sup>0</sup> = 1</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Lập phép chia</h4>
+      <p><span class="m">(7,78 · 10<sup>8</sup>) : (1,5 · 10<sup>8</sup>)</span> <span class="m">= 7,78 : 1,5</span>.</p>
+      <p class="vi-sao">Hai khoảng cách cùng nhân với <span class="m">10<sup>8</sup></span>, khi chia thì phần <span class="m">10<sup>8</sup></span> “rút gọn” hết.</p>
+      <a class="xem-lai" href="#kt-nhan-chia-lt">📌 Xem lại: chia hai luỹ thừa cùng cơ số</a></div>
+    <div class="buoc" data-so="2"><h4>Tính và làm tròn</h4>
+      <p><span class="m">7,78 : 1,5 = 5,186…</span> — làm tròn đến hàng phần mười được 5,2.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Khoảng cách từ Mộc tinh đến Mặt Trời gấp khoảng 5,2 lần khoảng cách từ Trái Đất đến Mặt Trời.</div>
+    <div class="bay">Lấy <span class="m">1,5 : 7,78</span> — chia ngược. “Mộc tinh gấp mấy lần Trái Đất” thì khoảng cách của Mộc tinh là số bị chia.</div>
+    <div class="gv-note">Phép chia không dừng (<span class="m">5,1866…</span>); chấp nhận “khoảng 5 lần”, “khoảng 5,2 lần” hoặc “khoảng 5,19 lần” (làm tròn số thập phân đã học ở lớp 6).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b125" data-ten="Bài 1.25" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 1.25</span><span class="nhan th">Thông hiểu</span><span class="nhan">So sánh luỹ thừa của 10</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bảng thống kê dưới đây cho biết số lượt khách quốc tế đến thăm Việt Nam trong năm 2019.</p>
+    <table><tr><th>Quốc gia</th><th>Số lượt khách đến thăm</th></tr>
+      <tr><td>Hàn Quốc</td><td><span class="m">4,3 · 10<sup>6</sup></span></td></tr><tr><td>Hoa Kỳ</td><td><span class="m">7,4 · 10<sup>5</sup></span></td></tr>
+      <tr><td>Pháp</td><td><span class="m">2,9 · 10<sup>5</sup></span></td></tr><tr><td>Ý</td><td><span class="m">7 · 10<sup>4</sup></span></td></tr></table>
+    <p>Em hãy sắp xếp tên các quốc gia theo thứ tự số lượng khách đến thăm Việt Nam từ nhỏ đến lớn.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Số mũ của 10 khác nhau — số mũ lớn hơn thường “thắng”. Nhưng hãy kiểm tra kĩ!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Viết mỗi số ra dạng số tự nhiên: nhân với <span class="m">10<sup>n</sup></span> là dời dấu phẩy sang phải <span class="m">n</span> chữ số.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết ra số tự nhiên</h4>
+      <p>Hàn Quốc: <span class="m">4,3 · 10<sup>6</sup> = 4 300 000</span>; &nbsp; Hoa Kỳ: <span class="m">7,4 · 10<sup>5</sup> = 740 000</span>;</p>
+      <p>Pháp: <span class="m">2,9 · 10<sup>5</sup> = 290 000</span>; &nbsp; Ý: <span class="m">7 · 10<sup>4</sup> = 70 000</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Sắp xếp</h4>
+      <p><span class="m">70 000 &lt; 290 000 &lt; 740 000</span> <span class="m">&lt; 4 300 000</span>.</p>
+      <p class="vi-sao">Hoa Kỳ và Pháp cùng <span class="m">10<sup>5</sup></span> thì so <span class="m">7,4 &gt; 2,9</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Ý, Pháp, Hoa Kỳ, Hàn Quốc.</div>
+    <div class="bay">Thấy <span class="m">7 · 10<sup>4</sup></span> có “7” lớn nên xếp Ý lên trên Pháp. Phải so cả luỹ thừa của 10: <span class="m">7 · 10<sup>4</sup> = 70 000</span> còn nhỏ hơn <span class="m">2,9 · 10<sup>5</sup> = 290 000</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c01-b03';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-01-bai-03-luy-thua-voi-so-mu-tu-nhien-cua-mot-so-huu-ti-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-01-bai-03-luy-thua-voi-so-mu-tu-nhien-cua-mot-so-huu-ti-bai-giai.nguon.html" data-phien-ban="adc1b33883a2">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

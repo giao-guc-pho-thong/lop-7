@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập &amp; lời giải — Lớp 7 (Kết nối tri thức)</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f6f7fb;color:#1f2430;font:16px/1.55 "Segoe UI",system-ui,Roboto,Arial,sans-serif}
+main{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:24px;margin:4px 0}
+.phu{color:#5c6577;margin:0 0 14px}
+.phu a{color:#2f6fdb}
+.dinh{position:sticky;top:0;z-index:5;background:#f6f7fb;padding:10px 0 8px;margin-bottom:6px;border-bottom:1px solid #e3e7f0}
+.tim{display:flex;gap:8px}
+.tim input{flex:1;font:inherit;padding:10px 14px;border:2px solid #cfd6e4;border-radius:12px;background:#fff;min-width:0}
+.tim input:focus{outline:none;border-color:#2f6fdb}
+.nut{font:inherit;font-size:14px;border:1px solid #cfd6e4;background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:#1f2430}
+.nut:hover{background:#e8f0ff}
+.hang{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.tab,.loc{font:inherit;font-size:14.5px;border:1px solid #cfd6e4;background:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;color:#1f2430}
+.tab small,.loc small{color:#5c6577}
+.tab[aria-pressed=true],.loc[aria-pressed=true]{background:#2f6fdb;border-color:#2f6fdb;color:#fff}
+.tab[aria-pressed=true] small,.loc[aria-pressed=true] small{color:#dfe9ff}
+.loc{font-size:13.5px;padding:3px 11px}
+.gian{flex:1}
+#dem{font-size:14px;color:#5c6577;margin:6px 2px 0}
+#vua-mo{margin:10px 0 4px;font-size:14px;color:#5c6577}
+#vua-mo a{display:inline-block;margin:3px 6px 3px 0;padding:3px 10px;border-radius:999px;background:#fff;border:1px solid #e3e7f0;color:#2f6fdb;text-decoration:none}
+section.mon{margin:18px 0 0}
+h2{font-size:19px;margin:0 0 8px} h2 small{font-weight:400;color:#5c6577;font-size:14px}
+.nhom{background:#fff;border:1px solid #e3e7f0;border-radius:14px;margin:0 0 10px}
+.nhom summary{cursor:pointer;padding:11px 16px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;list-style:none;font-weight:600}
+.nhom summary::-webkit-details-marker{display:none}
+.nhom summary::before{content:"▸";color:#2f6fdb;transition:transform .15s}
+.nhom[open] summary::before{transform:rotate(90deg)}
+.nhom summary .tn{flex:1}
+.nhom summary small{font-weight:400;color:#5c6577;font-size:13.5px}
+.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;padding:0 14px 14px}
+.the{display:flex;flex-direction:column;justify-content:center;gap:2px;text-decoration:none;color:inherit;padding:9px 12px;border-radius:10px;border-left:4px solid #2f6fdb;background:#fafbfe;min-height:48px}
+.the:hover,.the:focus{background:#e8f0ff;outline:none}
+.the b{font-weight:600}
+.the .nhan{font-size:12.5px;color:#5c6577}
+.the.l-luyen-tap{border-left-color:#27ae60;background:#f4fbf6}
+.the.l-cuoi-chuong{border-left-color:#e67e22;background:#fff8f0}
+.an{display:none!important}
+#rong{display:none;background:#fff;border-radius:12px;padding:16px;text-align:center;color:#5c6577;margin-top:16px}
+.ghi-chu{font-size:14px;color:#5c6577;background:#fff6e5;border-radius:10px;padding:10px 14px;margin-top:24px}
+@media (max-width:640px){.dinh{position:static}.luoi{grid-template-columns:1fr}}
+</style><!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../bieu-tuong/favicon-32.png" data-may="../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../bieu-tuong/apple-touch-icon.png" data-may="../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head><body><main>
+<p class="phu"><a href="../index.html">🏠 Trang bài giảng</a></p>
+<h1>📝 Bài tập &amp; lời giải — Lớp 7</h1>
+<p class="phu">Lời giải từng bước cho các bài trong SGK <i>Kết nối tri thức với cuộc sống</i>. Mỗi trang có chế độ
+<b>🎒 Học sinh</b> (tự nghĩ trước, gợi ý mở dần từng bước) và <b>🧑‍🏫 Giáo viên</b> (đáp số ngay, in được đề + đáp số).</p>
+<div class="dinh">
+  <div class="tim"><input id="q" type="search" placeholder="🔍 Tìm: phân số, bài 12, unit 3, chương 6…" title="Gõ không dấu cũng được. Enter = mở bài đầu tiên, Esc = xoá." autocomplete="off">
+  <button class="nut" id="xoa" title="Xoá tìm kiếm và bộ lọc">✕</button></div>
+  <div class="hang" id="tabs"><button class="tab" data-mon="" aria-pressed="true">Tất cả môn <small>7</small></button><button class="tab" data-mon="toan">📐 Toán <small>7</small></button></div>
+  <div class="hang" id="locs">
+    <button class="loc" data-loai="" aria-pressed="true">Mọi loại</button>
+    <button class="loc" data-loai="bai-hoc">📘 Bài học</button>
+    <button class="loc" data-loai="luyen-tap">✏️ Luyện tập chung</button>
+    <button class="loc" data-loai="cuoi-chuong">📝 Cuối chương / Review</button>
+    <span class="gian"></span>
+    <button class="nut" id="mo-het">Mở hết</button><button class="nut" id="thu-het">Thu gọn</button>
+  </div>
+  <div id="dem"></div>
+</div>
+<div id="vua-mo" class="an"></div>
+<section class="mon" data-mon="toan"><h2>📐 Toán <small>7 trang · 1 nhóm</small></h2><details class="nhom" data-ma="toan-0"><summary><span class="tn">Chương I. Số hữu tỉ</span><small>7 trang · 4 bài học</small></summary><div class="luoi"><a class="the l-bai-hoc" href="toan/toan-lop-7-chuong-01-bai-01-tap-hop-cac-so-huu-ti-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-bai-01-tap-hop-cac-so-huu-ti-bai-giai.html" data-tim="bai 1. tap hop cac so huu ti chuong i. so huu ti toan"><b>Bài 1. Tập hợp các số hữu tỉ</b></a><a class="the l-bai-hoc" href="toan/toan-lop-7-chuong-01-bai-02-cong-tru-nhan-chia-so-huu-ti-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-bai-02-cong-tru-nhan-chia-so-huu-ti-bai-giai.html" data-tim="bai 2. cong, tru, nhan, chia so huu ti chuong i. so huu ti toan"><b>Bài 2. Cộng, trừ, nhân, chia số hữu tỉ</b></a><a class="the l-luyen-tap" href="toan/toan-lop-7-chuong-01-luyen-tap-chung-01-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-luyen-tap-chung-01-bai-giai.html" data-tim="luyen tap chung (sau bai 2) chuong i. so huu ti toan ✏ luyen tap chung"><b>Luyện tập chung (sau Bài 2)</b><span class="nhan">✏️ Luyện tập chung</span></a><a class="the l-bai-hoc" href="toan/toan-lop-7-chuong-01-bai-03-luy-thua-voi-so-mu-tu-nhien-cua-mot-so-huu-ti-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-bai-03-luy-thua-voi-so-mu-tu-nhien-cua-mot-so-huu-ti-bai-giai.html" data-tim="bai 3. luy thua voi so mu tu nhien cua mot so huu ti chuong i. so huu ti toan"><b>Bài 3. Luỹ thừa với số mũ tự nhiên của một số hữu tỉ</b></a><a class="the l-bai-hoc" href="toan/toan-lop-7-chuong-01-bai-04-thu-tu-thuc-hien-cac-phep-tinh-quy-tac-chuyen-ve-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-bai-04-thu-tu-thuc-hien-cac-phep-tinh-quy-tac-chuyen-ve-bai-giai.html" data-tim="bai 4. thu tu thuc hien cac phep tinh. quy tac chuyen ve chuong i. so huu ti toan"><b>Bài 4. Thứ tự thực hiện các phép tính. Quy tắc chuyển vế</b></a><a class="the l-luyen-tap" href="toan/toan-lop-7-chuong-01-luyen-tap-chung-02-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-luyen-tap-chung-02-bai-giai.html" data-tim="luyen tap chung (sau bai 4) chuong i. so huu ti toan ✏ luyen tap chung"><b>Luyện tập chung (sau Bài 4)</b><span class="nhan">✏️ Luyện tập chung</span></a><a class="the l-cuoi-chuong" href="toan/toan-lop-7-chuong-01-bai-tap-cuoi-chuong-bai-giai.html" data-may="toán/toan-lop-7-chuong-01-bai-tap-cuoi-chuong-bai-giai.html" data-tim="bai tap cuoi chuong i chuong i. so huu ti toan 📝 bai tap cuoi chuong"><b>Bài tập cuối chương I</b><span class="nhan">📝 Bài tập cuối chương</span></a></div></details></section>
+<div id="rong">Không tìm thấy bài nào. Thử từ khoá ngắn hơn, ví dụ “bài 5” hoặc “unit”.</div>
+<p class="ghi-chu">🧪 Bản thử nghiệm — đang xin ý kiến giáo viên về cách trình bày trước khi làm tiếp các bài và các môn khác.</p>
+</main>
+<script>
+(function(){
+var $ = function(s, g){ return Array.prototype.slice.call((g || document).querySelectorAll(s)); };
+/* Mở trên máy (file://): thư mục môn có dấu */
+if (location.protocol === 'file:') $('a[data-may]').forEach(function(a){ a.href = a.dataset.may; });
+var KHOA = 'bai-giai-7-muc-luc', KHOA_MO = 'bai-giai-7-vua-mo';
+var q = document.getElementById('q'), dem = document.getElementById('dem');
+var st = {mon: '', loai: '', q: '', mo: {}};
+try { var cu = JSON.parse(sessionStorage.getItem(KHOA)); if (cu) st = Object.assign(st, cu); } catch (e) {}
+if (location.hash.length > 1) {  /* #mon=toan&q=... — gửi đường dẫn đã lọc cho người khác */
+  location.hash.slice(1).split('&').forEach(function(p){ var kv = p.split('='); if (kv[0] in st && kv[0] !== 'mo') st[kv[0]] = decodeURIComponent(kv[1] || ''); });
+}
+function luu(){
+  try { sessionStorage.setItem(KHOA, JSON.stringify(st)); } catch (e) {}
+  var h = ['mon', 'loai', 'q'].filter(function(k){ return st[k]; }).map(function(k){ return k + '=' + encodeURIComponent(st[k]); }).join('&');
+  history.replaceState(null, '', h ? '#' + h : location.pathname + location.search);
+}
+var DAU = new RegExp('[' + String.fromCharCode(0x300) + '-' + String.fromCharCode(0x36f) + ']', 'g');  /* dấu tổ hợp sau NFD */
+function boDau(s){ return s.toLowerCase().replace(/đ/g, 'd').normalize('NFD').replace(DAU, '').replace(/\s+/g, ' ').trim(); }
+/* "chương 6" ↔ "Chương VI", "học kì 2" ↔ "Học kì II": thêm số thường vào chuỗi tìm */
+var LA_MA = ['', 'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'];
+$('.the').forEach(function(a){
+  var t = a.dataset.tim;
+  (t.match(/(chuong|hoc ki) [ivx]+\b/g) || []).forEach(function(x){
+    var so = LA_MA.indexOf(x.split(' ').pop()); if (so > 0) t += ' ' + x.replace(/ [ivx]+$/, ' ' + so);
+  });
+  a.dataset.tim = ' ' + t.replace(/[.,:;()–\-]/g, ' ').replace(/\s+/g, ' ') + ' ';
+});
+function khop(tim, tu){
+  /* mọi từ đều phải có; "chữ + số" (bài 1, unit 3, chương 6) khớp liền nhau và trọn số: "bài 1" không ra
+     "bài 12" hay các bài của Chương I; số đứng riêng cũng khớp trọn số */
+  for (var i = 0; i < tu.length; i++) {
+    var t = tu[i], sau = tu[i + 1];
+    if (sau && /^\d+$/.test(sau) && !/^\d+$/.test(t)) {
+      if (!new RegExp(' ' + t + ' 0*' + sau + ' ').test(tim)) return false;
+      i++;
+    } else if (/^\d+$/.test(t) ? !new RegExp(' 0*' + t + ' ').test(tim) : tim.indexOf(' ' + t) < 0) return false;  /* từ: khớp đầu từ */
+  }
+  return true;
+}
+function ve(){
+  var tu = boDau(st.q).replace(/[.,:;()–\-]/g, ' ').split(' ').filter(Boolean);
+  var loc = tu.length > 0 || !!st.loai, tong = 0;
+  /* Nhiều từ, không có số ("phân số"): nếu có trang chứa nguyên cụm thì chỉ hiện các trang đó,
+     khỏi lẫn "Một số hình phẳng" hay "Số thập phân"; không có mới khớp từng từ */
+  var cum = tu.length > 1 && !tu.some(function(t){ return /^\d+$/.test(t); }) ? ' ' + tu.join(' ') : '';
+  if (cum && !$('.the').some(function(a){ return a.dataset.tim.indexOf(cum) >= 0; })) cum = '';
+  $('.tab').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.mon === st.mon); });
+  $('.loc').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.loai === st.loai); });
+  $('section.mon').forEach(function(s){
+    var hienMon = !st.mon || s.dataset.mon === st.mon, conMon = 0, cacNhom = $('.nhom', s);
+    cacNhom.forEach(function(d){
+      var con = 0;
+      $('.the', d).forEach(function(a){
+        var ok = hienMon && (!st.loai || a.classList.contains('l-' + st.loai)) && (!tu.length || (cum ? a.dataset.tim.indexOf(cum) >= 0 : khop(a.dataset.tim, tu)));
+        a.classList.toggle('an', !ok); if (ok) con++;
+      });
+      d.classList.toggle('an', !con);
+      /* đang tìm / lọc: mở mọi nhóm có kết quả; bình thường: như lần trước, mặc định chỉ mở khi môn ít nhóm */
+      d.open = loc ? true : (d.dataset.ma in st.mo ? st.mo[d.dataset.ma] : cacNhom.length <= 3);
+      conMon += con;
+    });
+    s.classList.toggle('an', !conMon); tong += conMon;
+  });
+  document.getElementById('rong').style.display = tong ? 'none' : 'block';
+  dem.textContent = loc ? 'Tìm thấy ' + tong + ' trang bài giải.' : 'Bấm tên chương / tập để mở hoặc thu gọn danh sách bài.';
+  luu();
+}
+q.value = st.q;
+q.addEventListener('input', function(){ st.q = q.value; ve(); });
+q.addEventListener('keydown', function(ev){
+  if (ev.key === 'Escape') { q.value = st.q = ''; ve(); }
+  if (ev.key === 'Enter') { var a = $('.the').filter(function(x){ return !x.classList.contains('an'); })[0]; if (a) a.click(); }
+});
+document.getElementById('xoa').onclick = function(){ q.value = st.q = ''; st.mon = st.loai = ''; ve(); q.focus(); };
+$('.tab').forEach(function(b){ b.onclick = function(){ st.mon = b.dataset.mon; ve(); }; });
+$('.loc').forEach(function(b){ b.onclick = function(){ st.loai = b.dataset.loai; ve(); }; });
+$('.nhom').forEach(function(d){
+  d.addEventListener('toggle', function(){ if (!st.q && !st.loai) { st.mo[d.dataset.ma] = d.open; luu(); } });
+});
+function moHet(v){ $('.nhom').forEach(function(d){ if (!d.classList.contains('an')) d.open = v; }); }
+document.getElementById('mo-het').onclick = function(){ moHet(true); };
+document.getElementById('thu-het').onclick = function(){ moHet(false); };
+/* Vừa mở: 6 trang gần nhất (localStorage, chỉ trên máy này) */
+var vm = [];
+try { vm = JSON.parse(localStorage.getItem(KHOA_MO)) || []; } catch (e) {}
+$('.the').forEach(function(a){
+  a.addEventListener('click', function(){
+    var k = a.getAttribute('data-may');
+    vm = [k].concat(vm.filter(function(x){ return x !== k; })).slice(0, 6);
+    try { localStorage.setItem(KHOA_MO, JSON.stringify(vm)); } catch (e) {}
+  });
+});
+var co = [];
+vm.forEach(function(k){
+  var a = $('.the').filter(function(y){ return y.getAttribute('data-may') === k; })[0];
+  if (a) co.push('<a href="' + a.href + '">' + a.closest('section').querySelector('h2').textContent.split(' ')[0] + ' ' + a.querySelector('b').innerHTML + '</a>');
+});
+var hop = document.getElementById('vua-mo');
+if (co.length) { hop.innerHTML = '🕘 Vừa mở: ' + co.join(''); hop.classList.remove('an'); }
+ve();
+if (!('ontouchstart' in window)) q.focus();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../dieu-khoan-su-dung.html" data-may="../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../ban-quyen.html" data-may="../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../gop-y/gop-y.js" data-web="../gop-y/gop-y.js" data-loai="index" data-tep="lop-7/bài giải/index.html" data-nguon="lop-7/bài giải/index.html" data-phien-ban="6ff693b302dc">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body></html>

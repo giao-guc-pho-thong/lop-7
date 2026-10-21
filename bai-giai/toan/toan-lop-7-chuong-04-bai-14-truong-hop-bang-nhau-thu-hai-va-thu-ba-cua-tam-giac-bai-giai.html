@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 14. Trường hợp bằng nhau thứ hai và thứ ba của tam giác — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương IV. Tam giác bằng nhau</div>
+    <div class="hang1">
+      <h1>Bài 14. Trường hợp bằng nhau thứ hai và thứ ba của tam giác — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương IV. Tam giác bằng nhau</div><h1>Bài 14. Trường hợp bằng nhau thứ hai và thứ ba của tam giác — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 6 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-xen"><b class="ten">Góc xen giữa, góc kề</b>
+      Trong tam giác <span class="m"><i>ABC</i></span>, góc <span class="m"><i>BAC</i></span> (góc <span class="m">A</span>) là <b>góc xen giữa</b> hai cạnh <span class="m"><i>AB</i></span> và <span class="m"><i>AC</i></span>. Hai góc <span class="m">B</span> và <span class="m">C</span> là các <b>góc kề</b> cạnh <span class="m"><i>BC</i></span>.</div>
+    <div class="kt" id="kt-cgc"><b class="ten">Trường hợp cạnh - góc - cạnh (c.g.c)</b>
+      Nếu hai cạnh và góc xen giữa của tam giác này bằng hai cạnh và góc xen giữa của tam giác kia thì hai tam giác đó bằng nhau.</div>
+    <div class="kt" id="kt-gcg"><b class="ten">Trường hợp góc - cạnh - góc (g.c.g)</b>
+      Nếu một cạnh và hai góc kề của tam giác này bằng một cạnh và hai góc kề của tam giác kia thì hai tam giác đó bằng nhau.</div>
+    <div class="kt" id="kt-ccc"><b class="ten">Bài 13: tam giác bằng nhau, c.c.c</b>
+      Hai tam giác bằng nhau thì các cạnh tương ứng, các góc tương ứng bằng nhau (kí hiệu viết đỉnh tương ứng theo cùng thứ tự). Nếu ba cạnh của tam giác này bằng ba cạnh của tam giác kia thì hai tam giác đó bằng nhau.</div>
+    <div class="kt" id="kt-tong"><b class="ten">Tổng ba góc (Bài 12)</b>
+      Tổng ba góc trong một tam giác bằng <span class="m">180°</span>.</div>
+    <div class="kt" id="kt-cu"><b class="ten">Góc và song song (Bài 8, Bài 10)</b>
+      Hai góc đối đỉnh thì bằng nhau. Nếu một đường thẳng cắt hai đường thẳng song song thì hai góc so le trong bằng nhau.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập một — Bài 14. Trường hợp bằng nhau thứ hai và thứ ba của tam giác; Bài 8, Bài 10, Bài 12, Bài 13.</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Vẽ, đo cạnh</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vẽ <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>xAy</i></span> = 60°</span>. Lấy điểm <span class="m">B</span> trên tia <span class="m"><i>Ax</i></span> và điểm <span class="m">C</span> trên tia <span class="m"><i>Ay</i></span> sao cho: <span class="m"><i>AB</i> = 4</span> cm, <span class="m"><i>AC</i> = 3</span> cm.</p>
+    <p>Nối điểm <span class="m">B</span> với điểm <span class="m">C</span> ta được tam giác <span class="m"><i>ABC</i></span> (H.4.27).</p>
+    <p>Dùng thước thẳng có vạch chia đo độ dài cạnh <span class="m"><i>BC</i></span> của tam giác <span class="m"><i>ABC</i></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Vẽ góc trước, rồi mới đặt độ dài trên hai cạnh của góc. Cạnh <span class="m"><i>BC</i></span> là cạnh “tự sinh ra” — em chỉ việc đo.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Dùng thước đo góc vẽ góc <span class="m">60°</span>; trên tia <span class="m"><i>Ax</i></span> đặt vạch <span class="m">0</span> của thước tại <span class="m">A</span>, đánh dấu <span class="m">B</span> ở vạch 4 cm; làm tương tự với <span class="m">C</span> trên <span class="m"><i>Ay</i></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Vẽ hình</h4>
+      <svg viewBox="0 0 221 188" role="img" aria-label="Góc xAy bằng 60 độ, AB 4 cm, AC 3 cm, nối BC" style="max-width:240px"><g transform="translate(23.4 157.2)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="187.2" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="75.6" y2="-130.9" stroke="#1f2430" stroke-width="1.8"/><line x1="144.0" y1="0.0" x2="54.0" y2="-93.5" stroke="#c93c3c" stroke-width="2"/><path d="M24.0 0.0A24 24 0 0 0 12.0 -20.8" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="36.4" y="-16.1" fill="#c93c3c" font-size="14" text-anchor="middle">60°</text><circle cx="144.0" cy="0.0" r="3.2" fill="#2f6fdb"/><circle cx="54.0" cy="-93.5" r="3.2" fill="#2f6fdb"/><text x="-13.2" y="10.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="144.0" y="20.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="41.0" y="-95.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="187.2" y="18.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">x</text><text x="82.1" y="-137.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">y</text><text x="72.0" y="19.9" fill="#c93c3c" font-size="14" text-anchor="middle">4 cm</text><text x="11.4" y="-50.9" fill="#c93c3c" font-size="14" text-anchor="middle">3 cm</text></g></svg>
+      <p>Vẽ góc <span class="m"><i>xAy</i> = 60°</span>, lấy <span class="m">B</span> trên <span class="m"><i>Ax</i></span> với <span class="m"><i>AB</i> = 4</span> cm, <span class="m">C</span> trên <span class="m"><i>Ay</i></span> với <span class="m"><i>AC</i> = 3</span> cm, nối <span class="m"><i>BC</i></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Đo cạnh <i>BC</i></h4>
+      <p>Đo được <span class="m"><i>BC</i></span> khoảng <span class="m">3,6</span> cm.</p>
+      <p class="vi-sao">Góc và hai cạnh kẹp góc đã được chọn sẵn, nên đoạn <span class="m"><i>BC</i></span> chỉ có một độ dài — ai vẽ đúng cũng đo được cùng một kết quả.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m"><i>BC</i></span> đo được khoảng <span class="m">3,6</span> cm.</div>
+    <div class="bay">Đặt <span class="m">C</span> trên tia <span class="m"><i>Ax</i></span> và <span class="m">B</span> trên tia <span class="m"><i>Ay</i></span> (đổi chỗ). Đề nói rõ <span class="m">B</span> trên <span class="m"><i>Ax</i></span> (dài 4 cm), <span class="m">C</span> trên <span class="m"><i>Ay</i></span> (dài 3 cm).</div>
+    <div class="gv-note">Giá trị tính bằng máy: <span class="m"><i>BC</i></span> khoảng <span class="m">3,61</span> cm. Chấp nhận kết quả đo từ <span class="m">3,5</span> cm đến <span class="m">3,7</span> cm.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">So sánh hai tam giác</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vẽ thêm tam giác <span class="m"><i>A′B′C′</i></span> với <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B′A′C′</i></span> = 60°</span>, <span class="m"><i>A′B′</i> = 4</span> cm và <span class="m"><i>A′C′</i> = 3</span> cm (H.4.28).</p>
+    <p>Dùng thước thẳng có vạch chia hoặc compa để so sánh độ dài các cạnh tương ứng của hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>A′B′C′</i></span>.</p>
+    <p>– Hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>A′B′C′</i></span> có bằng nhau không?</p>
+    <p>– Độ dài các cạnh <span class="m"><i>BC</i></span> và <span class="m"><i>B′C′</i></span> của hai tam giác em vừa vẽ có bằng các cạnh <span class="m"><i>BC</i></span> và <span class="m"><i>B′C′</i></span> của hai tam giác các bạn khác vẽ không?</p>
+    <p>– Hai tam giác em vừa vẽ có bằng hai tam giác mà các bạn khác vẽ không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai tam giác cùng có “hai cạnh 4 cm, 3 cm kẹp góc <span class="m">60°</span>”. Cạnh thứ ba của chúng có thể khác nhau không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đo <span class="m"><i>B′C′</i></span> rồi so với <span class="m"><i>BC</i></span> ở HĐ1. Nếu ba cạnh tương ứng bằng nhau thì dùng trường hợp c.c.c đã học.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh các cạnh</h4>
+      <p><span class="m"><i>A′B′</i> = <i>AB</i> = 4</span> cm, <span class="m"><i>A′C′</i> = <i>AC</i> = 3</span> cm (theo cách vẽ), và đo được <span class="m"><i>B′C′</i> = <i>BC</i></span> (khoảng <span class="m">3,6</span> cm).</p>
+      <p>Ba cạnh tương ứng bằng nhau nên <span class="m">Δ<i>ABC</i> = Δ<i>A′B′C′</i></span> (c.c.c).</p>
+      <a class="xem-lai" href="#kt-ccc">📌 Xem lại: trường hợp c.c.c</a></div>
+    <div class="buoc" data-so="2"><h4>So với các bạn</h4>
+      <p>Các bạn vẽ theo cùng số liệu cũng đo được cạnh <span class="m"><i>BC</i></span>, <span class="m"><i>B′C′</i></span> khoảng <span class="m">3,6</span> cm. Vì vậy các tam giác của em và của các bạn đều có ba cạnh tương ứng bằng nhau: chúng bằng nhau.</p>
+      <p class="vi-sao">Hai cạnh và góc xen giữa đã “chốt” hình dạng tam giác. Đó là trường hợp bằng nhau c.g.c.</p>
+      <a class="xem-lai" href="#kt-cgc">📌 Xem lại: trường hợp c.g.c</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m"><i>B′C′</i> = <i>BC</i></span> (khoảng <span class="m">3,6</span> cm), nên hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>A′B′C′</i></span> bằng nhau. Cạnh <span class="m"><i>BC</i></span>, <span class="m"><i>B′C′</i></span> của em bằng của các bạn; các tam giác em vẽ bằng các tam giác các bạn vẽ.</div>
+    <div class="bay">Kết luận hai tam giác bằng nhau chỉ vì “nhìn giống nhau”. Phải đo (hoặc dùng compa) để thấy cạnh thứ ba bằng nhau.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch1" data-ten="Câu hỏi (mục 1)" data-muc="th" data-chip="Câu hỏi ①">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 1)</span><span class="nhan th">Thông hiểu</span><span class="nhan">Nhận biết c.g.c</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong Hình 4.29, hai tam giác nào bằng nhau?</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px 22px"><div><svg viewBox="0 0 177 115" role="img" aria-label="Tam giác ABC: AB một gạch, AC hai gạch, đánh dấu góc A" style="width:158px;max-width:100%;margin:0"><g transform="translate(23.5 94.3)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="78.1" y2="-65.6" stroke="#1f2430" stroke-width="1.8"/><line x1="78.1" y1="-65.6" x2="129.2" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="129.2" y1="0.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-13.3" y="9.5" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="81.0" y="-74.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="142.4" y="10.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><line x1="34.6" y1="-38.1" x2="43.6" y2="-27.4" stroke="#c93c3c" stroke-width="1.6"/><line x1="62.3" y1="-7.0" x2="62.3" y2="7.0" stroke="#2f6fdb" stroke-width="1.6"/><line x1="66.8" y1="-7.0" x2="66.8" y2="7.0" stroke="#2f6fdb" stroke-width="1.6"/><path d="M20.0 0.0A20 20 0 0 0 15.3 -12.9" fill="none" stroke="#6b4fc9" stroke-width="1.6"/></g></svg></div><div><svg viewBox="0 0 147 122" role="img" aria-label="Tam giác FED: FE một gạch, FD hai gạch, đánh dấu góc D" style="width:150px;max-width:100%;margin:0"><g transform="translate(22.3 22.0)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="99.8" y2="21.2" stroke="#1f2430" stroke-width="1.8"/><line x1="99.8" y1="21.2" x2="107.1" y2="72.2" stroke="#1f2430" stroke-width="1.8"/><line x1="107.1" y1="72.2" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-12.1" y="-1.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">F</text><text x="110.5" y="17.5" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">E</text><text x="114.1" y="89.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text><line x1="51.3" y1="3.8" x2="48.4" y2="17.5" stroke="#c93c3c" stroke-width="1.6"/><line x1="55.6" y1="29.1" x2="47.8" y2="40.7" stroke="#2f6fdb" stroke-width="1.6"/><line x1="59.3" y1="31.6" x2="51.5" y2="43.2" stroke="#2f6fdb" stroke-width="1.6"/><path d="M104.0 50.5A22 22 0 0 0 88.9 59.9" fill="none" stroke="#6b4fc9" stroke-width="1.6"/></g></svg></div><div><svg viewBox="0 0 147 134" role="img" aria-label="Tam giác MNP: MN một gạch, MP hai gạch, đánh dấu góc M" style="width:150px;max-width:100%;margin:0"><g transform="translate(23.1 110.2)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="102.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="102.0" y1="0.0" x2="99.0" y2="-83.0" stroke="#1f2430" stroke-width="1.8"/><line x1="99.0" y1="-83.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-12.9" y="10.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">M</text><text x="113.0" y="13.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">N</text><text x="106.0" y="-89.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">P</text><line x1="51.0" y1="-7.0" x2="51.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><line x1="43.3" y1="-45.4" x2="52.3" y2="-34.7" stroke="#2f6fdb" stroke-width="1.6"/><line x1="46.7" y1="-48.3" x2="55.7" y2="-37.6" stroke="#2f6fdb" stroke-width="1.6"/><path d="M20.0 0.0A20 20 0 0 0 15.3 -12.9" fill="none" stroke="#6b4fc9" stroke-width="1.6"/></g></svg></div><div><svg viewBox="0 0 237 123" role="img" aria-label="Tam giác KHG: HG một gạch, KH hai gạch, đánh dấu góc G" style="width:212px;max-width:100%;margin:0"><g transform="translate(129.2 29.0)" font-family="Cambria Math,Times New Roman,serif"><line x1="-105.8" y1="74.1" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="83.6" y2="58.5" stroke="#1f2430" stroke-width="1.8"/><line x1="83.6" y1="58.5" x2="-105.8" y2="74.1" stroke="#1f2430" stroke-width="1.8"/><text x="-119.0" y="84.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">K</text><text x="0.0" y="-8.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">H</text><text x="96.7" y="68.5" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">G</text><line x1="45.8" y1="23.5" x2="37.8" y2="35.0" stroke="#c93c3c" stroke-width="1.6"/><line x1="-58.8" y1="32.6" x2="-50.7" y2="44.1" stroke="#2f6fdb" stroke-width="1.6"/><line x1="-55.1" y1="30.0" x2="-47.1" y2="41.5" stroke="#2f6fdb" stroke-width="1.6"/><path d="M65.5 45.9A22 22 0 0 0 61.6 60.3" fill="none" stroke="#6b4fc9" stroke-width="1.6"/></g></svg></div></div></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Góc được đánh dấu có nằm <b>giữa</b> hai cạnh có kí hiệu không? Nếu không, đó không phải c.g.c.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Ở mỗi tam giác, tìm đỉnh chung của cạnh một gạch và cạnh hai gạch. Góc đánh dấu có nằm ở đỉnh đó không?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Kiểm tra góc xen giữa</h4>
+      <p><span class="m">Δ<i>ABC</i></span>: cạnh <span class="m"><i>AB</i></span> (một gạch), <span class="m"><i>AC</i></span> (hai gạch) gặp nhau ở <span class="m">A</span>; góc đánh dấu là <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span></span> — góc xen giữa. ✓</p>
+      <p><span class="m">Δ<i>MNP</i></span>: <span class="m"><i>MN</i></span> (một gạch), <span class="m"><i>MP</i></span> (hai gạch) gặp nhau ở <span class="m">M</span>; góc đánh dấu là <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span></span> — góc xen giữa. ✓</p>
+      <p><span class="m">Δ<i>FED</i></span>: <span class="m"><i>FE</i></span>, <span class="m"><i>FD</i></span> gặp nhau ở <span class="m">F</span>, nhưng góc đánh dấu là <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>D</i></span></span> — không xen giữa. ✗</p>
+      <p><span class="m">Δ<i>KHG</i></span>: <span class="m"><i>HG</i></span>, <span class="m"><i>KH</i></span> gặp nhau ở <span class="m">H</span>, nhưng góc đánh dấu là <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>G</i></span></span> — không xen giữa. ✗</p>
+      <a class="xem-lai" href="#kt-xen">📌 Xem lại: góc xen giữa</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p><span class="m">Δ<i>ABC</i></span> và <span class="m">Δ<i>MNP</i></span> có <span class="m"><i>AB</i> = <i>MN</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span></span>, <span class="m"><i>AC</i> = <i>MP</i></span>. Vậy <span class="m">Δ<i>ABC</i> = Δ<i>MNP</i></span> (c.g.c).</p>
+      <a class="xem-lai" href="#kt-cgc">📌 Xem lại: trường hợp c.g.c</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">Δ<i>ABC</i> = Δ<i>MNP</i></span> (c.g.c): <span class="m"><i>AB</i> = <i>MN</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span></span>, <span class="m"><i>AC</i> = <i>MP</i></span>.</div>
+    <div class="bay">Chọn thêm <span class="m">Δ<i>FED</i></span> vì nó cũng có “hai cạnh và một góc” bằng. Góc bằng nhau phải là góc <b>xen giữa</b> hai cạnh đó; “cạnh – cạnh – góc không xen giữa” không phải trường hợp bằng nhau.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan th">Thông hiểu</span><span class="nhan">c.g.c, tính góc</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>MNP</i></span> trong Hình 4.31 có bằng nhau không? Vì sao?</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px 22px"><div><svg viewBox="0 0 146 159" role="img" aria-label="Tam giác ABC: AB hai gạch, AC một gạch, góc A 60 độ" style="width:150px;max-width:100%;margin:0"><g transform="translate(21.9 134.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="61.2" y2="-106.0" stroke="#1f2430" stroke-width="1.8"/><line x1="61.2" y1="-106.0" x2="102.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="102.0" y1="0.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-11.7" y="12.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="62.5" y="-114.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="113.2" y="13.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><line x1="23.4" y1="-54.6" x2="35.5" y2="-47.6" stroke="#2f6fdb" stroke-width="1.6"/><line x1="25.7" y1="-58.4" x2="37.8" y2="-51.4" stroke="#2f6fdb" stroke-width="1.6"/><line x1="51.0" y1="-7.0" x2="51.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M22.0 0.0A22 22 0 0 0 11.0 -19.1" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="34.6" y="-15.1" fill="#c93c3c" font-size="14" text-anchor="middle">60°</text></g></svg></div><div><svg viewBox="0 0 146 159" role="img" aria-label="Tam giác MNP: MN hai gạch, MP một gạch, góc N 50 độ, góc P 70 độ" style="width:150px;max-width:100%;margin:0"><g transform="translate(21.9 134.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="61.2" y2="-106.0" stroke="#1f2430" stroke-width="1.8"/><line x1="61.2" y1="-106.0" x2="102.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="102.0" y1="0.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-11.7" y="12.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">M</text><text x="62.5" y="-114.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">N</text><text x="113.2" y="13.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">P</text><line x1="23.4" y1="-54.6" x2="35.5" y2="-47.6" stroke="#2f6fdb" stroke-width="1.6"/><line x1="25.7" y1="-58.4" x2="37.8" y2="-51.4" stroke="#2f6fdb" stroke-width="1.6"/><line x1="51.0" y1="-7.0" x2="51.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M48.2 -83.5A26 26 0 0 0 70.5 -81.7" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="57.8" y="-57.2" fill="#c93c3c" font-size="14" text-anchor="middle">50°</text><path d="M94.8 -18.7A20 20 0 0 0 82.0 -0.0" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="69.0" y="-17.7" fill="#c93c3c" font-size="14" text-anchor="middle">70°</text></g></svg></div></div></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Tam giác <span class="m"><i>MNP</i></span> chưa cho góc <span class="m">M</span> — góc xen giữa <span class="m"><i>MN</i></span> và <span class="m"><i>MP</i></span>. Tính được nó không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tính <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span></span> bằng tổng ba góc của tam giác <span class="m"><i>MNP</i></span>, rồi so với <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính góc <i>M</i></h4>
+      <p>Trong tam giác <span class="m"><i>MNP</i></span>: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span> = 180° − 50° − 70° = 60°</span>.</p>
+      <a class="xem-lai" href="#kt-tong">📌 Xem lại: tổng ba góc</a></div>
+    <div class="buoc" data-so="2"><h4>Áp dụng c.g.c</h4>
+      <p>Hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>MNP</i></span> có: <span class="m"><i>AB</i> = <i>MN</i></span> (hai gạch); <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span> = 60°</span>; <span class="m"><i>AC</i> = <i>MP</i></span> (một gạch).</p>
+      <p>Vậy <span class="m">Δ<i>ABC</i> = Δ<i>MNP</i></span> (c.g.c).</p>
+      <p class="vi-sao"><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span></span> xen giữa <span class="m"><i>AB</i></span>, <span class="m"><i>AC</i></span>; <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span></span> xen giữa <span class="m"><i>MN</i></span>, <span class="m"><i>MP</i></span> — đúng là hai góc xen giữa.</p>
+      <a class="xem-lai" href="#kt-cgc">📌 Xem lại: trường hợp c.g.c</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Có. <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>M</i></span> = 180° − 50° − 70° = 60° = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span></span>; lại có <span class="m"><i>AB</i> = <i>MN</i></span>, <span class="m"><i>AC</i> = <i>MP</i></span>. Vậy <span class="m">Δ<i>ABC</i> = Δ<i>MNP</i></span> (c.g.c).</div>
+    <div class="bay">Thấy tam giác <span class="m"><i>MNP</i></span> không ghi góc <span class="m">M</span> nên kết luận “không đủ dữ kiện”. Góc <span class="m">M</span> tính được từ hai góc còn lại.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd" data-ten="Vận dụng" data-muc="vd">
+  <div class="bai-dau"><span class="so">Vận dụng</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chứng minh c.g.c</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho Hình 4.32, biết <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>OAB</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ODC</i></span></span>, <span class="m"><i>OA</i> = <i>OD</i></span> và <span class="m"><i>AB</i> = <i>CD</i></span>.</p>
+    <p>Chứng minh rằng:</p>
+    <p>a) <span class="m"><i>AC</i> = <i>DB</i></span>;</p>
+    <p>b) <span class="m">Δ<i>OAC</i> = Δ<i>ODB</i></span>.</p>
+    <svg viewBox="0 0 341 163" role="img" aria-label="Hình 4.32: A, B, C, D thẳng hàng; OA bằng OD, AB bằng CD, góc OAB bằng góc ODC" style="max-width:330px"><g transform="translate(20.1 134.0)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="300.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="-105.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="-105.0" x2="85.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="-105.0" x2="215.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="-105.0" x2="300.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="79.0" y1="-46.8" x2="71.0" y2="-58.2" stroke="#c93c3c" stroke-width="1.6"/><line x1="229.0" y1="-58.2" x2="221.0" y2="-46.8" stroke="#c93c3c" stroke-width="1.6"/><line x1="37.2" y1="-5.2" x2="47.8" y2="5.2" stroke="#0f8a68" stroke-width="1.6"/><line x1="47.8" y1="-5.2" x2="37.2" y2="5.2" stroke="#0f8a68" stroke-width="1.6"/><line x1="252.2" y1="-5.2" x2="262.8" y2="5.2" stroke="#0f8a68" stroke-width="1.6"/><line x1="262.8" y1="-5.2" x2="252.2" y2="5.2" stroke="#0f8a68" stroke-width="1.6"/><path d="M26.0 0.0A26 26 0 0 0 21.3 -14.9" fill="none" stroke="#6b4fc9" stroke-width="1.6"/><path d="M278.7 -14.9A26 26 0 0 0 274.0 -0.0" fill="none" stroke="#6b4fc9" stroke-width="1.6"/><text x="-9.9" y="15.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="85.0" y="19.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="215.0" y="19.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="309.9" y="15.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text><text x="150.0" y="-113.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">O</text></g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m"><i>AC</i></span> gồm những đoạn nào ghép lại? <span class="m"><i>DB</i></span> gồm những đoạn nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) <span class="m"><i>AC</i> = <i>AB</i> + <i>BC</i></span>, <span class="m"><i>DB</i> = <i>DC</i> + <i>CB</i></span>. b) Hai tam giác <span class="m"><i>OAC</i></span>, <span class="m"><i>ODB</i></span>: hai cạnh nào và góc xen giữa nào?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Cộng đoạn thẳng</h4>
+      <p>Vì <span class="m">B</span> nằm giữa <span class="m">A</span> và <span class="m">C</span> nên <span class="m"><i>AC</i> = <i>AB</i> + <i>BC</i></span>; vì <span class="m">C</span> nằm giữa <span class="m">D</span> và <span class="m">B</span> nên <span class="m"><i>DB</i> = <i>DC</i> + <i>CB</i></span>.</p>
+      <p>Mà <span class="m"><i>AB</i> = <i>DC</i></span> (giả thiết) nên <span class="m"><i>AC</i> = <i>DB</i></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Chứng minh hai tam giác bằng nhau</h4>
+      <p>Hai tam giác <span class="m"><i>OAC</i></span> và <span class="m"><i>ODB</i></span> có:</p>
+      <p><span class="m"><i>OA</i> = <i>OD</i></span> (giả thiết);</p>
+      <p><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>OAC</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>OAB</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ODC</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ODB</i></span></span> (giả thiết);</p>
+      <p><span class="m"><i>AC</i> = <i>DB</i></span> (câu a).</p>
+      <p>Vậy <span class="m">Δ<i>OAC</i> = Δ<i>ODB</i></span> (c.g.c).</p>
+      <p class="vi-sao"><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>OAC</i></span></span> và <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>OAB</i></span></span> là cùng một góc (tia <span class="m"><i>AB</i></span> trùng tia <span class="m"><i>AC</i></span>); nó xen giữa hai cạnh <span class="m"><i>OA</i></span> và <span class="m"><i>AC</i></span>.</p>
+      <a class="xem-lai" href="#kt-cgc">📌 Xem lại: trường hợp c.g.c</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m"><i>AC</i> = <i>AB</i> + <i>BC</i> = <i>DC</i> + <i>CB</i> = <i>DB</i></span> (vì <span class="m"><i>AB</i> = <i>DC</i></span>). b) <span class="m"><i>OA</i> = <i>OD</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>OAC</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ODB</i></span></span> (cùng là các góc đã cho bằng nhau), <span class="m"><i>AC</i> = <i>DB</i></span> nên <span class="m">Δ<i>OAC</i> = Δ<i>ODB</i></span> (c.g.c).</div>
+    <div class="bay">Dùng ngay <span class="m"><i>AB</i> = <i>CD</i></span> làm cặp cạnh cho tam giác <span class="m"><i>OAC</i></span>, <span class="m"><i>ODB</i></span>. <span class="m"><i>AB</i></span> không phải cạnh của tam giác <span class="m"><i>OAC</i></span> — phải đổi sang <span class="m"><i>AC</i> = <i>DB</i></span> ở câu a.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd3" data-ten="HĐ3" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ3</span><span class="nhan nb">Nhận biết</span><span class="nhan">Vẽ, đo cạnh</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vẽ đoạn thẳng <span class="m"><i>BC</i> = 3</span> cm. Vẽ hai tia <span class="m"><i>Bx</i></span> và <span class="m"><i>Cy</i></span> sao cho <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>xBC</i></span> = 80°</span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>yCB</i></span> = 40°</span> như Hình 4.33.</p>
+    <p>Lấy giao điểm <span class="m">A</span> của hai tia <span class="m"><i>Bx</i></span> và <span class="m"><i>Cy</i></span>, ta được tam giác <span class="m"><i>ABC</i></span> (H.4.33).</p>
+    <p>Dùng thước thẳng có vạch chia đo độ dài hai cạnh <span class="m"><i>AB</i></span>, <span class="m"><i>AC</i></span> của tam giác <span class="m"><i>ABC</i></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai tia <span class="m"><i>Bx</i></span> và <span class="m"><i>Cy</i></span> phải vẽ về <b>cùng một phía</b> của <span class="m"><i>BC</i></span> thì mới cắt nhau.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đặt thước đo góc có tâm tại <span class="m">B</span>, vạch <span class="m">0</span> trên <span class="m"><i>BC</i></span>, vẽ tia tạo góc <span class="m">80°</span>; tâm tại <span class="m">C</span>, vạch <span class="m">0</span> trên <span class="m"><i>CB</i></span>, vẽ tia tạo góc <span class="m">40°</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Vẽ hình</h4>
+      <svg viewBox="0 0 201 207" role="img" aria-label="Đoạn BC 3 cm, tia Bx tạo góc 80 độ, tia Cy tạo góc 40 độ, cắt nhau tại A" style="max-width:220px"><g transform="translate(30.7 175.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="26.3" y2="-149.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="0.0" x2="-11.3" y2="-135.4" stroke="#1f2430" stroke-width="1.8"/><line x1="19.3" y1="-109.6" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="150.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="0.0" x2="19.3" y2="-109.6" stroke="#1f2430" stroke-width="1.8"/><text x="32.5" y="-109.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="-9.9" y="15.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="159.9" y="15.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><path d="M20.0 0.0A20 20 0 0 0 3.5 -19.7" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="30.6" y="-20.8" fill="#c93c3c" font-size="14" text-anchor="middle">80°</text><path d="M130.1 -16.7A26 26 0 0 0 124.0 -0.0" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="104.9" y="-11.5" fill="#c93c3c" font-size="14" text-anchor="middle">40°</text><text x="28.4" y="-155.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">x</text><text x="-20.5" y="-137.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">y</text><text x="75.0" y="20.9" fill="#c93c3c" font-size="14" text-anchor="middle">3 cm</text></g></svg></div>
+    <div class="buoc" data-so="2"><h4>Đo hai cạnh</h4>
+      <p>Đo được <span class="m"><i>AB</i></span> khoảng <span class="m">2,2</span> cm và <span class="m"><i>AC</i></span> khoảng <span class="m">3,4</span> cm.</p>
+      <p class="vi-sao">Cạnh <span class="m"><i>BC</i></span> và hai góc kề nó đã cố định, nên hai tia chỉ cắt nhau tại đúng một điểm <span class="m">A</span> — độ dài <span class="m"><i>AB</i></span>, <span class="m"><i>AC</i></span> không thay đổi.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m"><i>AB</i></span> đo được khoảng <span class="m">2,2</span> cm; <span class="m"><i>AC</i></span> khoảng <span class="m">3,4</span> cm.</div>
+    <div class="bay">Vẽ góc <span class="m">80°</span> ở <span class="m">C</span> và góc <span class="m">40°</span> ở <span class="m">B</span> (đổi chỗ) nên đo ra <span class="m"><i>AB</i></span> khoảng <span class="m">3,4</span> cm, <span class="m"><i>AC</i></span> khoảng <span class="m">2,2</span> cm.</div>
+    <div class="gv-note">Giá trị tính bằng máy: <span class="m"><i>AB</i></span> khoảng <span class="m">2,23</span> cm, <span class="m"><i>AC</i></span> khoảng <span class="m">3,41</span> cm; <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = 60°</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd4" data-ten="HĐ4" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ4</span><span class="nhan nb">Nhận biết</span><span class="nhan">So sánh hai tam giác</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vẽ thêm tam giác <span class="m"><i>A′B′C′</i></span> sao cho <span class="m"><i>B′C′</i> = 3</span> cm, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′B′C′</i></span> = 80°</span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′C′B′</i></span> = 40°</span> (H.4.34).</p>
+    <p>Dùng thước thẳng có vạch chia hoặc compa so sánh độ dài các cạnh của hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>A′B′C′</i></span>.</p>
+    <p>Hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>A′B′C′</i></span> có bằng nhau không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Tam giác <span class="m"><i>A′B′C′</i></span> vẽ theo đúng số liệu của tam giác <span class="m"><i>ABC</i></span>. Cạnh <span class="m"><i>A′B′</i></span>, <span class="m"><i>A′C′</i></span> có thể khác <span class="m"><i>AB</i></span>, <span class="m"><i>AC</i></span> không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đo <span class="m"><i>A′B′</i></span>, <span class="m"><i>A′C′</i></span> rồi so với <span class="m"><i>AB</i></span>, <span class="m"><i>AC</i></span> ở HĐ3. Ba cạnh tương ứng bằng nhau thì dùng c.c.c.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh cạnh</h4>
+      <p><span class="m"><i>B′C′</i> = <i>BC</i> = 3</span> cm; đo được <span class="m"><i>A′B′</i> = <i>AB</i></span> (khoảng <span class="m">2,2</span> cm), <span class="m"><i>A′C′</i> = <i>AC</i></span> (khoảng <span class="m">3,4</span> cm).</p></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Ba cạnh tương ứng bằng nhau nên <span class="m">Δ<i>ABC</i> = Δ<i>A′B′C′</i></span> (c.c.c).</p>
+      <p class="vi-sao">Một cạnh và hai góc kề đã đủ “chốt” tam giác: đó là trường hợp g.c.g.</p>
+      <a class="xem-lai" href="#kt-gcg">📌 Xem lại: trường hợp g.c.g</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Các cạnh tương ứng bằng nhau: <span class="m"><i>A′B′</i> = <i>AB</i></span>, <span class="m"><i>A′C′</i> = <i>AC</i></span>, <span class="m"><i>B′C′</i> = <i>BC</i></span>. Hai tam giác <span class="m"><i>ABC</i></span> và <span class="m"><i>A′B′C′</i></span> bằng nhau.</div>
+    <div class="bay">So <span class="m"><i>A′B′</i></span> với <span class="m"><i>AC</i></span> vì hai đoạn “trông dài gần bằng nhau”. Cạnh tương ứng: <span class="m"><i>A′B′</i></span> ứng với <span class="m"><i>AB</i></span> (cùng nằm cạnh góc <span class="m">80°</span>).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch2" data-ten="Câu hỏi (mục 2)" data-muc="th" data-chip="Câu hỏi ②">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 2)</span><span class="nhan th">Thông hiểu</span><span class="nhan">Nhận biết g.c.g</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hai tam giác nào trong Hình 4.35 bằng nhau?</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px 22px"><div><svg viewBox="0 0 155 142" role="img" aria-label="Tam giác ABC" style="width:140px;max-width:100%;margin:0"><g transform="translate(22.5 119.5)" font-family="Cambria Math,Times New Roman,serif"><line x1="76.7" y1="-91.4" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="110.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="110.0" y1="0.0" x2="76.7" y2="-91.4" stroke="#1f2430" stroke-width="1.8"/><text x="80.0" y="-100.2" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">A</text><text x="-12.6" y="11.1" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">B</text><text x="121.8" y="12.4" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">C</text><line x1="55.0" y1="-7.0" x2="55.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M20.0 0.0A20 20 0 0 0 12.9 -15.3" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="36.3" y="-12.0" fill="#c93c3c" font-size="14" text-anchor="middle">50°</text><path d="M103.2 -18.8A20 20 0 0 0 90.0 -0.0" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="77.2" y="-18.0" fill="#c93c3c" font-size="14" text-anchor="middle">70°</text></g></svg></div><div><svg viewBox="0 0 153 169" role="img" aria-label="Tam giác HGK" style="width:140px;max-width:100%;margin:0"><g transform="translate(21.6 145.2)" font-family="Cambria Math,Times New Roman,serif"><line x1="67.5" y1="-116.9" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="110.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="110.0" y1="0.0" x2="67.5" y2="-116.9" stroke="#1f2430" stroke-width="1.8"/><text x="69.0" y="-125.9" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">H</text><text x="-11.7" y="12.6" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">G</text><text x="121.1" y="13.4" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">K</text><line x1="55.0" y1="-7.0" x2="55.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M57.5 -99.5A20 20 0 0 0 74.3 -98.1" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="64.0" y="-72.1" fill="#c93c3c" font-size="14" text-anchor="middle">50°</text><path d="M103.2 -18.8A20 20 0 0 0 90.0 -0.0" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="77.2" y="-18.0" fill="#c93c3c" font-size="14" text-anchor="middle">70°</text></g></svg></div><div><svg viewBox="0 0 155 142" role="img" aria-label="Tam giác MPN" style="width:140px;max-width:100%;margin:0"><g transform="translate(21.7 119.5)" font-family="Cambria Math,Times New Roman,serif"><line x1="33.3" y1="-91.4" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="110.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="110.0" y1="0.0" x2="33.3" y2="-91.4" stroke="#1f2430" stroke-width="1.8"/><text x="30.0" y="-100.2" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">M</text><text x="-11.8" y="12.4" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">P</text><text x="122.6" y="11.1" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">N</text><line x1="55.0" y1="-7.0" x2="55.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M20.0 0.0A20 20 0 0 0 6.8 -18.8" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="32.8" y="-18.0" fill="#c93c3c" font-size="14" text-anchor="middle">70°</text><path d="M97.1 -15.3A20 20 0 0 0 90.0 -0.0" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="73.7" y="-12.0" fill="#c93c3c" font-size="14" text-anchor="middle">50°</text></g></svg></div><div><svg viewBox="0 0 156 127" role="img" aria-label="Tam giác FED" style="width:140px;max-width:100%;margin:0"><g transform="translate(22.7 105.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="65.2" y1="-77.7" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="110.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="110.0" y1="0.0" x2="65.2" y2="-77.7" stroke="#1f2430" stroke-width="1.8"/><text x="67.0" y="-86.6" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">F</text><text x="-12.8" y="10.6" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">E</text><text x="122.5" y="11.2" fill="#2f6fdb" font-size="14" text-anchor="middle" font-style="italic">D</text><line x1="55.0" y1="-7.0" x2="55.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M52.3 -62.3A20 20 0 0 0 75.2 -60.3" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="61.7" y="-32.9" fill="#c93c3c" font-size="14" text-anchor="middle">70°</text><path d="M20.0 0.0A20 20 0 0 0 12.9 -15.3" fill="none" stroke="#c93c3c" stroke-width="1.4"/><text x="36.3" y="-12.0" fill="#c93c3c" font-size="14" text-anchor="middle">50°</text></g></svg></div></div></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Cạnh đáy của bốn tam giác đều bằng nhau. Hai góc <b>kề cạnh đáy</b> của mỗi tam giác là bao nhiêu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Với g.c.g, chỉ tính hai góc nằm ở hai đầu cạnh đáy (cạnh có một gạch). Góc ở đỉnh trên không phải góc kề cạnh đáy.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Hai góc kề cạnh đáy</h4>
+      <p><span class="m">Δ<i>ABC</i></span>: kề <span class="m"><i>BC</i></span> có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span> = 50°</span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = 70°</span>.</p>
+      <p><span class="m">Δ<i>MPN</i></span>: kề <span class="m"><i>PN</i></span> có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>P</i></span> = 70°</span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>N</i></span> = 50°</span>.</p>
+      <p><span class="m">Δ<i>HGK</i></span>: kề <span class="m"><i>GK</i></span> chỉ biết <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>K</i></span> = 70°</span> (<span class="m">50°</span> là góc <span class="m">H</span> ở đỉnh, không kề <span class="m"><i>GK</i></span>); tính được <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>G</i></span> = 60°</span>.</p>
+      <p><span class="m">Δ<i>FED</i></span>: kề <span class="m"><i>ED</i></span> chỉ biết <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>E</i></span> = 50°</span> (<span class="m">70°</span> là góc <span class="m">F</span>); tính được <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>D</i></span> = 60°</span>.</p>
+      <a class="xem-lai" href="#kt-xen">📌 Xem lại: góc kề</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p><span class="m">Δ<i>ABC</i></span> và <span class="m">Δ<i>MNP</i></span> có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>N</i></span> = 50°</span>, <span class="m"><i>BC</i> = <i>NP</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>P</i></span> = 70°</span>. Vậy <span class="m">Δ<i>ABC</i> = Δ<i>MNP</i></span> (g.c.g).</p>
+      <p class="vi-sao"><span class="m"><i>HGK</i></span> có góc kề đáy <span class="m">60°</span>, <span class="m">70°</span>; <span class="m"><i>FED</i></span> có <span class="m">50°</span>, <span class="m">60°</span> — không trùng với cặp <span class="m">50°</span>, <span class="m">70°</span> nên không bằng <span class="m">Δ<i>ABC</i></span>; hai tam giác ấy cũng không bằng nhau.</p>
+      <a class="xem-lai" href="#kt-gcg">📌 Xem lại: trường hợp g.c.g</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">Δ<i>ABC</i> = Δ<i>MNP</i></span> (g.c.g): <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>N</i></span> = 50°</span>, <span class="m"><i>BC</i> = <i>NP</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>P</i></span> = 70°</span>.</div>
+    <div class="bay">Chọn <span class="m">Δ<i>ABC</i></span> và <span class="m">Δ<i>HGK</i></span> vì cả hai đều có “<span class="m">50°</span> và <span class="m">70°</span>”. Ở <span class="m">Δ<i>HGK</i></span>, góc <span class="m">50°</span> ở đỉnh <span class="m">H</span>, không kề cạnh đáy <span class="m"><i>GK</i></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Chứng minh g.c.g</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Chứng minh hai tam giác <span class="m"><i>ABD</i></span> và <span class="m"><i>CBD</i></span> trong Hình 4.37 bằng nhau.</p>
+    <svg viewBox="0 0 267 248" role="img" aria-label="Hình 4.37: góc ABD bằng góc CBD, góc ADB bằng góc CDB" style="max-width:240px"><g transform="translate(139.2 29.0)" font-family="Cambria Math,Times New Roman,serif"><line x1="-115.0" y1="30.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="103.3" y2="58.7" stroke="#1f2430" stroke-width="1.8"/><line x1="103.3" y1="58.7" x2="-25.0" y2="190.0" stroke="#1f2430" stroke-width="1.8"/><line x1="-25.0" y1="190.0" x2="-115.0" y2="30.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="-25.0" y2="190.0" stroke="#1f2430" stroke-width="1.8"/><path d="M-25.2 6.6A26 26 0 0 0 -3.4 25.8" fill="none" stroke="#c93c3c" stroke-width="1.6"/><line x1="-13.2" y1="15.0" x2="-21.2" y2="24.0" stroke="#c93c3c" stroke-width="1.5"/><path d="M-3.4 25.8A26 26 0 0 0 22.6 12.8" fill="none" stroke="#c93c3c" stroke-width="1.6"/><line x1="8.9" y1="17.9" x2="14.3" y2="28.7" stroke="#c93c3c" stroke-width="1.5"/><path d="M-21.9 166.2A24 24 0 0 0 -36.8 169.1" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M-21.3 162.2A28 28 0 0 0 -38.7 165.6" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M-8.2 172.8A24 24 0 0 0 -21.9 166.2" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M-5.4 170.0A28 28 0 0 0 -21.3 162.2" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><text x="-129.0" y="35.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="0.0" y="-8.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="117.3" y="64.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="-25.0" y="209.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text></g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai cặp góc bằng nhau đều có một cạnh nằm trên <span class="m"><i>BD</i></span>. Cạnh chung <span class="m"><i>BD</i></span> có nằm giữa hai góc ấy không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cạnh chung <span class="m"><i>BD</i></span> và hai góc kề nó ở mỗi tam giác: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABD</i></span></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ADB</i></span></span> và <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CBD</i></span></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDB</i></span></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Liệt kê</h4>
+      <p>Hai tam giác <span class="m"><i>ABD</i></span> và <span class="m"><i>CBD</i></span> có:</p>
+      <p><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CBD</i></span></span> (theo hình);</p>
+      <p><span class="m"><i>BD</i></span> là cạnh chung;</p>
+      <p><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ADB</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDB</i></span></span> (theo hình).</p></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Vậy <span class="m">Δ<i>ABD</i> = Δ<i>CBD</i></span> (g.c.g).</p>
+      <p class="vi-sao">Hai góc ở hai đầu <span class="m">B</span>, <span class="m">D</span> của cạnh <span class="m"><i>BD</i></span> chính là hai góc kề cạnh <span class="m"><i>BD</i></span>.</p>
+      <a class="xem-lai" href="#kt-gcg">📌 Xem lại: trường hợp g.c.g</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Hai tam giác <span class="m"><i>ABD</i></span> và <span class="m"><i>CBD</i></span> có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CBD</i></span></span>, <span class="m"><i>BD</i></span> chung, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ADB</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDB</i></span></span>. Vậy <span class="m">Δ<i>ABD</i> = Δ<i>CBD</i></span> (g.c.g).</div>
+    <div class="bay">Viết “(c.g.c)” vì có một cạnh và hai góc. Có <b>một</b> cạnh và <b>hai</b> góc kề là g.c.g; c.g.c cần hai cạnh và một góc.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tt" data-ten="Thử thách nhỏ" data-muc="vdc">
+  <div class="bai-dau"><span class="so">Thử thách nhỏ</span><span class="nhan vdc">Vận dụng cao</span><span class="nhan">Lập luận</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bạn Lan nói rằng: “Nếu tam giác này có một cạnh cùng một góc kề và góc đối diện tương ứng bằng một cạnh cùng một góc kề và góc đối diện của tam giác kia thì hai tam giác đó bằng nhau” (H.4.38). Theo em bạn Lan nói có đúng không? Vì sao?</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px 22px"><div><svg viewBox="0 0 187 123" role="img" aria-label="Tam giác ABC" style="width:170px;max-width:100%;margin:0"><g transform="translate(23.4 102.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="34.5" y2="-73.9" stroke="#1f2430" stroke-width="1.8"/><line x1="34.5" y1="-73.9" x2="140.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="140.0" y1="0.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-13.2" y="10.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="34.5" y="-82.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="153.2" y="10.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><line x1="70.0" y1="-7.0" x2="70.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M18.0 0.0A18 18 0 0 0 7.6 -16.3" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M22.0 0.0A22 22 0 0 0 9.3 -19.9" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M26.9 -57.6A18 18 0 0 0 49.2 -63.6" fill="none" stroke="#6b4fc9" stroke-width="1.4"/></g></svg></div><div><svg viewBox="0 0 196 123" role="img" aria-label="Tam giác A′B′C′" style="width:176px;max-width:100%;margin:0"><g transform="translate(27.6 102.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="34.5" y2="-73.9" stroke="#1f2430" stroke-width="1.8"/><line x1="34.5" y1="-73.9" x2="140.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="140.0" y1="0.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><text x="-13.2" y="10.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A′</text><text x="34.5" y="-82.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B′</text><text x="153.2" y="10.0" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C′</text><line x1="70.0" y1="-7.0" x2="70.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M18.0 0.0A18 18 0 0 0 7.6 -16.3" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M22.0 0.0A22 22 0 0 0 9.3 -19.9" fill="none" stroke="#2f6fdb" stroke-width="1.4"/><path d="M26.9 -57.6A18 18 0 0 0 49.2 -63.6" fill="none" stroke="#6b4fc9" stroke-width="1.4"/></g></svg></div></div></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Biết hai góc của một tam giác thì góc thứ ba có tính được không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Như bạn Vuông: kiểm tra góc còn lại <span class="m">C</span> và <span class="m">C′</span>. Nếu <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C′</i></span></span> thì cạnh <span class="m"><i>AC</i></span> có hai góc kề bằng nhau.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính góc còn lại</h4>
+      <p>Giả sử <span class="m"><i>AC</i> = <i>A′C′</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′</i></span></span> (góc kề cạnh <span class="m"><i>AC</i></span>), <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B′</i></span></span> (góc đối diện cạnh <span class="m"><i>AC</i></span>).</p>
+      <p>Ta có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = 180° − <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> − <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span></span> và <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C′</i></span> = 180° − <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′</i></span> − <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B′</i></span></span>, nên <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C′</i></span></span>.</p>
+      <a class="xem-lai" href="#kt-tong">📌 Xem lại: tổng ba góc</a></div>
+    <div class="buoc" data-so="2"><h4>Áp dụng g.c.g</h4>
+      <p>Hai tam giác có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′</i></span></span>, <span class="m"><i>AC</i> = <i>A′C′</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C′</i></span></span> nên <span class="m">Δ<i>ABC</i> = Δ<i>A′B′C′</i></span> (g.c.g).</p>
+      <p class="vi-sao">Góc đối diện “đổi” được thành góc kề nhờ tổng ba góc bằng <span class="m">180°</span>.</p>
+      <a class="xem-lai" href="#kt-gcg">📌 Xem lại: trường hợp g.c.g</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Bạn Lan nói đúng. Từ <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′</i></span></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B′</i></span></span> suy ra <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = 180° − <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> − <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>B</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C′</i></span></span>. Khi đó <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>A′</i></span></span>, <span class="m"><i>AC</i> = <i>A′C′</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1;padding-right:.14em"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>C′</i></span></span> nên <span class="m">Δ<i>ABC</i> = Δ<i>A′B′C′</i></span> (g.c.g).</div>
+    <div class="bay">Kết luận “sai vì góc <span class="m">B</span> không kề cạnh <span class="m"><i>AC</i></span>”. Đúng là chưa áp dụng g.c.g ngay được, nhưng tính góc thứ ba là đưa về g.c.g.</div>
+    <div class="gv-note">Điều kiện “tương ứng” quan trọng: góc đối diện cạnh <span class="m"><i>AC</i></span> phải bằng góc đối diện cạnh <span class="m"><i>A′C′</i></span>. Có thể cho HS tìm phản ví dụ khi hai góc bằng nhau nhưng không tương ứng.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b412" data-ten="Bài 4.12" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 4.12</span><span class="nhan th">Thông hiểu</span><span class="nhan">Chọn trường hợp</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong mỗi hình bên (H.4.39), hãy chỉ ra một cặp tam giác bằng nhau và giải thích vì sao chúng bằng nhau.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px 22px"><div><svg viewBox="0 0 221 165" role="img" aria-label="Hình a: AB bằng DC, góc ABD bằng góc CDB" style="width:200px;max-width:100%;margin:0"><g transform="translate(20.1 24.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="150.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="0.0" x2="180.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="180.0" y1="115.0" x2="30.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="30.0" y1="115.0" x2="0.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="150.0" y1="0.0" x2="30.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="75.0" y1="-7.0" x2="75.0" y2="7.0" stroke="#c93c3c" stroke-width="1.6"/><line x1="105.0" y1="108.0" x2="105.0" y2="122.0" stroke="#c93c3c" stroke-width="1.6"/><path d="M126.0 -0.0A24 24 0 0 0 132.7 16.6" fill="none" stroke="#6b4fc9" stroke-width="1.6"/><path d="M54.0 115.0A24 24 0 0 0 47.3 98.4" fill="none" stroke="#6b4fc9" stroke-width="1.6"/><text x="-9.9" y="-4.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="159.9" y="-4.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="189.9" y="130.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="20.1" y="130.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text></g></svg><div style="text-align:center;font-style:italic;color:#5c6577">a)</div></div><div><svg viewBox="0 0 165 188" role="img" aria-label="Hình b: AC cắt BD tại O, OA bằng OC, OB bằng OD" style="width:170px;max-width:100%;margin:0"><g transform="translate(82.2 93.9)" font-family="Cambria Math,Times New Roman,serif"><line x1="-61.3" y1="-51.4" x2="61.3" y2="51.4" stroke="#1f2430" stroke-width="1.8"/><line x1="23.9" y1="-65.8" x2="-23.9" y2="65.8" stroke="#1f2430" stroke-width="1.8"/><line x1="-61.3" y1="-51.4" x2="-23.9" y2="65.8" stroke="#1f2430" stroke-width="1.8"/><line x1="23.9" y1="-65.8" x2="61.3" y2="51.4" stroke="#1f2430" stroke-width="1.8"/><line x1="-35.1" y1="-20.3" x2="-26.1" y2="-31.1" stroke="#c93c3c" stroke-width="1.6"/><line x1="35.1" y1="20.3" x2="26.1" y2="31.1" stroke="#c93c3c" stroke-width="1.6"/><line x1="4.6" y1="-33.2" x2="17.8" y2="-28.4" stroke="#2f6fdb" stroke-width="1.6"/><line x1="6.2" y1="-37.4" x2="19.3" y2="-32.6" stroke="#2f6fdb" stroke-width="1.6"/><line x1="-4.6" y1="33.2" x2="-17.8" y2="28.4" stroke="#2f6fdb" stroke-width="1.6"/><line x1="-6.2" y1="37.4" x2="-19.3" y2="32.6" stroke="#2f6fdb" stroke-width="1.6"/><text x="-72.0" y="-55.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="28.7" y="-73.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="72.0" y="65.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="-28.7" y="84.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text><text x="14.0" y="5.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">O</text></g></svg><div style="text-align:center;font-style:italic;color:#5c6577">b)</div></div></div></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hình a có cạnh chung; hình b có hai góc đối đỉnh. Mỗi hình dùng trường hợp nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) Tam giác <span class="m"><i>ABD</i></span> và <span class="m"><i>CDB</i></span>: hai cạnh nào và góc xen giữa nào? b) Tam giác <span class="m"><i>OAD</i></span> và <span class="m"><i>OCB</i></span>: góc <span class="m"><i>AOD</i></span> và góc <span class="m"><i>COB</i></span> có quan hệ gì?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Hình a</h4>
+      <p>Hai tam giác <span class="m"><i>ABD</i></span> và <span class="m"><i>CDB</i></span> có: <span class="m"><i>AB</i> = <i>CD</i></span> (theo hình); <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDB</i></span></span> (theo hình); <span class="m"><i>BD</i></span> là cạnh chung.</p>
+      <p>Vậy <span class="m">Δ<i>ABD</i> = Δ<i>CDB</i></span> (c.g.c).</p>
+      <p class="vi-sao"><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABD</i></span></span> xen giữa <span class="m"><i>BA</i></span>, <span class="m"><i>BD</i></span>; <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDB</i></span></span> xen giữa <span class="m"><i>DC</i></span>, <span class="m"><i>DB</i></span>. Vì <span class="m"><i>AB</i></span> ứng với <span class="m"><i>CD</i></span> và <span class="m"><i>BD</i></span> ứng với <span class="m"><i>DB</i></span> nên <span class="m">A</span> ↔ <span class="m">C</span>, <span class="m">B</span> ↔ <span class="m">D</span>, <span class="m">D</span> ↔ <span class="m">B</span>.</p>
+      <a class="xem-lai" href="#kt-cgc">📌 Xem lại: trường hợp c.g.c</a></div>
+    <div class="buoc" data-so="2"><h4>Hình b</h4>
+      <p>Hai tam giác <span class="m"><i>OAD</i></span> và <span class="m"><i>OCB</i></span> có: <span class="m"><i>OA</i> = <i>OC</i></span> (theo hình); <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AOD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>COB</i></span></span> (hai góc đối đỉnh); <span class="m"><i>OD</i> = <i>OB</i></span> (theo hình).</p>
+      <p>Vậy <span class="m">Δ<i>OAD</i> = Δ<i>OCB</i></span> (c.g.c).</p>
+      <a class="xem-lai" href="#kt-cu">📌 Xem lại: hai góc đối đỉnh</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">Δ<i>ABD</i> = Δ<i>CDB</i></span> (c.g.c: <span class="m"><i>AB</i> = <i>CD</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDB</i></span></span>, <span class="m"><i>BD</i></span> chung). b) <span class="m">Δ<i>OAD</i> = Δ<i>OCB</i></span> (c.g.c: <span class="m"><i>OA</i> = <i>OC</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AOD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>COB</i></span></span> đối đỉnh, <span class="m"><i>OD</i> = <i>OB</i></span>).</div>
+    <div class="bay">Ở hình b viết <span class="m">Δ<i>OAD</i> = Δ<i>OBC</i></span>. <span class="m"><i>OA</i></span> ứng với <span class="m"><i>OC</i></span> (cùng một gạch) nên <span class="m">A</span> ↔ <span class="m">C</span>; <span class="m">D</span> ↔ <span class="m">B</span>. Viết đúng: <span class="m">Δ<i>OAD</i> = Δ<i>OCB</i></span>.</div>
+    <div class="gv-note">Hình b còn cặp <span class="m">Δ<i>OAB</i> = Δ<i>OCD</i></span> (c.g.c) nếu HS nối thêm <span class="m"><i>AB</i></span>, <span class="m"><i>CD</i></span> — trên hình SGK hai đoạn này không vẽ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b413" data-ten="Bài 4.13" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 4.13</span><span class="nhan vd">Vận dụng</span><span class="nhan">c.g.c rồi c.c.c</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho hai đoạn thẳng <span class="m"><i>AC</i></span> và <span class="m"><i>BD</i></span> cắt nhau tại điểm <span class="m">O</span> sao cho <span class="m"><i>OA</i> = <i>OC</i></span>, <span class="m"><i>OB</i> = <i>OD</i></span> như Hình 4.40.</p>
+    <p>a) Hãy tìm hai cặp tam giác có chung đỉnh <span class="m">O</span> bằng nhau;</p>
+    <p>b) Chứng minh rằng <span class="m">Δ<i>DAB</i> = Δ<i>BCD</i></span>.</p>
+    <svg viewBox="0 0 246 168" role="img" aria-label="Hình 4.40: hai đường chéo AC, BD cắt nhau tại O; OA bằng OC, OB bằng OD" style="max-width:250px"><g transform="translate(20.1 27.1)" font-family="Cambria Math,Times New Roman,serif"><line x1="25.0" y1="0.0" x2="205.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="205.0" y1="0.0" x2="180.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="180.0" y1="115.0" x2="0.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="115.0" x2="25.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="25.0" y1="0.0" x2="180.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="205.0" y1="0.0" x2="0.0" y2="115.0" stroke="#1f2430" stroke-width="1.8"/><line x1="59.6" y1="34.4" x2="67.9" y2="23.1" stroke="#c93c3c" stroke-width="1.6"/><line x1="145.4" y1="80.6" x2="137.1" y2="91.9" stroke="#c93c3c" stroke-width="1.6"/><line x1="148.4" y1="23.7" x2="155.2" y2="36.0" stroke="#2f6fdb" stroke-width="1.6"/><line x1="152.3" y1="21.5" x2="159.1" y2="33.8" stroke="#2f6fdb" stroke-width="1.6"/><line x1="56.6" y1="91.3" x2="49.8" y2="79.0" stroke="#2f6fdb" stroke-width="1.6"/><line x1="52.7" y1="93.5" x2="45.9" y2="81.2" stroke="#2f6fdb" stroke-width="1.6"/><text x="18.0" y="-6.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="214.9" y="-4.6" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="189.9" y="130.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="-9.9" y="130.1" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text><text x="102.5" y="47.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">O</text></g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bốn tam giác nhỏ quanh <span class="m">O</span> ghép thành từng cặp đối diện nhau. Cặp nào có hai góc đối đỉnh?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) <span class="m">Δ<i>OAB</i></span> với <span class="m">Δ<i>OCD</i></span>, <span class="m">Δ<i>OAD</i></span> với <span class="m">Δ<i>OCB</i></span> (c.g.c, góc đối đỉnh). b) Từ câu a lấy ra <span class="m"><i>AB</i> = <i>CD</i></span>, <span class="m"><i>AD</i> = <i>CB</i></span>; thêm cạnh chung <span class="m"><i>BD</i></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Cặp thứ nhất</h4>
+      <p><span class="m">Δ<i>OAB</i></span> và <span class="m">Δ<i>OCD</i></span> có: <span class="m"><i>OA</i> = <i>OC</i></span>; <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AOB</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>COD</i></span></span> (đối đỉnh); <span class="m"><i>OB</i> = <i>OD</i></span>. Vậy <span class="m">Δ<i>OAB</i> = Δ<i>OCD</i></span> (c.g.c).</p></div>
+    <div class="buoc" data-so="2"><h4>a) Cặp thứ hai</h4>
+      <p><span class="m">Δ<i>OAD</i></span> và <span class="m">Δ<i>OCB</i></span> có: <span class="m"><i>OA</i> = <i>OC</i></span>; <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AOD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>COB</i></span></span> (đối đỉnh); <span class="m"><i>OD</i> = <i>OB</i></span>. Vậy <span class="m">Δ<i>OAD</i> = Δ<i>OCB</i></span> (c.g.c).</p>
+      <a class="xem-lai" href="#kt-cgc">📌 Xem lại: trường hợp c.g.c</a></div>
+    <div class="buoc" data-so="3"><h4>b) Chứng minh <span class="m">Δ<i>DAB</i> = Δ<i>BCD</i></span></h4>
+      <p>Từ <span class="m">Δ<i>OAB</i> = Δ<i>OCD</i></span> suy ra <span class="m"><i>AB</i> = <i>CD</i></span>; từ <span class="m">Δ<i>OAD</i> = Δ<i>OCB</i></span> suy ra <span class="m"><i>AD</i> = <i>CB</i></span> (cạnh tương ứng).</p>
+      <p>Hai tam giác <span class="m"><i>DAB</i></span> và <span class="m"><i>BCD</i></span> có: <span class="m"><i>DA</i> = <i>BC</i></span>, <span class="m"><i>AB</i> = <i>CD</i></span>, <span class="m"><i>DB</i></span> là cạnh chung. Vậy <span class="m">Δ<i>DAB</i> = Δ<i>BCD</i></span> (c.c.c).</p>
+      <a class="xem-lai" href="#kt-ccc">📌 Xem lại: trường hợp c.c.c</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">Δ<i>OAB</i> = Δ<i>OCD</i></span> và <span class="m">Δ<i>OAD</i> = Δ<i>OCB</i></span> (cùng c.g.c, góc ở <span class="m">O</span> đối đỉnh). b) Suy ra <span class="m"><i>AB</i> = <i>CD</i></span>, <span class="m"><i>AD</i> = <i>CB</i></span>; cùng với <span class="m"><i>BD</i></span> chung, <span class="m">Δ<i>DAB</i> = Δ<i>BCD</i></span> (c.c.c).</div>
+    <div class="bay">Ở câu b dùng ngay “<span class="m"><i>OA</i> = <i>OC</i></span>, <span class="m"><i>OB</i> = <i>OD</i></span>” cho hai tam giác <span class="m"><i>DAB</i></span>, <span class="m"><i>BCD</i></span>. <span class="m"><i>OA</i></span>, <span class="m"><i>OB</i></span> không phải cạnh của hai tam giác đó; phải đi qua câu a để có <span class="m"><i>AB</i> = <i>CD</i></span>, <span class="m"><i>AD</i> = <i>CB</i></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b414" data-ten="Bài 4.14" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 4.14</span><span class="nhan th">Thông hiểu</span><span class="nhan">Chứng minh g.c.g</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Chứng minh rằng hai tam giác <span class="m"><i>ADE</i></span> và <span class="m"><i>BCE</i></span> trong Hình 4.41 bằng nhau.</p>
+    <svg viewBox="0 0 298 198" role="img" aria-label="Hình 4.41: AC cắt BD tại E; AE bằng BE; góc DAE bằng góc CBE" style="max-width:280px"><g transform="translate(148.8 72.1)" font-family="Cambria Math,Times New Roman,serif"><line x1="-55.0" y1="-45.0" x2="126.5" y2="103.5" stroke="#1f2430" stroke-width="1.8"/><line x1="55.0" y1="-45.0" x2="-126.5" y2="103.5" stroke="#1f2430" stroke-width="1.8"/><line x1="-55.0" y1="-45.0" x2="-126.5" y2="103.5" stroke="#1f2430" stroke-width="1.8"/><line x1="55.0" y1="-45.0" x2="126.5" y2="103.5" stroke="#1f2430" stroke-width="1.8"/><line x1="-23.1" y1="-27.9" x2="-31.9" y2="-17.1" stroke="#c93c3c" stroke-width="1.6"/><line x1="31.9" y1="-17.1" x2="23.1" y2="-27.9" stroke="#c93c3c" stroke-width="1.6"/><path d="M-63.7 -27.0A20 20 0 0 0 -39.5 -32.3" fill="none" stroke="#6b4fc9" stroke-width="1.6"/><path d="M39.5 -32.3A20 20 0 0 0 63.7 -27.0" fill="none" stroke="#6b4fc9" stroke-width="1.6"/><text x="-62.0" y="-51.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="62.0" y="-51.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="138.6" y="115.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="-138.6" y="115.7" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text><text x="-0.0" y="19.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">E</text></g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ở đỉnh <span class="m">E</span>, hai tam giác <span class="m"><i>ADE</i></span> và <span class="m"><i>BCE</i></span> có hai góc đối đỉnh. Cạnh <span class="m"><i>AE</i></span> nằm giữa những góc nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cạnh <span class="m"><i>AE</i> = <i>BE</i></span>, hai góc kề: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CBE</i></span></span> (theo hình) và <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AED</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BEC</i></span></span> (đối đỉnh).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Liệt kê</h4>
+      <p>Hai tam giác <span class="m"><i>ADE</i></span> và <span class="m"><i>BCE</i></span> có:</p>
+      <p><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CBE</i></span></span> (theo hình);</p>
+      <p><span class="m"><i>AE</i> = <i>BE</i></span> (theo hình);</p>
+      <p><span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AED</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BEC</i></span></span> (hai góc đối đỉnh).</p>
+      <a class="xem-lai" href="#kt-cu">📌 Xem lại: hai góc đối đỉnh</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Vậy <span class="m">Δ<i>ADE</i> = Δ<i>BCE</i></span> (g.c.g).</p>
+      <p class="vi-sao">Góc <span class="m"><i>DAE</i></span> ở đầu <span class="m">A</span>, góc <span class="m"><i>AED</i></span> ở đầu <span class="m">E</span> của cạnh <span class="m"><i>AE</i></span>: cả hai đều kề cạnh <span class="m"><i>AE</i></span>.</p>
+      <a class="xem-lai" href="#kt-gcg">📌 Xem lại: trường hợp g.c.g</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Hai tam giác <span class="m"><i>ADE</i></span> và <span class="m"><i>BCE</i></span> có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CBE</i></span></span>, <span class="m"><i>AE</i> = <i>BE</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AED</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BEC</i></span></span> (đối đỉnh). Vậy <span class="m">Δ<i>ADE</i> = Δ<i>BCE</i></span> (g.c.g).</div>
+    <div class="bay">Quên chỉ ra cặp góc thứ hai ở <span class="m">E</span> (vì hình không đánh dấu). Hai góc đối đỉnh luôn bằng nhau — phải nêu ra và ghi lí do.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b415" data-ten="Bài 4.15" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 4.15</span><span class="nhan vd">Vận dụng</span><span class="nhan">Song song, g.c.g</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho đoạn thẳng <span class="m"><i>AB</i></span> song song và bằng đoạn thẳng <span class="m"><i>CD</i></span> như Hình 4.42. Gọi <span class="m">E</span> là giao điểm của hai đường thẳng <span class="m"><i>AD</i></span> và <span class="m"><i>BC</i></span>. Hai điểm <span class="m">G</span> và <span class="m">H</span> lần lượt nằm trên <span class="m"><i>AB</i></span> và <span class="m"><i>CD</i></span> sao cho <span class="m">G</span>, <span class="m">E</span>, <span class="m">H</span> thẳng hàng. Chứng minh rằng:</p>
+    <p>a) <span class="m">Δ<i>ABE</i> = Δ<i>DCE</i></span>;</p>
+    <p>b) <span class="m"><i>EG</i> = <i>EH</i></span>.</p>
+    <svg viewBox="0 0 299 275" role="img" aria-label="Hình 4.42: AB song song và bằng CD; AD cắt BC tại E; G trên AB, H trên CD, G, E, H thẳng hàng" style="max-width:269px"><g transform="translate(74.2 27.1)" font-family="Cambria Math,Times New Roman,serif"><line x1="0.0" y1="0.0" x2="200.0" y2="0.0" stroke="#1f2430" stroke-width="1.8"/><line x1="-50.0" y1="220.0" x2="150.0" y2="220.0" stroke="#1f2430" stroke-width="1.8"/><line x1="0.0" y1="0.0" x2="150.0" y2="220.0" stroke="#1f2430" stroke-width="1.8"/><line x1="200.0" y1="0.0" x2="-50.0" y2="220.0" stroke="#1f2430" stroke-width="1.8"/><line x1="95.0" y1="0.0" x2="55.0" y2="220.0" stroke="#1f2430" stroke-width="1.8"/><text x="-14.0" y="5.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text><text x="214.0" y="5.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text><text x="-64.0" y="225.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text><text x="164.0" y="225.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text><text x="102.0" y="-6.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">G</text><text x="48.0" y="237.4" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">H</text><text x="60.0" y="115.2" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">E</text></g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m"><i>AB</i> // <i>CD</i></span> cho em những cặp góc so le trong nào bằng nhau?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) Đường <span class="m"><i>AD</i></span> cắt hai đường song song: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BAD</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDA</i></span></span>; đường <span class="m"><i>BC</i></span> cắt: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABC</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DCB</i></span></span>. b) Xét <span class="m">Δ<i>AEG</i></span> và <span class="m">Δ<i>DEH</i></span>, dùng <span class="m"><i>AE</i> = <i>DE</i></span> từ câu a.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Hai cặp góc so le trong</h4>
+      <p>Vì <span class="m"><i>AB</i> // <i>CD</i></span> nên: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDE</i></span></span> (so le trong, đường thẳng <span class="m"><i>AD</i></span> cắt <span class="m"><i>AB</i></span>, <span class="m"><i>CD</i></span>); <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DCE</i></span></span> (so le trong, đường thẳng <span class="m"><i>BC</i></span> cắt <span class="m"><i>AB</i></span>, <span class="m"><i>CD</i></span>).</p>
+      <a class="xem-lai" href="#kt-cu">📌 Xem lại: tính chất hai đường thẳng song song</a></div>
+    <div class="buoc" data-so="2"><h4>a) Kết luận</h4>
+      <p>Hai tam giác <span class="m"><i>ABE</i></span> và <span class="m"><i>DCE</i></span> có: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDE</i></span></span>; <span class="m"><i>AB</i> = <i>DC</i></span> (giả thiết); <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DCE</i></span></span>. Vậy <span class="m">Δ<i>ABE</i> = Δ<i>DCE</i></span> (g.c.g).</p>
+      <a class="xem-lai" href="#kt-gcg">📌 Xem lại: trường hợp g.c.g</a></div>
+    <div class="buoc" data-so="3"><h4>b) Chứng minh <span class="m"><i>EG</i> = <i>EH</i></span></h4>
+      <p>Từ câu a: <span class="m"><i>AE</i> = <i>DE</i></span> (hai cạnh tương ứng).</p>
+      <p>Hai tam giác <span class="m"><i>AEG</i></span> và <span class="m"><i>DEH</i></span> có: <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>GAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>HDE</i></span></span> (so le trong, như câu a); <span class="m"><i>AE</i> = <i>DE</i></span>; <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AEG</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DEH</i></span></span> (hai góc đối đỉnh).</p>
+      <p>Vậy <span class="m">Δ<i>AEG</i> = Δ<i>DEH</i></span> (g.c.g), suy ra <span class="m"><i>EG</i> = <i>EH</i></span> (hai cạnh tương ứng).</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m"><i>AB</i> // <i>CD</i></span> nên <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>BAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>CDE</i></span></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>ABE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DCE</i></span></span> (so le trong); với <span class="m"><i>AB</i> = <i>DC</i></span>, ta có <span class="m">Δ<i>ABE</i> = Δ<i>DCE</i></span> (g.c.g). b) Suy ra <span class="m"><i>AE</i> = <i>DE</i></span>; <span class="m">Δ<i>AEG</i></span> và <span class="m">Δ<i>DEH</i></span> có <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>GAE</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>HDE</i></span></span>, <span class="m"><i>AE</i> = <i>DE</i></span>, <span class="m"><span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>AEG</i></span> = <span style="display:inline-block;position:relative;padding-top:.3em;line-height:1.1"><svg viewBox="0 0 20 6" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:3%;top:.04em;width:94%;height:.32em;margin:0;display:block;overflow:visible"><path d="M1 5.6Q10 -1.6 19 5.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/></svg><i>DEH</i></span></span> (đối đỉnh) nên <span class="m">Δ<i>AEG</i> = Δ<i>DEH</i></span> (g.c.g), do đó <span class="m"><i>EG</i> = <i>EH</i></span>.</div>
+    <div class="bay">Viết <span class="m">Δ<i>ABE</i> = Δ<i>CDE</i></span>. Góc ở <span class="m">A</span> bằng góc ở <span class="m">D</span> (so le trong) nên <span class="m">A</span> ↔ <span class="m">D</span>, <span class="m">B</span> ↔ <span class="m">C</span>: viết <span class="m">Δ<i>ABE</i> = Δ<i>DCE</i></span> như đề.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 14. Trường hợp bằng nhau thứ hai và thứ ba của tam giác — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c04-b14';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-04-bai-14-truong-hop-bang-nhau-thu-hai-va-thu-ba-cua-tam-giac-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-04-bai-14-truong-hop-bang-nhau-thu-hai-va-thu-ba-cua-tam-giac-bai-giai.nguon.html" data-phien-ban="fecd26e78c77">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

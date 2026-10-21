@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 17. Thu thập và phân loại dữ liệu — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương V. Thu thập và biểu diễn dữ liệu</div>
+    <div class="hang1">
+      <h1>Bài 17. Thu thập và phân loại dữ liệu — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương V. Thu thập và biểu diễn dữ liệu</div><h1>Bài 17. Thu thập và phân loại dữ liệu — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 4 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-thu-thap"><b class="ten">Thu thập dữ liệu</b>
+      Thu thập dữ liệu bằng <b>phỏng vấn</b>, <b>bảng hỏi</b> (phiếu khảo sát): đặt câu hỏi, ghi lại câu trả lời của từng người, rồi lập bảng thống kê.</div>
+    <div class="kt" id="kt-phan-loai"><b class="ten">Phân loại dữ liệu</b>
+      Dữ liệu được phân loại theo sơ đồ sau: <b>Dữ liệu</b> → <b>Dữ liệu là số (số liệu)</b> | <b>Dữ liệu không là số</b>.<br>
+      Pi: Dữ liệu là số còn gọi là <i>dữ liệu định lượng</i>. Dữ liệu không là số còn gọi là <i>dữ liệu định tính</i>.</div>
+    <div class="kt" id="kt-chu-y"><b class="ten">Chú ý — hai loại dữ liệu không là số</b>
+      Dữ liệu không là số có thể phân thành hai loại, loại không thể sắp thứ tự (chẳng hạn dữ liệu về tên các tỉnh: Ninh Bình, Hưng Yên,...) và loại có thể sắp thứ tự (chẳng hạn dữ liệu về đánh giá chất lượng dịch vụ khách sạn với các mức Rất tốt, Tốt, Trung bình, Kém).</div>
+    <div class="kt" id="kt-dai-dien"><b class="ten">Tính đại diện của dữ liệu</b>
+      Để có thể đưa ra các kết luận hợp lí, dữ liệu thu được phải đảm bảo tính đại diện cho toàn bộ đối tượng đang được quan tâm.<br>
+      Chẳng hạn, khi đối tượng quan tâm là toàn thể học sinh thì không thể chỉ lấy ý kiến các bạn nam hoặc chỉ lấy ý kiến của các bạn trong câu lạc bộ Toán học,... mà phải lấy ý kiến của các học sinh được chọn một cách ngẫu nhiên.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập một — Bài 17. Thu thập và phân loại dữ liệu.</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Phỏng vấn</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Em hãy giúp đài truyền hình thu thập dữ liệu bằng cách phỏng vấn các bạn trong tổ, sử dụng ba câu hỏi sau:</p>
+    <p>(1) Trung bình mỗi ngày bạn dành bao nhiêu giờ để xem ti vi?</p>
+    <p>(2) Các chương trình ti vi bạn xem là gì?</p>
+    <p>(3) Bạn có cho rằng các chương trình ti vi hiện nay rất hấp dẫn không? Chọn một trong các ý kiến sau:</p>
+    <p style="text-align:center">Rất đồng ý, Đồng ý, Không đồng ý, Rất không đồng ý.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ba câu hỏi cho ba kiểu câu trả lời khác nhau: một con số, một cái tên, một mức độ. Em ghi lại thế nào cho khỏi lẫn?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Kẻ sẵn một bảng: mỗi dòng là một bạn, ba cột là ba câu hỏi. Hỏi lần lượt từng bạn và ghi ngay câu trả lời.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Chuẩn bị phiếu ghi</h4>
+      <p>Kẻ bảng có cột “Bạn được hỏi” và ba cột (1), (2), (3). Câu (3) chỉ ghi đúng một trong bốn ý kiến cho sẵn.</p>
+      <p class="vi-sao">Ghi theo bảng thì không sót bạn nào, không lẫn câu trả lời của bạn này sang bạn khác — đây là cách thu thập dữ liệu bằng phỏng vấn.</p>
+      <a class="xem-lai" href="#kt-thu-thap">📌 Xem lại: thu thập dữ liệu</a></div>
+    <div class="buoc" data-so="2"><h4>Phỏng vấn và ghi lại (ví dụ một tổ 6 bạn)</h4>
+      <table><tr><th>STT</th><th>(1) Số giờ</th><th>(2) Chương trình</th><th>(3) Ý kiến</th></tr>
+        <tr><td>1</td><td>1</td><td>Phim hoạt hình</td><td>Đồng ý</td></tr>
+        <tr><td>2</td><td>2</td><td>Thể thao</td><td>Rất đồng ý</td></tr>
+        <tr><td>3</td><td>1,5</td><td>Ca nhạc</td><td>Không đồng ý</td></tr>
+        <tr><td>4</td><td>0,5</td><td>Thời sự</td><td>Đồng ý</td></tr>
+        <tr><td>5</td><td>3</td><td>Phim hoạt hình</td><td>Rất không đồng ý</td></tr>
+        <tr><td>6</td><td>1</td><td>Thể thao</td><td>Đồng ý</td></tr></table>
+      <p class="vi-sao">Bảng trên chỉ là ví dụ: mỗi tổ sẽ có câu trả lời khác nhau. Điều quan trọng là thu được <b>ba dãy dữ liệu</b>, mỗi câu hỏi một dãy.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Mỗi tổ có kết quả riêng. Ví dụ tổ 6 bạn thu được ba dãy dữ liệu: (1) số giờ: 1; 2; 1,5; 0,5; 3; 1. (2) chương trình: Phim hoạt hình, Thể thao, Ca nhạc, Thời sự, Phim hoạt hình, Thể thao. (3) ý kiến: Đồng ý, Rất đồng ý, Không đồng ý, Đồng ý, Rất không đồng ý, Đồng ý.</div>
+    <div class="bay">Ở câu (3), bạn trả lời “cũng được”, “bình thường” mà em vẫn ghi vào. Câu hỏi đã cho sẵn bốn ý kiến — phải mời bạn chọn đúng một trong bốn, nếu không dãy dữ liệu sẽ lộn xộn, khó thống kê.</div>
+    <div class="gv-note">Hoạt động thực hành, không có đáp án duy nhất. Bảng trong lời giải là số liệu minh hoạ do nhóm biên soạn đặt ra; nên cho mỗi tổ dùng chính dữ liệu của tổ mình cho HĐ2, HĐ3.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Lập bảng thống kê</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Lập bảng thống kê cho ba dãy dữ liệu thu được.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Dãy (2) và (3) có nhiều câu trả lời trùng nhau — gộp lại rồi đếm sẽ gọn hơn nhiều.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Với mỗi dãy, liệt kê các giá trị khác nhau ở một dòng, dòng dưới ghi số bạn có giá trị đó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Bảng cho dãy (1) — số giờ xem ti vi</h4>
+      <table><tr><th>Số giờ mỗi ngày</th><td>0,5</td><td>1</td><td>1,5</td><td>2</td><td>3</td></tr><tr><th>Số bạn</th><td>1</td><td>2</td><td>1</td><td>1</td><td>1</td></tr></table>
+      <p class="vi-sao">Các giá trị là số nên em xếp từ nhỏ đến lớn cho dễ đọc. Kiểm tra: 1 + 2 + 1 + 1 + 1 = 6 bạn, đủ cả tổ.</p></div>
+    <div class="buoc" data-so="2"><h4>Bảng cho dãy (2) và dãy (3)</h4>
+      <table style="max-width:340px"><tr><th>Chương trình</th><th>Số bạn</th></tr><tr><td>Phim hoạt hình</td><td>2</td></tr><tr><td>Thể thao</td><td>2</td></tr><tr><td>Ca nhạc</td><td>1</td></tr><tr><td>Thời sự</td><td>1</td></tr></table>
+      <table style="max-width:340px"><tr><th>Ý kiến</th><th>Số bạn</th></tr><tr><td>Rất đồng ý</td><td>1</td></tr><tr><td>Đồng ý</td><td>3</td></tr><tr><td>Không đồng ý</td><td>1</td></tr><tr><td>Rất không đồng ý</td><td>1</td></tr></table>
+      <p class="vi-sao">Mỗi bảng đều có tổng số bạn bằng 6 — cách tự kiểm tra rằng em không đếm sót, không đếm trùng.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Với dữ liệu ví dụ ở HĐ1: (1) số giờ 0,5 – 1 – 1,5 – 2 – 3 ứng với 1 – 2 – 1 – 1 – 1 bạn; (2) Phim hoạt hình 2, Thể thao 2, Ca nhạc 1, Thời sự 1 bạn; (3) Rất đồng ý 1, Đồng ý 3, Không đồng ý 1, Rất không đồng ý 1 bạn. (Mỗi tổ lập bảng theo dữ liệu của tổ mình.)</div>
+    <div class="bay">Quên kiểm tra tổng: bảng có tổng 7 bạn trong khi tổ chỉ có 6 bạn là đã đếm trùng một bạn.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd3" data-ten="HĐ3" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ3</span><span class="nhan th">Thông hiểu</span><span class="nhan">Phân loại dữ liệu</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong ba dãy dữ liệu thu được, dãy nào là dãy số liệu? Dãy nào không là dãy số liệu? Dãy nào có thể sắp xếp được theo thứ tự tăng, giảm?</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh — dãy này là số liệu không?</b>
+    <div class="cau-thu"><span class="noi-dung">(1) Số giờ xem ti vi</span><button class="chon chu" data-dung="1">Số liệu</button><button class="chon chu" data-dung="0">Không là số</button><span class="phan-hoi" data-dung-txt="Đúng! Số giờ ghi bằng con số." data-sai-txt="Thử lại: 1,5 giờ có phải là một con số không?"></span></div>
+    <div class="cau-thu"><span class="noi-dung">(2) Tên chương trình</span><button class="chon chu" data-dung="0">Số liệu</button><button class="chon chu" data-dung="1">Không là số</button><span class="phan-hoi" data-dung-txt="Đúng! Tên chương trình là chữ." data-sai-txt="Thử lại: Phim hoạt hình là một con số à?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Dãy (3) không phải là số, nhưng “Rất đồng ý” và “Đồng ý” có xếp được trước – sau không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Dãy là số liệu khi các giá trị là con số. Dãy không là số vẫn có thể sắp thứ tự nếu các giá trị là những <i>mức độ</i> từ cao đến thấp.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm dãy số liệu</h4>
+      <p>Dãy (1) gồm các số giờ (1; 2; 1,5;…) nên là <b>dãy số liệu</b>. Dãy (2) (tên chương trình) và dãy (3) (ý kiến) <b>không là dãy số liệu</b>.</p>
+      <a class="xem-lai" href="#kt-phan-loai">📌 Xem lại: phân loại dữ liệu</a></div>
+    <div class="buoc" data-so="2"><h4>Tìm dãy sắp xếp được</h4>
+      <p>Dãy (1) sắp được tăng, giảm như mọi dãy số. Dãy (3) sắp được theo mức độ đồng ý: Rất đồng ý → Đồng ý → Không đồng ý → Rất không đồng ý. Dãy (2) không sắp được: “Thể thao” không đứng trước hay sau “Ca nhạc” theo một thứ tự nào cả.</p>
+      <p class="vi-sao">Theo Chú ý của SGK, dữ liệu không là số có hai loại: loại có thể sắp thứ tự (các mức đánh giá) và loại không thể sắp thứ tự (tên gọi).</p>
+      <a class="xem-lai" href="#kt-chu-y">📌 Xem lại: hai loại dữ liệu không là số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Dãy (1) là dãy số liệu. Dãy (2) và dãy (3) không là dãy số liệu. Dãy (1) và dãy (3) có thể sắp xếp theo thứ tự tăng, giảm (dãy (3) theo mức độ: Rất đồng ý, Đồng ý, Không đồng ý, Rất không đồng ý); dãy (2) thì không.</div>
+    <div class="bay">Cho rằng “không là số thì không sắp xếp được”. Các mức ý kiến ở dãy (3) không phải số nhưng vẫn xếp được từ cao xuống thấp.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch" data-ten="Câu hỏi" data-muc="nb">
+  <div class="bai-dau"><span class="so">Câu hỏi</span><span class="nhan nb">Nhận biết</span><span class="nhan">Lấy ví dụ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Em hãy lấy một ví dụ về dữ liệu không là số, có thể sắp xếp theo thứ tự.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hãy nghĩ tới những thứ được chia thành “mức”: mức cao – mức thấp, cỡ to – cỡ nhỏ…</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Câu trả lời là chữ (không phải con số), nhưng các câu trả lời xếp được từ thấp đến cao.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Chọn một ví dụ</h4>
+      <p>Cỡ áo đồng phục của các bạn trong lớp: S, M, L, XL. Đây là chữ, không phải số; nhưng xếp được từ nhỏ đến lớn: S → M → L → XL.</p>
+      <p class="vi-sao">Ví dụ đúng phải thoả <b>cả hai</b> điều kiện: không là số và sắp được thứ tự. Tên các tỉnh chỉ thoả điều kiện thứ nhất.</p>
+      <a class="xem-lai" href="#kt-chu-y">📌 Xem lại: hai loại dữ liệu không là số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Ví dụ: cỡ áo S, M, L, XL (xếp được từ nhỏ đến lớn); hoặc mức độ hài lòng: Rất hài lòng, Hài lòng, Không hài lòng; hoặc mức độ yêu thích: Rất thích, Thích, Không thích.</div>
+    <div class="bay">Đưa ví dụ “chiều cao của các bạn trong lớp” — đó là số liệu, không phải dữ liệu không là số.</div>
+    <div class="gv-note">Câu hỏi mở: chấp nhận mọi ví dụ vừa không là số vừa có thứ tự tự nhiên (xếp loại, mức độ, cỡ…).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan th">Thông hiểu</span><span class="nhan">Bảng hỏi, phân loại</span><span class="trang-thai"></span></div>
+  <div class="de"><p>a) Em hãy đưa ra một số câu hỏi phỏng vấn để:</p>
+    <p>(1) Khảo sát ý kiến của các bạn trong lớp về vật nuôi yêu thích;</p>
+    <p>(2) Khảo sát thời gian (giờ) mà các bạn trong lớp dành cho hoạt động thể thao trong ngày.</p>
+    <p>b) Với mỗi dãy dữ liệu thu được, em hãy cho biết dữ liệu đó thuộc loại nào.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu hỏi em đặt ra quyết định loại dữ liệu thu được: hỏi “con gì” thì nhận về tên, hỏi “bao nhiêu giờ” thì nhận về số.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Mỗi câu hỏi nên ngắn, chỉ hỏi một điều; với câu hỏi mức độ thì cho sẵn các lựa chọn.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Đặt câu hỏi phỏng vấn</h4>
+      <p>(1) “Bạn thích nuôi con vật nào nhất?” — “Bạn có thích nuôi vật nuôi không? (Rất thích, Thích, Không thích)”.</p>
+      <p>(2) “Trung bình mỗi ngày bạn dành bao nhiêu giờ cho hoạt động thể thao?”</p>
+      <a class="xem-lai" href="#kt-thu-thap">📌 Xem lại: thu thập dữ liệu</a></div>
+    <div class="buoc" data-so="2"><h4>b) Phân loại từng dãy dữ liệu</h4>
+      <p>Tên vật nuôi (chó, mèo, cá…): không là số, không thể sắp thứ tự.</p>
+      <p>Mức độ thích (Rất thích, Thích, Không thích): không là số, có thể sắp thứ tự.</p>
+      <p>Số giờ chơi thể thao (0,5; 1; 2…): là số liệu.</p>
+      <p class="vi-sao">Câu trả lời là con số đo được thì là số liệu; là tên gọi thì không là số, không sắp thứ tự; là mức độ thì không là số nhưng sắp được thứ tự.</p>
+      <a class="xem-lai" href="#kt-chu-y">📌 Xem lại: hai loại dữ liệu không là số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Ví dụ: (1) “Bạn thích nuôi con vật nào nhất?”, “Bạn có thích nuôi vật nuôi không? (Rất thích, Thích, Không thích)”; (2) “Trung bình mỗi ngày bạn dành bao nhiêu giờ cho hoạt động thể thao?”. b) Tên vật nuôi: dữ liệu không là số, không thể sắp thứ tự; mức độ thích: không là số, có thể sắp thứ tự; số giờ chơi thể thao: số liệu.</div>
+    <div class="bay">Hỏi “Bạn có hay chơi thể thao không?” cho mục (2): câu trả lời sẽ là “có/không”, không ra được số giờ như đề yêu cầu.</div>
+    <div class="gv-note">Câu hỏi của HS có thể khác; chấm theo việc câu hỏi có thu được đúng loại thông tin cần khảo sát và phân loại đúng dãy dữ liệu tương ứng.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tl1" data-ten="Tranh luận (mục 1)" data-muc="th" data-chip="Tranh luận ①">
+  <div class="bai-dau"><span class="so">Tranh luận (mục 1)</span><span class="nhan th">Thông hiểu</span><span class="nhan">Số liệu hay không</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một số tuyến xe buýt ở Hà Nội mà bạn An đã đi là: 01; 02; 12; 15.</p>
+    <p>Tròn: <i>Đây là dãy số liệu.</i> — Vuông: <i>Đây không phải là dãy số liệu.</i> — Pi: <i>Tuyến số 01 là tuyến đi từ Gia Lâm đến Yên Nghĩa đấy!</i></p>
+    <p>Em ủng hộ Vuông hay Tròn?</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung">Em ủng hộ</span><button class="chon chu" data-dung="0">Tròn</button><button class="chon chu" data-dung="1">Vuông</button><span class="phan-hoi" data-dung-txt="Đúng! Số tuyến chỉ là tên gọi của tuyến xe." data-sai-txt="Thử lại: cộng tuyến 01 với tuyến 12 thì được gì có nghĩa không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Pi nói “tuyến số 01 là tuyến đi từ Gia Lâm đến Yên Nghĩa”. Vậy “01” đang đếm, đo điều gì, hay chỉ là một cái tên?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Thử cộng hai số tuyến: 01 + 12 = 13. Kết quả này có cho em biết điều gì về hai tuyến xe không?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Xem các “số” này dùng để làm gì</h4>
+      <p>01, 02, 12, 15 là <b>số hiệu</b> của tuyến xe buýt — dùng để gọi tên tuyến (tuyến 01 là tuyến Gia Lâm – Yên Nghĩa), không dùng để đo hay đếm.</p>
+      <p class="vi-sao">Cộng, so sánh các số hiệu này không có ý nghĩa: tuyến 12 không “nhiều hơn” tuyến 02 thứ gì cả.</p></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Dãy 01; 02; 12; 15 thực chất là tên các tuyến xe, nên là dữ liệu không là số. Vuông đúng.</p>
+      <a class="xem-lai" href="#kt-phan-loai">📌 Xem lại: phân loại dữ liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Ủng hộ Vuông: 01; 02; 12; 15 chỉ là số hiệu (tên gọi) của các tuyến xe buýt, không dùng để đo, đếm hay tính toán, nên đây không phải là dãy số liệu.</div>
+    <div class="bay">Thấy chữ số là kết luận ngay “dãy số liệu”. Cần hỏi: con số ấy có đo, đếm đại lượng nào không? Số áo cầu thủ, số nhà, mã lớp… cũng chỉ là tên gọi.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Số áo của cầu thủ cũng thế: cầu thủ mặc áo số 10 không giỏi gấp đôi cầu thủ mặc áo số 5. Con số trên áo chỉ để gọi tên, giống như số tuyến xe buýt.</div>
+  </div>
+</article>
+
+<article class="the bai" id="hd4" data-ten="HĐ4" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tính đại diện</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vuông và Tròn muốn tìm hiểu về mức độ thường xuyên lên thư viện trường của các bạn học sinh trong trường nên đã lập phiếu như Hình 5.1 để tiến hành khảo sát.</p>
+    <p><i>Hình 5.1.</i> Phiếu: “Bạn có thường xuyên lên thư viện của trường không? (Tích ✓ vào phương án bạn lựa chọn).” ☐ Rất thường xuyên; ☐ Thường xuyên; ☐ Thỉnh thoảng; ☐ Không bao giờ.</p>
+    <p>Tròn: <i>Mình chỉ cần phát phiếu khảo sát cho các bạn lên thư viện trường trong một tuần.</i> — Vuông: <i>Không, tớ nghĩ mỗi lớp cần chọn ngẫu nhiên 10 bạn để phát phiếu khảo sát.</i></p>
+    <p>Em hãy thảo luận nhóm và cho biết dữ liệu thu được trong mỗi cách làm của Vuông và Tròn có đại diện cho toàn bộ học sinh trong trường không.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Những bạn <b>không bao giờ</b> lên thư viện có cơ hội nhận phiếu của Tròn không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đối tượng cần quan tâm là <b>toàn bộ</b> học sinh trong trường. Cách nào để mọi bạn — cả bạn hay lên và bạn chưa bao giờ lên thư viện — đều có thể được hỏi?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Cách của Tròn</h4>
+      <p>Chỉ những bạn đã lên thư viện trong tuần mới nhận phiếu. Các bạn “Không bao giờ” lên thư viện bị bỏ sót hoàn toàn, nên kết quả sẽ nghiêng về “Rất thường xuyên”, “Thường xuyên”.</p>
+      <p class="vi-sao">Dữ liệu chỉ lấy từ một nhóm có cùng thói quen thì không đại diện cho cả trường.</p></div>
+    <div class="buoc" data-so="2"><h4>Cách của Vuông</h4>
+      <p>Lớp nào cũng có người được hỏi, và các bạn được chọn <b>ngẫu nhiên</b>, nên có cả bạn hay lên lẫn bạn ít lên thư viện. Dữ liệu đại diện cho toàn bộ học sinh trong trường.</p>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Cách của Tròn: dữ liệu không đại diện cho toàn bộ học sinh (bỏ sót những bạn ít hoặc không lên thư viện). Cách của Vuông: dữ liệu đại diện cho toàn bộ học sinh trong trường (mỗi lớp đều có các bạn được chọn ngẫu nhiên).</div>
+    <div class="bay">Nghĩ rằng hỏi càng nhiều người là càng đại diện. Tròn có thể phát được rất nhiều phiếu, nhưng toàn là người hay lên thư viện — vẫn không đại diện.</div>
+    <div class="gv-note">Có thể hỏi thêm: nếu các lớp có sĩ số chênh nhau nhiều thì cách của Vuông có cần điều chỉnh không (chọn theo tỉ lệ sĩ số)? Không bắt buộc ở mức SGK.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tính đại diện</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Em hãy cho biết cách khảo sát sau có đảm bảo được tính đại diện không.</p>
+    <p>Để đánh giá mức độ phù hợp của đề thi thử môn Toán, nhà trường đã cho các bạn trong câu lạc bộ Toán học làm bài và xem xét kết quả.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ai sẽ làm bài thi thử? Các bạn câu lạc bộ Toán học có giống “học sinh bình thường” không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đề thi thử dành cho tất cả học sinh dự thi. Nhóm được chọn làm bài có đại diện cho tất cả các bạn ấy không?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh nhóm được chọn với đối tượng cần quan tâm</h4>
+      <p>Đối tượng quan tâm: mọi học sinh sẽ làm đề thi. Nhóm được chọn: các bạn câu lạc bộ Toán học — thường học Toán tốt hơn mặt bằng chung, nên đề có thể “trông dễ” hơn thực tế.</p>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Cách khảo sát không đảm bảo tính đại diện. Nên chọn ngẫu nhiên học sinh ở các lớp sẽ dự thi.</p>
+      <p class="vi-sao">Giống ví dụ của SGK: không thể chỉ lấy ý kiến các bạn trong câu lạc bộ Toán học khi đối tượng quan tâm là toàn thể học sinh.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Không đảm bảo tính đại diện, vì các bạn trong câu lạc bộ Toán học chỉ là một nhóm (thường học Toán tốt hơn), không đại diện cho tất cả học sinh làm đề thi.</div>
+    <div class="bay">Trả lời “đảm bảo vì các bạn ấy giỏi Toán nên đánh giá đề chính xác”. Đánh giá đề có phù hợp hay không phải dựa trên chính những người sẽ thi.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tl2" data-ten="Tranh luận (mục 2)" data-muc="th" data-chip="Tranh luận ②">
+  <div class="bai-dau"><span class="so">Tranh luận (mục 2)</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tính đại diện</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Làm cách nào để thực hiện khảo sát thời gian sử dụng mạng Internet vào hai ngày cuối tuần của mỗi bạn học sinh trong trường?</p>
+    <p>Vuông: <i>Tớ sẽ chọn ngẫu nhiên một số bạn và gửi bảng hỏi đến bố mẹ của các bạn đó yêu cầu trả lời và gửi lại phiếu.</i> — Tròn: <i>Còn tớ sẽ gửi phiếu hỏi đến các bạn trong câu lạc bộ Tin học của trường.</i></p>
+    <p>Theo em, cách làm của bạn nào hợp lí hơn?</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung">Cách hợp lí hơn</span><button class="chon chu" data-dung="1">Vuông</button><button class="chon chu" data-dung="0">Tròn</button><span class="phan-hoi" data-dung-txt="Đúng! Chọn ngẫu nhiên thì dữ liệu đại diện hơn." data-sai-txt="Thử lại: câu lạc bộ Tin học có phải là cả trường không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Các bạn câu lạc bộ Tin học có dùng Internet nhiều hơn hay ít hơn các bạn khác?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đối tượng quan tâm là mọi học sinh trong trường. Cách nào chọn người trả lời một cách ngẫu nhiên?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Xét cách của Tròn</h4>
+      <p>Các bạn câu lạc bộ Tin học là một nhóm đặc biệt, thường dùng máy tính, Internet nhiều hơn. Dữ liệu không đại diện cho cả trường.</p></div>
+    <div class="buoc" data-so="2"><h4>Xét cách của Vuông</h4>
+      <p>Các bạn được chọn ngẫu nhiên, bố mẹ là người theo dõi thời gian con dùng Internet ở nhà vào cuối tuần. Dữ liệu đảm bảo tính đại diện hơn.</p>
+      <p class="vi-sao">Muốn kết luận cho toàn thể học sinh thì phải lấy ý kiến của các học sinh được chọn một cách ngẫu nhiên.</p>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Cách làm của Vuông hợp lí hơn: các bạn được chọn ngẫu nhiên nên dữ liệu đại diện cho học sinh toàn trường; cách của Tròn chỉ hỏi các bạn câu lạc bộ Tin học (thường dùng Internet nhiều hơn) nên không đại diện.</div>
+    <div class="bay">Chọn Tròn vì “các bạn Tin học hiểu về Internet nên trả lời chính xác”. Câu hỏi là thời gian dùng Internet của <b>mọi</b> bạn, không phải hiểu biết về Internet.</div>
+    <div class="gv-note">Có thể bàn thêm: Vuông hỏi qua bố mẹ vì cuối tuần các em ở nhà; nếu phát phiếu trực tiếp cho chính các bạn được chọn ngẫu nhiên thì cũng hợp lí.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b51" data-ten="Bài 5.1" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 5.1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Phân loại dữ liệu</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Với mỗi câu hỏi sau, hãy xác định xem dữ liệu thu được thuộc loại nào.</p>
+    <p>a) Bạn có cho rằng đọc sách là một thói quen tốt?</p>
+    <p>A. Rất đồng ý &nbsp;&nbsp; B. Đồng ý &nbsp;&nbsp; C. Không đồng ý &nbsp;&nbsp; D. Rất không đồng ý</p>
+    <p>b) Ca sĩ Việt Nam nào bạn thích nhất?</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh — có sắp thứ tự được không?</b>
+    <div class="cau-thu"><span class="noi-dung">a) Mức đồng ý</span><button class="chon chu" data-dung="1">Sắp được</button><button class="chon chu" data-dung="0">Không sắp được</button><span class="phan-hoi" data-dung-txt="Đúng! Rất đồng ý → … → Rất không đồng ý." data-sai-txt="Thử lại: Rất đồng ý có đứng trên Đồng ý không?"></span></div>
+    <div class="cau-thu"><span class="noi-dung">b) Tên ca sĩ</span><button class="chon chu" data-dung="1">Không sắp được</button><button class="chon chu" data-dung="0">Sắp được</button><span class="phan-hoi" data-dung-txt="Đúng! Tên người không có thứ tự." data-sai-txt="Thử lại: hai tên ca sĩ, tên nào đứng trên theo mức độ nào?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu a cho sẵn bốn mức A, B, C, D — bốn mức này có xếp được từ cao xuống thấp không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cả hai câu trả lời đều không là số. Chỉ cần xét: có sắp thứ tự được hay không.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Các mức đồng ý</h4>
+      <p>Câu trả lời là một trong bốn mức ý kiến (chữ, không phải số), xếp được: Rất đồng ý → Đồng ý → Không đồng ý → Rất không đồng ý.</p>
+      <a class="xem-lai" href="#kt-chu-y">📌 Xem lại: hai loại dữ liệu không là số</a></div>
+    <div class="buoc" data-so="2"><h4>b) Tên ca sĩ</h4>
+      <p>Câu trả lời là tên ca sĩ — chữ, và không có thứ tự nào giữa các tên.</p>
+      <p class="vi-sao">Giống tên các tỉnh trong Chú ý của SGK: tên gọi thì không thể sắp thứ tự.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Dữ liệu không là số, có thể sắp thứ tự. b) Dữ liệu không là số, không thể sắp thứ tự.</div>
+    <div class="bay">Thấy các chữ cái A, B, C, D rồi cho rằng câu a là “số liệu” hoặc “xếp theo bảng chữ cái”. Thứ tự ở đây là theo <b>mức độ đồng ý</b>, không phải theo chữ cái.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b52" data-ten="Bài 5.2" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 5.2</span><span class="nhan vd">Vận dụng</span><span class="nhan">Phương án thu thập</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vuông đưa ra ý kiến về tay thuận của các học sinh trong trường như hình bên. Em hãy đưa ra phương án thu thập dữ liệu phù hợp để giúp Vuông kiểm tra ý kiến của mình nhé!</p>
+    <p>Vuông: <i>Đa phần học sinh trong trường thuận tay phải.</i></p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Vuông nói về “học sinh trong trường” — vậy phải hỏi những ai để kiểm tra cho công bằng?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Phương án cần nói rõ: hỏi ai (chọn thế nào để đại diện), hỏi gì, ghi lại ra sao và dựa vào đâu để kết luận.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Chọn người được hỏi</h4>
+      <p>Ở mỗi lớp trong trường, chọn ngẫu nhiên một số bạn (chẳng hạn 10 bạn mỗi lớp, hoặc các bạn có số thứ tự 5, 10, 15,… trong danh sách lớp).</p>
+      <p class="vi-sao">Lớp nào cũng có người được hỏi và các bạn được chọn ngẫu nhiên thì dữ liệu mới đại diện cho học sinh toàn trường.</p>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+    <div class="buoc" data-so="2"><h4>Hỏi, ghi lại và kết luận</h4>
+      <p>Phỏng vấn (hoặc phát phiếu): “Bạn thuận tay nào? ☐ Tay phải ☐ Tay trái ☐ Cả hai tay”. Lập bảng thống kê số bạn theo từng lựa chọn.</p>
+      <p>Nếu số bạn thuận tay phải chiếm hơn một nửa số bạn được hỏi thì ý kiến của Vuông là hợp lí.</p>
+      <a class="xem-lai" href="#kt-thu-thap">📌 Xem lại: thu thập dữ liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Ví dụ phương án: ở mỗi lớp chọn ngẫu nhiên khoảng 10 bạn, phát phiếu hỏi “Bạn thuận tay nào? (Tay phải / Tay trái / Cả hai tay)”, lập bảng thống kê; nếu số bạn thuận tay phải chiếm hơn một nửa số bạn được hỏi thì ý kiến của Vuông là hợp lí.</div>
+    <div class="bay">Chỉ hỏi các bạn trong lớp mình (hoặc trong đội bóng bàn, đội cầu lông…) rồi kết luận cho cả trường — dữ liệu không đại diện.</div>
+    <div class="gv-note">Câu hỏi mở. Chấm theo ba ý: chọn mẫu ngẫu nhiên trải khắp các lớp; câu hỏi rõ ràng; có tiêu chí kết luận (“đa phần” = hơn một nửa).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b53" data-ten="Bài 5.3" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 5.3</span><span class="nhan vd">Vận dụng</span><span class="nhan">Lập bảng hỏi</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vân muốn kiểm tra nhận định “Các bạn học sinh nam yêu thích các chương trình thể thao hơn các bạn nữ”. Hãy lập bảng hỏi và thu thập dữ liệu để kiểm tra nhận định này.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Muốn so sánh nam với nữ thì bảng hỏi bắt buộc phải có một câu mà em dễ quên — câu gì?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Bảng hỏi cần một câu về giới tính và một câu về mức độ yêu thích chương trình thể thao. Hỏi số bạn nam và số bạn nữ bằng nhau thì so sánh dễ hơn.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Lập bảng hỏi</h4>
+      <p>1. Bạn là: ☐ Nam ☐ Nữ.</p>
+      <p>2. Bạn có thích xem các chương trình thể thao không? ☐ Rất thích ☐ Thích ☐ Không thích.</p>
+      <p class="vi-sao">Thiếu câu 1 thì không tách được câu trả lời của nam và nữ — không kiểm tra được nhận định.</p>
+      <a class="xem-lai" href="#kt-thu-thap">📌 Xem lại: thu thập dữ liệu</a></div>
+    <div class="buoc" data-so="2"><h4>Thu thập và lập bảng</h4>
+      <p>Chọn ngẫu nhiên, chẳng hạn 20 bạn nam và 20 bạn nữ ở nhiều lớp khác nhau, phát phiếu. Lập bảng (ví dụ minh hoạ):</p>
+      <table><tr><th></th><th>Rất thích</th><th>Thích</th><th>Không thích</th></tr><tr><th>Nam</th><td>9</td><td>7</td><td>4</td></tr><tr><th>Nữ</th><td>3</td><td>8</td><td>9</td></tr></table>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+    <div class="buoc" data-so="3"><h4>So sánh và kết luận</h4>
+      <p>Với số liệu ví dụ: nam có 9 + 7 = 16 trên 20 bạn thích (Rất thích hoặc Thích), nữ có 3 + 8 = 11 trên 20 bạn. Vậy nhận định của Vân là hợp lí với dữ liệu này.</p>
+      <p class="vi-sao">Số bạn nam và nữ được hỏi bằng nhau nên so sánh trực tiếp được số bạn thích. Nếu hai nhóm có số người khác nhau thì so sánh tỉ số phần trăm.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Bảng hỏi gồm: (1) Bạn là nam hay nữ? (2) Bạn có thích xem các chương trình thể thao không? (Rất thích / Thích / Không thích). Phát phiếu cho các bạn nam và nữ được chọn ngẫu nhiên (chẳng hạn 20 nam, 20 nữ), lập bảng thống kê rồi so sánh số (hoặc tỉ lệ) bạn thích ở nhóm nam và nhóm nữ để kết luận.</div>
+    <div class="bay">Chỉ hỏi các bạn nam — không có dữ liệu của bạn nữ thì không so sánh được. Hoặc hỏi 30 nam, 10 nữ rồi so số bạn thích: hai nhóm không bằng nhau thì phải so tỉ lệ.</div>
+    <div class="gv-note">Bảng kết quả trong lời giải là số liệu minh hoạ do nhóm biên soạn đặt ra. Có thể cho cả lớp thực hiện khảo sát thật rồi so sánh kết luận giữa các nhóm.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b54" data-ten="Bài 5.4" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 5.4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tính đại diện</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Các dữ liệu thu thập được trong mỗi trường hợp sau có đảm bảo tính đại diện không?</p>
+    <p>a) Trong một khu dân cư có 5 000 hộ gia đình. Để xác định trung bình mỗi hộ gia đình có bao nhiêu ti vi, một nhóm nghiên cứu đã thu thập dữ liệu bằng cách đánh số các hộ gia đình từ 1 đến 5 000 và ghi lại số ti vi của những hộ gia đình có số thứ tự là 1; 11;...; 4 991.</p>
+    <p>b) Để đánh giá thể lực của học sinh toàn trường, giáo viên thể dục đã cho các bạn trong câu lạc bộ bóng đá của trường chạy cự li 1 000 m và ghi lại kết quả.</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh — có đảm bảo tính đại diện?</b>
+    <div class="cau-thu"><span class="noi-dung">a) Các hộ 1; 11;…; 4 991</span><button class="chon chu" data-dung="1">Có</button><button class="chon chu" data-dung="0">Không</button><span class="phan-hoi" data-dung-txt="Đúng! Cứ 10 hộ chọn 1 hộ, rải đều khắp khu." data-sai-txt="Thử lại: các hộ được chọn có bị dồn vào một nhóm đặc biệt không?"></span></div>
+    <div class="cau-thu"><span class="noi-dung">b) Câu lạc bộ bóng đá</span><button class="chon chu" data-dung="0">Có</button><button class="chon chu" data-dung="1">Không</button><span class="phan-hoi" data-dung-txt="Đúng! Đội bóng đá thường có thể lực tốt hơn." data-sai-txt="Thử lại: các bạn đá bóng có giống mọi học sinh về thể lực không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu a: các hộ 1; 11; 21;… rải đều khắp khu hay dồn vào một góc?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> So nhóm được chọn với đối tượng cần quan tâm (mọi hộ trong khu; mọi học sinh trong trường).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Chọn đều cứ 10 hộ lấy 1 hộ</h4>
+      <p>Các hộ có số thứ tự 1; 11; 21;…; 4 991 — cứ 10 hộ chọn 1 hộ, tất cả 500 hộ, trải đều trong cả khu dân cư. Dữ liệu đảm bảo tính đại diện.</p>
+      <p class="vi-sao">Cách chọn này giống Cách 2 ở Ví dụ 2 (chọn hành khách số 5; 10; 15;…): không ưu tiên nhóm nào.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Chỉ câu lạc bộ bóng đá</h4>
+      <p>Các bạn trong câu lạc bộ bóng đá luyện tập thường xuyên, thể lực thường tốt hơn mặt bằng chung. Dữ liệu không đại diện cho học sinh toàn trường.</p>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Có đảm bảo tính đại diện (chọn đều 1 trong mỗi 10 hộ, 500 hộ trải khắp khu dân cư). b) Không đảm bảo tính đại diện (chỉ kiểm tra các bạn câu lạc bộ bóng đá, không đại diện cho học sinh toàn trường).</div>
+    <div class="bay">Câu a: cho rằng “chỉ hỏi 500 trên 5 000 hộ là quá ít nên không đại diện”. Tính đại diện phụ thuộc vào <b>cách chọn</b> (đều, ngẫu nhiên), không đòi hỏi phải hỏi tất cả.</div>
+    <div class="gv-note">Số hộ được chọn ở câu a: các số 1; 11;…; 4 991 cách nhau 10, gồm (4 991 − 1) : 10 + 1 = 500 hộ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b55" data-ten="Bài 5.5" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 5.5</span><span class="nhan th">Thông hiểu</span><span class="nhan">Kết luận hợp lí</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bình phỏng vấn 50 bạn nam trong trường thấy có 30 bạn thích bóng đá. Bình kết luận rằng “Đa phần các học sinh thích bóng đá”. Kết luận này có hợp lí không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bình hỏi 50 bạn <b>nam</b>, nhưng kết luận cho “các học sinh”. Hai nhóm này có giống nhau không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Kết luận nói về tất cả học sinh (cả nam lẫn nữ). Dữ liệu của Bình có đại diện cho tất cả học sinh không?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Xét dữ liệu thu được</h4>
+      <p>30 trên 50 bạn nam thích bóng đá, tức là hơn một nửa số bạn nam được hỏi. Nhưng Bình không hỏi bạn nữ nào.</p></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Dữ liệu chỉ của các bạn nam nên không đại diện cho toàn bộ học sinh. Kết luận “Đa phần các học sinh thích bóng đá” là không hợp lí.</p>
+      <p class="vi-sao">Theo Nhận xét của SGK: khi đối tượng quan tâm là toàn thể học sinh thì không thể chỉ lấy ý kiến các bạn nam.</p>
+      <a class="xem-lai" href="#kt-dai-dien">📌 Xem lại: tính đại diện của dữ liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Không hợp lí, vì Bình chỉ phỏng vấn các bạn nam; dữ liệu không đại diện cho toàn bộ học sinh trong trường (cả nam và nữ).</div>
+    <div class="bay">Thấy 30 &gt; 25 (hơn một nửa của 50) nên cho là hợp lí. Phép so sánh đúng, nhưng chỉ đúng cho các bạn nam được hỏi, không phải cho mọi học sinh.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 17. Thu thập và phân loại dữ liệu — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c05-b17';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-05-bai-17-thu-thap-va-phan-loai-du-lieu-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-05-bai-17-thu-thap-va-phan-loai-du-lieu-bai-giai.nguon.html" data-phien-ban="30b08f2167ec">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

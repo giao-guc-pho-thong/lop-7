@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 19. Biểu đồ đoạn thẳng — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương V. Thu thập và biểu diễn dữ liệu</div>
+    <div class="hang1">
+      <h1>Bài 19. Biểu đồ đoạn thẳng — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương V. Thu thập và biểu diễn dữ liệu</div><h1>Bài 19. Biểu đồ đoạn thẳng — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 5 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-dn"><b class="ten">Biểu đồ đoạn thẳng</b>
+      <b>Biểu đồ đoạn thẳng</b> thường được dùng để biểu diễn sự thay đổi của một đại lượng theo thời gian. Các thành phần: trục ngang biểu diễn thời gian; trục đứng biểu diễn đại lượng ta đang quan tâm; mỗi điểm biểu diễn giá trị của đại lượng tại một thời điểm, hai điểm liên tiếp được nối với nhau bằng một đoạn thẳng; tiêu đề của biểu đồ thường ở dòng trên cùng.</div>
+    <div class="kt" id="kt-xu-the"><b class="ten">Nhận xét — xu thế, độ dốc</b>
+      Biểu đồ đoạn thẳng giúp ta dễ dàng nhận ra xu thế của đại lượng ta đang quan tâm theo thời gian.<br>
+      Pi: Độ dốc của biểu đồ đoạn thẳng cho biết tốc độ tăng của đại lượng được biểu diễn trong biểu đồ.</div>
+    <div class="kt" id="kt-nhieu"><b class="ten">Chú ý — nhiều đường trên một biểu đồ</b>
+      Đôi khi người ta biểu diễn nhiều bộ số liệu trên cùng một biểu đồ để dễ so sánh (mỗi đường có chú giải ứng với một bộ số liệu).</div>
+    <div class="kt" id="kt-ve"><b class="ten">Các bước vẽ biểu đồ đoạn thẳng</b>
+      <i>Bước 1.</i> Vẽ trục ngang biểu diễn thời gian, trục đứng biểu diễn đại lượng; chọn đơn vị và giá trị lớn nhất trên trục đứng phù hợp với số liệu.<br>
+      <i>Bước 2.</i> Với mỗi thời điểm trên trục ngang, giá trị của đại lượng tại thời điểm đó được biểu diễn bởi một điểm.<br>
+      <i>Bước 3.</i> Nối các điểm liên tiếp với nhau bằng các đoạn thẳng.<br>
+      <i>Bước 4.</i> Ghi chú thích cho các trục, điền giá trị tại các điểm (nếu cần) và đặt tên cho biểu đồ.</div>
+    <div class="kt" id="kt-don-vi"><b class="ten">Nhận xét — chọn đơn vị trục đứng</b>
+      Độ dốc của biểu đồ phụ thuộc vào việc chọn đơn vị của trục đứng. Khi số liệu lớn trong khi đơn vị độ dài của trục đứng nhỏ thì ta không nên vẽ trục đứng bắt đầu từ 0.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập một — Bài 19. Biểu đồ đoạn thẳng.</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Thành phần biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu đồ Hình 5.23 cho biết thứ hạng của bóng đá nam Việt Nam trên bảng xếp hạng của Liên đoàn Bóng đá thế giới (FIFA) trong các năm từ 2016 đến 2020.</p>
+    <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Thứ hạng của bóng đá nam Việt Nam: Thứ hạng 2016 134, 2017 112, 2018 100, 2019 94, 2020 93"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Thứ hạng của bóng đá nam Việt Nam</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">80</text><line x1="82.0" y1="274.3" x2="504.0" y2="274.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="274.3" x2="82.0" y2="274.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="281.0" text-anchor="end" font-size="19" fill="#1f2430">90</text><line x1="82.0" y1="232.7" x2="504.0" y2="232.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="232.7" x2="82.0" y2="232.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="239.3" text-anchor="end" font-size="19" fill="#1f2430">100</text><line x1="82.0" y1="191.0" x2="504.0" y2="191.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="191.0" x2="82.0" y2="191.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="197.7" text-anchor="end" font-size="19" fill="#1f2430">110</text><line x1="82.0" y1="149.3" x2="504.0" y2="149.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="149.3" x2="82.0" y2="149.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="156.0" text-anchor="end" font-size="19" fill="#1f2430">120</text><line x1="82.0" y1="107.7" x2="504.0" y2="107.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="107.7" x2="82.0" y2="107.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="114.3" text-anchor="end" font-size="19" fill="#1f2430">130</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">140</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="124.2" y1="316.0" x2="124.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="124.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2016</text><line x1="208.6" y1="316.0" x2="208.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="208.6" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2017</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2018</text><line x1="377.4" y1="316.0" x2="377.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="377.4" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2019</text><line x1="461.8" y1="316.0" x2="461.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="461.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2020</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Thứ hạng</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="124.2,91.0 208.6,182.7 293.0,232.7 377.4,257.7 461.8,261.8" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="124.2,84.5 130.7,91.0 124.2,97.5 117.7,91.0" fill="#3f72c4"/><polygon points="208.6,176.2 215.1,182.7 208.6,189.2 202.1,182.7" fill="#3f72c4"/><polygon points="293.0,226.2 299.5,232.7 293.0,239.2 286.5,232.7" fill="#3f72c4"/><polygon points="377.4,251.2 383.9,257.7 377.4,264.2 370.9,257.7" fill="#3f72c4"/><polygon points="461.8,255.3 468.3,261.8 461.8,268.3 455.3,261.8" fill="#3f72c4"/><text x="124.2" y="81.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">134</text><text x="208.6" y="172.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">112</text><text x="293.0" y="222.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">100</text><text x="377.4" y="247.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">94</text><text x="461.8" y="251.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">93</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.23.</i> (Theo <i>fifa.com</i>)</p>
+    <p>a) Xác định tên biểu đồ, các trục, đơn vị trên các trục.</p>
+    <p>b) Em hãy cho biết mỗi điểm trên biểu đồ biểu diễn thông tin gì.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Trên trục đứng, số càng lớn thì thứ hạng càng… tốt hay kém?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tên biểu đồ ở dòng trên cùng. Trục ngang ghi gì, trục đứng ghi gì, các vạch chia trên mỗi trục cách nhau bao nhiêu?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Tên, trục, đơn vị</h4>
+      <p>Tên biểu đồ: “Thứ hạng của bóng đá nam Việt Nam”.</p>
+      <p>Trục ngang biểu diễn thời gian (năm), từ 2016 đến 2020, mỗi vạch là 1 năm. Trục đứng biểu diễn thứ hạng, chia vạch từ 80 đến 140, mỗi vạch ứng với 10 bậc xếp hạng.</p>
+      <a class="xem-lai" href="#kt-dn">📌 Xem lại: các thành phần của biểu đồ đoạn thẳng</a></div>
+    <div class="buoc" data-so="2"><h4>b) Mỗi điểm cho biết gì</h4>
+      <p>Mỗi điểm biểu diễn thứ hạng của bóng đá nam Việt Nam trên bảng xếp hạng FIFA tại năm tương ứng. Chẳng hạn điểm ứng với năm 2018 cho biết năm 2018 đội xếp thứ 100.</p>
+      <p class="vi-sao">Thứ hạng càng nhỏ thì đội càng xếp cao: đường đi xuống từ 134 đến 93 nghĩa là bóng đá nam Việt Nam ngày càng tiến bộ.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Tên: “Thứ hạng của bóng đá nam Việt Nam”. Trục ngang biểu diễn năm (đơn vị: năm, từ 2016 đến 2020); trục đứng biểu diễn thứ hạng (chia vạch 80 đến 140, mỗi vạch 10 bậc). b) Mỗi điểm biểu diễn thứ hạng của bóng đá nam Việt Nam trên bảng xếp hạng FIFA trong năm tương ứng (2016: 134; 2017: 112; 2018: 100; 2019: 94; 2020: 93).</div>
+    <div class="bay">Thấy đường đi xuống liền nói “bóng đá Việt Nam đi xuống”. Ở đây trục đứng là <b>thứ hạng</b>: số nhỏ hơn là xếp cao hơn, nên đường đi xuống là tiến bộ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Đọc biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Quan sát biểu đồ (H.5.21). Em hãy thống kê số dân của Việt Nam từ năm 1979 đến năm 2019 bằng cách hoàn thành bảng sau:</p>
+    <table><tr><th>Năm</th><td>1979</td><td>1989</td><td>1999</td><td>2009</td><td>2019</td></tr><tr><th>Số dân (triệu người)</th><td>54,7</td><td>?</td><td>76,3</td><td>?</td><td>?</td></tr></table>
+    <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Dân số Việt Nam qua 5 lần tổng điều tra: Số dân 1979 54,7, 1989 64,4, 1999 76,3, 2009 85,8, 2019 96,2"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Dân số Việt Nam qua 5 lần tổng điều tra</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="266.0" x2="504.0" y2="266.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="266.0" x2="82.0" y2="266.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="272.6" text-anchor="end" font-size="19" fill="#1f2430">20</text><line x1="82.0" y1="216.0" x2="504.0" y2="216.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="216.0" x2="82.0" y2="216.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="222.7" text-anchor="end" font-size="19" fill="#1f2430">40</text><line x1="82.0" y1="166.0" x2="504.0" y2="166.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="166.0" x2="82.0" y2="166.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="172.7" text-anchor="end" font-size="19" fill="#1f2430">60</text><line x1="82.0" y1="116.0" x2="504.0" y2="116.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="116.0" x2="82.0" y2="116.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="122.7" text-anchor="end" font-size="19" fill="#1f2430">80</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">100</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="124.2" y1="316.0" x2="124.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="124.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1979</text><line x1="208.6" y1="316.0" x2="208.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="208.6" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1989</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1999</text><line x1="377.4" y1="316.0" x2="377.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="377.4" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2009</text><line x1="461.8" y1="316.0" x2="461.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="461.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2019</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Số dân (triệu người)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="124.2,179.2 208.6,155.0 293.0,125.2 377.4,101.5 461.8,75.5" fill="none" stroke="#e8792b" stroke-width="2.6" stroke-linejoin="round"/><polygon points="124.2,172.8 130.7,179.2 124.2,185.8 117.7,179.2" fill="#e8792b"/><polygon points="208.6,148.5 215.1,155.0 208.6,161.5 202.1,155.0" fill="#e8792b"/><polygon points="293.0,118.8 299.5,125.2 293.0,131.8 286.5,125.2" fill="#e8792b"/><polygon points="377.4,95.0 383.9,101.5 377.4,108.0 370.9,101.5" fill="#e8792b"/><polygon points="461.8,69.0 468.3,75.5 461.8,82.0 455.3,75.5" fill="#e8792b"/><text x="124.2" y="169.2" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">54,7</text><text x="208.6" y="145.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">64,4</text><text x="293.0" y="115.2" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">76,3</text><text x="377.4" y="91.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">85,8</text><text x="461.8" y="65.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">96,2</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.21.</i> (Theo <i>Tổng cục Thống kê</i> – nay là <i>Cục Thống kê</i>)</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Số ghi cạnh mỗi điểm chính là số dân của năm ngay bên dưới nó.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Với mỗi năm còn trống, tìm điểm nằm thẳng phía trên năm đó và đọc số ghi cạnh điểm.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đọc các điểm còn thiếu</h4>
+      <p>Năm 1989: 64,4; năm 2009: 85,8; năm 2019: 96,2 (triệu người).</p>
+      <p class="vi-sao">Mỗi điểm biểu diễn giá trị của đại lượng (số dân) tại một thời điểm (năm) trên trục ngang.</p>
+      <a class="xem-lai" href="#kt-dn">📌 Xem lại: mỗi điểm biểu diễn gì</a></div>
+    <div class="buoc" data-so="2"><h4>Hoàn thành bảng</h4>
+      <table><tr><th>Năm</th><td>1979</td><td>1989</td><td>1999</td><td>2009</td><td>2019</td></tr><tr><th>Số dân (triệu người)</th><td>54,7</td><td style="background:#e6f7f1">64,4</td><td>76,3</td><td style="background:#e6f7f1">85,8</td><td style="background:#e6f7f1">96,2</td></tr></table></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">1989: 64,4 triệu người; 2009: 85,8 triệu người; 2019: 96,2 triệu người.</div>
+    <div class="bay">Đọc lệch cột: ghi số 76,3 cho năm 1989. Mỗi số phải khớp với điểm nằm ngay trên năm đó.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Xu thế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Số dân của Việt Nam tăng hay giảm qua các năm từ 1979 đến 2019? (Quan sát biểu đồ Hình 5.21 ở HĐ1.)</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Từ trái sang phải, đường biểu diễn đi lên hay đi xuống?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> So sánh số dân của hai lần điều tra liên tiếp, hoặc nhìn hướng của các đoạn thẳng.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh các năm liên tiếp</h4>
+      <p>54,7 &lt; 64,4 &lt; 76,3 &lt; 85,8 &lt; 96,2: lần điều tra sau luôn có số dân lớn hơn lần trước.</p></div>
+    <div class="buoc" data-so="2"><h4>Nhìn trên biểu đồ</h4>
+      <p>Mọi đoạn thẳng đều đi lên từ trái sang phải. Số dân Việt Nam tăng qua các năm.</p>
+      <p class="vi-sao">Biểu đồ đoạn thẳng giúp ta nhận ra xu thế của đại lượng theo thời gian chỉ bằng một cái nhìn.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: xu thế</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Số dân của Việt Nam tăng qua các năm từ 1979 đến 2019 (từ 54,7 triệu lên 96,2 triệu người).</div>
+    <div class="bay">Chỉ so năm đầu và năm cuối rồi kết luận. Muốn nói “tăng qua các năm” phải thấy mỗi lần sau đều lớn hơn lần trước — đường đi lên ở mọi đoạn.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Đọc, xu thế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu đồ Hình 5.25 cho biết số lượt khách quốc tế đến Việt Nam trong những năm gần đây.</p>
+    <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Số lượt khách quốc tế đến Việt Nam: Lượt khách 2015 8, 2016 10, 2017 12,9, 2018 15,5, 2019 18, 2020 4"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Số lượt khách quốc tế đến Việt Nam</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="253.5" x2="504.0" y2="253.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="253.5" x2="82.0" y2="253.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="260.1" text-anchor="end" font-size="19" fill="#1f2430">5</text><line x1="82.0" y1="191.0" x2="504.0" y2="191.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="191.0" x2="82.0" y2="191.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="197.7" text-anchor="end" font-size="19" fill="#1f2430">10</text><line x1="82.0" y1="128.5" x2="504.0" y2="128.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="128.5" x2="82.0" y2="128.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="135.2" text-anchor="end" font-size="19" fill="#1f2430">15</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">20</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="117.2" y1="316.0" x2="117.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="117.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2015</text><line x1="187.5" y1="316.0" x2="187.5" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="187.5" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2016</text><line x1="257.8" y1="316.0" x2="257.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="257.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2017</text><line x1="328.2" y1="316.0" x2="328.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="328.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2018</text><line x1="398.5" y1="316.0" x2="398.5" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="398.5" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2019</text><line x1="468.8" y1="316.0" x2="468.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="468.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2020</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Lượt khách (triệu người)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="117.2,216.0 187.5,191.0 257.8,154.8 328.2,122.2 398.5,91.0 468.8,266.0" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="117.2,209.5 123.7,216.0 117.2,222.5 110.7,216.0" fill="#3f72c4"/><polygon points="187.5,184.5 194.0,191.0 187.5,197.5 181.0,191.0" fill="#3f72c4"/><polygon points="257.8,148.2 264.3,154.8 257.8,161.2 251.3,154.8" fill="#3f72c4"/><polygon points="328.2,115.8 334.7,122.2 328.2,128.8 321.7,122.2" fill="#3f72c4"/><polygon points="398.5,84.5 405.0,91.0 398.5,97.5 392.0,91.0" fill="#3f72c4"/><polygon points="468.8,259.5 475.3,266.0 468.8,272.5 462.3,266.0" fill="#3f72c4"/><text x="117.2" y="241.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">8</text><text x="187.5" y="216.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">10</text><text x="257.8" y="179.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">12,9</text><text x="328.2" y="147.2" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">15,5</text><text x="412.5" y="81.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">18</text><text x="482.8" y="256.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">4</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.25.</i> (Theo <i>Tổng cục Du lịch</i>)</p>
+    <p>a) Năm 2018 có bao nhiêu lượt khách quốc tế đến Việt Nam?</p>
+    <p>b) Từ năm 2015 đến năm 2019, số lượt khách quốc tế đến Việt Nam có xu hướng tăng hay giảm?</p>
+    <p>c) Em có biết vì sao số lượt khách quốc tế đến Việt Nam trong năm 2020 lại giảm mạnh không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu b chỉ hỏi đến năm 2019 — đừng để cú lao dốc năm 2020 làm em trả lời sai.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đơn vị trục đứng là triệu người. Câu b: chỉ xét các điểm từ 2015 đến 2019.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Đọc giá trị năm 2018</h4>
+      <p>Điểm năm 2018 ghi 15,5. Đơn vị là triệu người nên có 15,5 triệu lượt khách.</p>
+      <a class="xem-lai" href="#kt-dn">📌 Xem lại: đọc biểu đồ đoạn thẳng</a></div>
+    <div class="buoc" data-so="2"><h4>b) Xu hướng 2015 – 2019</h4>
+      <p>8 &lt; 10 &lt; 12,9 &lt; 15,5 &lt; 18: số lượt khách tăng đều qua từng năm — xu hướng tăng.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: xu thế</a></div>
+    <div class="buoc" data-so="3"><h4>c) Năm 2020</h4>
+      <p>Năm 2020 chỉ còn 4 triệu lượt (giảm 14 triệu so với 2019) vì dịch bệnh COVID-19: các nước hạn chế đi lại, tạm dừng các chuyến bay quốc tế và đón khách du lịch.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) 15,5 triệu lượt khách. b) Xu hướng tăng (từ 8 triệu năm 2015 lên 18 triệu năm 2019). c) Do dịch bệnh COVID-19 năm 2020, việc đi lại giữa các nước bị hạn chế nên lượt khách quốc tế giảm mạnh (còn 4 triệu).</div>
+    <div class="bay">Câu a trả lời “15,5 lượt khách” — quên đơn vị “triệu người” ghi trên trục đứng.</div>
+    <div class="gv-note">Câu c là câu hỏi hiểu biết xã hội, chấp nhận các lí do hợp lí liên quan đến đại dịch COVID-19.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt3" data-ten="Luyện tập 3" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 3</span><span class="nhan th">Thông hiểu</span><span class="nhan">So sánh hai đường</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu đồ Hình 5.27 cho biết tỉ lệ học sinh biết bơi của hai tỉnh A, B trong các năm từ 2016 đến 2020.</p>
+    <svg viewBox="0 0 520 406" style="max-width:520px" role="img" aria-label="Tỉ lệ học sinh biết bơi: Tỉnh A 2016 37, 2017 46, 2018 60, 2019 75, 2020 90; Tỉnh B 2016 25, 2017 32, 2018 35, 2019 40, 2020 45"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Tỉ lệ học sinh biết bơi</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0%</text><line x1="82.0" y1="266.0" x2="504.0" y2="266.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="266.0" x2="82.0" y2="266.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="272.6" text-anchor="end" font-size="19" fill="#1f2430">20%</text><line x1="82.0" y1="216.0" x2="504.0" y2="216.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="216.0" x2="82.0" y2="216.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="222.7" text-anchor="end" font-size="19" fill="#1f2430">40%</text><line x1="82.0" y1="166.0" x2="504.0" y2="166.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="166.0" x2="82.0" y2="166.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="172.7" text-anchor="end" font-size="19" fill="#1f2430">60%</text><line x1="82.0" y1="116.0" x2="504.0" y2="116.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="116.0" x2="82.0" y2="116.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="122.7" text-anchor="end" font-size="19" fill="#1f2430">80%</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">100%</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="124.2" y1="316.0" x2="124.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="124.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2016</text><line x1="208.6" y1="316.0" x2="208.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="208.6" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2017</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2018</text><line x1="377.4" y1="316.0" x2="377.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="377.4" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2019</text><line x1="461.8" y1="316.0" x2="461.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="461.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2020</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Tỉ lệ (%)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="124.2,223.5 208.6,201.0 293.0,166.0 377.4,128.5 461.8,91.0" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="124.2,217.0 130.7,223.5 124.2,230.0 117.7,223.5" fill="#3f72c4"/><polygon points="208.6,194.5 215.1,201.0 208.6,207.5 202.1,201.0" fill="#3f72c4"/><polygon points="293.0,159.5 299.5,166.0 293.0,172.5 286.5,166.0" fill="#3f72c4"/><polygon points="377.4,122.0 383.9,128.5 377.4,135.0 370.9,128.5" fill="#3f72c4"/><polygon points="461.8,84.5 468.3,91.0 461.8,97.5 455.3,91.0" fill="#3f72c4"/><text x="124.2" y="213.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">37%</text><text x="208.6" y="191.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">46%</text><text x="293.0" y="156.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">60%</text><text x="377.4" y="118.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">75%</text><text x="461.8" y="81.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">90%</text><polyline points="124.2,253.5 208.6,236.0 293.0,228.5 377.4,216.0 461.8,203.5" fill="none" stroke="#d06464" stroke-width="2.6" stroke-linejoin="round"/><rect x="119.2" y="248.5" width="10" height="10" fill="#d06464"/><rect x="203.6" y="231.0" width="10" height="10" fill="#d06464"/><rect x="288.0" y="223.5" width="10" height="10" fill="#d06464"/><rect x="372.4" y="211.0" width="10" height="10" fill="#d06464"/><rect x="456.8" y="198.5" width="10" height="10" fill="#d06464"/><text x="124.2" y="278.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">25%</text><text x="208.6" y="261.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">32%</text><text x="293.0" y="253.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">35%</text><text x="377.4" y="241.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">40%</text><text x="461.8" y="228.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">45%</text><line x1="143.2" y1="388.0" x2="175.2" y2="388.0" stroke="#3f72c4" stroke-width="2.6"/><polygon points="159.2,381.5 165.7,388.0 159.2,394.5 152.7,388.0" fill="#3f72c4"/><text x="183.2" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Tỉnh A</text><line x1="269.0" y1="388.0" x2="301.0" y2="388.0" stroke="#d06464" stroke-width="2.6"/><rect x="280.0" y="383.0" width="10" height="10" fill="#d06464"/><text x="309.0" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Tỉnh B</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.27</i></p>
+    <p>Em có nhận xét gì về tỉ lệ học sinh biết bơi của hai tỉnh A và B từ năm 2016 đến 2020?</p>
+    <p>Trong giai đoạn này, tỉnh nào có tỉ lệ học sinh biết bơi tăng nhanh hơn?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 “Tăng nhanh hơn” — so xem trong 4 năm mỗi tỉnh tăng thêm được bao nhiêu.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhìn chú giải để biết đường nào của tỉnh nào. Tính mức tăng của mỗi tỉnh từ 2016 đến 2020; đường nào dốc hơn?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhận xét chung</h4>
+      <p>Cả hai tỉnh đều có tỉ lệ học sinh biết bơi tăng liên tục qua các năm. Năm nào tỉnh A cũng có tỉ lệ cao hơn tỉnh B.</p>
+      <a class="xem-lai" href="#kt-nhieu">📌 Xem lại: nhiều đường trên một biểu đồ</a></div>
+    <div class="buoc" data-so="2"><h4>So sánh mức tăng</h4>
+      <p>Tỉnh A: 90% − 37% = 53% (tăng thêm 53 phần trăm). Tỉnh B: 45% − 25% = 20%.</p>
+      <p>Tỉnh A tăng nhanh hơn; trên biểu đồ, đường của tỉnh A dốc hơn.</p>
+      <p class="vi-sao">Độ dốc của biểu đồ đoạn thẳng cho biết tốc độ tăng: đường dốc hơn là tăng nhanh hơn.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: độ dốc</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Tỉ lệ học sinh biết bơi của cả hai tỉnh đều tăng qua các năm, tỉnh A luôn cao hơn tỉnh B (A: từ 37% lên 90%; B: từ 25% lên 45%). Tỉnh A tăng nhanh hơn (tăng 53%, tỉnh B tăng 20%).</div>
+    <div class="bay">Kết luận “tỉnh A tăng nhanh hơn vì tỉ lệ của A cao hơn”. Cao hơn chưa chắc tăng nhanh hơn — phải so <b>mức tăng</b> (độ dốc), không so độ cao.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="th" data-ten="Thực hành" data-muc="nb">
+  <div class="bai-dau"><span class="so">Thực hành</span><span class="nhan nb">Nhận biết</span><span class="nhan">Vẽ biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Để vẽ biểu đồ đoạn thẳng biểu diễn số liệu về chiều cao cây đậu trong Bảng 5.1, ta thực hiện theo các bước sau:</p>
+    <table><tr><th>Ngày</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><th>Chiều cao (cm)</th><td>0,5</td><td>0,75</td><td>1</td><td>1,4</td><td>2,5</td></tr></table>
+    <p><i>Bước 1.</i> Vẽ trục ngang biểu diễn ngày, trục đứng biểu diễn chiều cao cây đậu. Do chiều cao lớn nhất là 2,5 cm và thấp nhất là 0,5 cm nên ở trục đứng ta chọn đơn vị là 0,5 và giá trị lớn nhất là 3 (H.5.28).</p>
+    <p><i>Bước 2.</i> Với mỗi ngày trên trục ngang, chiều cao của cây đậu tại ngày đó được biểu diễn bởi một điểm (H.5.29).</p>
+    <p><i>Bước 3.</i> Nối các điểm liên tiếp với nhau bằng các đoạn thẳng (H.5.30).</p>
+    <p><i>Bước 4.</i> Ghi chú thích cho các trục, điền giá trị tại các điểm (nếu cần) và đặt tên cho biểu đồ để hoàn thiện biểu đồ (H.5.24).</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Chiều cao lớn nhất là 2,5 cm — trục đứng nên chia vạch thế nào để điểm cao nhất vẫn nằm trong hình?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Làm đúng thứ tự bốn bước. Điểm 0,75 và 1,4 không nằm trên vạch chia: 0,75 ở chính giữa vạch 0,5 và 1; 1,4 ở gần vạch 1,5.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Bước 1 — vẽ hai trục</h4>
+      <p>Trục ngang ghi các ngày 1, 2, 3, 4, 5 cách đều nhau. Trục đứng ghi 0; 0,5; 1; 1,5; 2; 2,5; 3 cách đều nhau.</p>
+      <p class="vi-sao">Giá trị lớn nhất 2,5 nhỏ hơn 3, nên chia đến 3 là đủ; mỗi khoảng 0,5 giúp đặt điểm dễ dàng.</p>
+      <a class="xem-lai" href="#kt-ve">📌 Xem lại: các bước vẽ</a></div>
+    <div class="buoc" data-so="2"><h4>Bước 2, 3 — đặt điểm và nối</h4>
+      <p>Đặt 5 điểm (1; 0,5), (2; 0,75), (3; 1), (4; 1,4), (5; 2,5) bằng cách gióng từ trục ngang lên và từ trục đứng sang; rồi nối các điểm liên tiếp.</p>
+      <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Chiều cao của cây đậu: Chiều cao 1 0,5, 2 0,75, 3 1, 4 1,4, 5 2,5"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Chiều cao của cây đậu</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="274.3" x2="504.0" y2="274.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="274.3" x2="82.0" y2="274.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="281.0" text-anchor="end" font-size="19" fill="#1f2430">0,5</text><line x1="82.0" y1="232.7" x2="504.0" y2="232.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="232.7" x2="82.0" y2="232.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="239.3" text-anchor="end" font-size="19" fill="#1f2430">1</text><line x1="82.0" y1="191.0" x2="504.0" y2="191.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="191.0" x2="82.0" y2="191.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="197.7" text-anchor="end" font-size="19" fill="#1f2430">1,5</text><line x1="82.0" y1="149.3" x2="504.0" y2="149.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="149.3" x2="82.0" y2="149.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="156.0" text-anchor="end" font-size="19" fill="#1f2430">2</text><line x1="82.0" y1="107.7" x2="504.0" y2="107.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="107.7" x2="82.0" y2="107.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="114.3" text-anchor="end" font-size="19" fill="#1f2430">2,5</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">3</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="124.2" y1="316.0" x2="124.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="124.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1</text><line x1="208.6" y1="316.0" x2="208.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="208.6" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">3</text><line x1="377.4" y1="316.0" x2="377.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="377.4" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">4</text><line x1="461.8" y1="316.0" x2="461.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="461.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">5</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Chiều cao (cm)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Ngày</text><line x1="124.2" y1="274.3" x2="124.2" y2="316.0" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="82.0" y1="274.3" x2="124.2" y2="274.3" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="208.6" y1="253.5" x2="208.6" y2="316.0" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="82.0" y1="253.5" x2="208.6" y2="253.5" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="293.0" y1="232.7" x2="293.0" y2="316.0" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="82.0" y1="232.7" x2="293.0" y2="232.7" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="377.4" y1="199.3" x2="377.4" y2="316.0" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="82.0" y1="199.3" x2="377.4" y2="199.3" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="461.8" y1="107.7" x2="461.8" y2="316.0" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><line x1="82.0" y1="107.7" x2="461.8" y2="107.7" stroke="#5c6577" stroke-width="1.1" stroke-dasharray="4 4"/><polyline points="124.2,274.3 208.6,253.5 293.0,232.7 377.4,199.3 461.8,107.7" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><circle cx="124.2" cy="274.3" r="5" fill="#3f72c4"/><circle cx="208.6" cy="253.5" r="5" fill="#3f72c4"/><circle cx="293.0" cy="232.7" r="5" fill="#3f72c4"/><circle cx="377.4" cy="199.3" r="5" fill="#3f72c4"/><circle cx="461.8" cy="107.7" r="5" fill="#3f72c4"/><text x="110.2" y="264.3" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">0,5</text><text x="194.6" y="243.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">0,75</text><text x="281.0" y="222.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1</text><text x="363.4" y="189.3" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,4</text><text x="447.8" y="97.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">2,5</text></g></svg></div>
+    <div class="buoc" data-so="3"><h4>Bước 4 — hoàn thiện</h4>
+      <p>Ghi “Ngày” dưới trục ngang, “Chiều cao (cm)” cạnh trục đứng, điền giá trị tại các điểm và đặt tên biểu đồ “Chiều cao của cây đậu”.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Biểu đồ đoạn thẳng “Chiều cao của cây đậu”: trục ngang “Ngày” (1 đến 5), trục đứng “Chiều cao (cm)” chia vạch 0; 0,5; 1; 1,5; 2; 2,5; 3; năm điểm 0,5; 0,75; 1; 1,4; 2,5 nối liên tiếp bằng các đoạn thẳng (như Hình 5.24).</div>
+    <div class="bay">Đặt điểm 0,75 ngay trên vạch 1 hoặc vạch 0,5 vì “gần đúng”. Điểm phải nằm giữa hai vạch, nếu không đoạn nối sai độ dốc.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt4" data-ten="Luyện tập 4" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Vẽ biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bảng thống kê sau đây cho biết thành tích của một vận động viên chạy cự li 1 500 m trong thời gian luyện tập từ tuần 1 đến tuần 7.</p>
+    <table><tr><th>Tuần</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr><tr><th>Thành tích (phút)</th><td>8</td><td>8</td><td>8</td><td>7</td><td>6,5</td><td>6,5</td><td>6</td></tr></table>
+    <p>Hãy vẽ biểu đồ đoạn thẳng biểu diễn bảng số liệu trên.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bảng có 7 tuần. Thành tích nằm trong khoảng từ 6 đến 8 phút — chia trục đứng thế nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Trục ngang: tuần 1 đến 7. Trục đứng: chia mỗi vạch 1 phút, đến 9 phút là đủ; 6,5 nằm giữa vạch 6 và 7.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Vẽ hai trục</h4>
+      <p>Trục ngang “Tuần” ghi 1 đến 7; trục đứng “Thành tích (phút)” chia vạch 0, 1, 2,…, 9.</p>
+      <a class="xem-lai" href="#kt-ve">📌 Xem lại: các bước vẽ</a></div>
+    <div class="buoc" data-so="2"><h4>Đặt điểm, nối, hoàn thiện</h4>
+      <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Thành tích chạy cự li 1 500 m: Thành tích 1 8, 2 8, 3 8, 4 7, 5 6,5, 6 6,5, 7 6"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Thành tích chạy cự li 1 500 m</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="288.2" x2="504.0" y2="288.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="288.2" x2="82.0" y2="288.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="294.9" text-anchor="end" font-size="19" fill="#1f2430">1</text><line x1="82.0" y1="260.4" x2="504.0" y2="260.4" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="260.4" x2="82.0" y2="260.4" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="267.1" text-anchor="end" font-size="19" fill="#1f2430">2</text><line x1="82.0" y1="232.7" x2="504.0" y2="232.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="232.7" x2="82.0" y2="232.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="239.3" text-anchor="end" font-size="19" fill="#1f2430">3</text><line x1="82.0" y1="204.9" x2="504.0" y2="204.9" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="204.9" x2="82.0" y2="204.9" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="211.5" text-anchor="end" font-size="19" fill="#1f2430">4</text><line x1="82.0" y1="177.1" x2="504.0" y2="177.1" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="177.1" x2="82.0" y2="177.1" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="183.8" text-anchor="end" font-size="19" fill="#1f2430">5</text><line x1="82.0" y1="149.3" x2="504.0" y2="149.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="149.3" x2="82.0" y2="149.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="156.0" text-anchor="end" font-size="19" fill="#1f2430">6</text><line x1="82.0" y1="121.6" x2="504.0" y2="121.6" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="121.6" x2="82.0" y2="121.6" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="128.2" text-anchor="end" font-size="19" fill="#1f2430">7</text><line x1="82.0" y1="93.8" x2="504.0" y2="93.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="93.8" x2="82.0" y2="93.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="100.4" text-anchor="end" font-size="19" fill="#1f2430">8</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">9</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="112.1" y1="316.0" x2="112.1" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="112.1" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1</text><line x1="172.4" y1="316.0" x2="172.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="172.4" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2</text><line x1="232.7" y1="316.0" x2="232.7" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="232.7" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">3</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">4</text><line x1="353.3" y1="316.0" x2="353.3" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="353.3" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">5</text><line x1="413.6" y1="316.0" x2="413.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="413.6" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">6</text><line x1="473.9" y1="316.0" x2="473.9" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="473.9" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">7</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Thành tích (phút)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Tuần</text><polyline points="112.1,93.8 172.4,93.8 232.7,93.8 293.0,121.6 353.3,135.4 413.6,135.4 473.9,149.3" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><circle cx="112.1" cy="93.8" r="5" fill="#3f72c4"/><circle cx="172.4" cy="93.8" r="5" fill="#3f72c4"/><circle cx="232.7" cy="93.8" r="5" fill="#3f72c4"/><circle cx="293.0" cy="121.6" r="5" fill="#3f72c4"/><circle cx="353.3" cy="135.4" r="5" fill="#3f72c4"/><circle cx="413.6" cy="135.4" r="5" fill="#3f72c4"/><circle cx="473.9" cy="149.3" r="5" fill="#3f72c4"/><text x="112.1" y="83.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">8</text><text x="172.4" y="83.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">8</text><text x="232.7" y="83.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">8</text><text x="293.0" y="111.6" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">7</text><text x="353.3" y="125.4" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">6,5</text><text x="413.6" y="125.4" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">6,5</text><text x="473.9" y="139.3" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">6</text></g></svg>
+      <p>Ba điểm đầu cùng ở mức 8 nên ba đoạn đầu nằm ngang; tuần 5 và 6 cùng 6,5 nên đoạn giữa hai tuần này cũng nằm ngang.</p>
+      <p class="vi-sao">Thành tích chạy là thời gian: số phút giảm nghĩa là vận động viên chạy nhanh hơn — đường đi xuống là tiến bộ.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Biểu đồ đoạn thẳng “Thành tích chạy cự li 1 500 m”: trục ngang “Tuần” (1 đến 7), trục đứng “Thành tích (phút)”; các điểm 8; 8; 8; 7; 6,5; 6,5; 6 nối liên tiếp (nằm ngang ở tuần 1 – 3 và tuần 5 – 6, đi xuống ở các đoạn còn lại).</div>
+    <div class="bay">Nối điểm tuần 1 thẳng tới tuần 7, bỏ qua các điểm giữa. Phải nối <b>từng cặp điểm liên tiếp</b>.</div>
+    <div class="gv-note">Chấp nhận trục đứng chia khác (chẳng hạn bắt đầu từ 5 với mỗi vạch 0,5 phút) nếu ghi rõ và đặt điểm đúng; xem Nhận xét sau Thử thách nhỏ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tt" data-ten="Thử thách nhỏ" data-muc="vd">
+  <div class="bai-dau"><span class="so">Thử thách nhỏ</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chọn đơn vị trục</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho hai biểu đồ biểu diễn tuổi thọ trung bình của người Việt Nam qua các năm (H.5.31).</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px"><svg viewBox="0 0 470 335" style="width:400px;max-width:100%;margin:0" role="img" aria-label="Biểu đồ C"><g font-family="Segoe UI,Arial,sans-serif"><text x="235.0" y="26.0" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2430">Biểu đồ C</text><line x1="77.0" y1="273.0" x2="82.0" y2="273.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="278.6" text-anchor="end" font-size="16" fill="#1f2430">0</text><line x1="82.0" y1="246.8" x2="454.0" y2="246.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="246.8" x2="82.0" y2="246.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="252.3" text-anchor="end" font-size="16" fill="#1f2430">10</text><line x1="82.0" y1="220.5" x2="454.0" y2="220.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="220.5" x2="82.0" y2="220.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="226.1" text-anchor="end" font-size="16" fill="#1f2430">20</text><line x1="82.0" y1="194.2" x2="454.0" y2="194.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="194.2" x2="82.0" y2="194.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="199.8" text-anchor="end" font-size="16" fill="#1f2430">30</text><line x1="82.0" y1="168.0" x2="454.0" y2="168.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="168.0" x2="82.0" y2="168.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="173.6" text-anchor="end" font-size="16" fill="#1f2430">40</text><line x1="82.0" y1="141.8" x2="454.0" y2="141.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="141.8" x2="82.0" y2="141.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="147.3" text-anchor="end" font-size="16" fill="#1f2430">50</text><line x1="82.0" y1="115.5" x2="454.0" y2="115.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="115.5" x2="82.0" y2="115.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="121.1" text-anchor="end" font-size="16" fill="#1f2430">60</text><line x1="82.0" y1="89.2" x2="454.0" y2="89.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="89.2" x2="82.0" y2="89.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="94.8" text-anchor="end" font-size="16" fill="#1f2430">70</text><line x1="82.0" y1="63.0" x2="454.0" y2="63.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="63.0" x2="82.0" y2="63.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="68.6" text-anchor="end" font-size="16" fill="#1f2430">80</text><line x1="82.0" y1="273.0" x2="82.0" y2="49.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,51.0 82.0,41.0 87.0,51.0" fill="#5c6577"/><line x1="82.0" y1="273.0" x2="460.0" y2="273.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="458.0,268.0 468.0,273.0 458.0,278.0" fill="#5c6577"/><line x1="102.7" y1="273.0" x2="102.7" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="102.7" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1980</text><line x1="144.0" y1="273.0" x2="144.0" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="144.0" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1985</text><line x1="185.3" y1="273.0" x2="185.3" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="185.3" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1990</text><line x1="226.7" y1="273.0" x2="226.7" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="226.7" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1995</text><line x1="268.0" y1="273.0" x2="268.0" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="268.0" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2000</text><line x1="309.3" y1="273.0" x2="309.3" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="309.3" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2005</text><line x1="350.7" y1="273.0" x2="350.7" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="350.7" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2010</text><line x1="392.0" y1="273.0" x2="392.0" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="392.0" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2015</text><line x1="433.3" y1="273.0" x2="433.3" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="433.3" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2018</text><text transform="translate(18 168.0) rotate(-90)" text-anchor="middle" font-size="16" fill="#5c6577">Tuổi thọ trung bình (năm)</text><text x="268.0" y="323.0" text-anchor="middle" font-size="16" font-style="italic" fill="#5c6577">Năm</text><polyline points="102.7,95.6 144.0,91.9 185.3,87.7 226.7,84.0 268.0,81.4 309.3,78.5 350.7,76.7 392.0,75.9 433.3,75.3" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="102.7,89.1 109.2,95.6 102.7,102.1 96.2,95.6" fill="#3f72c4"/><polygon points="144.0,85.4 150.5,91.9 144.0,98.4 137.5,91.9" fill="#3f72c4"/><polygon points="185.3,81.2 191.8,87.7 185.3,94.2 178.8,87.7" fill="#3f72c4"/><polygon points="226.7,77.5 233.2,84.0 226.7,90.5 220.2,84.0" fill="#3f72c4"/><polygon points="268.0,74.9 274.5,81.4 268.0,87.9 261.5,81.4" fill="#3f72c4"/><polygon points="309.3,72.0 315.8,78.5 309.3,85.0 302.8,78.5" fill="#3f72c4"/><polygon points="350.7,70.2 357.2,76.7 350.7,83.2 344.2,76.7" fill="#3f72c4"/><polygon points="392.0,69.4 398.5,75.9 392.0,82.4 385.5,75.9" fill="#3f72c4"/><polygon points="433.3,68.8 439.8,75.3 433.3,81.8 426.8,75.3" fill="#3f72c4"/></g></svg><svg viewBox="0 0 470 335" style="width:400px;max-width:100%;margin:0" role="img" aria-label="Biểu đồ D"><g font-family="Segoe UI,Arial,sans-serif"><text x="235.0" y="26.0" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2430">Biểu đồ D</text><line x1="77.0" y1="273.0" x2="82.0" y2="273.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="278.6" text-anchor="end" font-size="16" fill="#1f2430">65</text><line x1="82.0" y1="238.0" x2="454.0" y2="238.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="238.0" x2="82.0" y2="238.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="243.6" text-anchor="end" font-size="16" fill="#1f2430">67</text><line x1="82.0" y1="203.0" x2="454.0" y2="203.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="203.0" x2="82.0" y2="203.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="208.6" text-anchor="end" font-size="16" fill="#1f2430">69</text><line x1="82.0" y1="168.0" x2="454.0" y2="168.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="168.0" x2="82.0" y2="168.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="173.6" text-anchor="end" font-size="16" fill="#1f2430">71</text><line x1="82.0" y1="133.0" x2="454.0" y2="133.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="133.0" x2="82.0" y2="133.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="138.6" text-anchor="end" font-size="16" fill="#1f2430">73</text><line x1="82.0" y1="98.0" x2="454.0" y2="98.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="98.0" x2="82.0" y2="98.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="103.6" text-anchor="end" font-size="16" fill="#1f2430">75</text><line x1="82.0" y1="63.0" x2="454.0" y2="63.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="63.0" x2="82.0" y2="63.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="68.6" text-anchor="end" font-size="16" fill="#1f2430">77</text><line x1="82.0" y1="273.0" x2="82.0" y2="49.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,51.0 82.0,41.0 87.0,51.0" fill="#5c6577"/><line x1="82.0" y1="273.0" x2="460.0" y2="273.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="458.0,268.0 468.0,273.0 458.0,278.0" fill="#5c6577"/><line x1="102.7" y1="273.0" x2="102.7" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="102.7" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1980</text><line x1="144.0" y1="273.0" x2="144.0" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="144.0" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1985</text><line x1="185.3" y1="273.0" x2="185.3" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="185.3" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1990</text><line x1="226.7" y1="273.0" x2="226.7" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="226.7" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">1995</text><line x1="268.0" y1="273.0" x2="268.0" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="268.0" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2000</text><line x1="309.3" y1="273.0" x2="309.3" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="309.3" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2005</text><line x1="350.7" y1="273.0" x2="350.7" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="350.7" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2010</text><line x1="392.0" y1="273.0" x2="392.0" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="392.0" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2015</text><line x1="433.3" y1="273.0" x2="433.3" y2="278.0" stroke="#5c6577" stroke-width="1.4"/><text x="433.3" y="295.0" text-anchor="middle" font-size="14" fill="#1f2430">2018</text><text transform="translate(18 168.0) rotate(-90)" text-anchor="middle" font-size="16" fill="#5c6577">Tuổi thọ trung bình (năm)</text><text x="268.0" y="323.0" text-anchor="middle" font-size="16" font-style="italic" fill="#5c6577">Năm</text><polyline points="102.7,227.5 144.0,203.0 185.3,175.0 226.7,150.5 268.0,133.0 309.3,113.8 350.7,101.5 392.0,96.3 433.3,92.8" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="102.7,221.0 109.2,227.5 102.7,234.0 96.2,227.5" fill="#3f72c4"/><polygon points="144.0,196.5 150.5,203.0 144.0,209.5 137.5,203.0" fill="#3f72c4"/><polygon points="185.3,168.5 191.8,175.0 185.3,181.5 178.8,175.0" fill="#3f72c4"/><polygon points="226.7,144.0 233.2,150.5 226.7,157.0 220.2,150.5" fill="#3f72c4"/><polygon points="268.0,126.5 274.5,133.0 268.0,139.5 261.5,133.0" fill="#3f72c4"/><polygon points="309.3,107.3 315.8,113.8 309.3,120.3 302.8,113.8" fill="#3f72c4"/><polygon points="350.7,95.0 357.2,101.5 350.7,108.0 344.2,101.5" fill="#3f72c4"/><polygon points="392.0,89.8 398.5,96.3 392.0,102.8 385.5,96.3" fill="#3f72c4"/><polygon points="433.3,86.3 439.8,92.8 433.3,99.3 426.8,92.8" fill="#3f72c4"/></g></svg></div>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.31.</i> (Theo <i>Tổng cục Thống kê</i> – nay là <i>Cục Thống kê</i>)</p>
+    <p>Theo em, để thấy rõ hơn tuổi thọ trung bình của người Việt Nam ngày càng tăng, ta nên dùng biểu đồ nào?</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung">Nên dùng</span><button class="chon chu" data-dung="0">Biểu đồ C</button><button class="chon chu" data-dung="1">Biểu đồ D</button><span class="phan-hoi" data-dung-txt="Đúng! Trục đứng bắt đầu từ 65 nên thấy rõ đường đi lên." data-sai-txt="Thử lại: ở biểu đồ nào em thấy rõ đường đi lên hơn?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai biểu đồ vẽ <b>cùng một bộ số liệu</b>. Khác nhau ở đâu mà một đường gần như nằm ngang, một đường đi lên rõ rệt?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> So trục đứng của hai biểu đồ: bắt đầu từ đâu, mỗi vạch chia là bao nhiêu năm?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So trục đứng</h4>
+      <p>Biểu đồ C: trục đứng từ 0 đến 80, mỗi vạch 10 năm. Tuổi thọ chỉ thay đổi trong khoảng từ khoảng 67,5 đến khoảng 75 năm, nên trên biểu đồ C đường gần như nằm ngang.</p>
+      <p>Biểu đồ D: trục đứng bắt đầu từ 65, mỗi vạch 2 năm. Cùng mức tăng ấy trải dài gần hết chiều cao biểu đồ, đường đi lên rõ rệt.</p>
+      <a class="xem-lai" href="#kt-don-vi">📌 Xem lại: chọn đơn vị trục đứng</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Nên dùng biểu đồ D.</p>
+      <p class="vi-sao">Độ dốc của biểu đồ phụ thuộc vào việc chọn đơn vị của trục đứng. Số liệu lớn (khoảng 70) mà thay đổi ít thì không nên vẽ trục đứng bắt đầu từ 0.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Nên dùng biểu đồ D: trục đứng bắt đầu từ 65 và mỗi vạch chỉ 2 năm, nên thấy rõ tuổi thọ trung bình tăng (từ khoảng 67,5 năm 1980 lên khoảng 75 năm 2018); ở biểu đồ C trục đứng từ 0, đường gần như nằm ngang.</div>
+    <div class="bay">Nghĩ rằng hai biểu đồ có số liệu khác nhau (biểu đồ D “tăng nhiều hơn”). Hai biểu đồ cùng một bộ số liệu, chỉ khác cách chọn trục đứng.</div>
+    <div class="gv-note">SGK không ghi số tại các điểm; giá trị trong lời giải đọc theo vạch lưới của Biểu đồ D (khoảng 67,5 năm 1980 đến khoảng 75 năm 2018) — chấp nhận sai lệch nhỏ khi đọc biểu đồ. Nên nhắc thêm: biểu đồ có trục đứng không bắt đầu từ 0 dễ làm người xem tưởng mức tăng rất lớn — khi đọc phải xem số trên trục.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b510" data-ten="Bài 5.10" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 5.10</span><span class="nhan nb">Nhận biết</span><span class="nhan">Đọc biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu đồ Hình 5.32 cho biết kỉ lục thế giới về thời gian chạy cự li 100 m trong các năm từ 1912 đến 2009.</p>
+    <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Kỉ lục thế giới về chạy cự li 100 m: Thời gian 1912 10,6, 1930 10,3, 1960 10, 1991 9,86, 2005 9,77, 2009 9,58"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Kỉ lục thế giới về chạy cự li 100 m</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">9</text><line x1="82.0" y1="253.5" x2="504.0" y2="253.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="253.5" x2="82.0" y2="253.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="260.1" text-anchor="end" font-size="19" fill="#1f2430">9,5</text><line x1="82.0" y1="191.0" x2="504.0" y2="191.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="191.0" x2="82.0" y2="191.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="197.7" text-anchor="end" font-size="19" fill="#1f2430">10</text><line x1="82.0" y1="128.5" x2="504.0" y2="128.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="128.5" x2="82.0" y2="128.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="135.2" text-anchor="end" font-size="19" fill="#1f2430">10,5</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">11</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="117.2" y1="316.0" x2="117.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="117.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1912</text><line x1="187.5" y1="316.0" x2="187.5" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="187.5" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1930</text><line x1="257.8" y1="316.0" x2="257.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="257.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1960</text><line x1="328.2" y1="316.0" x2="328.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="328.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">1991</text><line x1="398.5" y1="316.0" x2="398.5" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="398.5" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2005</text><line x1="468.8" y1="316.0" x2="468.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="468.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2009</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Thời gian (giây)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="117.2,116.0 187.5,153.5 257.8,191.0 328.2,208.5 398.5,219.8 468.8,243.5" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="117.2,109.5 123.7,116.0 117.2,122.5 110.7,116.0" fill="#3f72c4"/><polygon points="187.5,147.0 194.0,153.5 187.5,160.0 181.0,153.5" fill="#3f72c4"/><polygon points="257.8,184.5 264.3,191.0 257.8,197.5 251.3,191.0" fill="#3f72c4"/><polygon points="328.2,202.0 334.7,208.5 328.2,215.0 321.7,208.5" fill="#3f72c4"/><polygon points="398.5,213.3 405.0,219.8 398.5,226.3 392.0,219.8" fill="#3f72c4"/><polygon points="468.8,237.0 475.3,243.5 468.8,250.0 462.3,243.5" fill="#3f72c4"/><text x="117.2" y="106.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">10,6</text><text x="187.5" y="143.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">10,3</text><text x="257.8" y="181.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">10</text><text x="328.2" y="198.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">9,86</text><text x="398.5" y="209.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">9,77</text><text x="468.8" y="233.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">9,58</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.32.</i> (Theo <i>topendsports.com</i>)</p>
+    <p>a) Kỉ lục thế giới về chạy cự li 100 m đạt được ở năm 1991 là bao nhiêu giây?</p>
+    <p>b) Từ năm 1912 đến 2009, kỉ lục thế giới về chạy cự li 100 m đã giảm được bao nhiêu giây?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Kỉ lục chạy là thời gian: giảm bao nhiêu giây thì lấy số nào trừ số nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> b) Lấy kỉ lục năm 1912 trừ kỉ lục năm 2009.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Đọc giá trị năm 1991</h4>
+      <p>Điểm năm 1991 ghi 9,86 — kỉ lục là 9,86 giây.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Tính mức giảm</h4>
+      <p><span class="m">10,6 − 9,58 = 1,02</span> (giây).</p>
+      <p class="vi-sao">Năm 1912 kỉ lục là 10,6 giây, năm 2009 là 9,58 giây; thời gian chạy ít hơn nghĩa là kỉ lục tốt hơn.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: xu thế</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) 9,86 giây. b) Giảm được <span class="m">10,6 − 9,58 = 1,02</span> giây.</div>
+    <div class="bay">Đặt tính sai hàng: 10,6 − 9,58 tính thành 1,12 hoặc 0,98. Viết 10,6 thành 10,60 rồi trừ: 10,60 − 9,58 = 1,02.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b511" data-ten="Bài 5.11" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 5.11</span><span class="nhan th">Thông hiểu</span><span class="nhan">So sánh nhiều đường</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu đồ Hình 5.33 cho biết số dân của ba châu lục gồm châu Phi, châu Mỹ và châu Âu trong một số năm.</p>
+    <svg viewBox="0 0 520 406" style="max-width:520px" role="img" aria-label="Dân số của ba châu lục"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Dân số của ba châu lục</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="284.8" x2="504.0" y2="284.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="284.8" x2="82.0" y2="284.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="291.4" text-anchor="end" font-size="19" fill="#1f2430">100</text><line x1="82.0" y1="253.5" x2="504.0" y2="253.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="253.5" x2="82.0" y2="253.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="260.1" text-anchor="end" font-size="19" fill="#1f2430">200</text><line x1="82.0" y1="222.2" x2="504.0" y2="222.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="222.2" x2="82.0" y2="222.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="228.9" text-anchor="end" font-size="19" fill="#1f2430">300</text><line x1="82.0" y1="191.0" x2="504.0" y2="191.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="191.0" x2="82.0" y2="191.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="197.7" text-anchor="end" font-size="19" fill="#1f2430">400</text><line x1="82.0" y1="159.8" x2="504.0" y2="159.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="159.8" x2="82.0" y2="159.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="166.4" text-anchor="end" font-size="19" fill="#1f2430">500</text><line x1="82.0" y1="128.5" x2="504.0" y2="128.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="128.5" x2="82.0" y2="128.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="135.2" text-anchor="end" font-size="19" fill="#1f2430">600</text><line x1="82.0" y1="97.2" x2="504.0" y2="97.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="97.2" x2="82.0" y2="97.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="103.9" text-anchor="end" font-size="19" fill="#1f2430">700</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">800</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="112.1" y1="316.0" x2="112.1" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="112.1" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1950</text><line x1="172.4" y1="316.0" x2="172.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="172.4" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1955</text><line x1="232.7" y1="316.0" x2="232.7" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="232.7" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1960</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1965</text><line x1="353.3" y1="316.0" x2="353.3" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="353.3" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1970</text><line x1="413.6" y1="316.0" x2="413.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="413.6" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1975</text><line x1="473.9" y1="316.0" x2="473.9" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="473.9" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">1980</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Số dân (triệu người)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="112.1,244.8 172.4,236.3 232.7,226.9 293.0,215.4 353.3,201.9 413.6,186.3 473.9,166.6" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><circle cx="112.1" cy="244.8" r="5" fill="#3f72c4"/><circle cx="172.4" cy="236.3" r="5" fill="#3f72c4"/><circle cx="232.7" cy="226.9" r="5" fill="#3f72c4"/><circle cx="293.0" cy="215.4" r="5" fill="#3f72c4"/><circle cx="353.3" cy="201.9" r="5" fill="#3f72c4"/><circle cx="413.6" cy="186.3" r="5" fill="#3f72c4"/><circle cx="473.9" cy="166.6" r="5" fill="#3f72c4"/><polyline points="112.1,212.9 172.4,200.4 232.7,185.7 293.0,170.7 353.3,156.0 413.6,141.0 473.9,124.8" fill="none" stroke="#d06464" stroke-width="2.6" stroke-linejoin="round"/><rect x="107.1" y="207.9" width="10" height="10" fill="#d06464"/><rect x="167.4" y="195.4" width="10" height="10" fill="#d06464"/><rect x="227.7" y="180.7" width="10" height="10" fill="#d06464"/><rect x="288.0" y="165.7" width="10" height="10" fill="#d06464"/><rect x="348.3" y="151.0" width="10" height="10" fill="#d06464"/><rect x="408.6" y="136.0" width="10" height="10" fill="#d06464"/><rect x="468.9" y="119.8" width="10" height="10" fill="#d06464"/><polyline points="112.1,146.3 172.4,136.3 232.7,126.9 293.0,118.2 353.3,110.7 413.6,104.4 473.9,99.4" fill="none" stroke="#8bbf3a" stroke-width="2.6" stroke-linejoin="round"/><polygon points="112.1,139.8 118.1,150.8 106.1,150.8" fill="#8bbf3a"/><polygon points="172.4,129.8 178.4,140.8 166.4,140.8" fill="#8bbf3a"/><polygon points="232.7,120.4 238.7,131.4 226.7,131.4" fill="#8bbf3a"/><polygon points="293.0,111.7 299.0,122.7 287.0,122.7" fill="#8bbf3a"/><polygon points="353.3,104.2 359.3,115.2 347.3,115.2" fill="#8bbf3a"/><polygon points="413.6,97.9 419.6,108.9 407.6,108.9" fill="#8bbf3a"/><polygon points="473.9,92.9 479.9,103.9 467.9,103.9" fill="#8bbf3a"/><line x1="59.0" y1="388.0" x2="91.0" y2="388.0" stroke="#3f72c4" stroke-width="2.6"/><circle cx="75.0" cy="388.0" r="5" fill="#3f72c4"/><text x="99.0" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Châu Phi</text><line x1="206.1" y1="388.0" x2="238.1" y2="388.0" stroke="#d06464" stroke-width="2.6"/><rect x="217.1" y="383.0" width="10" height="10" fill="#d06464"/><text x="246.1" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Châu Mỹ</text><line x1="342.6" y1="388.0" x2="374.6" y2="388.0" stroke="#8bbf3a" stroke-width="2.6"/><polygon points="358.6,381.5 364.6,392.5 352.6,392.5" fill="#8bbf3a"/><text x="382.6" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Châu Âu</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.33.</i> (Theo <i>worldometers.info</i>)</p>
+    <p>a) Cho biết xu hướng tăng, giảm về số dân của mỗi châu lục theo thời gian.</p>
+    <p>b) Trong ba châu lục trên, châu lục nào có số dân cao nhất, thấp nhất trong các năm từ 1950 đến 1980?</p>
+    <p>c) Từ năm 1950 đến 1980, số dân của châu lục nào tăng chậm nhất?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu c: đường nào “thoải” nhất? Đường thoải là tăng nhanh hay chậm?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Biểu đồ không ghi số tại các điểm: đọc theo vạch lưới (mỗi vạch 100 triệu người). Câu c: so mức tăng từ 1950 đến 1980 của mỗi châu lục, hoặc so độ dốc.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Xu hướng</h4>
+      <p>Cả ba đường đều đi lên qua mọi năm: số dân của châu Phi, châu Mỹ và châu Âu đều có xu hướng tăng.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: xu thế</a></div>
+    <div class="buoc" data-so="2"><h4>b) Cao nhất, thấp nhất</h4>
+      <p>Trong cả giai đoạn, đường châu Âu luôn ở trên cùng, đường châu Phi luôn ở dưới cùng: châu Âu có số dân cao nhất, châu Phi thấp nhất.</p>
+      <a class="xem-lai" href="#kt-nhieu">📌 Xem lại: nhiều đường trên một biểu đồ</a></div>
+    <div class="buoc" data-so="3"><h4>c) Tăng chậm nhất</h4>
+      <p>Đọc theo vạch lưới: châu Âu từ khoảng 540 lên khoảng 690 triệu (tăng khoảng 150 triệu); châu Phi từ khoảng 230 lên khoảng 480 triệu (khoảng 250 triệu); châu Mỹ từ khoảng 330 lên khoảng 610 triệu (khoảng 280 triệu).</p>
+      <p>Châu Âu tăng chậm nhất — đường châu Âu thoải nhất.</p>
+      <p class="vi-sao">Độ dốc cho biết tốc độ tăng: đường càng thoải thì tăng càng chậm.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Số dân của cả ba châu lục (châu Phi, châu Mỹ, châu Âu) đều có xu hướng tăng. b) Cao nhất: châu Âu; thấp nhất: châu Phi. c) Châu Âu tăng chậm nhất (tăng khoảng 150 triệu người, đường thoải nhất).</div>
+    <div class="bay">Câu c chọn châu Phi vì “số dân ít nhất”. Ít nhất không có nghĩa là tăng chậm nhất — phải so mức tăng (độ dốc), châu Phi thực ra tăng nhanh hơn châu Âu.</div>
+    <div class="gv-note">SGK không ghi số tại các điểm của Hình 5.33; các giá trị trong lời giải là đọc ước theo vạch lưới — chấp nhận sai lệch nhỏ khi đọc biểu đồ (khoảng 20 – 30 triệu người). Kết luận câu c không đổi: mức tăng của châu Âu (khoảng 150 triệu) nhỏ hơn hẳn châu Phi (khoảng 250 triệu) và châu Mỹ (khoảng 280 triệu).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b512" data-ten="Bài 5.12" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 5.12</span><span class="nhan th">Thông hiểu</span><span class="nhan">Vẽ biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bảng sau cho biết nhiệt độ tại thủ đô Hà Nội vào một ngày mùa thu.</p>
+    <table><tr><th>Thời điểm (giờ)</th><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>18</td><td>20</td></tr><tr><th>Nhiệt độ (°C)</th><td>23</td><td>25</td><td>34</td><td>32</td><td>26</td><td>22</td><td>18</td></tr></table>
+    <p>Vẽ biểu đồ đoạn thẳng biểu diễn bảng thống kê trên.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ở đây thời gian là giờ trong ngày: 8, 10, 12,… Nhiệt độ cao nhất là bao nhiêu để chọn vạch chia trục đứng?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhiệt độ cao nhất 34 °C, thấp nhất 18 °C: trục đứng chia mỗi vạch 5 °C, đến 40 °C.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Vẽ hai trục</h4>
+      <p>Trục ngang “Thời điểm (giờ)”: 8, 10, 12, 14, 16, 18, 20 cách đều. Trục đứng “Nhiệt độ (°C)”: 0, 5, 10,…, 40.</p>
+      <a class="xem-lai" href="#kt-ve">📌 Xem lại: các bước vẽ</a></div>
+    <div class="buoc" data-so="2"><h4>Đặt điểm, nối, đặt tên</h4>
+      <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Nhiệt độ tại Hà Nội vào một ngày mùa thu: Nhiệt độ 8 23, 10 25, 12 34, 14 32, 16 26, 18 22, 20 18"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Nhiệt độ tại Hà Nội vào một ngày mùa thu</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="284.8" x2="504.0" y2="284.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="284.8" x2="82.0" y2="284.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="291.4" text-anchor="end" font-size="19" fill="#1f2430">5</text><line x1="82.0" y1="253.5" x2="504.0" y2="253.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="253.5" x2="82.0" y2="253.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="260.1" text-anchor="end" font-size="19" fill="#1f2430">10</text><line x1="82.0" y1="222.2" x2="504.0" y2="222.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="222.2" x2="82.0" y2="222.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="228.9" text-anchor="end" font-size="19" fill="#1f2430">15</text><line x1="82.0" y1="191.0" x2="504.0" y2="191.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="191.0" x2="82.0" y2="191.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="197.7" text-anchor="end" font-size="19" fill="#1f2430">20</text><line x1="82.0" y1="159.8" x2="504.0" y2="159.8" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="159.8" x2="82.0" y2="159.8" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="166.4" text-anchor="end" font-size="19" fill="#1f2430">25</text><line x1="82.0" y1="128.5" x2="504.0" y2="128.5" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="128.5" x2="82.0" y2="128.5" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="135.2" text-anchor="end" font-size="19" fill="#1f2430">30</text><line x1="82.0" y1="97.2" x2="504.0" y2="97.2" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="97.2" x2="82.0" y2="97.2" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="103.9" text-anchor="end" font-size="19" fill="#1f2430">35</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">40</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="112.1" y1="316.0" x2="112.1" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="112.1" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">8</text><line x1="172.4" y1="316.0" x2="172.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="172.4" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">10</text><line x1="232.7" y1="316.0" x2="232.7" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="232.7" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">12</text><line x1="293.0" y1="316.0" x2="293.0" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="293.0" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">14</text><line x1="353.3" y1="316.0" x2="353.3" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="353.3" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">16</text><line x1="413.6" y1="316.0" x2="413.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="413.6" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">18</text><line x1="473.9" y1="316.0" x2="473.9" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="473.9" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">20</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Nhiệt độ (°C)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Thời điểm (giờ)</text><polyline points="112.1,172.2 172.4,159.8 232.7,103.5 293.0,116.0 353.3,153.5 413.6,178.5 473.9,203.5" fill="none" stroke="#d06464" stroke-width="2.6" stroke-linejoin="round"/><circle cx="112.1" cy="172.2" r="5" fill="#d06464"/><circle cx="172.4" cy="159.8" r="5" fill="#d06464"/><circle cx="232.7" cy="103.5" r="5" fill="#d06464"/><circle cx="293.0" cy="116.0" r="5" fill="#d06464"/><circle cx="353.3" cy="153.5" r="5" fill="#d06464"/><circle cx="413.6" cy="178.5" r="5" fill="#d06464"/><circle cx="473.9" cy="203.5" r="5" fill="#d06464"/><text x="112.1" y="162.2" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">23</text><text x="172.4" y="149.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">25</text><text x="232.7" y="93.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">34</text><text x="293.0" y="106.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">32</text><text x="353.3" y="143.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">26</text><text x="413.6" y="168.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">22</text><text x="473.9" y="193.5" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">18</text></g></svg>
+      <p class="vi-sao">Đường đi lên đến 12 giờ (34 °C) rồi đi xuống: nhiệt độ cao nhất vào buổi trưa, giảm dần về tối.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Biểu đồ đoạn thẳng “Nhiệt độ tại Hà Nội vào một ngày mùa thu”: trục ngang “Thời điểm (giờ)” (8 đến 20), trục đứng “Nhiệt độ (°C)”; các điểm 23; 25; 34; 32; 26; 22; 18 nối liên tiếp (cao nhất 34 °C lúc 12 giờ).</div>
+    <div class="bay">Đặt các mốc 8, 10, 12… cách nhau không đều trên trục ngang (khoảng 8 – 10 ngắn, 10 – 12 dài). Các thời điểm cách nhau đều 2 giờ thì trên trục cũng phải cách đều.</div>
+    <div class="gv-note">Chấp nhận trục đứng bắt đầu từ 15 °C (mỗi vạch 5 °C) nếu ghi rõ số trên trục.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b513" data-ten="Bài 5.13" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 5.13</span><span class="nhan vd">Vận dụng</span><span class="nhan">Vẽ, nhận xu thế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Số trận thắng của một đội bóng trong 8 năm từ năm 2013 đến 2020 được cho như sau:</p>
+    <p style="text-align:center">36 &nbsp;&nbsp; 42 &nbsp;&nbsp; 15 &nbsp;&nbsp; 23 &nbsp;&nbsp; 25 &nbsp;&nbsp; 35 &nbsp;&nbsp; 32 &nbsp;&nbsp; 20.</p>
+    <p>a) Hãy vẽ biểu đồ đoạn thẳng biểu diễn dãy số liệu trên.</p>
+    <p>b) Cho biết số trận thắng của đội bóng này trong các năm có xu hướng tăng hay giảm.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 8 số ứng với 8 năm — số đầu tiên là của năm nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Ghép lần lượt: 2013 – 36, 2014 – 42, …, 2020 – 20. Câu b: xem từng đoạn đi lên hay đi xuống.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Lập bảng rồi vẽ</h4>
+      <table><tr><th>Năm</th><td>2013</td><td>2014</td><td>2015</td><td>2016</td></tr><tr><th>Số trận thắng</th><td>36</td><td>42</td><td>15</td><td>23</td></tr></table>
+      <table><tr><th>Năm</th><td>2017</td><td>2018</td><td>2019</td><td>2020</td></tr><tr><th>Số trận thắng</th><td>25</td><td>35</td><td>32</td><td>20</td></tr></table>
+      <svg viewBox="0 0 520 384" style="max-width:520px" role="img" aria-label="Số trận thắng của đội bóng (2013 – 2020): Số trận thắng 2013 36, 2014 42, 2015 15, 2016 23, 2017 25, 2018 35, 2019 32, 2020 20"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Số trận thắng của đội bóng (2013 – 2020)</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">0</text><line x1="82.0" y1="266.0" x2="504.0" y2="266.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="266.0" x2="82.0" y2="266.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="272.6" text-anchor="end" font-size="19" fill="#1f2430">10</text><line x1="82.0" y1="216.0" x2="504.0" y2="216.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="216.0" x2="82.0" y2="216.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="222.7" text-anchor="end" font-size="19" fill="#1f2430">20</text><line x1="82.0" y1="166.0" x2="504.0" y2="166.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="166.0" x2="82.0" y2="166.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="172.7" text-anchor="end" font-size="19" fill="#1f2430">30</text><line x1="82.0" y1="116.0" x2="504.0" y2="116.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="116.0" x2="82.0" y2="116.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="122.7" text-anchor="end" font-size="19" fill="#1f2430">40</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.7" text-anchor="end" font-size="19" fill="#1f2430">50</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="108.4" y1="316.0" x2="108.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="108.4" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2013</text><line x1="161.1" y1="316.0" x2="161.1" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="161.1" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2014</text><line x1="213.9" y1="316.0" x2="213.9" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="213.9" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2015</text><line x1="266.6" y1="316.0" x2="266.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="266.6" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2016</text><line x1="319.4" y1="316.0" x2="319.4" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="319.4" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2017</text><line x1="372.1" y1="316.0" x2="372.1" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="372.1" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2018</text><line x1="424.9" y1="316.0" x2="424.9" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="424.9" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2019</text><line x1="477.6" y1="316.0" x2="477.6" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="477.6" y="340.0" text-anchor="middle" font-size="16" fill="#1f2430">2020</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Số trận thắng</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="108.4,136.0 161.1,106.0 213.9,241.0 266.6,201.0 319.4,191.0 372.1,141.0 424.9,156.0 477.6,216.0" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><circle cx="108.4" cy="136.0" r="5" fill="#3f72c4"/><circle cx="161.1" cy="106.0" r="5" fill="#3f72c4"/><circle cx="213.9" cy="241.0" r="5" fill="#3f72c4"/><circle cx="266.6" cy="201.0" r="5" fill="#3f72c4"/><circle cx="319.4" cy="191.0" r="5" fill="#3f72c4"/><circle cx="372.1" cy="141.0" r="5" fill="#3f72c4"/><circle cx="424.9" cy="156.0" r="5" fill="#3f72c4"/><circle cx="477.6" cy="216.0" r="5" fill="#3f72c4"/><text x="108.4" y="126.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">36</text><text x="161.1" y="96.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">42</text><text x="213.9" y="266.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">15</text><text x="266.6" y="191.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">23</text><text x="319.4" y="181.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">25</text><text x="372.1" y="131.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">35</text><text x="424.9" y="146.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">32</text><text x="477.6" y="241.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">20</text></g></svg>
+      <a class="xem-lai" href="#kt-ve">📌 Xem lại: các bước vẽ</a></div>
+    <div class="buoc" data-so="2"><h4>b) Đọc xu thế từng giai đoạn</h4>
+      <p>2013 – 2014: tăng (36 lên 42). 2015: giảm mạnh (còn 15). 2015 – 2018: tăng dần (15 → 23 → 25 → 35). 2018 – 2020: giảm (35 → 32 → 20).</p>
+      <p>Số trận thắng không tăng đều hay giảm đều. So với năm 2013 (36 trận), năm 2020 chỉ còn 20 trận.</p>
+      <p class="vi-sao">Biểu đồ đoạn thẳng cho thấy xu thế theo từng đoạn: đoạn đi lên là tăng, đoạn đi xuống là giảm.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: xu thế</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Biểu đồ đoạn thẳng: trục ngang “Năm” (2013 đến 2020), trục đứng “Số trận thắng” (0 đến 50); các điểm 36; 42; 15; 23; 25; 35; 32; 20 nối liên tiếp. b) Số trận thắng không có xu hướng tăng hay giảm đều: tăng ở 2013 – 2014, giảm mạnh năm 2015, tăng từ 2015 đến 2018, rồi giảm từ 2018 đến 2020 (năm 2020 thấp hơn năm 2013).</div>
+    <div class="bay">Chỉ so năm đầu (36) và năm cuối (20) rồi kết luận “giảm đều qua các năm” — bỏ qua giai đoạn 2015 – 2018 đội thắng ngày càng nhiều.</div>
+    <div class="gv-note">Câu b có thể chấp nhận nhận xét theo giai đoạn (như đáp số) hoặc nhận xét “nhìn chung giảm” nếu HS có nêu rõ các giai đoạn tăng, giảm. Nên dùng câu này để thảo luận: xu thế không phải lúc nào cũng chỉ là “tăng” hoặc “giảm”.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 19. Biểu đồ đoạn thẳng — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c05-b19';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-05-bai-19-bieu-do-doan-thang-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-05-bai-19-bieu-do-doan-thang-bai-giai.nguon.html" data-phien-ban="4c7bc323847c">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

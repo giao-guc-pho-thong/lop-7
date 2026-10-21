@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập cuối chương V — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương V. Thu thập và biểu diễn dữ liệu</div>
+    <div class="hang1">
+      <h1>Bài tập cuối chương V — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương V. Thu thập và biểu diễn dữ liệu</div><h1>Bài tập cuối chương V — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 4 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-quat"><b class="ten">Biểu đồ hình quạt tròn (Bài 18)</b>
+      Biểu đồ hình quạt tròn dùng để so sánh các phần trong toàn bộ dữ liệu. Mỗi hình quạt biểu diễn tỉ lệ của một phần so với toàn bộ dữ liệu. Cả hình tròn biểu diễn toàn bộ dữ liệu, tức là ứng với 100%.</div>
+    <div class="kt" id="kt-du-doan"><b class="ten">Tính, dự đoán từ tỉ lệ (Bài 18)</b>
+      Biết tổng số và tỉ lệ của một phần thì số lượng của phần đó là: tổng số · tỉ lệ (Ví dụ 4: 200 · 30% = 60). Nếu tỉ lệ lấy từ khảo sát nơi khác thì kết quả chỉ là dự đoán (“khoảng”).</div>
+    <div class="kt" id="kt-doan"><b class="ten">Biểu đồ đoạn thẳng (Bài 19)</b>
+      Biểu đồ đoạn thẳng thường được dùng để biểu diễn sự thay đổi của một đại lượng theo thời gian; trục ngang biểu diễn thời gian, trục đứng biểu diễn đại lượng, mỗi điểm biểu diễn giá trị tại một thời điểm.</div>
+    <div class="kt" id="kt-xu-the"><b class="ten">Xu thế, nhiều đường (Bài 19)</b>
+      Biểu đồ đoạn thẳng giúp ta dễ dàng nhận ra xu thế của đại lượng ta đang quan tâm theo thời gian. Đôi khi người ta biểu diễn nhiều bộ số liệu trên cùng một biểu đồ để dễ so sánh (mỗi đường có chú giải ứng với một bộ số liệu).</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập một — Bài 18, Bài 19; Bài tập cuối chương V.</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="b518" data-ten="Bài 5.18" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 5.18</span><span class="nhan vd">Vận dụng</span><span class="nhan">Đọc, so sánh, dự đoán</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một nhóm nghiên cứu đã khảo sát về mơ ước nghề nghiệp của các bạn học sinh khối 7 của một tỉnh và thu được kết quả như các biểu đồ Hình 5.37.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px"><svg viewBox="0 0 500 289" style="width:400px;max-width:100%;margin:0" role="img" aria-label="Mơ ước nghề nghiệp của các bạn nam: Công an 27%; Giáo viên 13%; Kĩ sư 20%; Nghề khác 7%; Bác sĩ 33%"><g font-family="Segoe UI,Arial,sans-serif"><text x="250.0" y="26.0" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2430">Mơ ước nghề nghiệp của các bạn nam</text><path d="M127.0 170.0L127.0 65.0A105 105 0 0 1 231.2 183.2Z" fill="#f3a283" stroke="#fff" stroke-width="1.5"/><path d="M127.0 170.0L231.2 183.2A105 105 0 0 1 188.7 254.9Z" fill="#d06464" stroke="#fff" stroke-width="1.5"/><path d="M127.0 170.0L188.7 254.9A105 105 0 0 1 65.3 254.9Z" fill="#86cfa2" stroke="#fff" stroke-width="1.5"/><path d="M127.0 170.0L65.3 254.9A105 105 0 0 1 35.0 220.6Z" fill="#f2d47a" stroke="#fff" stroke-width="1.5"/><path d="M127.0 170.0L35.0 220.6A105 105 0 0 1 127.0 65.0Z" fill="#62aed6" stroke="#fff" stroke-width="1.5"/><circle cx="127.0" cy="170.0" r="105" fill="none" stroke="#fff" stroke-width="1.6"/><text x="175.8" y="133.9" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">27%</text><text x="183.0" y="210.1" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">13%</text><text x="127.0" y="242.1" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">20%</text><text x="78.2" y="220.1" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">7%</text><text x="71.0" y="143.9" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">33%</text><rect x="262.0" y="90.0" width="16" height="16" fill="#62aed6"/><text x="286.0" y="104.0" text-anchor="start" font-size="20" fill="#1f2430">Bác sĩ</text><rect x="262.0" y="123.0" width="16" height="16" fill="#f3a283"/><text x="286.0" y="137.0" text-anchor="start" font-size="20" fill="#1f2430">Công an</text><rect x="262.0" y="156.0" width="16" height="16" fill="#d06464"/><text x="286.0" y="170.0" text-anchor="start" font-size="20" fill="#1f2430">Giáo viên</text><rect x="262.0" y="189.0" width="16" height="16" fill="#86cfa2"/><text x="286.0" y="203.0" text-anchor="start" font-size="20" fill="#1f2430">Kĩ sư</text><rect x="262.0" y="222.0" width="16" height="16" fill="#f2d47a"/><text x="286.0" y="236.0" text-anchor="start" font-size="20" fill="#1f2430">Nghề khác</text></g></svg><svg viewBox="0 0 500 289" style="width:400px;max-width:100%;margin:0" role="img" aria-label="Mơ ước nghề nghiệp của các bạn nữ: Công an 8%; Giáo viên 42%; Kĩ sư 17%; Nghề khác 4%; Bác sĩ 29%"><g font-family="Segoe UI,Arial,sans-serif"><text x="250.0" y="26.0" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2430">Mơ ước nghề nghiệp của các bạn nữ</text><path d="M161.0 170.0L161.0 65.0A105 105 0 0 1 211.6 78.0Z" fill="#f3a283" stroke="#fff" stroke-width="1.5"/><path d="M161.0 170.0L211.6 78.0A105 105 0 0 1 161.0 275.0Z" fill="#d06464" stroke="#fff" stroke-width="1.5"/><path d="M161.0 170.0L161.0 275.0A105 105 0 0 1 69.0 220.6Z" fill="#86cfa2" stroke="#fff" stroke-width="1.5"/><path d="M161.0 170.0L69.0 220.6A105 105 0 0 1 59.3 196.1Z" fill="#f2d47a" stroke="#fff" stroke-width="1.5"/><path d="M161.0 170.0L59.3 196.1A105 105 0 0 1 161.0 65.0Z" fill="#62aed6" stroke="#fff" stroke-width="1.5"/><circle cx="161.0" cy="170.0" r="105" fill="none" stroke="#fff" stroke-width="1.6"/><text x="177.2" y="113.9" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">8%</text><text x="211.9" y="190.1" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">42%</text><text x="127.9" y="233.0" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">17%</text><polyline points="71.2,205.6 54.1,212.3 51.6,209.9" fill="none" stroke="#5c6577" stroke-width="1.2"/><text x="47.6" y="214.9" text-anchor="end" font-size="19" fill="#1f2430">4%</text><text x="109.6" y="137.1" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">29%</text><rect x="296.0" y="90.0" width="16" height="16" fill="#62aed6"/><text x="320.0" y="104.0" text-anchor="start" font-size="20" fill="#1f2430">Bác sĩ</text><rect x="296.0" y="123.0" width="16" height="16" fill="#f3a283"/><text x="320.0" y="137.0" text-anchor="start" font-size="20" fill="#1f2430">Công an</text><rect x="296.0" y="156.0" width="16" height="16" fill="#d06464"/><text x="320.0" y="170.0" text-anchor="start" font-size="20" fill="#1f2430">Giáo viên</text><rect x="296.0" y="189.0" width="16" height="16" fill="#86cfa2"/><text x="320.0" y="203.0" text-anchor="start" font-size="20" fill="#1f2430">Kĩ sư</text><rect x="296.0" y="222.0" width="16" height="16" fill="#f2d47a"/><text x="320.0" y="236.0" text-anchor="start" font-size="20" fill="#1f2430">Nghề khác</text></g></svg></div>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.37a</i> (bạn nam) · <i>Hình 5.37b</i> (bạn nữ)</p>
+    <p>a) Lập bảng thống kê về mơ ước nghề nghiệp của các bạn nam, nữ.</p>
+    <p>b) Liệt kê những nghề có tỉ lệ bạn nữ lựa chọn cao hơn các bạn nam.</p>
+    <p>c) Một trường Trung học của tỉnh này có 250 học sinh khối 7, gồm 130 bạn nam và 120 bạn nữ, hãy dự đoán số bạn có mơ ước trở thành giáo viên.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu c: 13% là tỉ lệ của các bạn <b>nam</b>, 42% là của các bạn <b>nữ</b> — mỗi tỉ lệ nhân với số nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) Bảng có hai dòng nam, nữ. b) So từng cặp tỉ lệ. c) Tính riêng số bạn nam, số bạn nữ muốn làm giáo viên rồi cộng lại.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Lập bảng thống kê</h4>
+      <table style="max-width:420px"><tr><th>Nghề</th><th>Nam</th><th>Nữ</th></tr>
+        <tr><td>Bác sĩ</td><td>33%</td><td>29%</td></tr>
+        <tr><td>Công an</td><td>27%</td><td>8%</td></tr>
+        <tr><td>Giáo viên</td><td>13%</td><td style="background:#e6f7f1">42%</td></tr>
+        <tr><td>Kĩ sư</td><td>20%</td><td>17%</td></tr>
+        <tr><td>Nghề khác</td><td>7%</td><td>4%</td></tr></table>
+      <p>Kiểm tra: nam 33 + 27 + 13 + 20 + 7 = 100; nữ 29 + 8 + 42 + 17 + 4 = 100.</p>
+      <a class="xem-lai" href="#kt-quat">📌 Xem lại: biểu đồ hình quạt tròn</a></div>
+    <div class="buoc" data-so="2"><h4>b) So từng nghề</h4>
+      <p>Bác sĩ 29% &lt; 33%; Công an 8% &lt; 27%; Giáo viên 42% &gt; 13%; Kĩ sư 17% &lt; 20%; Nghề khác 4% &lt; 7%.</p>
+      <p>Chỉ có nghề <b>giáo viên</b> có tỉ lệ bạn nữ chọn cao hơn bạn nam.</p></div>
+    <div class="buoc" data-so="3"><h4>c) Dự đoán số bạn muốn làm giáo viên</h4>
+      <p>Bạn nam: <span class="m">130 · 13% = 16,9</span>; bạn nữ: <span class="m">120 · 42% = 50,4</span>.</p>
+      <p>Tổng: <span class="m">16,9 + 50,4 = 67,3</span> — khoảng 67 bạn.</p>
+      <p class="vi-sao">Tỉ lệ nam và nữ khác nhau nên phải tính riêng từng nhóm; không được lấy 250 nhân với một tỉ lệ chung. Kết quả là dự đoán, làm tròn thành số bạn.</p>
+      <a class="xem-lai" href="#kt-du-doan">📌 Xem lại: dự đoán từ tỉ lệ</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Bảng: Bác sĩ — nam 33%, nữ 29%; Công an — nam 27%, nữ 8%; Giáo viên — nam 13%, nữ 42%; Kĩ sư — nam 20%, nữ 17%; Nghề khác — nam 7%, nữ 4%. b) Chỉ nghề giáo viên. c) Khoảng <span class="m">130 · 13% + 120 · 42%</span> <span class="m">= 16,9 + 50,4 = 67,3</span>, tức khoảng 67 bạn mơ ước trở thành giáo viên.</div>
+    <div class="bay">Câu c cộng hai tỉ lệ 13% + 42% = 55% rồi nhân với 250. Hai tỉ lệ tính trên hai nhóm khác nhau (130 nam, 120 nữ) nên không cộng trực tiếp được.</div>
+    <div class="gv-note">Chấp nhận đáp số khoảng 67 bạn (hoặc 17 nam + 50 nữ = 67 nếu HS làm tròn từng nhóm trước).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b519" data-ten="Bài 5.19" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 5.19</span><span class="nhan th">Thông hiểu</span><span class="nhan">Kết hợp hai biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho hai biểu đồ sau:</p>
+    <svg viewBox="0 0 520 410" style="max-width:520px" role="img" aria-label="Tổng sản phẩm quốc nội (GDP) Việt Nam qua các năm: GDP 2014 186,2, 2015 193,2, 2016 205,3, 2017 223,8, 2018 245,2, 2019 261"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Tổng sản phẩm quốc nội (GDP) Việt Nam</text><text x="260.0" y="52.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">qua các năm</text><line x1="77.0" y1="342.0" x2="82.0" y2="342.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="348.6" text-anchor="end" font-size="19" fill="#1f2430">150</text><line x1="82.0" y1="300.3" x2="504.0" y2="300.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="300.3" x2="82.0" y2="300.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="307.0" text-anchor="end" font-size="19" fill="#1f2430">170</text><line x1="82.0" y1="258.7" x2="504.0" y2="258.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="258.7" x2="82.0" y2="258.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="265.3" text-anchor="end" font-size="19" fill="#1f2430">190</text><line x1="82.0" y1="217.0" x2="504.0" y2="217.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="217.0" x2="82.0" y2="217.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="223.7" text-anchor="end" font-size="19" fill="#1f2430">210</text><line x1="82.0" y1="175.3" x2="504.0" y2="175.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="175.3" x2="82.0" y2="175.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="182.0" text-anchor="end" font-size="19" fill="#1f2430">230</text><line x1="82.0" y1="133.7" x2="504.0" y2="133.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="133.7" x2="82.0" y2="133.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="140.3" text-anchor="end" font-size="19" fill="#1f2430">250</text><line x1="82.0" y1="92.0" x2="504.0" y2="92.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="92.0" x2="82.0" y2="92.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="98.7" text-anchor="end" font-size="19" fill="#1f2430">270</text><line x1="82.0" y1="342.0" x2="82.0" y2="78.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,80.0 82.0,70.0 87.0,80.0" fill="#5c6577"/><line x1="82.0" y1="342.0" x2="510.0" y2="342.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,337.0 518.0,342.0 508.0,347.0" fill="#5c6577"/><line x1="117.2" y1="342.0" x2="117.2" y2="347.0" stroke="#5c6577" stroke-width="1.4"/><text x="117.2" y="369.0" text-anchor="middle" font-size="19" fill="#1f2430">2014</text><line x1="187.5" y1="342.0" x2="187.5" y2="347.0" stroke="#5c6577" stroke-width="1.4"/><text x="187.5" y="369.0" text-anchor="middle" font-size="19" fill="#1f2430">2015</text><line x1="257.8" y1="342.0" x2="257.8" y2="347.0" stroke="#5c6577" stroke-width="1.4"/><text x="257.8" y="369.0" text-anchor="middle" font-size="19" fill="#1f2430">2016</text><line x1="328.2" y1="342.0" x2="328.2" y2="347.0" stroke="#5c6577" stroke-width="1.4"/><text x="328.2" y="369.0" text-anchor="middle" font-size="19" fill="#1f2430">2017</text><line x1="398.5" y1="342.0" x2="398.5" y2="347.0" stroke="#5c6577" stroke-width="1.4"/><text x="398.5" y="369.0" text-anchor="middle" font-size="19" fill="#1f2430">2018</text><line x1="468.8" y1="342.0" x2="468.8" y2="347.0" stroke="#5c6577" stroke-width="1.4"/><text x="468.8" y="369.0" text-anchor="middle" font-size="19" fill="#1f2430">2019</text><text transform="translate(21 217.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">GDP (tỉ đô la)</text><text x="293.0" y="398.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="117.2,266.6 187.5,252.0 257.8,226.8 328.2,188.2 398.5,143.7 468.8,110.8" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="117.2,260.1 123.7,266.6 117.2,273.1 110.7,266.6" fill="#3f72c4"/><polygon points="187.5,245.5 194.0,252.0 187.5,258.5 181.0,252.0" fill="#3f72c4"/><polygon points="257.8,220.3 264.3,226.8 257.8,233.3 251.3,226.8" fill="#3f72c4"/><polygon points="328.2,181.7 334.7,188.2 328.2,194.7 321.7,188.2" fill="#3f72c4"/><polygon points="398.5,137.2 405.0,143.7 398.5,150.2 392.0,143.7" fill="#3f72c4"/><polygon points="468.8,104.2 475.3,110.8 468.8,117.2 462.3,110.8" fill="#3f72c4"/><text x="117.2" y="291.6" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">186,2</text><text x="187.5" y="277.0" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">193,2</text><text x="257.8" y="251.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">205,3</text><text x="328.2" y="213.2" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">223,8</text><text x="398.5" y="168.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">245,2</text><text x="462.8" y="99.8" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">261</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.38a.</i> (Theo <i>Ngân hàng Thế giới</i>)</p>
+    <svg viewBox="0 0 500 332" style="max-width:470px" role="img" aria-label="Đóng góp của các khu vực kinh tế vào GDP Việt Nam năm 2019: Nông nghiệp 5%; Công nghiệp và xây dựng 50%; Dịch vụ 45%"><g font-family="Segoe UI,Arial,sans-serif"><text x="250.0" y="26.0" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2430">Đóng góp của các khu vực kinh tế</text><text x="250.0" y="53.0" text-anchor="middle" font-size="22" font-weight="700" fill="#1f2430">vào GDP Việt Nam năm 2019</text><path d="M127.0 213.0L127.0 108.0A105 105 0 0 1 159.4 113.1Z" fill="#f2d47a" stroke="#fff" stroke-width="1.5"/><path d="M127.0 213.0L159.4 113.1A105 105 0 0 1 94.6 312.9Z" fill="#86cfa2" stroke="#fff" stroke-width="1.5"/><path d="M127.0 213.0L94.6 312.9A105 105 0 0 1 127.0 108.0Z" fill="#f3a283" stroke="#fff" stroke-width="1.5"/><circle cx="127.0" cy="213.0" r="105" fill="none" stroke="#fff" stroke-width="1.6"/><polyline points="142.1,117.6 145.0,99.4 142.1,87.5" fill="none" stroke="#5c6577" stroke-width="1.2"/><text x="146.1" y="92.5" text-anchor="start" font-size="19" fill="#1f2430">5%</text><text x="176.9" y="236.2" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">50%</text><text x="75.1" y="211.8" text-anchor="middle" font-size="20" font-weight="600" fill="#1f2430">45%</text><rect x="262.0" y="154.0" width="16" height="16" fill="#f3a283"/><text x="286.0" y="168.0" text-anchor="start" font-size="20" fill="#1f2430">Dịch vụ</text><rect x="262.0" y="187.0" width="16" height="16" fill="#f2d47a"/><text x="286.0" y="201.0" text-anchor="start" font-size="20" fill="#1f2430">Nông nghiệp</text><rect x="262.0" y="220.0" width="16" height="16" fill="#86cfa2"/><text x="286.0" y="234.0" text-anchor="start" font-size="20" fill="#1f2430">Công nghiệp</text><text x="286.0" y="258.0" text-anchor="start" font-size="20" fill="#1f2430">và xây dựng</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.38b.</i> (Theo <i>Cổng thông tin điện tử Bộ Tài chính</i>)</p>
+    <p>a) Mỗi biểu đồ trên cho biết những thông tin gì?</p>
+    <p>b) Cho biết năm 2019, GDP của Việt Nam là bao nhiêu tỉ đô la. Mỗi khu vực kinh tế đóng góp bao nhiêu tỉ đô la?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 GDP năm 2019 đọc ở biểu đồ nào? Tỉ lệ từng khu vực đọc ở biểu đồ nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> b) Đọc GDP năm 2019 ở Hình 5.38a, rồi nhân với tỉ lệ của mỗi khu vực ở Hình 5.38b.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Thông tin của mỗi biểu đồ</h4>
+      <p>Hình 5.38a (biểu đồ đoạn thẳng): GDP của Việt Nam qua các năm từ 2014 đến 2019 (đơn vị tỉ đô la) — tăng liên tục từ 186,2 lên 261.</p>
+      <p>Hình 5.38b (biểu đồ hình quạt tròn): tỉ lệ đóng góp của ba khu vực kinh tế vào GDP Việt Nam năm 2019: dịch vụ 45%, nông nghiệp 5%, công nghiệp và xây dựng 50%.</p>
+      <a class="xem-lai" href="#kt-doan">📌 Xem lại: biểu đồ đoạn thẳng</a></div>
+    <div class="buoc" data-so="2"><h4>b) Đóng góp của mỗi khu vực</h4>
+      <p>GDP năm 2019: 261 tỉ đô la.</p>
+      <p>Dịch vụ: <span class="m">261 · 45% = 117,45</span> (tỉ đô la).</p>
+      <p>Nông nghiệp: <span class="m">261 · 5% = 13,05</span> (tỉ đô la).</p>
+      <p>Công nghiệp và xây dựng: <span class="m">261 · 50% = 130,5</span> (tỉ đô la).</p>
+      <p class="vi-sao">Kiểm tra: 117,45 + 13,05 + 130,5 = 261 — đúng bằng GDP cả năm, vì 45% + 5% + 50% = 100%.</p>
+      <a class="xem-lai" href="#kt-du-doan">📌 Xem lại: tính số lượng từ tỉ lệ</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Hình 5.38a cho biết GDP của Việt Nam các năm 2014 – 2019 (tăng từ 186,2 lên 261 tỉ đô la); Hình 5.38b cho biết tỉ lệ đóng góp vào GDP năm 2019 của dịch vụ (45%), nông nghiệp (5%), công nghiệp và xây dựng (50%). b) GDP năm 2019 là 261 tỉ đô la; dịch vụ đóng góp 117,45 tỉ, nông nghiệp 13,05 tỉ, công nghiệp và xây dựng 130,5 tỉ đô la.</div>
+    <div class="bay">Lấy GDP năm 2018 (245,2) để tính, vì đọc nhầm điểm. Biểu đồ hình quạt nói về năm 2019, nên phải dùng GDP năm 2019 (261).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b520" data-ten="Bài 5.20" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 5.20</span><span class="nhan vd">Vận dụng</span><span class="nhan">Dự đoán từ biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Biểu đồ đoạn thẳng Hình 5.40 cho biết số dân và dự báo quy mô dân số của Trung Quốc và Ấn Độ đến năm 2050.</p>
+    <svg viewBox="0 0 520 406" style="max-width:520px" role="img" aria-label="Dân số Trung Quốc và Ấn Độ đến năm 2050: Trung Quốc 2000 1,29, 2010 1,37, 2020 1,44, 2030 1,46, 2040 1,45, 2050 1,4; Ấn Độ 2000 1,06, 2010 1,23, 2020 1,38, 2030 1,5, 2040 1,59, 2050 1,64"><g font-family="Segoe UI,Arial,sans-serif"><text x="260.0" y="26.0" text-anchor="middle" font-size="21" font-weight="700" fill="#1f2430">Dân số Trung Quốc và Ấn Độ đến năm 2050</text><line x1="77.0" y1="316.0" x2="82.0" y2="316.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="322.6" text-anchor="end" font-size="19" fill="#1f2430">1</text><line x1="82.0" y1="280.3" x2="504.0" y2="280.3" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="280.3" x2="82.0" y2="280.3" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="286.9" text-anchor="end" font-size="19" fill="#1f2430">1,1</text><line x1="82.0" y1="244.6" x2="504.0" y2="244.6" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="244.6" x2="82.0" y2="244.6" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="251.2" text-anchor="end" font-size="19" fill="#1f2430">1,2</text><line x1="82.0" y1="208.9" x2="504.0" y2="208.9" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="208.9" x2="82.0" y2="208.9" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="215.5" text-anchor="end" font-size="19" fill="#1f2430">1,3</text><line x1="82.0" y1="173.1" x2="504.0" y2="173.1" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="173.1" x2="82.0" y2="173.1" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="179.8" text-anchor="end" font-size="19" fill="#1f2430">1,4</text><line x1="82.0" y1="137.4" x2="504.0" y2="137.4" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="137.4" x2="82.0" y2="137.4" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="144.1" text-anchor="end" font-size="19" fill="#1f2430">1,5</text><line x1="82.0" y1="101.7" x2="504.0" y2="101.7" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="101.7" x2="82.0" y2="101.7" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="108.4" text-anchor="end" font-size="19" fill="#1f2430">1,6</text><line x1="82.0" y1="66.0" x2="504.0" y2="66.0" stroke="#dde2ea" stroke-width="1"/><line x1="77.0" y1="66.0" x2="82.0" y2="66.0" stroke="#5c6577" stroke-width="1.6"/><text x="73.0" y="72.6" text-anchor="end" font-size="19" fill="#1f2430">1,7</text><line x1="82.0" y1="316.0" x2="82.0" y2="52.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="77.0,54.0 82.0,44.0 87.0,54.0" fill="#5c6577"/><line x1="82.0" y1="316.0" x2="510.0" y2="316.0" stroke="#5c6577" stroke-width="1.8"/><polygon points="508.0,311.0 518.0,316.0 508.0,321.0" fill="#5c6577"/><line x1="117.2" y1="316.0" x2="117.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="117.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2000</text><line x1="187.5" y1="316.0" x2="187.5" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="187.5" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2010</text><line x1="257.8" y1="316.0" x2="257.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="257.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2020</text><line x1="328.2" y1="316.0" x2="328.2" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="328.2" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2030</text><line x1="398.5" y1="316.0" x2="398.5" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="398.5" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2040</text><line x1="468.8" y1="316.0" x2="468.8" y2="321.0" stroke="#5c6577" stroke-width="1.4"/><text x="468.8" y="343.0" text-anchor="middle" font-size="19" fill="#1f2430">2050</text><text transform="translate(21 191.0) rotate(-90)" text-anchor="middle" font-size="19" fill="#5c6577">Số dân (tỉ người)</text><text x="293.0" y="372.0" text-anchor="middle" font-size="19" font-style="italic" fill="#5c6577">Năm</text><polyline points="117.2,212.4 187.5,183.9 257.8,158.9 328.2,151.7 398.5,155.3 468.8,173.1" fill="none" stroke="#3f72c4" stroke-width="2.6" stroke-linejoin="round"/><polygon points="117.2,205.9 123.7,212.4 117.2,218.9 110.7,212.4" fill="#3f72c4"/><polygon points="187.5,177.4 194.0,183.9 187.5,190.4 181.0,183.9" fill="#3f72c4"/><polygon points="257.8,152.4 264.3,158.9 257.8,165.4 251.3,158.9" fill="#3f72c4"/><polygon points="328.2,145.2 334.7,151.7 328.2,158.2 321.7,151.7" fill="#3f72c4"/><polygon points="398.5,148.8 405.0,155.3 398.5,161.8 392.0,155.3" fill="#3f72c4"/><polygon points="468.8,166.6 475.3,173.1 468.8,179.6 462.3,173.1" fill="#3f72c4"/><text x="117.2" y="202.4" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,29</text><text x="187.5" y="173.9" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,37</text><text x="257.8" y="148.9" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,44</text><text x="334.2" y="176.7" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,46</text><text x="398.5" y="145.3" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,45</text><text x="468.8" y="163.1" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,4</text><polyline points="117.2,294.6 187.5,233.9 257.8,180.3 328.2,137.4 398.5,105.3 468.8,87.4" fill="none" stroke="#d06464" stroke-width="2.6" stroke-linejoin="round"/><rect x="112.2" y="289.6" width="10" height="10" fill="#d06464"/><rect x="182.5" y="228.9" width="10" height="10" fill="#d06464"/><rect x="252.8" y="175.3" width="10" height="10" fill="#d06464"/><rect x="323.2" y="132.4" width="10" height="10" fill="#d06464"/><rect x="393.5" y="100.3" width="10" height="10" fill="#d06464"/><rect x="463.8" y="82.4" width="10" height="10" fill="#d06464"/><text x="139.2" y="311.6" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,06</text><text x="209.5" y="250.9" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,23</text><text x="273.8" y="205.3" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,38</text><text x="314.2" y="127.4" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,5</text><text x="398.5" y="95.3" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,59</text><text x="468.8" y="77.4" text-anchor="middle" font-size="18" font-weight="600" fill="#1f2430">1,64</text><line x1="127.2" y1="388.0" x2="159.2" y2="388.0" stroke="#3f72c4" stroke-width="2.6"/><polygon points="143.2,381.5 149.7,388.0 143.2,394.5 136.7,388.0" fill="#3f72c4"/><text x="167.2" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Trung Quốc</text><line x1="295.6" y1="388.0" x2="327.6" y2="388.0" stroke="#d06464" stroke-width="2.6"/><rect x="306.6" y="383.0" width="10" height="10" fill="#d06464"/><text x="335.6" y="394.6" text-anchor="start" font-size="19" fill="#1f2430">Ấn Độ</text></g></svg>
+    <p style="text-align:center;font-size:.92em;color:#5c6577"><i>Hình 5.40.</i> (Theo <i>worldometers.info</i>)</p>
+    <p>Từ biểu đồ trên, em hãy dự đoán:</p>
+    <p>a) Năm 2020, số dân nước nào lớn hơn, tương ứng là khoảng bao nhiêu tỉ người?</p>
+    <p>b) Đến khoảng năm nào thì số dân hai nước bằng nhau?</p>
+    <p>c) Xác định xu thế tăng, giảm dân số của mỗi nước trong quá khứ và trong tương lai.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai đường cắt nhau ở đâu? Giao điểm đó nằm giữa hai năm nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> b) Năm 2020 Trung Quốc còn đông hơn, năm 2030 Ấn Độ đã đông hơn — vậy hai đường cắt nhau giữa hai năm này. c) Quá khứ: 2000 – 2020; tương lai: 2020 – 2050.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Năm 2020</h4>
+      <p>Trung Quốc 1,44 tỉ người, Ấn Độ 1,38 tỉ người: số dân Trung Quốc lớn hơn.</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: nhiều đường trên một biểu đồ</a></div>
+    <div class="buoc" data-so="2"><h4>b) Khi nào bằng nhau</h4>
+      <p>Năm 2020: Trung Quốc hơn Ấn Độ <span class="m">1,44 − 1,38 = 0,06</span> tỉ. Năm 2030: Ấn Độ hơn Trung Quốc <span class="m">1,5 − 1,46 = 0,04</span> tỉ. Hai đường cắt nhau giữa năm 2020 và năm 2030, gần năm 2030 hơn — khoảng năm 2026.</p>
+      <p class="vi-sao">Tại giao điểm của hai đường, hai đại lượng bằng nhau. Đây là số liệu dự báo nên chỉ nói “khoảng”.</p></div>
+    <div class="buoc" data-so="3"><h4>c) Xu thế</h4>
+      <p>Trung Quốc: quá khứ (2000 – 2020) tăng từ 1,29 lên 1,44 tỉ; tương lai tăng nhẹ đến khoảng năm 2030 (1,46 tỉ) rồi giảm dần (1,45 tỉ năm 2040, 1,4 tỉ năm 2050).</p>
+      <p>Ấn Độ: tăng cả trong quá khứ (1,06 lên 1,38 tỉ) và trong tương lai (lên 1,64 tỉ năm 2050), nhưng tăng chậm dần (đường thoải dần).</p>
+      <a class="xem-lai" href="#kt-xu-the">📌 Xem lại: xu thế</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Năm 2020, Trung Quốc đông dân hơn: khoảng 1,44 tỉ người (Ấn Độ khoảng 1,38 tỉ người). b) Khoảng năm 2026 (giữa năm 2020 và 2030). c) Trung Quốc: tăng trong quá khứ, tăng nhẹ đến khoảng năm 2030 rồi giảm dần trong tương lai. Ấn Độ: tăng cả trong quá khứ và tương lai (tăng chậm dần).</div>
+    <div class="bay">Câu b trả lời “năm 2030” vì thấy điểm 1,5 của Ấn Độ gần đường Trung Quốc. Năm 2030 hai số đã khác nhau (1,5 và 1,46) — chỗ bằng nhau là giao điểm của hai đường, trước năm 2030.</div>
+    <div class="gv-note">Câu b đọc từ giao điểm trên biểu đồ: chấp nhận các đáp số trong khoảng năm 2025 – 2028 (chấp nhận sai lệch nhỏ khi đọc biểu đồ). Con số “khoảng năm 2026” ứng với giao điểm của hai đoạn thẳng 2020 – 2030 vẽ đúng tỉ lệ.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b521" data-ten="Bài 5.21" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 5.21</span><span class="nhan nb">Nhận biết</span><span class="nhan">Chọn loại biểu đồ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Để biểu diễn dữ liệu trong các tình huống sau, em sẽ chọn loại biểu đồ nào?</p>
+    <p>a) Tỉ lệ đóng góp vào GDP của các thành phần kinh tế ở Việt Nam;</p>
+    <p>b) Sự thay đổi của giá gạo xuất khẩu từ năm 2010 đến nay.</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung">a) Tỉ lệ đóng góp</span><button class="chon chu" data-dung="1">Hình quạt tròn</button><button class="chon chu" data-dung="0">Đoạn thẳng</button><span class="phan-hoi" data-dung-txt="Đúng! So sánh các phần trong toàn bộ." data-sai-txt="Thử lại: câu này so sánh các phần của một tổng hay theo dõi theo thời gian?"></span></div>
+    <div class="cau-thu"><span class="noi-dung">b) Giá gạo qua các năm</span><button class="chon chu" data-dung="0">Hình quạt tròn</button><button class="chon chu" data-dung="1">Đoạn thẳng</button><span class="phan-hoi" data-dung-txt="Đúng! Thay đổi theo thời gian." data-sai-txt="Thử lại: giá gạo các năm có cộng lại thành 100% không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Một câu nói về “tỉ lệ các phần trong toàn bộ”, một câu nói về “sự thay đổi theo thời gian”.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Biểu đồ hình quạt tròn so sánh các phần trong toàn bộ; biểu đồ đoạn thẳng biểu diễn sự thay đổi theo thời gian.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Tỉ lệ các thành phần</h4>
+      <p>Các thành phần kinh tế cùng tạo nên toàn bộ GDP (100%) — chọn <b>biểu đồ hình quạt tròn</b> (như Hình 5.38b).</p>
+      <a class="xem-lai" href="#kt-quat">📌 Xem lại: biểu đồ hình quạt tròn</a></div>
+    <div class="buoc" data-so="2"><h4>b) Thay đổi theo thời gian</h4>
+      <p>Giá gạo qua từng năm từ 2010 đến nay — chọn <b>biểu đồ đoạn thẳng</b>, trục ngang là năm.</p>
+      <a class="xem-lai" href="#kt-doan">📌 Xem lại: biểu đồ đoạn thẳng</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Biểu đồ hình quạt tròn. b) Biểu đồ đoạn thẳng.</div>
+    <div class="bay">Chọn biểu đồ hình quạt tròn cho câu b vì “có nhiều năm”. Giá gạo các năm không phải là các phần của một tổng 100%.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài tập cuối chương V — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c05-btcc';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-05-bai-tap-cuoi-chuong-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-05-bai-tap-cuoi-chuong-bai-giai.nguon.html" data-phien-ban="3bd7d9b4c2ae">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

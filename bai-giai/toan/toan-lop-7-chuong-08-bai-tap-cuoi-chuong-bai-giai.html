@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập cuối chương VIII — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương VIII. Làm quen với biến cố và xác suất của biến cố</div>
+    <div class="hang1">
+      <h1>Bài tập cuối chương VIII — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương VIII. Làm quen với biến cố và xác suất của biến cố</div><h1>Bài tập cuối chương VIII — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 5 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-loai"><b class="ten">Ba loại biến cố</b>
+      <b>Biến cố chắc chắn</b> là biến cố biết trước được luôn xảy ra. <b>Biến cố không thể</b> là biến cố biết trước được không bao giờ xảy ra. <b>Biến cố ngẫu nhiên</b> là biến cố không thể biết trước được có xảy ra hay không.</div>
+    <div class="kt" id="kt-xac-suat"><b class="ten">Xác suất của biến cố</b>
+      Khả năng xảy ra của một biến cố được đo lường bởi một số nhận giá trị từ 0 đến 1, gọi là <b>xác suất của biến cố</b> đó.</div>
+    <div class="kt" id="kt-01"><b class="ten">Xác suất của biến cố chắc chắn, biến cố không thể</b>
+      Biến cố chắc chắn có <b>xác suất bằng 1</b>. Biến cố không thể có <b>xác suất bằng 0</b>.</div>
+    <div class="kt" id="kt-dong-kn"><b class="ten">Biến cố đồng khả năng</b>
+      Trong một trò chơi hay thí nghiệm, nếu có <span class="m">k</span> biến cố <b>đồng khả năng</b> và luôn xảy ra duy nhất một biến cố trong <span class="m">k</span> biến cố này thì xác suất của mỗi biến cố đó đều bằng <span class="m"><span class="frac"><b>1</b><span>k</span></span></span>.</div>
+    <div class="kt" id="kt-nhom"><b class="ten">Gộp thành các nhóm như nhau (Ví dụ, Luyện tập chung)</b>
+      Tấm bìa 6 hình quạt bằng nhau, mỗi mức điểm ứng với 2 hình quạt: “Vì ba hình quạt này có diện tích bằng nhau nên ba biến cố <span class="m">E</span>, <span class="m">F</span>, <span class="m">G</span> là đồng khả năng.” Luôn xảy ra duy nhất một biến cố trong ba biến cố này nên xác suất của mỗi biến cố bằng <span class="m"><span class="frac"><b>1</b><span>3</span></span></span>.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập hai — Bài 29, Bài 30, Luyện tập chung (trang 47 – 57); Bài tập cuối chương VIII (trang 58).</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="b812" data-ten="Bài 8.12" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 8.12</span><span class="nhan nb">Nhận biết</span><span class="nhan">Phân loại biến cố</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một túi đựng các quả cầu có cùng kích thước, được ghi số 5; 10; 15; 20; 30; 35; 40. Lấy ngẫu nhiên một quả cầu trong túi. Chọn từ thích hợp (chắc chắn, không thể, ngẫu nhiên) thay vào dấu “?” trong các câu sau:</p>
+    <p>• Biến cố <span class="m">A</span>: “Lấy được quả cầu ghi số là số chính phương” là biến cố ...?...</p>
+    <p>• Biến cố <span class="m">B</span>: “Lấy được quả cầu ghi số chia hết cho 3” là biến cố ...?...</p>
+    <p>• Biến cố <span class="m">C</span>: “Lấy được quả cầu ghi số chia hết cho 5” là biến cố ...?...</p></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh</b>
+    <div class="cau-thu"><span class="noi-dung"><i>A</i>: số chính phương</span><button class="chon chu" data-dung="0">Chắc chắn</button><button class="chon chu" data-dung="1">Không thể</button><button class="chon chu" data-dung="0">Ngẫu nhiên</button><span class="phan-hoi" data-dung-txt="Đúng! Túi không có 25 — không quả nào ghi số chính phương." data-sai-txt="Thử lại: 25 = 5 · 5 là số chính phương — nhưng túi có quả ghi 25 không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Nhìn kĩ dãy số: 5; 10; 15; 20; 30; … — có thiếu số nào không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Các số chính phương không vượt quá 40: 0; 1; 4; 9; 16; 25; 36. So với các số trong túi.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Biến cố <i>A</i></h4>
+      <p>Các số chính phương không vượt quá 40 là 0; 1; 4; 9; 16; 25; 36. Không số nào có trong túi (túi không có quả ghi 25) → <b>không thể</b>.</p>
+      <a class="xem-lai" href="#kt-loai">📌 Xem lại: ba loại biến cố</a></div>
+    <div class="buoc" data-so="2"><h4>Biến cố <i>B</i></h4>
+      <p>Lấy được quả ghi 15 hoặc 30 thì <span class="m">B</span> xảy ra; lấy được quả ghi 5 thì không → <b>ngẫu nhiên</b>.</p></div>
+    <div class="buoc" data-so="3"><h4>Biến cố <i>C</i></h4>
+      <p>5; 10; 15; 20; 30; 35; 40 đều có chữ số tận cùng là 0 hoặc 5, nên đều chia hết cho 5 → <b>chắc chắn</b>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">A</span> là biến cố không thể; <span class="m">B</span> là biến cố ngẫu nhiên; <span class="m">C</span> là biến cố chắc chắn.</div>
+    <div class="bay">Đọc lướt thấy dãy “5; 10; 15; 20; …” tưởng có 25 rồi chọn “ngẫu nhiên” cho <span class="m">A</span>. Dãy nhảy từ 20 sang 30 — không có 25.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b813" data-ten="Bài 8.13" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 8.13</span><span class="nhan nb">Nhận biết</span><span class="nhan">So sánh khả năng</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một thùng kín đựng 5 quả bóng màu đỏ, 10 quả bóng màu xanh, 20 quả bóng màu vàng, có cùng kích thước. Ngọc lấy ngẫu nhiên một quả bóng trong thùng. Hỏi khả năng Ngọc lấy được quả bóng màu gì lớn nhất?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Màu nào có nhiều quả nhất trong thùng?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Bóng cùng kích thước, lấy ngẫu nhiên: quả nào cũng có khả năng được lấy như nhau. Giống HĐ2 Bài 30 (13 bi đỏ, 7 bi đen).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh số quả</h4>
+      <p>Đỏ: 5 quả; xanh: 10 quả; vàng: 20 quả. Ta có 20 &gt; 10 &gt; 5.</p></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Mỗi quả có khả năng được lấy như nhau, mà bóng vàng nhiều nhất, nên khả năng Ngọc lấy được bóng màu vàng là lớn nhất.</p>
+      <p class="vi-sao">Ba biến cố “lấy được bóng đỏ”, “… xanh”, “… vàng” không đồng khả năng (số quả khác nhau), nên ta chỉ so sánh khả năng, không dùng <span class="m"><span class="frac"><b>1</b><span>3</span></span></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Khả năng Ngọc lấy được quả bóng màu vàng là lớn nhất (vì 20 quả vàng nhiều hơn 10 quả xanh và 5 quả đỏ).</div>
+    <div class="bay">Cho rằng ba màu có khả năng như nhau, mỗi màu xác suất <span class="m"><span class="frac"><b>1</b><span>3</span></span></span>. Ba màu có số quả khác nhau nên không đồng khả năng.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b814" data-ten="Bài 8.14" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 8.14</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tìm xác suất</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một chiếc hộp đựng 7 tấm thẻ như nhau được ghi số 2; 3; 4; 5; 6; 7; 8. Rút ngẫu nhiên một tấm thẻ trong hộp. Tìm xác suất để rút được tấm thẻ:</p>
+    <p>a) Ghi số nhỏ hơn 10.</p>
+    <p>b) Ghi số 1.</p>
+    <p>c) Ghi số 8.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hộp có số 1 không? Có bao nhiêu tấm thẻ như nhau?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Phân loại từng biến cố. Với câu c), xét 7 biến cố “Rút được thẻ ghi số 2”, …, “Rút được thẻ ghi số 8”.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a), b) Chắc chắn và không thể</h4>
+      <p>a) Mọi thẻ đều ghi số nhỏ hơn 10 → biến cố chắc chắn, xác suất bằng 1.</p>
+      <p>b) Không có thẻ ghi số 1 → biến cố không thể, xác suất bằng 0.</p>
+      <a class="xem-lai" href="#kt-01">📌 Xem lại: xác suất 0 và 1</a></div>
+    <div class="buoc" data-so="2"><h4>c) Ghi số 8</h4>
+      <p>Bảy tấm thẻ như nhau, rút ngẫu nhiên → 7 biến cố “Rút được thẻ ghi số 2”, “… số 3”, …, “… số 8” đồng khả năng, và mỗi lần rút luôn xảy ra duy nhất một biến cố trong 7 biến cố này.</p>
+      <p>Vậy xác suất rút được thẻ ghi số 8 là <span class="m"><span class="frac"><b>1</b><span>7</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-dong-kn">📌 Xem lại: biến cố đồng khả năng</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) 1. &nbsp; b) 0. &nbsp; c) <span class="m"><span class="frac"><b>1</b><span>7</span></span></span>.</div>
+    <div class="bay">Câu c) ghi <span class="m"><span class="frac"><b>1</b><span>8</span></span></span> vì thẻ lớn nhất ghi số 8. Hộp có 7 tấm thẻ (từ 2 đến 8), không phải 8 tấm.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b815" data-ten="Bài 8.15" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 8.15</span><span class="nhan vd">Vận dụng</span><span class="nhan">Gộp nhóm đồng khả năng</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một tấm bìa cứng hình tròn được chia làm 8 phần bằng nhau, mỗi phần là một hình quạt tròn có ghi một trong các số 1; 2; 3; 4; 5; 6; 7; 8 như Hình 8.4, được gắn vào trục quay có mũi tên ở tâm.</p>
+    <svg viewBox="0 0 260 285" style="max-width:240px" role="img" aria-label="Hình 8.4. Tấm bìa tròn chia 8 hình quạt bằng nhau ghi 1 đến 8 theo chiều kim đồng hồ, mũi tên chỉ vào ô 1"><g font-family="Segoe UI,Arial,sans-serif"><path d="M130.0 130.0L130.0 18.0A112 112 0 0 1 209.2 50.8Z" fill="#ef4b4b" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L209.2 50.8A112 112 0 0 1 242.0 130.0Z" fill="#8a5a3c" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L242.0 130.0A112 112 0 0 1 209.2 209.2Z" fill="#7e46a8" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L209.2 209.2A112 112 0 0 1 130.0 242.0Z" fill="#8c8c8c" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L130.0 242.0A112 112 0 0 1 50.8 209.2Z" fill="#36a8e0" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L50.8 209.2A112 112 0 0 1 18.0 130.0Z" fill="#2f9e55" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L18.0 130.0A112 112 0 0 1 50.8 50.8Z" fill="#f2c94c" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L50.8 50.8A112 112 0 0 1 130.0 18.0Z" fill="#f07a3a" stroke="#fff" stroke-width="2"/><text x="158.3" y="61.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">1</text><text x="198.3" y="101.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">2</text><text x="198.3" y="158.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">3</text><text x="158.3" y="198.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">4</text><text x="101.7" y="198.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">5</text><text x="61.7" y="158.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">6</text><text x="61.7" y="101.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">7</text><text x="101.7" y="61.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">8</text><line x1="130" y1="130" x2="147.1" y2="88.6" stroke="#fff" stroke-width="4"/><path d="M151.7 77.5L138.8 85.2L155.5 92.1Z" fill="#fff"/><circle cx="130" cy="130" r="7" fill="#fff" stroke="#1f2430" stroke-width="2.5"/><text x="130" y="276" text-anchor="middle" font-size="14" font-style="italic" fill="#555">Hình 8.4</text></g></svg>
+    <p>Bạn Việt quay tấm bìa.</p>
+    <p>a) Tìm xác suất để mũi tên chỉ vào hình quạt:</p>
+    <p>• Ghi số lẻ. &nbsp;&nbsp;&nbsp;&nbsp; • Ghi số 6.</p>
+    <p>b) Biết rằng nếu mũi tên dừng ở hình quạt ghi số 1 hoặc 2 thì Việt nhận được 100 điểm; dừng ở hình quạt ghi số 3 hoặc 4 thì Việt nhận được 200 điểm; dừng ở hình quạt ghi số 5 hoặc 6 thì Việt nhận được 300 điểm; dừng ở hình quạt ghi số 7 hoặc 8 thì Việt nhận được 400 điểm.</p>
+    <p>Xét các biến cố sau:</p>
+    <p><span class="m">A</span>: “Việt nhận được 100 điểm”; &nbsp;&nbsp; <span class="m">C</span>: “Việt nhận được 300 điểm”;</p>
+    <p><span class="m">B</span>: “Việt nhận được 200 điểm”; &nbsp;&nbsp; <span class="m">D</span>: “Việt nhận được 400 điểm”.</p>
+    <p>• Các biến cố <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span>, <span class="m">D</span> có đồng khả năng không? Vì sao?</p>
+    <p>• Tìm xác suất của các biến cố <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span> và <span class="m">D</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Làm như Ví dụ ở Luyện tập chung: gộp các hình quạt thành những nhóm bằng nhau.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tám hình quạt bằng nhau → tám biến cố “Mũi tên dừng ở hình quạt ghi số 1”, …, “… số 8” đồng khả năng. “Số lẻ” và “số chẵn” mỗi nhóm có mấy hình quạt?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Ghi số 6</h4>
+      <p>Vì 8 hình quạt có diện tích bằng nhau nên 8 biến cố “Mũi tên dừng ở hình quạt ghi số 1”, …, “Mũi tên dừng ở hình quạt ghi số 8” đồng khả năng; luôn xảy ra duy nhất một biến cố trong 8 biến cố này.</p>
+      <p>Vậy xác suất mũi tên chỉ vào hình quạt ghi số 6 là <span class="m"><span class="frac"><b>1</b><span>8</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-dong-kn">📌 Xem lại: biến cố đồng khả năng</a></div>
+    <div class="buoc" data-so="2"><h4>a) Ghi số lẻ — hai nhóm</h4>
+      <svg viewBox="0 0 260 285" style="max-width:240px" role="img" aria-label="Tấm bìa 8 ô, các ô ghi số lẻ 1, 3, 5, 7 tô xanh, các ô ghi số chẵn để xám"><g font-family="Segoe UI,Arial,sans-serif"><path d="M130.0 130.0L130.0 18.0A112 112 0 0 1 209.2 50.8Z" fill="#2f6fdb" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L209.2 50.8A112 112 0 0 1 242.0 130.0Z" fill="#d9dde6" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L242.0 130.0A112 112 0 0 1 209.2 209.2Z" fill="#2f6fdb" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L209.2 209.2A112 112 0 0 1 130.0 242.0Z" fill="#d9dde6" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L130.0 242.0A112 112 0 0 1 50.8 209.2Z" fill="#2f6fdb" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L50.8 209.2A112 112 0 0 1 18.0 130.0Z" fill="#d9dde6" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L18.0 130.0A112 112 0 0 1 50.8 50.8Z" fill="#2f6fdb" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L50.8 50.8A112 112 0 0 1 130.0 18.0Z" fill="#d9dde6" stroke="#fff" stroke-width="2"/><text x="158.3" y="61.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">1</text><text x="198.3" y="101.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#555">2</text><text x="198.3" y="158.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">3</text><text x="158.3" y="198.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#555">4</text><text x="101.7" y="198.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">5</text><text x="61.7" y="158.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#555">6</text><text x="61.7" y="101.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">7</text><text x="101.7" y="61.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#555">8</text><circle cx="130" cy="130" r="7" fill="#fff" stroke="#1f2430" stroke-width="2.5"/><text x="130" y="276" text-anchor="middle" font-size="14" font-style="italic" fill="#555">Ô ghi số lẻ: 4 ô tô xanh</text></g></svg>
+      <p>Các hình quạt ghi số lẻ: 1; 3; 5; 7 (4 hình quạt). Các hình quạt ghi số chẵn: 2; 4; 6; 8 (4 hình quạt).</p>
+      <p>Hai phần này có diện tích bằng nhau (mỗi phần gồm 4 hình quạt bằng nhau), nên hai biến cố “Mũi tên chỉ vào hình quạt ghi số lẻ” và “… ghi số chẵn” đồng khả năng. Luôn xảy ra duy nhất một trong hai biến cố.</p>
+      <p>Vậy xác suất mũi tên chỉ vào hình quạt ghi số lẻ là <span class="m"><span class="frac"><b>1</b><span>2</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-nhom">📌 Xem lại: gộp thành các nhóm như nhau</a></div>
+    <div class="buoc" data-so="3"><h4>b) Bốn biến cố <i>A</i>, <i>B</i>, <i>C</i>, <i>D</i></h4>
+      <svg viewBox="0 0 260 285" style="max-width:240px" role="img" aria-label="Tấm bìa 8 ô tô bốn màu: ô 1, 2 màu xanh (100 điểm); ô 3, 4 xanh lá (200 điểm); ô 5, 6 đỏ (300 điểm); ô 7, 8 tím (400 điểm)"><g font-family="Segoe UI,Arial,sans-serif"><path d="M130.0 130.0L130.0 18.0A112 112 0 0 1 209.2 50.8Z" fill="#2f6fdb" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L209.2 50.8A112 112 0 0 1 242.0 130.0Z" fill="#2f6fdb" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L242.0 130.0A112 112 0 0 1 209.2 209.2Z" fill="#0f8a68" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L209.2 209.2A112 112 0 0 1 130.0 242.0Z" fill="#0f8a68" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L130.0 242.0A112 112 0 0 1 50.8 209.2Z" fill="#c93c3c" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L50.8 209.2A112 112 0 0 1 18.0 130.0Z" fill="#c93c3c" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L18.0 130.0A112 112 0 0 1 50.8 50.8Z" fill="#6b4fc9" stroke="#fff" stroke-width="2"/><path d="M130.0 130.0L50.8 50.8A112 112 0 0 1 130.0 18.0Z" fill="#6b4fc9" stroke="#fff" stroke-width="2"/><text x="158.3" y="61.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">1</text><text x="198.3" y="101.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">2</text><text x="198.3" y="158.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">3</text><text x="158.3" y="198.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">4</text><text x="101.7" y="198.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">5</text><text x="61.7" y="158.3" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">6</text><text x="61.7" y="101.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">7</text><text x="101.7" y="61.7" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="700" fill="#fff">8</text><circle cx="130" cy="130" r="7" fill="#fff" stroke="#1f2430" stroke-width="2.5"/><text x="130" y="276" text-anchor="middle" font-size="14" font-style="italic" fill="#555">Mỗi màu là một mức điểm (2 ô)</text></g></svg>
+      <p><span class="m">A</span> xảy ra khi mũi tên dừng ở hình quạt ghi số 1 hoặc 2; <span class="m">B</span>: số 3 hoặc 4; <span class="m">C</span>: số 5 hoặc 6; <span class="m">D</span>: số 7 hoặc 8.</p>
+      <p>Mỗi biến cố ứng với một phần gồm 2 hình quạt; bốn phần này có diện tích bằng nhau. Vậy <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span>, <span class="m">D</span> đồng khả năng.</p>
+      <p>Luôn xảy ra duy nhất một biến cố trong bốn biến cố này, nên xác suất của mỗi biến cố <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span>, <span class="m">D</span> đều bằng <span class="m"><span class="frac"><b>1</b><span>4</span></span></span>.</p>
+      <p class="vi-sao">Giống hệt Ví dụ: ở đó 6 hình quạt gộp thành 3 nhóm, xác suất <span class="m"><span class="frac"><b>1</b><span>3</span></span></span>; ở đây 8 hình quạt gộp thành 4 nhóm.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Xác suất chỉ vào hình quạt ghi số lẻ là <span class="m"><span class="frac"><b>1</b><span>2</span></span></span>; ghi số 6 là <span class="m"><span class="frac"><b>1</b><span>8</span></span></span>. &nbsp; b) <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span>, <span class="m">D</span> đồng khả năng vì mỗi biến cố ứng với 2 hình quạt và bốn phần này có diện tích bằng nhau; xác suất của mỗi biến cố <span class="m">A</span>, <span class="m">B</span>, <span class="m">C</span>, <span class="m">D</span> đều bằng <span class="m"><span class="frac"><b>1</b><span>4</span></span></span>.</div>
+    <div class="bay">Câu a) ghi xác suất “số lẻ” là <span class="m"><span class="frac"><b>1</b><span>8</span></span></span> như câu “số 6”. Biến cố “số lẻ” xảy ra ở <b>bốn</b> hình quạt, nên phải gộp nhóm: lẻ và chẵn là hai nhóm bằng nhau.</div>
+    <div class="gv-note">Chỉ dùng cách gộp các hình quạt thành nhóm có diện tích bằng nhau như Ví dụ Luyện tập chung; không dùng công thức tỉ số giữa số kết quả (chưa học ở lớp 7).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài tập cuối chương VIII — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c08-btcc';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-08-bai-tap-cuoi-chuong-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-08-bai-tap-cuoi-chuong-bai-giai.nguon.html" data-phien-ban="c6686e618cf5">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

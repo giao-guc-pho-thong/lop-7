@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 25. Đa thức một biến — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương VII. Biểu thức đại số và đa thức một biến</div>
+    <div class="hang1">
+      <h1>Bài 25. Đa thức một biến — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương VII. Biểu thức đại số và đa thức một biến</div><h1>Bài 25. Đa thức một biến — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 6 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-don-thuc"><b class="ten">Đơn thức một biến</b>
+      <b>Đơn thức một biến</b> (gọi tắt là <b>đơn thức</b>) là biểu thức đại số có dạng tích của một số thực với một luỹ thừa của biến, trong đó số thực gọi là <b>hệ số</b>, số mũ của luỹ thừa của biến gọi là <b>bậc</b> của đơn thức. Một số khác 0 là một đơn thức bậc 0. Số 0 cũng được coi là một đơn thức; đơn thức này không có bậc.</div>
+    <div class="kt" id="kt-cong-nhan"><b class="ten">Cộng, trừ, nhân đơn thức</b>
+      <i>Cộng (hay trừ) hai đơn thức cùng bậc</i> bằng cách cộng (hay trừ) các hệ số với nhau và giữ nguyên luỹ thừa của biến. <i>Nhân hai đơn thức tuỳ ý</i> bằng cách nhân hai hệ số với nhau và nhân hai luỹ thừa của biến với nhau. Chẳng hạn <span class="m">−3x<sup>4</sup> + x<sup>4</sup> = −2x<sup>4</sup></span>; <span class="m">(0,5x) · (6x<sup>2</sup>) = 3x<sup>3</sup></span>.</div>
+    <div class="kt" id="kt-da-thuc"><b class="ten">Đa thức một biến</b>
+      <b>Đa thức một biến</b> (gọi tắt là <b>đa thức</b>) là tổng của những đơn thức của cùng một biến; mỗi đơn thức trong tổng gọi là một <b>hạng tử</b> của đa thức đó. Số 0 cũng được coi là một đa thức, gọi là <b>đa thức <i>không</i></b>.</div>
+    <div class="kt" id="kt-thu-gon"><b class="ten">Thu gọn, sắp xếp</b>
+      Đa thức <i>không chứa hai đơn thức nào cùng bậc</i> là <b>đa thức thu gọn</b>. Người ta thường viết đa thức dưới dạng thu gọn và sắp xếp các hạng tử theo luỹ thừa giảm của biến; hạng tử khuyết có thể viết với hệ số 0, chẳng hạn <span class="m">P = −3x<sup>4</sup> + 0x<sup>3</sup> + 5x<sup>2</sup> − 2x + 1</span>.</div>
+    <div class="kt" id="kt-bac"><b class="ten">Bậc, hệ số cao nhất, hệ số tự do</b>
+      Trong một đa thức thu gọn và khác đa thức <i>không</i>: bậc của hạng tử có bậc cao nhất gọi là <b>bậc của đa thức</b>; hệ số của hạng tử có bậc cao nhất gọi là <b>hệ số cao nhất</b>; hệ số của hạng tử bậc 0 gọi là <b>hệ số tự do</b>. Muốn tìm bậc của một đa thức chưa thu gọn, ta phải thu gọn đa thức đó.</div>
+    <div class="kt" id="kt-nghiem"><b class="ten">Nghiệm của đa thức</b>
+      Nếu tại <span class="m">x = a</span>, đa thức <span class="m">F(x)</span> có giá trị bằng 0, tức là <span class="m">F(a) = 0</span>, thì ta gọi <span class="m">a</span> (hoặc <span class="m">x = a</span>) là một <b>nghiệm</b> của đa thức <span class="m">F(x)</span>. <b>Nhận xét:</b> Nếu một đa thức có hệ số tự do bằng 0 thì <span class="m">x = 0</span> là một nghiệm của đa thức đó.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập hai — Bài 25. Đa thức một biến (trang 25–30).</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="ch1" data-ten="Câu hỏi (mục 1, câu 1)" data-muc="nb" data-chip="Câu hỏi ①">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 1, câu 1)</span><span class="nhan nb">Nhận biết</span><span class="nhan">Hệ số và bậc</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho biết hệ số và bậc của mỗi đơn thức sau:</p>
+    <p>a) <span class="m">2x<sup>6</sup></span>; &nbsp;&nbsp; b) <span class="m">−<span class="frac"><b>1</b><span>5</span></span>x<sup>2</sup></span>; &nbsp;&nbsp; c) <span class="m">−8</span>; &nbsp;&nbsp; d) <span class="m">3<sup>2</sup>x</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu c) không có <span class="m">x</span> và câu d) có <span class="m">3<sup>2</sup></span> — hai chỗ cần dừng lại nghĩ kĩ!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Hệ số là số đứng trước luỹ thừa của <span class="m">x</span>; bậc là số mũ của <span class="m">x</span>. Một số khác 0 là đơn thức bậc 0.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a) và b)</h4>
+      <p>a) <span class="m">2x<sup>6</sup></span>: hệ số 2, bậc 6.</p>
+      <p>b) <span class="m">−<span class="frac"><b>1</b><span>5</span></span>x<sup>2</sup></span>: hệ số <span class="m">−<span class="frac"><b>1</b><span>5</span></span></span>, bậc 2.</p>
+      <p class="vi-sao">Dấu “−” đứng trước thuộc về hệ số, nên hệ số là số âm <span class="m">−<span class="frac"><b>1</b><span>5</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-don-thuc">📌 Xem lại: đơn thức, hệ số, bậc</a></div>
+    <div class="buoc" data-so="2"><h4>Câu c): một số khác 0</h4>
+      <p><span class="m">−8 = −8x<sup>0</sup></span>: hệ số <span class="m">−8</span>, bậc 0.</p>
+      <p class="vi-sao">Một số khác 0 là một đơn thức bậc 0 (như Pi nói: <span class="m">2 = 2x<sup>0</sup></span>).</p></div>
+    <div class="buoc" data-so="3"><h4>Câu d): tính <span class="m">3<sup>2</sup></span> trước</h4>
+      <p><span class="m">3<sup>2</sup>x = 9x = 9x<sup>1</sup></span>: hệ số 9, bậc 1.</p>
+      <p class="vi-sao"><span class="m">3<sup>2</sup></span> là một số <span class="m">(= 9)</span>, không phải luỹ thừa của biến. Biến <span class="m">x</span> có số mũ 1.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Hệ số 2, bậc 6. &nbsp; b) Hệ số <span class="m">−<span class="frac"><b>1</b><span>5</span></span></span>, bậc 2. &nbsp; c) Hệ số <span class="m">−8</span>, bậc 0. &nbsp; d) Hệ số 9, bậc 1.</div>
+    <div class="bay">Ở câu d) nói “bậc 2” vì nhìn thấy mũ 2. Số mũ 2 nằm trên số 3, không nằm trên <span class="m">x</span> — bậc của đơn thức là số mũ của <b>biến</b>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch2" data-ten="Câu hỏi (mục 1, câu 2)" data-muc="th" data-chip="Câu hỏi ②">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 1, câu 2)</span><span class="nhan th">Thông hiểu</span><span class="nhan">Bậc của tích</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Khi nhân một đơn thức bậc 3 với một đơn thức bậc 2, ta được đơn thức bậc mấy?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Nhân hai luỹ thừa cùng cơ số thì số mũ làm gì?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhân hai đơn thức là nhân hệ số với hệ số, luỹ thừa với luỹ thừa: <span class="m">x<sup>3</sup> · x<sup>2</sup> = ?</span></div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhân hai luỹ thừa của biến</h4>
+      <p>Đơn thức bậc 3 có dạng <span class="m"><i>ax</i><sup>3</sup></span>, đơn thức bậc 2 có dạng <span class="m"><i>bx</i><sup>2</sup></span> (<span class="m">a</span>, <span class="m">b</span> khác 0).</p>
+      <p><span class="m">(<i>ax</i><sup>3</sup>) · (<i>bx</i><sup>2</sup>)</span> <span class="m">= (a · b) · (x<sup>3</sup> · x<sup>2</sup>) = (<i>ab</i>)x<sup>5</sup></span>.</p>
+      <p class="vi-sao"><span class="m">x<sup>3</sup> · x<sup>2</sup> = x<sup>3+2</sup> = x<sup>5</sup></span> (nhân hai luỹ thừa cùng cơ số thì cộng số mũ). Hệ số <span class="m"><i>ab</i></span> khác 0 vì <span class="m">a</span>, <span class="m">b</span> đều khác 0.</p>
+      <a class="xem-lai" href="#kt-cong-nhan">📌 Xem lại: nhân hai đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Được đơn thức bậc 5 (bậc <span class="m">3 + 2</span>).</div>
+    <div class="bay">Trả lời bậc 6 vì nghĩ <span class="m">3 × 2</span>. Nhân luỹ thừa cùng cơ số là <b>cộng</b> số mũ, không nhân.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Cộng, nhân đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính: a) <span class="m">5x<sup>3</sup> + x<sup>3</sup></span>; &nbsp;&nbsp; b) <span class="m"><span class="frac"><b>7</b><span>4</span></span>x<sup>5</sup> − <span class="frac"><b>3</b><span>4</span></span>x<sup>5</sup></span>; &nbsp;&nbsp; c) <span class="m">(−0,25x<sup>2</sup>) · (8x<sup>3</sup>)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 a), b) là cộng / trừ cùng bậc; c) là nhân. Hai quy tắc khác nhau đấy!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cộng / trừ cùng bậc: cộng / trừ hệ số, giữ nguyên <span class="m">x<sup>n</sup></span>. Nhân: nhân hệ số, nhân luỹ thừa.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Cộng hai đơn thức bậc 3</h4>
+      <p><span class="m">5x<sup>3</sup> + x<sup>3</sup> = (5 + 1)x<sup>3</sup> = 6x<sup>3</sup></span>.</p>
+      <p class="vi-sao"><span class="m">x<sup>3</sup></span> có hệ số 1 (không viết thừa số 1).</p></div>
+    <div class="buoc" data-so="2"><h4>b) Trừ hai đơn thức bậc 5</h4>
+      <p><span class="m"><span class="frac"><b>7</b><span>4</span></span>x<sup>5</sup> − <span class="frac"><b>3</b><span>4</span></span>x<sup>5</sup> = (<span class="frac"><b>7</b><span>4</span></span> − <span class="frac"><b>3</b><span>4</span></span>)x<sup>5</sup> = 1x<sup>5</sup></span> <span class="m">= x<sup>5</sup></span>.</p>
+      <a class="xem-lai" href="#kt-cong-nhan">📌 Xem lại: cộng, trừ đơn thức cùng bậc</a></div>
+    <div class="buoc" data-so="3"><h4>c) Nhân hai đơn thức</h4>
+      <p><span class="m">(−0,25x<sup>2</sup>) · (8x<sup>3</sup>)</span> <span class="m">= (−0,25 · 8) · (x<sup>2</sup> · x<sup>3</sup>) = −2x<sup>5</sup></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">6x<sup>3</sup></span>; &nbsp; b) <span class="m">x<sup>5</sup></span>; &nbsp; c) <span class="m">−2x<sup>5</sup></span>.</div>
+    <div class="bay">Câu a) ra <span class="m">5x<sup>6</sup></span> hoặc <span class="m">6x<sup>6</sup></span> — cộng cả số mũ. Khi <b>cộng</b> đơn thức cùng bậc, luỹ thừa <span class="m">x<sup>3</sup></span> giữ nguyên.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch3" data-ten="Câu hỏi (mục 2)" data-muc="th" data-chip="Câu hỏi ③">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 2)</span><span class="nhan th">Thông hiểu</span><span class="nhan">Khái niệm đa thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Mỗi số thực có phải là một đa thức không? Tại sao?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Số thực có phải là một đơn thức không? Mà đơn thức thì…</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Xét hai trường hợp: số khác 0 và số 0.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Số thực khác 0</h4>
+      <p>Một số khác 0 là một đơn thức (bậc 0). Một đơn thức cũng là một đa thức (đa thức chỉ có một hạng tử).</p>
+      <a class="xem-lai" href="#kt-don-thuc">📌 Xem lại: một số khác 0 là đơn thức bậc 0</a></div>
+    <div class="buoc" data-so="2"><h4>Số 0</h4>
+      <p>Số 0 được coi là một đa thức, gọi là đa thức <i>không</i>.</p>
+      <a class="xem-lai" href="#kt-da-thuc">📌 Xem lại: đa thức, đa thức không</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Có. Mỗi số thực khác 0 là một đơn thức bậc 0 nên là một đa thức; số 0 là đa thức <i>không</i>.</div>
+    <div class="bay">Nghĩ “đa thức phải có chữ <span class="m">x</span>”. Số <span class="m">5 = 5x<sup>0</sup></span> vẫn là đơn thức (bậc 0), nên vẫn là đa thức.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Hạng tử</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hãy liệt kê các hạng tử của đa thức <span class="m">B = 2x<sup>4</sup> − 3x<sup>2</sup> + x + 1</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Mỗi hạng tử mang theo dấu đứng trước nó.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Viết <span class="m">B</span> thành tổng: <span class="m">B = 2x<sup>4</sup> + (−3x<sup>2</sup>) + x + 1</span>, rồi đọc từng số hạng — như Ví dụ 1.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết thành tổng các đơn thức</h4>
+      <p><span class="m">B = 2x<sup>4</sup> + (−3x<sup>2</sup>) + x + 1</span>.</p>
+      <p>Các hạng tử: <span class="m">2x<sup>4</sup></span>; <span class="m">−3x<sup>2</sup></span>; <span class="m">x</span>; 1.</p>
+      <p class="vi-sao">Đa thức là tổng của các đơn thức; dấu “−” trước <span class="m">3x<sup>2</sup></span> cho biết hạng tử đó là <span class="m">−3x<sup>2</sup></span>.</p>
+      <a class="xem-lai" href="#kt-da-thuc">📌 Xem lại: hạng tử</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">B</span> có bốn hạng tử: <span class="m">2x<sup>4</sup></span>; <span class="m">−3x<sup>2</sup></span>; <span class="m">x</span>; 1.</div>
+    <div class="bay">Ghi hạng tử thứ hai là <span class="m">3x<sup>2</sup></span> (bỏ mất dấu). Hạng tử là <span class="m">−3x<sup>2</sup></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt3" data-ten="Luyện tập 3" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 3</span><span class="nhan th">Thông hiểu</span><span class="nhan">Thu gọn</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thu gọn đa thức <span class="m">P = 2x<sup>3</sup> − 5x<sup>2</sup> + 4x<sup>3</sup> + 4x + 9 + x</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Có hai cặp “cùng bậc” trong <span class="m">P</span>. Em tìm ra cả hai cặp chưa?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Gom các đơn thức cùng bậc lại gần nhau (đổi chỗ, nhóm) rồi cộng hệ số — như Ví dụ 2.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm các đơn thức cùng bậc</h4>
+      <p>Bậc 3: <span class="m">2x<sup>3</sup></span> và <span class="m">4x<sup>3</sup></span>. Bậc 1: <span class="m">4x</span> và <span class="m">x</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Đổi chỗ, nhóm và cộng</h4>
+      <p><span class="m">P = (2x<sup>3</sup> + 4x<sup>3</sup>) − 5x<sup>2</sup> + (4x + x)</span> <span class="m">+ 9</span></p>
+      <p><span class="m">= 6x<sup>3</sup> − 5x<sup>2</sup> + 5x + 9</span>.</p>
+      <p class="vi-sao">Cộng hai đơn thức cùng bậc: cộng hệ số, giữ nguyên luỹ thừa. Sau bước này không còn hai hạng tử nào cùng bậc.</p>
+      <a class="xem-lai" href="#kt-thu-gon">📌 Xem lại: đa thức thu gọn</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">P = 6x<sup>3</sup> − 5x<sup>2</sup> + 5x + 9</span>.</div>
+    <div class="bay">Bỏ sót cặp <span class="m">4x</span> và <span class="m">x</span> (vì <span class="m">x</span> không có hệ số viết ra). <span class="m">x</span> chính là <span class="m">1x</span>, cùng bậc 1 với <span class="m">4x</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt4" data-ten="Luyện tập 4" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Thu gọn, sắp xếp</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thu gọn (nếu cần) và sắp xếp mỗi đa thức sau theo luỹ thừa giảm của biến:</p>
+    <p>a) <span class="m">A = 3x − 4x<sup>4</sup> + x<sup>3</sup></span>; &nbsp;&nbsp; b) <span class="m">B = −2x<sup>3</sup> − 5x<sup>2</sup> + 2x<sup>3</sup> + 4x + x<sup>2</sup> − 5</span>;</p>
+    <p>c) <span class="m">C = x<sup>5</sup> − <span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup> + <span class="frac"><b>3</b><span>4</span></span>x − x<sup>5</sup> + 6x<sup>2</sup> − 2</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu c) có hai hạng tử “triệt tiêu” nhau — để ý <span class="m">x<sup>5</sup></span>!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Trước hết xem đa thức đã thu gọn chưa; rồi viết hạng tử bậc cao nhất trước, thấp dần đến hạng tử bậc 0.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Đã thu gọn — chỉ sắp xếp</h4>
+      <p><span class="m">A</span> không có hai hạng tử cùng bậc. Sắp xếp: <span class="m">A = −4x<sup>4</sup> + x<sup>3</sup> + 3x</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Thu gọn rồi sắp xếp</h4>
+      <p><span class="m">B = (−2x<sup>3</sup> + 2x<sup>3</sup>) + (−5x<sup>2</sup> + x<sup>2</sup>)</span> <span class="m">+ 4x − 5</span></p>
+      <p><span class="m">= 0 − 4x<sup>2</sup> + 4x − 5</span> <span class="m">= −4x<sup>2</sup> + 4x − 5</span>.</p>
+      <p class="vi-sao"><span class="m">−2x<sup>3</sup> + 2x<sup>3</sup> = 0x<sup>3</sup> = 0</span> nên hạng tử bậc 3 biến mất.</p></div>
+    <div class="buoc" data-so="3"><h4>c) Thu gọn rồi sắp xếp</h4>
+      <p><span class="m">x<sup>5</sup> − x<sup>5</sup> = 0</span>, nên <span class="m">C = −<span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup> + 6x<sup>2</sup> + <span class="frac"><b>3</b><span>4</span></span>x − 2</span>.</p>
+      <a class="xem-lai" href="#kt-thu-gon">📌 Xem lại: thu gọn, sắp xếp</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">A = −4x<sup>4</sup> + x<sup>3</sup> + 3x</span>; &nbsp; b) <span class="m">B = −4x<sup>2</sup> + 4x − 5</span>; &nbsp; c) <span class="m">C = −<span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup> + 6x<sup>2</sup> + <span class="frac"><b>3</b><span>4</span></span>x − 2</span>.</div>
+    <div class="bay">Câu b) viết <span class="m">−5x<sup>2</sup> + x<sup>2</sup> = −6x<sup>2</sup></span> (cộng nhầm dấu). <span class="m">−5 + 1 = −4</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Bậc của hạng tử</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Xét đa thức <span class="m">P = −3x<sup>4</sup> + 5x<sup>2</sup> − 2x + 1</span>. Trong đa thức <span class="m">P</span>, bậc của hạng tử <span class="m">5x<sup>2</sup></span> là 2 (số mũ của <span class="m">x<sup>2</sup></span>). Hãy xác định bậc của các hạng tử trong <span class="m">P</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hạng tử <span class="m">−2x</span> có số mũ bao nhiêu? Còn hạng tử 1?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">x = x<sup>1</sup></span> và một số khác 0 là đơn thức bậc 0.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đọc số mũ của từng hạng tử</h4>
+      <p><span class="m">−3x<sup>4</sup></span>: bậc 4; <span class="m">5x<sup>2</sup></span>: bậc 2; <span class="m">−2x</span>: bậc 1 (vì <span class="m">x = x<sup>1</sup></span>); <span class="m">1</span>: bậc 0.</p>
+      <a class="xem-lai" href="#kt-don-thuc">📌 Xem lại: bậc của đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">−3x<sup>4</sup></span> bậc 4; <span class="m">5x<sup>2</sup></span> bậc 2; <span class="m">−2x</span> bậc 1; 1 bậc 0.</div>
+    <div class="bay">Nói hạng tử 1 “không có bậc”. Chỉ số 0 mới không có bậc; số 1 là đơn thức bậc 0.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Hạng tử bậc cao nhất</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong đa thức <span class="m">P = −3x<sup>4</sup> + 5x<sup>2</sup> − 2x + 1</span>, hạng tử nào có bậc cao nhất? Tìm hệ số và bậc của hạng tử đó.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Dùng kết quả HĐ1: số mũ nào lớn nhất?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> So sánh các bậc 4, 2, 1, 0 vừa tìm ở HĐ1.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Chọn hạng tử bậc lớn nhất</h4>
+      <p>Bậc lớn nhất là 4, ứng với hạng tử <span class="m">−3x<sup>4</sup></span>. Hạng tử này có hệ số <span class="m">−3</span> và bậc 4.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Hạng tử <span class="m">−3x<sup>4</sup></span>; hệ số <span class="m">−3</span>, bậc 4.</div>
+    <div class="bay">Ghi hệ số là 3 — quên dấu “−” đứng trước.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd3" data-ten="HĐ3" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ3</span><span class="nhan nb">Nhận biết</span><span class="nhan">Hạng tử bậc 0</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong đa thức <span class="m">P = −3x<sup>4</sup> + 5x<sup>2</sup> − 2x + 1</span>, hạng tử nào có bậc bằng 0?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hạng tử bậc 0 là hạng tử không chứa <span class="m">x</span>.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tìm hạng tử chỉ là một số.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm hạng tử không chứa biến</h4>
+      <p>Hạng tử 1 (vì <span class="m">1 = 1x<sup>0</sup></span>) có bậc 0.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Hạng tử 1.</div>
+    <div class="bay">Chọn <span class="m">−2x</span> vì “trông nhỏ nhất”. <span class="m">−2x</span> có bậc 1.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch4" data-ten="Câu hỏi (mục 5)" data-muc="nb" data-chip="Câu hỏi ④">
+  <div class="bai-dau"><span class="so">Câu hỏi (mục 5)</span><span class="nhan nb">Nhận biết</span><span class="nhan">Bậc của đa thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một số khác 0 cũng là một đa thức. Vậy bậc của nó bằng bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đa thức này chỉ có đúng một hạng tử…</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Số <span class="m">a</span> khác 0 viết được là <span class="m"><i>ax</i><sup>0</sup></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Bậc của hạng tử duy nhất</h4>
+      <p>Đa thức chỉ có một hạng tử là số <span class="m">a ≠ 0</span>, hạng tử đó có bậc 0, nên bậc của đa thức là 0.</p>
+      <a class="xem-lai" href="#kt-bac">📌 Xem lại: bậc của đa thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Bậc 0.</div>
+    <div class="bay">Lẫn với số 0: số 0 (đa thức <i>không</i>) mới là đa thức không có bậc.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt5" data-ten="Luyện tập 5" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 5</span><span class="nhan th">Thông hiểu</span><span class="nhan">Bậc và hệ số</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Xác định bậc, hệ số cao nhất và hệ số tự do của mỗi đa thức sau:</p>
+    <p>a) <span class="m">5x<sup>2</sup> − 2x + 1 − 3x<sup>4</sup></span>; &nbsp;&nbsp; b) <span class="m">1,5x<sup>2</sup> − 3,4x<sup>4</sup> + 0,5x<sup>2</sup> − 1</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu b) chưa thu gọn — có hai hạng tử bậc 2!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Thu gọn (nếu cần), sắp xếp theo luỹ thừa giảm, rồi đọc hạng tử đầu tiên và hạng tử bậc 0 — như Ví dụ 3.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Sắp xếp</h4>
+      <p><span class="m">5x<sup>2</sup> − 2x + 1 − 3x<sup>4</sup></span> <span class="m">= −3x<sup>4</sup> + 5x<sup>2</sup> − 2x + 1</span> (đã thu gọn).</p>
+      <p>Bậc 4, hệ số cao nhất <span class="m">−3</span>, hệ số tự do 1.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Thu gọn rồi sắp xếp</h4>
+      <p><span class="m">1,5x<sup>2</sup> + 0,5x<sup>2</sup> = 2x<sup>2</sup></span>, nên đa thức là <span class="m">−3,4x<sup>4</sup> + 2x<sup>2</sup> − 1</span>.</p>
+      <p>Bậc 4, hệ số cao nhất <span class="m">−3,4</span>, hệ số tự do <span class="m">−1</span>.</p>
+      <a class="xem-lai" href="#kt-bac">📌 Xem lại: bậc, hệ số cao nhất, hệ số tự do</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Bậc 4; hệ số cao nhất <span class="m">−3</span>; hệ số tự do 1. &nbsp; b) Bậc 4; hệ số cao nhất <span class="m">−3,4</span>; hệ số tự do <span class="m">−1</span>.</div>
+    <div class="bay">Câu a) lấy hệ số cao nhất là 5 vì <span class="m">5x<sup>2</sup></span> đứng đầu. Hệ số cao nhất là hệ số của hạng tử <b>bậc cao nhất</b> <span class="m">(−3x<sup>4</sup>)</span>, không phải của hạng tử viết đầu.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd4" data-ten="HĐ4" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ4</span><span class="nhan nb">Nhận biết</span><span class="nhan">Giá trị đa thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Xét đa thức <span class="m">G(x) = x<sup>2</sup> − 4</span>. Tính các giá trị <span class="m">G(−2)</span>; <span class="m">G(−1)</span>; <span class="m">G(0)</span>; <span class="m">G(1)</span>; <span class="m">G(2)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bình phương của số âm là số dương: <span class="m">(−2)<sup>2</sup> = ?</span></p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Thay từng giá trị vào chỗ <span class="m">x</span>, như <span class="m">G(3) = 3<sup>2</sup> − 4 = 5</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Thay từng giá trị</h4>
+      <p><span class="m">G(−2) = (−2)<sup>2</sup> − 4 = 4 − 4 = 0</span>; &nbsp; <span class="m">G(−1) = (−1)<sup>2</sup> − 4 = −3</span>;</p>
+      <p><span class="m">G(0) = 0<sup>2</sup> − 4 = −4</span>; &nbsp; <span class="m">G(1) = 1<sup>2</sup> − 4 = −3</span>; &nbsp; <span class="m">G(2) = 2<sup>2</sup> − 4 = 0</span>.</p>
+      <p class="vi-sao">Thay số âm phải đặt trong ngoặc: <span class="m">(−2)<sup>2</sup> = 4</span>, còn <span class="m">−2<sup>2</sup> = −4</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">G(−2) = 0</span>; <span class="m">G(−1) = −3</span>; <span class="m">G(0) = −4</span>; <span class="m">G(1) = −3</span>; <span class="m">G(2) = 0</span>.</div>
+    <div class="bay">Tính <span class="m">G(−2) = −2<sup>2</sup> − 4 = −8</span> vì quên ngoặc. Phải là <span class="m">(−2)<sup>2</sup> = 4</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd5" data-ten="HĐ5" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ5</span><span class="nhan th">Thông hiểu</span><span class="nhan">Giá trị bằng 0</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Với giá trị nào của <span class="m">x</span> thì <span class="m">G(x) = x<sup>2</sup> − 4</span> có giá trị bằng 0?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Nhìn lại kết quả HĐ4 — giá trị nào bằng 0?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">G(x) = 0</span> nghĩa là <span class="m">x<sup>2</sup> = 4</span>. Số nào bình phương lên bằng 4?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đọc từ HĐ4</h4>
+      <p><span class="m">G(−2) = 0</span> và <span class="m">G(2) = 0</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Vì sao chỉ có hai số này</h4>
+      <p><span class="m">G(x) = 0</span> khi <span class="m">x<sup>2</sup> = 4</span>. Có đúng hai số bình phương bằng 4 là <span class="m">2</span> và <span class="m">−2</span> (vì <span class="m">2<sup>2</sup> = 4</span> và <span class="m">(−2)<sup>2</sup> = 4</span>).</p>
+      <p class="vi-sao">Số không âm có bình phương bằng 4 là 2 (căn bậc hai số học của 4); số đối của nó là <span class="m">−2</span> cũng có bình phương bằng 4.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">G(x) = 0</span> khi <span class="m">x = 2</span> hoặc <span class="m">x = −2</span>.</div>
+    <div class="bay">Chỉ trả lời <span class="m">x = 2</span>, quên số âm <span class="m">−2</span> cũng có bình phương bằng 4.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt6" data-ten="Luyện tập 6" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 6</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tìm nghiệm</span><span class="trang-thai"></span></div>
+  <div class="de"><p>1. Tính giá trị của đa thức <span class="m">F(x) = 2x<sup>2</sup> − 3x − 2</span> tại <span class="m">x = −1</span>; <span class="m">x = 0</span>; <span class="m">x = 1</span>; <span class="m">x = 2</span>. Từ đó hãy tìm một nghiệm của đa thức <span class="m">F(x)</span>.</p>
+    <p>2. Tìm nghiệm của đa thức <span class="m">E(x) = x<sup>2</sup> + x</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ý 2 có hệ số tự do bằng 0 — Nhận xét trong bài cho em ngay một nghiệm!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nghiệm là giá trị của <span class="m">x</span> làm cho đa thức bằng 0. Thay thử các giá trị rồi xem kết quả nào bằng 0.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>1. Tính các giá trị của <i>F</i>(<i>x</i>)</h4>
+      <p><span class="m">F(−1) = 2 · 1 + 3 − 2 = 3</span>; &nbsp; <span class="m">F(0) = −2</span>;</p>
+      <p><span class="m">F(1) = 2 − 3 − 2 = −3</span>; &nbsp; <span class="m">F(2) = 2 · 4 − 6 − 2 = 0</span>.</p>
+      <p>Vì <span class="m">F(2) = 0</span> nên <span class="m">x = 2</span> là một nghiệm của <span class="m">F(x)</span>.</p>
+      <a class="xem-lai" href="#kt-nghiem">📌 Xem lại: nghiệm của đa thức</a></div>
+    <div class="buoc" data-so="2"><h4>2. Nghiệm <i>x</i> = 0</h4>
+      <p><span class="m">E(x) = x<sup>2</sup> + x</span> có hệ số tự do bằng 0, nên <span class="m">x = 0</span> là một nghiệm: <span class="m">E(0) = 0 + 0 = 0</span>.</p></div>
+    <div class="buoc" data-so="3"><h4>2. Thử thêm vài giá trị</h4>
+      <p><span class="m">E(1) = 1 + 1 = 2</span>; <span class="m">E(−1) = (−1)<sup>2</sup> + (−1) = 1 − 1</span> <span class="m">= 0</span>; <span class="m">E(−2) = 4 − 2 = 2</span>.</p>
+      <p>Vậy <span class="m">x = −1</span> cũng là một nghiệm của <span class="m">E(x)</span>.</p>
+      <p class="vi-sao"><span class="m">E(x) = 0</span> nghĩa là <span class="m">x<sup>2</sup></span> và <span class="m">x</span> là hai số đối nhau. Với <span class="m">x = −1</span>: <span class="m">x<sup>2</sup> = 1</span> và <span class="m">x = −1</span> đúng là hai số đối nhau.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">1. <span class="m">F(−1) = 3</span>; <span class="m">F(0) = −2</span>; <span class="m">F(1) = −3</span>; <span class="m">F(2) = 0</span> → <span class="m">x = 2</span> là một nghiệm của <span class="m">F(x)</span>. &nbsp; 2. <span class="m">E(x)</span> có hai nghiệm <span class="m">x = 0</span> và <span class="m">x = −1</span>.</div>
+    <div class="bay">Ở ý 2 chỉ tìm được <span class="m">x = 0</span> rồi dừng. Một đa thức có thể có nhiều nghiệm — thử tiếp các số âm như <span class="m">−1</span>.</div>
+    <div class="gv-note">Vì sao <span class="m">E(x)</span> chỉ có hai nghiệm: nếu <span class="m">x ≠ 0</span> mà <span class="m">x<sup>2</sup> + x = 0</span> thì <span class="m">x · x = −x</span>, chia hai vế cho <span class="m">x</span> được <span class="m">x = −1</span>. Không dùng phân tích nhân tử / “tích bằng 0” (lớp 8). Có thể chỉ yêu cầu HS nêu hai nghiệm tìm được bằng cách thay giá trị.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd" data-ten="Vận dụng" data-muc="vd">
+  <div class="bai-dau"><span class="so">Vận dụng</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p><i>Bài toán:</i> Độ cao <span class="m">H</span> (mét) của một vật (so với mặt đất) khi được ném lên từ một điểm trên mặt đất được biểu thị bởi biểu thức <span class="m">H = −5x<sup>2</sup> + 15x</span>, trong đó <span class="m">x</span> (giây) là thời gian tính từ thời điểm ném vật. Hỏi sau bao lâu kể từ khi được ném lên, vật sẽ rơi trở lại mặt đất?</p>
+    <p>Trở lại <i>bài toán mở đầu</i>, hãy thực hiện các yêu cầu sau:</p>
+    <p>a) Xác định bậc, hệ số cao nhất và hệ số tự do của đa thức <span class="m">H(x) = −5x<sup>2</sup> + 15x</span>.</p>
+    <p>b) Tại sao <span class="m">x = 0</span> là một nghiệm của đa thức <span class="m">H(x)</span>? Kết quả đó nói lên điều gì?</p>
+    <p>c) Tính giá trị của <span class="m">H(x)</span> khi <span class="m">x = 1</span>; <span class="m">x = 2</span> và <span class="m">x = 3</span> để tìm nghiệm khác 0 của <span class="m">H(x)</span>. Nghiệm ấy có ý nghĩa gì? Từ đó hãy trả lời câu hỏi của bài toán.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 “Rơi trở lại mặt đất” nghĩa là độ cao <span class="m">H</span> bằng bao nhiêu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Vật ở trên mặt đất khi độ cao bằng 0, tức là khi <span class="m">H(x) = 0</span> — đó chính là lúc <span class="m">x</span> là nghiệm của <span class="m">H(x)</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Bậc và các hệ số</h4>
+      <p><span class="m">H(x) = −5x<sup>2</sup> + 15x</span> đã thu gọn, sắp xếp: bậc 2, hệ số cao nhất <span class="m">−5</span>, hệ số tự do 0 (không có hạng tử bậc 0).</p>
+      <a class="xem-lai" href="#kt-bac">📌 Xem lại: bậc, hệ số</a></div>
+    <div class="buoc" data-so="2"><h4>b) Nghiệm <i>x</i> = 0</h4>
+      <p><span class="m">H(0) = −5 · 0<sup>2</sup> + 15 · 0 = 0</span> (hệ số tự do bằng 0), nên <span class="m">x = 0</span> là một nghiệm.</p>
+      <p>Ý nghĩa: tại thời điểm ném (<span class="m">x = 0</span> giây), vật có độ cao 0 m — vật đang ở mặt đất (được ném lên từ mặt đất).</p></div>
+    <div class="buoc" data-so="3"><h4>c) Tính <i>H</i>(1), <i>H</i>(2), <i>H</i>(3)</h4>
+      <p><span class="m">H(1) = −5 + 15 = 10</span>; &nbsp; <span class="m">H(2) = −20 + 30 = 10</span>; &nbsp; <span class="m">H(3) = −45 + 45 = 0</span>.</p>
+      <p>Nghiệm khác 0 của <span class="m">H(x)</span> là <span class="m">x = 3</span>: sau 3 giây, độ cao của vật lại bằng 0, tức vật chạm đất.</p>
+      <a class="xem-lai" href="#kt-nghiem">📌 Xem lại: nghiệm của đa thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Bậc 2; hệ số cao nhất <span class="m">−5</span>; hệ số tự do 0. &nbsp; b) <span class="m">H(0) = 0</span>; nghĩa là lúc bắt đầu ném, vật ở mặt đất. &nbsp; c) <span class="m">H(1) = 10</span>, <span class="m">H(2) = 10</span>, <span class="m">H(3) = 0</span>; nghiệm khác 0 là <span class="m">x = 3</span>: sau 3 giây kể từ khi ném, vật rơi trở lại mặt đất.</div>
+    <div class="bay">Nói hệ số tự do là 15. Số 15 là hệ số của <span class="m">x</span> (bậc 1); không có hạng tử bậc 0 nên hệ số tự do bằng 0.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Tưởng tượng quả bóng gôn: lúc 0 giây nó nằm trên cỏ (độ cao 0), bay lên cao 10 m ở giây thứ 1 và 2, rồi giây thứ 3 rơi xuống cỏ (độ cao 0). Hai lần “độ cao bằng 0” chính là hai nghiệm 0 và 3.</div>
+  </div>
+</article>
+
+<article class="the bai" id="b75" data-ten="Bài 7.5" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 7.5</span><span class="nhan nb">Nhận biết</span><span class="nhan">Nhân, trừ đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>a) Tính <span class="m">(<span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup>) · (−4x<sup>2</sup>)</span>. Tìm hệ số và bậc của đơn thức nhận được.</p>
+    <p>b) Tính <span class="m"><span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup> − <span class="frac"><b>5</b><span>2</span></span>x<sup>3</sup></span>. Tìm hệ số và bậc của đơn thức nhận được.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 a) là nhân, b) là trừ — kết quả của mỗi câu là một đơn thức.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhân: nhân hệ số với hệ số, luỹ thừa với luỹ thừa. Trừ cùng bậc: trừ hệ số, giữ nguyên <span class="m">x<sup>3</sup></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Nhân hai đơn thức</h4>
+      <p><span class="m">(<span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup>) · (−4x<sup>2</sup>)</span> <span class="m">= [<span class="frac"><b>1</b><span>2</span></span> · (−4)] · (x<sup>3</sup> · x<sup>2</sup>) = −2x<sup>5</sup></span>.</p>
+      <p>Hệ số <span class="m">−2</span>, bậc 5.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Trừ hai đơn thức bậc 3</h4>
+      <p><span class="m"><span class="frac"><b>1</b><span>2</span></span>x<sup>3</sup> − <span class="frac"><b>5</b><span>2</span></span>x<sup>3</sup> = (<span class="frac"><b>1</b><span>2</span></span> − <span class="frac"><b>5</b><span>2</span></span>)x<sup>3</sup> = −2x<sup>3</sup></span>.</p>
+      <p>Hệ số <span class="m">−2</span>, bậc 3.</p>
+      <a class="xem-lai" href="#kt-cong-nhan">📌 Xem lại: cộng, trừ, nhân đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">−2x<sup>5</sup></span>: hệ số <span class="m">−2</span>, bậc 5. &nbsp; b) <span class="m">−2x<sup>3</sup></span>: hệ số <span class="m">−2</span>, bậc 3.</div>
+    <div class="bay">Câu b) ra <span class="m">−2x<sup>6</sup></span> hay <span class="m">−2x<sup>0</sup></span> vì cộng / trừ số mũ. Phép trừ hai đơn thức cùng bậc giữ nguyên <span class="m">x<sup>3</sup></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b76" data-ten="Bài 7.6" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 7.6</span><span class="nhan th">Thông hiểu</span><span class="nhan">Thu gọn, bậc, hệ số</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho hai đa thức:</p>
+    <p><span class="m">A(x)</span> <span class="m">= x<sup>3</sup> + <span class="frac"><b>3</b><span>2</span></span>x − 7x<sup>4</sup> + <span class="frac"><b>1</b><span>2</span></span>x − 4x<sup>2</sup> + 9</span> và <span class="m">B(x)</span> <span class="m">= x<sup>5</sup> − 3x<sup>2</sup> + 8x<sup>4</sup> − 5x<sup>2</sup> − x<sup>5</sup> + x − 7</span>.</p>
+    <p>a) Thu gọn và sắp xếp hai đa thức trên theo luỹ thừa giảm của biến.</p>
+    <p>b) Tìm bậc, hệ số cao nhất và hệ số tự do của mỗi đa thức đã cho.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Trong <span class="m">B(x)</span> có <span class="m">x<sup>5</sup> − x<sup>5</sup></span> — bậc của <span class="m">B</span> không phải là 5 đâu!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Gom các hạng tử cùng bậc, cộng hệ số; rồi xếp từ bậc cao xuống bậc thấp. Bậc phải đọc trên dạng <b>đã thu gọn</b>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Thu gọn và sắp xếp <i>A</i>(<i>x</i>)</h4>
+      <p>Bậc 1: <span class="m"><span class="frac"><b>3</b><span>2</span></span>x + <span class="frac"><b>1</b><span>2</span></span>x = 2x</span>.</p>
+      <p><span class="m">A(x) = −7x<sup>4</sup> + x<sup>3</sup> − 4x<sup>2</sup> + 2x + 9</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>a) Thu gọn và sắp xếp <i>B</i>(<i>x</i>)</h4>
+      <p>Bậc 5: <span class="m">x<sup>5</sup> − x<sup>5</sup> = 0</span>. Bậc 2: <span class="m">−3x<sup>2</sup> − 5x<sup>2</sup> = −8x<sup>2</sup></span>.</p>
+      <p><span class="m">B(x) = 8x<sup>4</sup> − 8x<sup>2</sup> + x − 7</span>.</p>
+      <a class="xem-lai" href="#kt-thu-gon">📌 Xem lại: thu gọn, sắp xếp</a></div>
+    <div class="buoc" data-so="3"><h4>b) Đọc bậc và hệ số</h4>
+      <p><span class="m">A(x)</span>: bậc 4, hệ số cao nhất <span class="m">−7</span>, hệ số tự do 9.</p>
+      <p><span class="m">B(x)</span>: bậc 4, hệ số cao nhất 8, hệ số tự do <span class="m">−7</span>.</p>
+      <p class="vi-sao">Muốn tìm bậc của một đa thức chưa thu gọn, ta phải thu gọn đa thức đó: <span class="m">B(x)</span> thu gọn không còn hạng tử bậc 5.</p>
+      <a class="xem-lai" href="#kt-bac">📌 Xem lại: bậc, hệ số cao nhất, hệ số tự do</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">A(x) = −7x<sup>4</sup> + x<sup>3</sup> − 4x<sup>2</sup> + 2x + 9</span>; <span class="m">B(x) = 8x<sup>4</sup> − 8x<sup>2</sup> + x − 7</span>. &nbsp; b) <span class="m">A</span>: bậc 4, hệ số cao nhất <span class="m">−7</span>, hệ số tự do 9; <span class="m">B</span>: bậc 4, hệ số cao nhất 8, hệ số tự do <span class="m">−7</span>.</div>
+    <div class="bay">Nói <span class="m">B(x)</span> có bậc 5 vì nhìn thấy <span class="m">x<sup>5</sup></span> ở đề. Hai hạng tử <span class="m">x<sup>5</sup></span> và <span class="m">−x<sup>5</sup></span> triệt tiêu nhau khi thu gọn.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b77" data-ten="Bài 7.7" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 7.7</span><span class="nhan th">Thông hiểu</span><span class="nhan">Thu gọn, tính giá trị</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho hai đa thức:</p>
+    <p><span class="m">P(x) = 5x<sup>3</sup> + 2x<sup>4</sup> − x<sup>2</sup> + 3x<sup>2</sup> − x<sup>3</sup></span> <span class="m">− 2x<sup>4</sup> − 4x<sup>3</sup></span> và <span class="m">Q(x)</span> <span class="m">= 3x − 4x<sup>3</sup> + 8x<sup>2</sup> − 5x + 4x<sup>3</sup> + 5</span>.</p>
+    <p>a) Thu gọn và sắp xếp hai đa thức trên theo luỹ thừa giảm của biến.</p>
+    <p>b) Sử dụng kết quả câu a để tính <span class="m">P(1)</span>, <span class="m">P(0)</span>, <span class="m">Q(−1)</span> và <span class="m">Q(0)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Thu gọn xong, <span class="m">P(x)</span> chỉ còn rất ngắn — tính giá trị sẽ nhẹ hẳn.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Với <span class="m">P(x)</span> có ba hạng tử bậc 3 và hai hạng tử bậc 4 — cộng hệ số từng nhóm.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Thu gọn <i>P</i>(<i>x</i>)</h4>
+      <p>Bậc 4: <span class="m">2x<sup>4</sup> − 2x<sup>4</sup> = 0</span>. Bậc 3: <span class="m">5x<sup>3</sup> − x<sup>3</sup> − 4x<sup>3</sup> = 0</span>. Bậc 2: <span class="m">−x<sup>2</sup> + 3x<sup>2</sup> = 2x<sup>2</sup></span>.</p>
+      <p><span class="m">P(x) = 2x<sup>2</sup></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>a) Thu gọn <i>Q</i>(<i>x</i>)</h4>
+      <p>Bậc 3: <span class="m">−4x<sup>3</sup> + 4x<sup>3</sup> = 0</span>. Bậc 1: <span class="m">3x − 5x = −2x</span>.</p>
+      <p><span class="m">Q(x) = 8x<sup>2</sup> − 2x + 5</span>.</p>
+      <a class="xem-lai" href="#kt-thu-gon">📌 Xem lại: thu gọn, sắp xếp</a></div>
+    <div class="buoc" data-so="3"><h4>b) Tính giá trị</h4>
+      <p><span class="m">P(1) = 2 · 1<sup>2</sup> = 2</span>; &nbsp; <span class="m">P(0) = 2 · 0<sup>2</sup> = 0</span>.</p>
+      <p><span class="m">Q(−1)</span> <span class="m">= 8 · (−1)<sup>2</sup> − 2 · (−1) + 5</span> <span class="m">= 8 + 2 + 5 = 15</span>; &nbsp; <span class="m">Q(0) = 5</span>.</p>
+      <p class="vi-sao">Dùng dạng thu gọn thì ít phép tính hơn hẳn và ít nhầm hơn — giá trị vẫn như khi thay vào đa thức ban đầu.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">P(x) = 2x<sup>2</sup></span>; <span class="m">Q(x) = 8x<sup>2</sup> − 2x + 5</span>. &nbsp; b) <span class="m">P(1) = 2</span>; <span class="m">P(0) = 0</span>; <span class="m">Q(−1) = 15</span>; <span class="m">Q(0) = 5</span>.</div>
+    <div class="bay">Tính <span class="m">Q(−1)</span> ra 11 vì viết <span class="m">−2 · (−1) = −2</span>. Âm nhân âm được dương: <span class="m">−2 · (−1) = 2</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b78" data-ten="Bài 7.8" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 7.8</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Người ta dùng hai máy bơm để bơm nước vào một bể chứa nước. Máy thứ nhất bơm mỗi giờ được 22 m³ nước. Máy thứ hai bơm mỗi giờ được 16 m³ nước. Sau khi cả hai máy chạy trong <span class="m">x</span> giờ, người ta tắt máy thứ nhất và để máy thứ hai chạy thêm 0,5 giờ nữa thì bể nước đầy.</p>
+    <p>Hãy viết đa thức (biến <span class="m">x</span>) biểu thị dung tích của bể (m³), biết rằng trước khi bơm, trong bể có 1,5 m³ nước. Tìm hệ số cao nhất và hệ số tự do của đa thức đó.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Máy thứ hai chạy lâu hơn máy thứ nhất bao nhiêu? Và đừng quên nước có sẵn trong bể!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Dung tích bể = nước có sẵn + nước máy thứ nhất bơm + nước máy thứ hai bơm. Máy thứ hai chạy tất cả <span class="m">x + 0,5</span> giờ.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nước mỗi máy bơm được</h4>
+      <p>Máy thứ nhất chạy <span class="m">x</span> giờ: <span class="m">22x</span> (m³).</p>
+      <p>Máy thứ hai chạy <span class="m">x</span> giờ rồi thêm 0,5 giờ: <span class="m">16x + 16 · 0,5 = 16x + 8</span> (m³).</p></div>
+    <div class="buoc" data-so="2"><h4>Cộng cả nước có sẵn rồi thu gọn</h4>
+      <p>Dung tích bể: <span class="m">22x + 16x + 8 + 1,5</span> <span class="m">= 38x + 9,5</span> (m³).</p>
+      <p class="vi-sao"><span class="m">22x</span> và <span class="m">16x</span> là hai đơn thức cùng bậc 1, cộng hệ số được <span class="m">38x</span>; hai số 8 và 1,5 cộng được 9,5.</p></div>
+    <div class="buoc" data-so="3"><h4>Hệ số cao nhất, hệ số tự do</h4>
+      <p>Đa thức <span class="m">38x + 9,5</span> có hệ số cao nhất 38, hệ số tự do 9,5.</p>
+      <a class="xem-lai" href="#kt-bac">📌 Xem lại: hệ số cao nhất, hệ số tự do</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Dung tích bể: <span class="m">38x + 9,5</span> (m³); hệ số cao nhất 38, hệ số tự do 9,5.</div>
+    <div class="bay">Quên 1,5 m³ nước có sẵn, hoặc quên 0,5 giờ máy thứ hai chạy thêm (viết <span class="m">38x</span> hay <span class="m">38x + 1,5</span>).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b79" data-ten="Bài 7.9" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 7.9</span><span class="nhan th">Thông hiểu</span><span class="nhan">Viết đa thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết đa thức <span class="m">F(x)</span> thoả mãn đồng thời các điều kiện sau:</p>
+    <p>• Bậc của <span class="m">F(x)</span> bằng 3.</p>
+    <p>• Hệ số của <span class="m">x<sup>2</sup></span> bằng hệ số của <span class="m">x</span> và bằng 2.</p>
+    <p>• Hệ số cao nhất của <span class="m">F(x)</span> bằng <span class="m">−6</span> và hệ số tự do bằng 3.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bậc 3 → có hạng tử <span class="m">x<sup>3</sup></span>. Ba điều kiện cho đủ cả bốn hệ số.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đa thức bậc 3 thu gọn có dạng: (hệ số) <span class="m">x<sup>3</sup></span> + (hệ số) <span class="m">x<sup>2</sup></span> + (hệ số) <span class="m">x</span> + (hệ số tự do).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Điền từng hệ số</h4>
+      <p>Bậc 3, hệ số cao nhất <span class="m">−6</span> → hạng tử <span class="m">−6x<sup>3</sup></span>.</p>
+      <p>Hệ số của <span class="m">x<sup>2</sup></span> và của <span class="m">x</span> đều bằng 2 → <span class="m">2x<sup>2</sup></span> và <span class="m">2x</span>.</p>
+      <p>Hệ số tự do 3 → hạng tử 3.</p></div>
+    <div class="buoc" data-so="2"><h4>Viết đa thức</h4>
+      <p><span class="m">F(x) = −6x<sup>3</sup> + 2x<sup>2</sup> + 2x + 3</span>.</p>
+      <a class="xem-lai" href="#kt-bac">📌 Xem lại: bậc, hệ số cao nhất, hệ số tự do</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">F(x) = −6x<sup>3</sup> + 2x<sup>2</sup> + 2x + 3</span>.</div>
+    <div class="bay">Viết <span class="m">−6x<sup>3</sup> + 2x<sup>2</sup> + 3</span> — hiểu “hệ số của <span class="m">x<sup>2</sup></span> bằng hệ số của <span class="m">x</span>” thành một hạng tử. Phải có cả <span class="m">2x<sup>2</sup></span> và <span class="m">2x</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b710" data-ten="Bài 7.10" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 7.10</span><span class="nhan th">Thông hiểu</span><span class="nhan">Kiểm tra nghiệm</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Kiểm tra xem:</p>
+    <p>a) <span class="m">x = −<span class="frac"><b>1</b><span>8</span></span></span> có phải là nghiệm của đa thức <span class="m">P(x) = 4x + <span class="frac"><b>1</b><span>2</span></span></span> không?</p>
+    <p>b) Trong ba số 1; <span class="m">−1</span> và 2, số nào là nghiệm của đa thức <span class="m">Q(x) = x<sup>2</sup> + x − 2</span>?</p></div>
+  <div class="thu chi-hs">
+    <div class="cau-thu"><span class="noi-dung">b) Số 1 có là nghiệm của <span class="m">Q(x)</span>?</span><button class="chon chu" data-dung="1">Có</button><button class="chon chu">Không</button><span class="phan-hoi" data-dung-txt="Đúng: Q(1) = 1 + 1 − 2 = 0." data-sai-txt="Em tính thử Q(1) = 1² + 1 − 2 bằng bao nhiêu?"></span></div>
+    <div class="cau-thu"><span class="noi-dung">b) Số −1 có là nghiệm của <span class="m">Q(x)</span>?</span><button class="chon chu">Có</button><button class="chon chu" data-dung="1">Không</button><span class="phan-hoi" data-dung-txt="Đúng: Q(−1) = 1 − 1 − 2 = −2 ≠ 0." data-sai-txt="(−1)² = 1; vậy Q(−1) = 1 + (−1) − 2 bằng mấy?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Kiểm tra nghiệm = thay số vào xem có ra 0 không.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tính <span class="m">P(−<span class="frac"><b>1</b><span>8</span></span>)</span>; tính <span class="m">Q(1)</span>, <span class="m">Q(−1)</span>, <span class="m">Q(2)</span>. Giá trị nào bằng 0 thì số đó là nghiệm.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Tính <i>P</i>(−1/8)</h4>
+      <p><span class="m">P(−<span class="frac"><b>1</b><span>8</span></span>) = 4 · (−<span class="frac"><b>1</b><span>8</span></span>) + <span class="frac"><b>1</b><span>2</span></span></span> <span class="m">= −<span class="frac"><b>1</b><span>2</span></span> + <span class="frac"><b>1</b><span>2</span></span> = 0</span>.</p>
+      <p>Vậy <span class="m">x = −<span class="frac"><b>1</b><span>8</span></span></span> là nghiệm của <span class="m">P(x)</span>.</p>
+      <a class="xem-lai" href="#kt-nghiem">📌 Xem lại: nghiệm của đa thức</a></div>
+    <div class="buoc" data-so="2"><h4>b) Tính <i>Q</i> tại 1; −1; 2</h4>
+      <p><span class="m">Q(1) = 1 + 1 − 2 = 0</span>; &nbsp; <span class="m">Q(−1) = 1 − 1 − 2 = −2</span>; &nbsp; <span class="m">Q(2) = 4 + 2 − 2 = 4</span>.</p>
+      <p>Chỉ có <span class="m">Q(1) = 0</span>, nên trong ba số đó chỉ có số 1 là nghiệm của <span class="m">Q(x)</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Có, vì <span class="m">P(−<span class="frac"><b>1</b><span>8</span></span>) = 0</span>. &nbsp; b) <span class="m">Q(1) = 0</span>, <span class="m">Q(−1) = −2</span>, <span class="m">Q(2) = 4</span>: chỉ có số 1 là nghiệm.</div>
+    <div class="bay">Tính <span class="m">(−1)<sup>2</sup> = −1</span> nên được <span class="m">Q(−1) = −4</span>. Bình phương của <span class="m">−1</span> là 1.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b711" data-ten="Bài 7.11" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 7.11</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Mẹ cho Quỳnh 100 nghìn đồng. Quỳnh mua một bộ dụng cụ học tập có giá 37 nghìn đồng và một cuốn sách tham khảo môn Toán với giá <span class="m">x</span> (nghìn đồng).</p>
+    <p>a) Hãy tìm đa thức (biến <span class="m">x</span>) biểu thị số tiền Quỳnh còn lại (đơn vị: nghìn đồng). Tìm bậc của đa thức đó.</p>
+    <p>b) Sau khi mua sách thì Quỳnh tiêu vừa hết số tiền mẹ cho. Hỏi giá tiền của cuốn sách là bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 “Tiêu vừa hết” — số tiền còn lại bằng bao nhiêu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tiền còn lại = 100 − tiền dụng cụ − tiền sách. Ở câu b), số tiền còn lại bằng 0 — tìm <span class="m">x</span> làm cho đa thức bằng 0.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Lập đa thức</h4>
+      <p>Số tiền còn lại: <span class="m">100 − 37 − x = 63 − x</span>, sắp xếp lại: <span class="m">−x + 63</span> (nghìn đồng).</p>
+      <p>Đa thức <span class="m">−x + 63</span> có bậc 1.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Tiền còn lại bằng 0</h4>
+      <p>Giá cuốn sách là nghiệm của đa thức <span class="m">−x + 63</span>. Thay <span class="m">x = 63</span>: <span class="m">−63 + 63 = 0</span>.</p>
+      <p>Vậy cuốn sách giá 63 nghìn đồng.</p>
+      <p class="vi-sao">“Tiêu vừa hết” nghĩa là còn lại 0 đồng, tức giá trị của đa thức bằng 0 — chính là nghiệm.</p>
+      <a class="xem-lai" href="#kt-nghiem">📌 Xem lại: nghiệm của đa thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">−x + 63</span> (nghìn đồng), bậc 1. &nbsp; b) Cuốn sách giá 63 nghìn đồng.</div>
+    <div class="bay">Viết đa thức là <span class="m">100 − 37 + x</span> — tiền mua sách phải <b>trừ</b> đi, không cộng thêm.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 25. Đa thức một biến — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c07-b25';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-07-bai-25-da-thuc-mot-bien-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-07-bai-25-da-thuc-mot-bien-bai-giai.nguon.html" data-phien-ban="2c7beba51f3d">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

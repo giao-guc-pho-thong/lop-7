@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 28. Phép chia đa thức một biến — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương VII. Biểu thức đại số và đa thức một biến</div>
+    <div class="hang1">
+      <h1>Bài 28. Phép chia đa thức một biến — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương VII. Biểu thức đại số và đa thức một biến</div><h1>Bài 28. Phép chia đa thức một biến — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 5 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-chia-het"><b class="ten">Phép chia hết</b>
+      Cho hai đa thức <span class="m">A</span> và <span class="m">B</span> với <span class="m">B ≠ 0</span>. Nếu có một đa thức <span class="m">Q</span> sao cho <span class="m">A = B · Q</span> thì ta có <b>phép chia hết</b> <span class="m">A : B = Q</span>; <span class="m">A</span> là đa thức bị chia, <span class="m">B</span> là đa thức chia, <span class="m">Q</span> là đa thức thương (gọi tắt là thương).</div>
+    <div class="kt" id="kt-chia-don"><b class="ten">Chia đơn thức cho đơn thức</b>
+      Cho hai đơn thức <span class="m"><i>ax</i><sup>m</sup></span> và <span class="m"><i>bx</i><sup>n</sup></span> <span class="m">(b ≠ 0)</span>. Nếu <span class="m">m ≥ n</span> thì phép chia <span class="m"><i>ax</i><sup>m</sup></span> cho <span class="m"><i>bx</i><sup>n</sup></span> là phép chia hết và <span class="m"><i>ax</i><sup>m</sup> : <i>bx</i><sup>n</sup> = <span class="frac"><b>a</b><span>b</span></span>x<sup>m − n</sup></span> (quy ước <span class="m">x<sup>0</sup> = 1</span>). Chia hai hệ số, chia hai luỹ thừa của biến rồi nhân hai kết quả. (<span class="m">12x<sup>3</sup> : 4x</span> được hiểu là <span class="m">12x<sup>3</sup> : (4x)</span>.)</div>
+    <div class="kt" id="kt-dat-tinh"><b class="ten">Đặt tính chia</b>
+      Lấy hạng tử bậc cao nhất của đa thức bị chia (hay của dư) chia cho hạng tử bậc cao nhất của đa thức chia; nhân kết quả với đa thức chia rồi lấy đa thức bị chia (hay dư) trừ đi tích đó; lặp lại cho tới khi dư bằng 0 hoặc có bậc nhỏ hơn bậc của đa thức chia. Hạng tử khuyết thì để khoảng trống (hoặc viết với hệ số 0, như <span class="m">9x<sup>2</sup> + 0x − 4</span>).</div>
+    <div class="kt" id="kt-chia-cho-don"><b class="ten">Chia đa thức cho đơn thức</b>
+      Có thể không cần đặt tính chia: chia từng hạng tử cho đơn thức rồi cộng. Chẳng hạn <span class="m">(−6x<sup>5</sup> + 7x<sup>4</sup> − 6x<sup>3</sup>) : 3x<sup>3</sup></span> <span class="m">= −2x<sup>2</sup> + <span class="frac"><b>7</b><span>3</span></span>x − 2</span>.</div>
+    <div class="kt" id="kt-co-du"><b class="ten">Phép chia có dư</b>
+      Khi chia đa thức <span class="m">A</span> cho đa thức <span class="m">B</span>: đa thức dư <span class="m">R</span> phải bằng 0 hoặc có bậc nhỏ hơn bậc của <span class="m">B</span>; nếu thương là <span class="m">Q</span>, dư là <span class="m">R</span> thì <span class="m">A = <i>BQ</i> + R</span>.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập hai — Bài 28. Phép chia đa thức một biến (trang 39–43).</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Chia đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tìm thương của mỗi phép chia hết sau:</p>
+    <p>a) <span class="m">12x<sup>3</sup> : 4x</span>; &nbsp;&nbsp; b) <span class="m">(−2x<sup>4</sup>) : x<sup>4</sup></span>; &nbsp;&nbsp; c) <span class="m">2x<sup>5</sup> : 5x<sup>2</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Chia hệ số cho hệ số, luỹ thừa cho luỹ thừa. Câu c) hệ số chia không hết thì sao?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">x<sup>m</sup> : x<sup>n</sup> = x<sup>m − n</sup></span> và <span class="m">x<sup>0</sup> = 1</span>. Hệ số có thể là phân số.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a)</h4>
+      <p><span class="m">12 : 4 = 3</span>; <span class="m">x<sup>3</sup> : x = x<sup>2</sup></span>. Thương: <span class="m">3x<sup>2</sup></span>.</p>
+      <p class="vi-sao">Như Pi nói, <span class="m">12x<sup>3</sup> : 4x</span> là chia cho cả đơn thức <span class="m">4x</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>b)</h4>
+      <p><span class="m">(−2) : 1 = −2</span>; <span class="m">x<sup>4</sup> : x<sup>4</sup> = x<sup>0</sup> = 1</span>. Thương: <span class="m">−2</span>.</p></div>
+    <div class="buoc" data-so="3"><h4>c)</h4>
+      <p><span class="m">2 : 5 = <span class="frac"><b>2</b><span>5</span></span></span>; <span class="m">x<sup>5</sup> : x<sup>2</sup> = x<sup>3</sup></span>. Thương: <span class="m"><span class="frac"><b>2</b><span>5</span></span>x<sup>3</sup></span>.</p>
+      <a class="xem-lai" href="#kt-chia-don">📌 Xem lại: chia đơn thức cho đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">3x<sup>2</sup></span>; &nbsp; b) <span class="m">−2</span>; &nbsp; c) <span class="m"><span class="frac"><b>2</b><span>5</span></span>x<sup>3</sup></span>.</div>
+    <div class="bay">Câu a) tính <span class="m">12x<sup>3</sup> : 4 · x = 3x<sup>3</sup> · x = 3x<sup>4</sup></span> (chia cho 4 rồi lại nhân <span class="m">x</span>). Phải chia cho cả <span class="m">4x</span>: kết quả <span class="m">3x<sup>2</sup></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Chia luỹ thừa</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Giả sử <span class="m">x ≠ 0</span>. Hãy cho biết:</p>
+    <p>a) Với điều kiện nào (của hai số mũ) thì thương hai luỹ thừa của <span class="m">x</span> cũng là một luỹ thừa của <span class="m">x</span> với số mũ nguyên dương?</p>
+    <p>b) Thương hai luỹ thừa của <span class="m">x</span> cùng bậc bằng bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m">x<sup>m</sup> : x<sup>n</sup> = x<sup>m − n</sup></span>. Khi nào <span class="m">m − n</span> là số nguyên dương?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhớ lại quy tắc chia hai luỹ thừa cùng cơ số (Bài 3).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Số mũ của thương</h4>
+      <p><span class="m">x<sup>m</sup> : x<sup>n</sup> = x<sup>m − n</sup></span> (với <span class="m">m ≥ n</span>). Số mũ <span class="m">m − n</span> nguyên dương khi <span class="m">m &gt; n</span>.</p>
+      <p class="vi-sao">Ví dụ <span class="m">x<sup>5</sup> : x<sup>2</sup> = x<sup>3</sup></span> (mũ 3 &gt; 0), còn <span class="m">x<sup>2</sup> : x<sup>2</sup> = x<sup>0</sup></span> có số mũ 0.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Hai luỹ thừa cùng bậc</h4>
+      <p><span class="m">x<sup>m</sup> : x<sup>m</sup> = x<sup>0</sup> = 1</span>.</p>
+      <a class="xem-lai" href="#kt-chia-don">📌 Xem lại: quy ước x⁰ = 1</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Số mũ của số bị chia lớn hơn số mũ của số chia <span class="m">(m &gt; n)</span>. &nbsp; b) Bằng 1.</div>
+    <div class="bay">Câu b) trả lời “bằng 0” vì <span class="m">m − m = 0</span>. Số mũ bằng 0, còn giá trị <span class="m">x<sup>0</sup> = 1</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="nb">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Chia đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thực hiện các phép chia sau:</p>
+    <p>a) <span class="m">3x<sup>7</sup> : <span class="frac"><b>1</b><span>2</span></span>x<sup>4</sup></span>; &nbsp;&nbsp; b) <span class="m">(−2x) : x</span>; &nbsp;&nbsp; c) <span class="m">0,25x<sup>5</sup> : (−5x<sup>2</sup>)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu a) chia cho một phân số; câu c) chia số thập phân cho số âm.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m"><i>ax</i><sup>m</sup> : <i>bx</i><sup>n</sup> = <span class="frac"><b>a</b><span>b</span></span>x<sup>m − n</sup></span>. Chia cho <span class="m"><span class="frac"><b>1</b><span>2</span></span></span> là nhân với 2.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a)</h4>
+      <p><span class="m">3 : <span class="frac"><b>1</b><span>2</span></span> = 6</span>; <span class="m">x<sup>7</sup> : x<sup>4</sup> = x<sup>3</sup></span>. Kết quả <span class="m">6x<sup>3</sup></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>b)</h4>
+      <p><span class="m">(−2) : 1 = −2</span>; <span class="m">x : x = 1</span>. Kết quả <span class="m">−2</span>.</p></div>
+    <div class="buoc" data-so="3"><h4>c)</h4>
+      <p><span class="m">0,25 : (−5) = −0,05</span>; <span class="m">x<sup>5</sup> : x<sup>2</sup> = x<sup>3</sup></span>. Kết quả <span class="m">−0,05x<sup>3</sup></span>.</p>
+      <a class="xem-lai" href="#kt-chia-don">📌 Xem lại: chia đơn thức cho đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">6x<sup>3</sup></span>; &nbsp; b) <span class="m">−2</span>; &nbsp; c) <span class="m">−0,05x<sup>3</sup></span>.</div>
+    <div class="bay">Câu a) ra <span class="m"><span class="frac"><b>3</b><span>2</span></span>x<sup>3</sup></span> vì lấy <span class="m">3 · <span class="frac"><b>1</b><span>2</span></span></span>. Chia cho <span class="m"><span class="frac"><b>1</b><span>2</span></span></span> là nhân với 2.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch" data-ten="Câu hỏi" data-muc="th">
+  <div class="bai-dau"><span class="so">Câu hỏi</span><span class="nhan th">Thông hiểu</span><span class="nhan">Kiểm tra phép chia</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho <span class="m">A = 2x<sup>4</sup> − 13x<sup>3</sup> + 15x<sup>2</sup> + 11x − 3</span> và <span class="m">B = x<sup>2</sup> − 4x − 3</span>. Kiểm tra lại rằng ta có phép chia hết <span class="m">A : B = 2x<sup>2</sup> − 5x + 1</span>, nghĩa là xảy ra:</p>
+    <p style="text-align:center"><span class="m">A = B · (2x<sup>2</sup> − 5x + 1)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Kiểm tra phép chia hết bằng phép nhân: đa thức chia × thương có bằng đa thức bị chia không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Nhân <span class="m">(x<sup>2</sup> − 4x − 3)(2x<sup>2</sup> − 5x + 1)</span> — có thể đặt tính nhân như Bài 27.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đặt tính nhân <i>B</i> với thương</h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 4x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">×</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">2x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 5x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 1</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 4x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 3</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−5x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 20x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 15x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">2x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 8x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">2x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 13x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 15x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 11x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 3</span></td></tr></table></div>
+      <p class="vi-sao">Các dòng lần lượt là <span class="m">1 · B</span>, <span class="m">−5x · B</span>, <span class="m">2x<sup>2</sup> · B</span>; cộng theo cột được tích.</p></div>
+    <div class="buoc" data-so="2"><h4>So sánh với <i>A</i></h4>
+      <p>Tích bằng <span class="m">2x<sup>4</sup> − 13x<sup>3</sup> + 15x<sup>2</sup> + 11x − 3</span>, đúng bằng <span class="m">A</span>. Vậy <span class="m">A = B · (2x<sup>2</sup> − 5x + 1)</span>.</p>
+      <a class="xem-lai" href="#kt-chia-het">📌 Xem lại: phép chia hết</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">(x<sup>2</sup> − 4x − 3)(2x<sup>2</sup> − 5x + 1)</span> <span class="m">= 2x<sup>4</sup> − 13x<sup>3</sup> + 15x<sup>2</sup> + 11x − 3 = A</span>, nên <span class="m">A : B = 2x<sup>2</sup> − 5x + 1</span>.</div>
+    <div class="bay">Cột <span class="m">x<sup>2</sup></span> có ba số <span class="m">1</span>, <span class="m">20</span>, <span class="m">−6</span> — dễ cộng sót một số. <span class="m">1 + 20 − 6 = 15</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Chia đa thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thực hiện phép chia: a) <span class="m">(−x<sup>6</sup> + 5x<sup>4</sup> − 2x<sup>3</sup>) : 0,5x<sup>2</sup></span>.</p>
+    <p>b) <span class="m">(9x<sup>2</sup> − 4) : (3x + 2)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 a) chia cho một đơn thức — không cần đặt tính. b) làm như lời Vuông: viết thêm <span class="m">0x</span>.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> a) Chia từng hạng tử cho <span class="m">0,5x<sup>2</sup></span> (chia cho 0,5 là nhân với 2). b) Đặt tính chia với đa thức bị chia <span class="m">9x<sup>2</sup> + 0x − 4</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Chia từng hạng tử</h4>
+      <p><span class="m">(−x<sup>6</sup>) : 0,5x<sup>2</sup> = −2x<sup>4</sup></span>; &nbsp; <span class="m">5x<sup>4</sup> : 0,5x<sup>2</sup> = 10x<sup>2</sup></span>; &nbsp; <span class="m">(−2x<sup>3</sup>) : 0,5x<sup>2</sup> = −4x</span>.</p>
+      <p>Kết quả: <span class="m">−2x<sup>4</sup> + 10x<sup>2</sup> − 4x</span>.</p>
+      <a class="xem-lai" href="#kt-chia-cho-don">📌 Xem lại: chia đa thức cho đơn thức</a></div>
+    <div class="buoc" data-so="2"><h4>b) Đặt tính chia</h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">9x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 0x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 4</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">3x + 2</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">9x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">3x − 2</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 4</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 4</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">0</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+      <p><span class="m">9x<sup>2</sup> : 3x = 3x</span>; trừ đi <span class="m">3x(3x + 2) = 9x<sup>2</sup> + 6x</span> được dư <span class="m">−6x − 4</span>; <span class="m">(−6x) : 3x = −2</span>; trừ đi <span class="m">−2(3x + 2) = −6x − 4</span> được dư 0.</p>
+      <a class="xem-lai" href="#kt-dat-tinh">📌 Xem lại: đặt tính chia</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">−2x<sup>4</sup> + 10x<sup>2</sup> − 4x</span>; &nbsp; b) <span class="m">3x − 2</span>.</div>
+    <div class="bay">Câu b) viết <span class="m">9x<sup>2</sup> − 4</span> mà không chừa cột <span class="m">x</span>, rồi đặt <span class="m">6x</span> dưới <span class="m">−4</span> và trừ <span class="m">−4 − 6x</span> như hai số. Hạng tử khác bậc không trừ gộp được — hãy viết <span class="m">9x<sup>2</sup> + 0x − 4</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd" data-ten="Vận dụng" data-muc="vd">
+  <div class="bai-dau"><span class="so">Vận dụng</span><span class="nhan vd">Vận dụng</span><span class="nhan">Tìm đa thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p><i>Bài toán:</i> Tìm đa thức <span class="m">P</span> sao cho <span class="m">A = B · P</span>, trong đó <span class="m">A = 2x<sup>4</sup> − 3x<sup>3</sup> − 3x<sup>2</sup> + 6x − 2</span> và <span class="m">B = x<sup>2</sup> − 2</span>.</p>
+    <p>Em hãy giải bài toán trong <i>tình huống mở đầu</i>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Tìm <span class="m">P</span> sao cho <span class="m">A = B · P</span> — chính là tìm thương <span class="m">A : B</span>.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đặt tính chia <span class="m">A</span> cho <span class="m">B</span>; <span class="m">B</span> khuyết hạng tử bậc 1 nên mỗi tích chỉ có hai hạng tử.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đặt tính chia <i>A</i> : <i>B</i></h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">2x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 2</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">x<sup>2</sup> − 2</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">2x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 4x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">2x<sup>2</sup> − 3x + 1</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−3x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 2</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−3x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 2</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 2</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">0</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+      <p class="vi-sao">Dư cuối cùng bằng 0 nên đây là phép chia hết, và thương chính là đa thức <span class="m">P</span> cần tìm.</p>
+      <a class="xem-lai" href="#kt-chia-het">📌 Xem lại: phép chia hết</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận và thử lại</h4>
+      <p><span class="m">P = 2x<sup>2</sup> − 3x + 1</span>.</p>
+      <p>Thử lại: <span class="m">(x<sup>2</sup> − 2)(2x<sup>2</sup> − 3x + 1)</span> <span class="m">= 2x<sup>4</sup> − 3x<sup>3</sup> + x<sup>2</sup> − 4x<sup>2</sup> + 6x − 2</span> <span class="m">= 2x<sup>4</sup> − 3x<sup>3</sup> − 3x<sup>2</sup> + 6x − 2 = A</span> ✓.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">P = 2x<sup>2</sup> − 3x + 1</span>.</div>
+    <div class="bay">Đặt tích <span class="m">B · 2x<sup>2</sup> = 2x<sup>4</sup> − 4x<sup>2</sup></span> mà viết <span class="m">−4x<sup>2</sup></span> thẳng dưới <span class="m">−3x<sup>3</sup></span>. Phải đặt dưới cột <span class="m">x<sup>2</sup></span>, cột <span class="m">x<sup>3</sup></span> để trống.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd3" data-ten="HĐ3" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ3</span><span class="nhan th">Thông hiểu</span><span class="nhan">Các bước chia</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bốn bước đầu tiên khi chia đa thức <span class="m">D = 5x<sup>3</sup> − 3x<sup>2</sup> − x + 7</span> cho đa thức <span class="m">E = x<sup>2</sup> + 1</span> được viết gọn như sau:</p>
+    <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">5x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 7</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">x<sup>2</sup> + 1</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">5x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 5x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">5x − 3</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−3x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 7</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−3x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 10</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+    <p>Hãy mô tả lại các bước đã thực hiện trong phép chia đa thức <span class="m">D</span> cho đa thức <span class="m">E</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bốn bước — hai lần “chia hạng tử cao nhất”, hai lần “nhân rồi trừ”.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Làm theo đúng mẫu các bước của phép chia hết ở mục 2.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Bước 1 và Bước 2</h4>
+      <p>Bước 1: chia hạng tử bậc cao nhất của <span class="m">D</span> cho hạng tử bậc cao nhất của <span class="m">E</span>: <span class="m">5x<sup>3</sup> : x<sup>2</sup> = 5x</span>.</p>
+      <p>Bước 2: lấy <span class="m">D</span> trừ đi tích <span class="m">E · 5x = 5x<sup>3</sup> + 5x</span>, được dư thứ nhất <span class="m">−3x<sup>2</sup> − 6x + 7</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Bước 3 và Bước 4</h4>
+      <p>Bước 3: chia hạng tử bậc cao nhất của dư thứ nhất cho <span class="m">x<sup>2</sup></span>: <span class="m">(−3x<sup>2</sup>) : x<sup>2</sup> = −3</span>.</p>
+      <p>Bước 4: lấy dư thứ nhất trừ đi tích <span class="m">E · (−3) = −3x<sup>2</sup> − 3</span>, được dư thứ hai <span class="m">−6x + 10</span>.</p>
+      <p class="vi-sao">Tích <span class="m">E · 5x = 5x<sup>3</sup> + 5x</span> khuyết hạng tử bậc 2, nên ở cột <span class="m">x<sup>2</sup></span> để khoảng trống (lời Tròn).</p>
+      <a class="xem-lai" href="#kt-dat-tinh">📌 Xem lại: đặt tính chia</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">B1: <span class="m">5x<sup>3</sup> : x<sup>2</sup> = 5x</span>; B2: <span class="m">D − E · 5x = −3x<sup>2</sup> − 6x + 7</span> (dư thứ nhất); B3: <span class="m">(−3x<sup>2</sup>) : x<sup>2</sup> = −3</span>; B4: (dư thứ nhất) <span class="m">− E · (−3) = −6x + 10</span> (dư thứ hai). Thương tạm thời là <span class="m">5x − 3</span>.</div>
+    <div class="bay">Ở bước 2 tính <span class="m">−x − 5x = −4x</span>. Đúng là <span class="m">−x − 5x = −6x</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd4" data-ten="HĐ4" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Khi nào dừng chia</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Kí hiệu dư thứ hai là <span class="m">G = −6x + 10</span>. Đa thức này có bậc bằng 1. Lúc này phép chia có thể tiếp tục được không? Vì sao?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Muốn chia tiếp, phải lấy <span class="m">−6x</span> chia cho <span class="m">x<sup>2</sup></span>. Được không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> So sánh bậc của <span class="m">G</span> với bậc của đa thức chia <span class="m">E = x<sup>2</sup> + 1</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh bậc</h4>
+      <p><span class="m">G</span> có bậc 1, nhỏ hơn bậc 2 của <span class="m">E</span>. Hạng tử bậc cao nhất của <span class="m">G</span> là <span class="m">−6x</span>, không chia hết cho <span class="m">x<sup>2</sup></span> (số mũ 1 nhỏ hơn 2).</p>
+      <p>Vậy phép chia không thể tiếp tục; <span class="m">G</span> là dư cuối cùng.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: dư có bậc nhỏ hơn bậc của B</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Không. Vì <span class="m">G</span> có bậc 1 nhỏ hơn bậc 2 của <span class="m">E</span> (<span class="m">−6x</span> không chia hết cho <span class="m">x<sup>2</sup></span>), nên phép chia dừng lại.</div>
+    <div class="bay">Cố chia tiếp <span class="m">−6x</span> cho <span class="m">x<sup>2</sup></span>. Không được: <span class="m"><i>ax</i><sup>m</sup></span> chỉ chia hết cho <span class="m"><i>bx</i><sup>n</sup></span> khi <span class="m">m ≥ n</span>, mà ở đây số mũ <span class="m">1 &lt; 2</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd5" data-ten="HĐ5" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ5</span><span class="nhan th">Thông hiểu</span><span class="nhan">Kiểm tra A = BQ + R</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hãy kiểm tra lại đẳng thức: <span class="m">D = E · (5x − 3) + G</span>, với <span class="m">D = 5x<sup>3</sup> − 3x<sup>2</sup> − x + 7</span>, <span class="m">E = x<sup>2</sup> + 1</span>, <span class="m">G = −6x + 10</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Nhân <span class="m">E</span> với thương rồi cộng thêm dư — có ra đúng <span class="m">D</span> không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tính <span class="m">(x<sup>2</sup> + 1)(5x − 3)</span> trước, rồi cộng với <span class="m">−6x + 10</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhân <i>E</i> với thương</h4>
+      <p><span class="m">(x<sup>2</sup> + 1)(5x − 3)</span> <span class="m">= 5x<sup>3</sup> − 3x<sup>2</sup> + 5x − 3</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Cộng thêm dư <i>G</i></h4>
+      <p><span class="m">5x<sup>3</sup> − 3x<sup>2</sup> + 5x − 3 + (−6x + 10)</span> <span class="m">= 5x<sup>3</sup> − 3x<sup>2</sup> − x + 7 = D</span> ✓.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: A = BQ + R</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">E · (5x − 3) + G</span> <span class="m">= 5x<sup>3</sup> − 3x<sup>2</sup> + 5x − 3 − 6x + 10</span> <span class="m">= 5x<sup>3</sup> − 3x<sup>2</sup> − x + 7 = D</span>. Đẳng thức đúng.</div>
+    <div class="bay">Quên cộng dư <span class="m">G</span>, rồi kết luận “không bằng <span class="m">D</span>”. Với phép chia có dư phải là thương × chia <b>+ dư</b>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt3" data-ten="Luyện tập 3" data-muc="vd">
+  <div class="bai-dau"><span class="so">Luyện tập 3</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chia có dư</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tìm dư <span class="m">R</span> và thương <span class="m">Q</span> trong phép chia đa thức <span class="m">A = 3x<sup>4</sup> − 6x − 5</span> cho đa thức <span class="m">B = x<sup>2</sup> + 3x − 1</span> rồi viết <span class="m">A</span> dưới dạng <span class="m">A = B · Q + R</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 <span class="m">A</span> khuyết hai hạng tử (<span class="m">x<sup>3</sup></span>, <span class="m">x<sup>2</sup></span>) — chừa đủ khoảng trống khi đặt tính.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Chia cho tới khi dư có bậc nhỏ hơn 2 (bậc của <span class="m">B</span>).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đặt tính chia</h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">3x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 5</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">x<sup>2</sup> + 3x − 1</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">3x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 9x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">3x<sup>2</sup> − 9x + 30</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−9x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 3x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 6x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 5</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−9x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 27x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 9x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">30x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 15x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 5</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">30x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 90x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 30</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−105x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 25</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+      <p><span class="m">3x<sup>4</sup> : x<sup>2</sup> = 3x<sup>2</sup></span>; <span class="m">(−9x<sup>3</sup>) : x<sup>2</sup> = −9x</span>; <span class="m">30x<sup>2</sup> : x<sup>2</sup> = 30</span>. Dư cuối <span class="m">−105x + 25</span> có bậc 1 &lt; 2 nên dừng.</p>
+      <a class="xem-lai" href="#kt-dat-tinh">📌 Xem lại: đặt tính chia</a></div>
+    <div class="buoc" data-so="2"><h4>Viết <i>A</i> = <i>B</i> · <i>Q</i> + <i>R</i></h4>
+      <p><span class="m">Q = 3x<sup>2</sup> − 9x + 30</span>; <span class="m">R = −105x + 25</span>.</p>
+      <p><span class="m">3x<sup>4</sup> − 6x − 5</span> <span class="m">= (x<sup>2</sup> + 3x − 1)(3x<sup>2</sup> − 9x + 30)</span> <span class="m">+ (−105x + 25)</span>.</p>
+      <p class="vi-sao">Kiểm tra nhanh tại <span class="m">x = 1</span>: <span class="m">A(1) = 3 − 6 − 5 = −8</span>; vế phải <span class="m">3 · 24 − 105 + 25 = −8</span> ✓.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: phép chia có dư</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">Q = 3x<sup>2</sup> − 9x + 30</span>; <span class="m">R = −105x + 25</span>; <span class="m">3x<sup>4</sup> − 6x − 5</span> <span class="m">= (x<sup>2</sup> + 3x − 1)(3x<sup>2</sup> − 9x + 30)</span> <span class="m">+ (−105x + 25)</span>.</div>
+    <div class="bay">Ở lần trừ đầu, cột <span class="m">x<sup>2</sup></span>: <span class="m">0 − (−3x<sup>2</sup>) = 3x<sup>2</sup></span>, nhiều bạn chép thành <span class="m">−3x<sup>2</sup></span>. Trừ một hạng tử âm là cộng — mỗi lần trừ tích, đổi dấu <b>mọi</b> hạng tử của tích.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="tt" data-ten="Thử thách nhỏ" data-muc="vdc">
+  <div class="bai-dau"><span class="so">Thử thách nhỏ</span><span class="nhan vdc">Vận dụng cao</span><span class="nhan">Nhìn ra dư</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tròn: Đố Vuông tìm được dư trong phép chia <span class="m">x<sup>3</sup> − 3x<sup>2</sup> + x − 1</span> cho <span class="m">x<sup>2</sup> − 3x</span>.</p>
+    <p>Vuông: Mình chỉ nhìn qua cũng biết được dư là <span class="m">x − 1</span>.</p>
+    <p>Em có biết tại sao Vuông làm nhanh thế không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hai hạng tử đầu <span class="m">x<sup>3</sup> − 3x<sup>2</sup></span> có “dáng” giống đa thức chia <span class="m">x<sup>2</sup> − 3x</span> không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">x · (x<sup>2</sup> − 3x) = ?</span></div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tách đa thức bị chia</h4>
+      <p><span class="m">x<sup>3</sup> − 3x<sup>2</sup> = x · (x<sup>2</sup> − 3x)</span>, nên <span class="m">x<sup>3</sup> − 3x<sup>2</sup> + x − 1</span> <span class="m">= (x<sup>2</sup> − 3x) · x + (x − 1)</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>So với A = BQ + R</h4>
+      <p>Đẳng thức có dạng <span class="m">A = B · Q + R</span> với <span class="m">Q = x</span>, <span class="m">R = x − 1</span>; và <span class="m">R</span> có bậc 1, nhỏ hơn bậc 2 của <span class="m">B</span>. Vậy dư là <span class="m">x − 1</span>.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: phép chia có dư</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Vì <span class="m">x<sup>3</sup> − 3x<sup>2</sup> + x − 1</span> <span class="m">= (x<sup>2</sup> − 3x) · x + (x − 1)</span> và <span class="m">x − 1</span> có bậc nhỏ hơn bậc của <span class="m">x<sup>2</sup> − 3x</span>, nên thương là <span class="m">x</span>, dư là <span class="m">x − 1</span>.</div>
+    <div class="bay">Nghĩ dư phải là một số. Dư chỉ cần có bậc nhỏ hơn bậc của đa thức chia (ở đây nhỏ hơn 2), nên dư bậc 1 như <span class="m">x − 1</span> là được.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Giống phép chia số: <span class="m">23 = 5 · 4 + 3</span> — nhìn ra ngay <span class="m">20 = 5 · 4</span> thì phần còn lại 3 (nhỏ hơn 5) là số dư. Vuông nhìn ra <span class="m">x<sup>3</sup> − 3x<sup>2</sup> = x · (x<sup>2</sup> − 3x)</span> y như vậy.</div>
+  </div>
+</article>
+
+<article class="the bai" id="b730" data-ten="Bài 7.30" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 7.30</span><span class="nhan nb">Nhận biết</span><span class="nhan">Chia đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính:</p>
+    <p>a) <span class="m">8x<sup>5</sup> : 4x<sup>3</sup></span>; &nbsp;&nbsp; b) <span class="m">120x<sup>7</sup> : (−24x<sup>5</sup>)</span>;</p>
+    <p>c) <span class="m"><span class="frac"><b>3</b><span>4</span></span>(−x)<sup>3</sup> : <span class="frac"><b>1</b><span>8</span></span>x</span>; &nbsp;&nbsp; d) <span class="m">−3,72x<sup>4</sup> : (−4x<sup>2</sup>)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu c) có <span class="m">(−x)<sup>3</sup></span> — đổi về dạng <span class="m">−x<sup>3</sup></span> trước đã.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">(−x)<sup>3</sup> = −x<sup>3</sup></span> (luỹ thừa bậc lẻ của số âm là số âm).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) và b)</h4>
+      <p>a) <span class="m">8 : 4 = 2</span>; <span class="m">x<sup>5</sup> : x<sup>3</sup> = x<sup>2</sup></span> → <span class="m">2x<sup>2</sup></span>.</p>
+      <p>b) <span class="m">120 : (−24) = −5</span>; <span class="m">x<sup>7</sup> : x<sup>5</sup> = x<sup>2</sup></span> → <span class="m">−5x<sup>2</sup></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>c)</h4>
+      <p><span class="m"><span class="frac"><b>3</b><span>4</span></span>(−x)<sup>3</sup> = −<span class="frac"><b>3</b><span>4</span></span>x<sup>3</sup></span>.</p>
+      <p><span class="m">(−<span class="frac"><b>3</b><span>4</span></span>) : <span class="frac"><b>1</b><span>8</span></span> = −<span class="frac"><b>3</b><span>4</span></span> · 8 = −6</span>; <span class="m">x<sup>3</sup> : x = x<sup>2</sup></span> → <span class="m">−6x<sup>2</sup></span>.</p></div>
+    <div class="buoc" data-so="3"><h4>d)</h4>
+      <p><span class="m">(−3,72) : (−4) = 0,93</span>; <span class="m">x<sup>4</sup> : x<sup>2</sup> = x<sup>2</sup></span> → <span class="m">0,93x<sup>2</sup></span>.</p>
+      <a class="xem-lai" href="#kt-chia-don">📌 Xem lại: chia đơn thức cho đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">2x<sup>2</sup></span>; &nbsp; b) <span class="m">−5x<sup>2</sup></span>; &nbsp; c) <span class="m">−6x<sup>2</sup></span>; &nbsp; d) <span class="m">0,93x<sup>2</sup></span>.</div>
+    <div class="bay">Câu c) bỏ qua dấu của <span class="m">(−x)<sup>3</sup></span>, ra <span class="m">6x<sup>2</sup></span>. <span class="m">(−x)<sup>3</sup> = −x<sup>3</sup></span> nên kết quả âm.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b731" data-ten="Bài 7.31" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 7.31</span><span class="nhan th">Thông hiểu</span><span class="nhan">Chia cho đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thực hiện các phép chia đa thức sau:</p>
+    <p>a) <span class="m">(−5x<sup>3</sup> + 15x<sup>2</sup> + 18x) : (−5x)</span>;</p>
+    <p>b) <span class="m">(−2x<sup>5</sup> − 4x<sup>3</sup> + 3x<sup>2</sup>) : 2x<sup>2</sup></span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Chia cho đơn thức: chia từng hạng tử. Câu a) chia cho số âm — mọi hạng tử đổi dấu!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Như Chú ý trong bài: <span class="m">(A<sub>1</sub> + A<sub>2</sub> + A<sub>3</sub>) : C</span> <span class="m">= A<sub>1</sub> : C + A<sub>2</sub> : C + A<sub>3</sub> : C</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a)</h4>
+      <p><span class="m">(−5x<sup>3</sup>) : (−5x) = x<sup>2</sup></span>; &nbsp; <span class="m">15x<sup>2</sup> : (−5x) = −3x</span>; &nbsp; <span class="m">18x : (−5x) = −3,6</span>.</p>
+      <p>Kết quả: <span class="m">x<sup>2</sup> − 3x − 3,6</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>b)</h4>
+      <p><span class="m">(−2x<sup>5</sup>) : 2x<sup>2</sup> = −x<sup>3</sup></span>; &nbsp; <span class="m">(−4x<sup>3</sup>) : 2x<sup>2</sup> = −2x</span>; &nbsp; <span class="m">3x<sup>2</sup> : 2x<sup>2</sup> = 1,5</span>.</p>
+      <p>Kết quả: <span class="m">−x<sup>3</sup> − 2x + 1,5</span>.</p>
+      <a class="xem-lai" href="#kt-chia-cho-don">📌 Xem lại: chia đa thức cho đơn thức</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">x<sup>2</sup> − 3x − 3,6</span> (hay <span class="m">x<sup>2</sup> − 3x − <span class="frac"><b>18</b><span>5</span></span></span>); &nbsp; b) <span class="m">−x<sup>3</sup> − 2x + 1,5</span> (hay <span class="m">−x<sup>3</sup> − 2x + <span class="frac"><b>3</b><span>2</span></span></span>).</div>
+    <div class="bay">Câu a) viết <span class="m">18x : (−5x) = −3,6x</span>. <span class="m">x : x = 1</span> nên chỉ còn <span class="m">−3,6</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b732" data-ten="Bài 7.32" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 7.32</span><span class="nhan th">Thông hiểu</span><span class="nhan">Đặt tính chia</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thực hiện các phép chia đa thức sau bằng cách đặt tính chia:</p>
+    <p>a) <span class="m">(6x<sup>3</sup> − 2x<sup>2</sup> − 9x + 3) : (3x − 1)</span>;</p>
+    <p>b) <span class="m">(4x<sup>4</sup> + 14x<sup>3</sup> − 21x − 9) : (2x<sup>2</sup> − 3)</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu b) đa thức bị chia khuyết <span class="m">x<sup>2</sup></span>, đa thức chia khuyết <span class="m">x</span> — để trống đúng cột.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Mỗi lần: chia hạng tử bậc cao nhất của dư cho hạng tử bậc cao nhất của đa thức chia, nhân lại, trừ.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Đặt tính chia</h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">6x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 2x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 9x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">3x − 1</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">6x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 2x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">2x<sup>2</sup> − 3</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−9x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−9x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">0</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+      <p><span class="m">6x<sup>3</sup> : 3x = 2x<sup>2</sup></span>; dư thứ nhất <span class="m">−9x + 3</span>; <span class="m">(−9x) : 3x = −3</span>; dư 0.</p>
+      <p class="vi-sao">Ở lần trừ đầu, cột <span class="m">x<sup>2</sup></span>: <span class="m">−2x<sup>2</sup> − (−2x<sup>2</sup>) = 0</span> nên dư thứ nhất không có hạng tử bậc 2.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Đặt tính chia</h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">4x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 14x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 21x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 9</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">2x<sup>2</sup> − 3</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">4x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">2x<sup>2</sup> + 7x + 3</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">14x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">+ 6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 21x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 9</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">14x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 21x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 9</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 9</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">0</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+      <p><span class="m">4x<sup>4</sup> : 2x<sup>2</sup> = 2x<sup>2</sup></span>; <span class="m">14x<sup>3</sup> : 2x<sup>2</sup> = 7x</span>; <span class="m">6x<sup>2</sup> : 2x<sup>2</sup> = 3</span>; dư 0.</p>
+      <a class="xem-lai" href="#kt-dat-tinh">📌 Xem lại: đặt tính chia</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">(6x<sup>3</sup> − 2x<sup>2</sup> − 9x + 3) : (3x − 1)</span> <span class="m">= 2x<sup>2</sup> − 3</span>; &nbsp; b) <span class="m">(4x<sup>4</sup> + 14x<sup>3</sup> − 21x − 9) : (2x<sup>2</sup> − 3)</span> <span class="m">= 2x<sup>2</sup> + 7x + 3</span>.</div>
+    <div class="bay">Câu b) trừ ở cột <span class="m">x<sup>2</sup></span>: <span class="m">0 − (−6x<sup>2</sup>)</span> viết thành <span class="m">−6x<sup>2</sup></span>. Trừ một số âm là cộng: được <span class="m">+6x<sup>2</sup></span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b733" data-ten="Bài 7.33" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 7.33</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chia cho đơn thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Thực hiện phép chia <span class="m">0,5x<sup>5</sup> + 3,2x<sup>3</sup> − 2x<sup>2</sup></span> cho <span class="m">0,25x<sup>n</sup></span> trong mỗi trường hợp sau:</p>
+    <p>a) <span class="m">n = 2</span>;</p>
+    <p>b) <span class="m">n = 3</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Với <span class="m">n = 3</span>, có một hạng tử bậc nhỏ hơn 3 — nó có chia được cho <span class="m">0,25x<sup>3</sup></span> không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Chia cho 0,25 là nhân với 4. Một hạng tử <span class="m"><i>ax</i><sup>m</sup></span> chỉ chia hết cho <span class="m">0,25x<sup>n</sup></span> khi <span class="m">m ≥ n</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Chia cho <span class="m">0,25x<sup>2</sup></span></h4>
+      <p><span class="m">0,5x<sup>5</sup> : 0,25x<sup>2</sup> = 2x<sup>3</sup></span>; &nbsp; <span class="m">3,2x<sup>3</sup> : 0,25x<sup>2</sup> = 12,8x</span>; &nbsp; <span class="m">(−2x<sup>2</sup>) : 0,25x<sup>2</sup> = −8</span>.</p>
+      <p>Thương: <span class="m">2x<sup>3</sup> + 12,8x − 8</span> (phép chia hết).</p>
+      <a class="xem-lai" href="#kt-chia-cho-don">📌 Xem lại: chia đa thức cho đơn thức</a></div>
+    <div class="buoc" data-so="2"><h4>b) Chia cho <span class="m">0,25x<sup>3</sup></span></h4>
+      <p><span class="m">0,5x<sup>5</sup> : 0,25x<sup>3</sup> = 2x<sup>2</sup></span>; &nbsp; <span class="m">3,2x<sup>3</sup> : 0,25x<sup>3</sup> = 12,8</span>.</p>
+      <p>Còn lại <span class="m">−2x<sup>2</sup></span> có bậc 2 nhỏ hơn bậc 3 của <span class="m">0,25x<sup>3</sup></span> nên không chia tiếp được: đó là dư.</p>
+      <p>Thương <span class="m">Q = 2x<sup>2</sup> + 12,8</span>, dư <span class="m">R = −2x<sup>2</sup></span>:</p>
+      <p><span class="m">0,5x<sup>5</sup> + 3,2x<sup>3</sup> − 2x<sup>2</sup></span> <span class="m">= 0,25x<sup>3</sup> · (2x<sup>2</sup> + 12,8) + (−2x<sup>2</sup>)</span>.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: phép chia có dư</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">2x<sup>3</sup> + 12,8x − 8</span>. &nbsp; b) Phép chia có dư: thương <span class="m">2x<sup>2</sup> + 12,8</span>, dư <span class="m">−2x<sup>2</sup></span>.</div>
+    <div class="bay">Câu b) vẫn cố chia <span class="m">−2x<sup>2</sup></span> cho <span class="m">0,25x<sup>3</sup></span> rồi ghi thêm “<span class="m">−8x</span>” hay “<span class="m">−8</span>” vào thương. Số mũ 2 nhỏ hơn 3 nên hạng tử này không chia hết — nó là dư.</div>
+    <div class="gv-note">Câu b) là phép chia có dư (đa thức chia là đơn thức bậc 3, dư bậc 2). Có thể đặt tính chia để HS thấy rõ: sau hai lần trừ, dư <span class="m">−2x<sup>2</sup></span> có bậc nhỏ hơn 3.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b734" data-ten="Bài 7.34" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 7.34</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chia có dư</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong mỗi trường hợp sau đây, tìm thương <span class="m">Q(x)</span> và dư <span class="m">R(x)</span> trong phép chia <span class="m">F(x)</span> cho <span class="m">G(x)</span> rồi biểu diễn <span class="m">F(x)</span> dưới dạng:</p>
+    <p style="text-align:center"><span class="m">F(x) = G(x) · Q(x) + R(x)</span>.</p>
+    <p>a) <span class="m">F(x) = 6x<sup>4</sup> − 3x<sup>3</sup> + 15x<sup>2</sup> + 2x − 1</span>; <span class="m">G(x) = 3x<sup>2</sup></span>.</p>
+    <p>b) <span class="m">F(x) = 12x<sup>4</sup> + 10x<sup>3</sup> − x − 3</span>; <span class="m">G(x) = 3x<sup>2</sup> + x + 1</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Câu a) chia cho đơn thức <span class="m">3x<sup>2</sup></span>: hạng tử nào có bậc nhỏ hơn 2 thì thuộc về dư.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Dư phải có bậc nhỏ hơn bậc của <span class="m">G(x)</span> (là 2 ở cả hai câu).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Chia cho <span class="m">3x<sup>2</sup></span></h4>
+      <p><span class="m">6x<sup>4</sup> : 3x<sup>2</sup> = 2x<sup>2</sup></span>; <span class="m">(−3x<sup>3</sup>) : 3x<sup>2</sup> = −x</span>; <span class="m">15x<sup>2</sup> : 3x<sup>2</sup> = 5</span>.</p>
+      <p>Hai hạng tử <span class="m">2x</span> và <span class="m">−1</span> có bậc nhỏ hơn 2 → dư <span class="m">R(x) = 2x − 1</span>.</p>
+      <p><span class="m">Q(x) = 2x<sup>2</sup> − x + 5</span>.</p>
+      <p><span class="m">F(x)</span> <span class="m">= 3x<sup>2</sup>(2x<sup>2</sup> − x + 5) + (2x − 1)</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>b) Đặt tính chia</h4>
+      <div style="overflow-x:auto;margin:6px 0"><table style="width:auto;margin:0 auto;font-size:15px;border-collapse:collapse;border:0"><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">12x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 10x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px;border-bottom:1.5px solid currentColor"><span class="m">3x<sup>2</sup> + x + 1</span></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">12x<sup>4</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 4x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 4x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"><span class="m">4x<sup>2</sup> + 2x − 2</span></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">6x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 4x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">6x<sup>3</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 2x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">+ 2x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td rowspan="2" style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;padding-right:1px">−</td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 3x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 3</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">−6x<sup>2</sup></span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 2x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"><span class="m">− 2</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr><tr><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">−x</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-top:1.5px solid currentColor"><span class="m">− 1</span></td><td style="border:0;padding:2px 4px;text-align:right;white-space:nowrap;vertical-align:middle;background:none;border-left:1.5px solid currentColor;text-align:left;padding-left:9px"></td></tr></table></div>
+      <p>Dư cuối <span class="m">−x − 1</span> có bậc 1 &lt; 2 nên dừng.</p></div>
+    <div class="buoc" data-so="3"><h4>b) Viết <i>F</i> = <i>G</i> · <i>Q</i> + <i>R</i></h4>
+      <p><span class="m">Q(x) = 4x<sup>2</sup> + 2x − 2</span>; <span class="m">R(x) = −x − 1</span>.</p>
+      <p><span class="m">F(x)</span> <span class="m">= (3x<sup>2</sup> + x + 1)(4x<sup>2</sup> + 2x − 2)</span> <span class="m">+ (−x − 1)</span>.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: A = BQ + R</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) <span class="m">Q(x) = 2x<sup>2</sup> − x + 5</span>, <span class="m">R(x) = 2x − 1</span>; <span class="m">F(x)</span> <span class="m">= 3x<sup>2</sup>(2x<sup>2</sup> − x + 5) + (2x − 1)</span>. &nbsp; b) <span class="m">Q(x) = 4x<sup>2</sup> + 2x − 2</span>, <span class="m">R(x) = −x − 1</span>; <span class="m">F(x)</span> <span class="m">= (3x<sup>2</sup> + x + 1)(4x<sup>2</sup> + 2x − 2)</span> <span class="m">+ (−x − 1)</span>.</div>
+    <div class="bay">Câu a) cố chia tiếp <span class="m">2x</span> cho <span class="m">3x<sup>2</sup></span> và ghi thêm vào thương. Hạng tử <span class="m">2x</span> (và <span class="m">−1</span>) có bậc nhỏ hơn 2 nên không chia tiếp được — chúng nằm trong dư.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b735" data-ten="Bài 7.35" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 7.35</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chia có dư</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bạn Tâm lúng túng khi muốn tìm thương và dư trong phép chia đa thức <span class="m">21x − 4</span> cho <span class="m">3x<sup>2</sup></span>. Em có thể giúp bạn Tâm được không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bậc của <span class="m">21x − 4</span> so với bậc của <span class="m">3x<sup>2</sup></span> thế nào? Có cần chia bước nào không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Dư <span class="m">R</span> phải bằng 0 hoặc có bậc nhỏ hơn bậc của đa thức chia. Thử chọn <span class="m">Q = 0</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>So sánh bậc</h4>
+      <p><span class="m">21x − 4</span> có bậc 1, nhỏ hơn bậc 2 của <span class="m">3x<sup>2</sup></span>: hạng tử <span class="m">21x</span> không chia hết cho <span class="m">3x<sup>2</sup></span>, nên không thực hiện được bước chia nào.</p></div>
+    <div class="buoc" data-so="2"><h4>Viết dạng A = BQ + R</h4>
+      <p><span class="m">21x − 4 = 3x<sup>2</sup> · 0 + (21x − 4)</span>.</p>
+      <p>Dư <span class="m">21x − 4</span> có bậc 1 &lt; 2, đúng yêu cầu. Vậy thương <span class="m">Q = 0</span>, dư <span class="m">R = 21x − 4</span>.</p>
+      <a class="xem-lai" href="#kt-co-du">📌 Xem lại: phép chia có dư</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Thương <span class="m">Q = 0</span>, dư <span class="m">R = 21x − 4</span>, vì <span class="m">21x − 4 = 3x<sup>2</sup> · 0 + (21x − 4)</span> và <span class="m">21x − 4</span> có bậc nhỏ hơn bậc của <span class="m">3x<sup>2</sup></span>.</div>
+    <div class="bay">Viết <span class="m">21x : 3x<sup>2</sup> = 7x</span> (lấy số mũ lớn trừ số mũ nhỏ). <span class="m"><i>ax</i><sup>m</sup></span> chỉ chia hết cho <span class="m"><i>bx</i><sup>n</sup></span> khi <span class="m">m ≥ n</span>; ở đây <span class="m">1 &lt; 2</span> nên không chia được.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Giống phép chia số <span class="m">3 : 5</span>: 3 nhỏ hơn 5 nên thương 0, dư 3 <span class="m">(3 = 5 · 0 + 3)</span>. Đa thức bị chia có bậc nhỏ hơn đa thức chia thì cũng vậy.</div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 28. Phép chia đa thức một biến — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c07-b28';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-07-bai-28-phep-chia-da-thuc-mot-bien-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-07-bai-28-phep-chia-da-thuc-mot-bien-bai-giai.nguon.html" data-phien-ban="906eca2c0873">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

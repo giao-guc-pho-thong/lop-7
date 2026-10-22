@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -211,6 +211,48 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-bai-20-ti-le-thuc-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-bai-21-tinh-chat-cua-day-ti-so-bang-nhau-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-bai-22-dai-luong-ti-le-thuan-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-bai-23-dai-luong-ti-le-nghich-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-bai-tap-cuoi-chuong-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-luyen-tap-chung-01-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/bai-giai/toan/toan-lop-7-chuong-06-luyen-tap-chung-02-bai-giai.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/ban-quyen.html</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>yearly</changefreq>
@@ -223,14 +265,44 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/kiem-tra/</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/kiem-tra/giao-vien.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/kiem-tra/toan-lop-7-cau-truc-de-so-01.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/kiem-tra/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/kiem-tra/toan-lop-7-kiem-tra-giua-ki-1-de-so-01.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/so-do-trang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -278,31 +350,31 @@
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-02-bai-05-lam-quen-voi-so-thap-phan-vo-han-tuan-hoan-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-02-bai-06-so-vo-ti-can-bac-hai-so-hoc-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-02-bai-07-tap-hop-cac-so-thuc-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-02-bai-tap-cuoi-chuong-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-02-luyen-tap-chung-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -314,7 +386,7 @@
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-03-bai-09-hai-duong-thang-song-song-va-dau-hieu-nhan-biet-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -326,109 +398,151 @@
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-03-bai-11-dinh-li-va-chung-minh-dinh-li-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-03-bai-tap-cuoi-chuong-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-03-luyen-tap-chung-01-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-03-luyen-tap-chung-02-bai-giang.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-bai-12-tong-cac-goc-trong-mot-tam-giac-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-bai-13-hai-tam-giac-bang-nhau-truong-hop-bang-nhau-thu-nhat-cua-tam-giac-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-bai-14-truong-hop-bang-nhau-thu-hai-va-thu-ba-cua-tam-giac-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-bai-15-cac-truong-hop-bang-nhau-cua-tam-giac-vuong-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-bai-16-tam-giac-can-duong-trung-truc-cua-doan-thang-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-bai-tap-cuoi-chuong-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-luyen-tap-chung-01-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-luyen-tap-chung-02-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-04-luyen-tap-chung-03-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-05-bai-17-thu-thap-va-phan-loai-du-lieu-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-05-bai-18-bieu-do-hinh-quat-tron-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-05-bai-19-bieu-do-doan-thang-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-05-bai-tap-cuoi-chuong-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-05-luyen-tap-chung-bai-giang.html</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-bai-20-ti-le-thuc-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-bai-21-tinh-chat-cua-day-ti-so-bang-nhau-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-bai-22-dai-luong-ti-le-thuan-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-bai-23-dai-luong-ti-le-nghich-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-bai-tap-cuoi-chuong-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-luyen-tap-chung-01-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://giao-guc-pho-thong.github.io/lop-7/toan/toan-lop-7-chuong-06-luyen-tap-chung-02-bai-giang.html</loc>
+    <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

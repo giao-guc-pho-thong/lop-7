@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<!-- Khuôn trang GIÁO VIÊN (xem / gom / xuất kết quả kiểm tra online). Sửa khuôn này rồi chạy
+     scripts/dung_de_online.py — không sửa file sinh ra trong "bài kiểm tra/online/". -->
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Kết quả kiểm tra — Trang giáo viên</title>
+<style>
+:root{--nen:#f1f5fb;--chu:#1f2937;--mo:#64748b;--chinh:#2563eb;--dam:#1e3a8a;--nhat:#dbeafe;--dung:#16a34a;--dung-nhat:#dcfce7;
+  --sai:#dc2626;--sai-nhat:#fee2e2;--cam:#b45309;--cam-nhat:#fef3c7;--vien:#e2e8f0}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--nen);color:var(--chu);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.khung{max-width:1180px;margin:0 auto;padding:14px}
+.the{background:#fff;border:1px solid var(--vien);border-radius:14px;padding:16px;margin:12px 0}
+h1{font-size:1.35rem;margin:0;color:var(--dam)}
+h2{font-size:1.1rem;margin:0 0 8px;color:var(--dam)}
+.nho{color:var(--mo);font-size:.88rem}
+.an{display:none!important}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border-radius:9px;border:1.5px solid #cbd5e1;background:#fff;padding:8px 12px}
+.nut-chinh{background:var(--chinh);border-color:var(--chinh);color:#fff;font-weight:700}
+.nut-nguy{border-color:#fca5a5;color:var(--sai)}
+.o{width:100%;padding:9px 11px;border:1.5px solid #cbd5e1;border-radius:9px;background:#fff}
+.hang{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hang>*{flex:0 0 auto}
+.loc select,.loc input{padding:7px 9px;border:1.5px solid #cbd5e1;border-radius:9px;background:#fff;max-width:100%}
+.dau{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.thong-ke{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px}
+.o-tk{background:#f8fafc;border:1px solid var(--vien);border-radius:10px;padding:8px 12px}
+.o-tk b{display:block;font-size:1.35rem;color:var(--dam)}
+.cuon{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:7px 8px;border-bottom:1px solid var(--vien);text-align:left;white-space:nowrap}
+th{background:#f8fafc;position:sticky;top:0;cursor:pointer;user-select:none}
+td.so,th.so{text-align:right}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#f8fafc}
+.canh{background:var(--cam-nhat);color:var(--cam);border-radius:6px;padding:0 6px;font-weight:700}
+.nhan{display:inline-block;border-radius:6px;padding:0 7px;font-size:.82rem;font-weight:700}
+.nhan.dung{background:var(--dung-nhat);color:#166534}.nhan.sai{background:var(--sai-nhat);color:#991b1b}
+.thanh-ti-le{height:10px;background:#e2e8f0;border-radius:6px;overflow:hidden;min-width:90px}
+.thanh-ti-le i{display:block;height:100%;background:var(--chinh)}
+.phu{position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:18px;overflow:auto}
+.hop{background:#fff;border-radius:14px;padding:18px;max-width:820px;width:100%}
+.thong-bao{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:60;background:#111827;color:#fff;padding:10px 16px;border-radius:10px;max-width:92vw}
+.khoa{max-width:380px;margin:12vh auto}
+.bang-ct td{white-space:normal;vertical-align:top}
+/* Cây thư mục "Các đề đang có" — kiểu File Explorer */
+.cay{font-size:.95rem;margin-top:6px}
+.cay ul{list-style:none;margin:0 0 0 11px;padding:0 0 0 16px;border-left:1px dashed #cbd5e1}
+.cay>ul{margin:0;padding:0;border:0}
+.cay li{margin:1px 0}
+.cay summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:7px;user-select:none}
+.cay summary::-webkit-details-marker{display:none}
+.cay summary::before{content:"▸";display:inline-block;width:.9em;color:var(--mo);transition:transform .12s}
+.cay details[open]>summary::before{transform:rotate(90deg)}
+.cay summary:hover,.cay .la:hover{background:#f1f5f9}
+.cay .tm::before{content:"📁"}.cay details[open]>summary .tm::before{content:"📂"}
+.cay .ten-tm{font-weight:700;color:var(--dam)}
+.cay .dem-cay{color:var(--mo);font-size:.82rem}
+.cay .la{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:4px 6px 4px 20px;border-radius:7px}
+.cay .la.chon{background:var(--nhat)}
+.cay .la a{color:var(--chu)}.cay .la>a:first-of-type{font-weight:600}
+.cay .ct-nhan{font-size:.78rem;font-weight:700;border-radius:999px;padding:0 8px;background:#e0e7ff;color:var(--dam)!important;text-decoration:none}
+.cay .so-bai{font-size:.78rem;font-weight:700;border-radius:999px;padding:0 8px;background:var(--dung-nhat);color:#166534}
+.cay .so-bai.khong{background:#f1f5f9;color:#94a3b8}
+.cay .nut-nho{padding:1px 8px;font-size:.8rem;border-radius:7px}
+.cay mark{background:#fde68a;border-radius:3px;padding:0 1px}
+@media print{.loc,.hang-cong-cu,button{display:none!important}}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body>
+
+<main class="khung khoa the" id="man-khoa">
+  <h1>🔒 Trang giáo viên</h1>
+  <p class="nho">Kết quả kiểm tra online — lớp 7. Nhập mã PIN để mở.</p>
+  <input class="o" id="o-pin" type="password" inputmode="numeric" autocomplete="off" placeholder="Mã PIN">
+  <p class="nho" id="loi-pin" style="color:var(--sai);min-height:1.2em"></p>
+  <button class="nut-chinh" id="mo-khoa" style="width:100%">Mở</button>
+  <p class="nho" id="dang-cho" style="margin-top:12px"></p>
+</main>
+
+<div class="khung an" id="man-chinh">
+  <div class="the dau">
+    <div><h1>📝 Kết quả kiểm tra online</h1><div class="nho">Dữ liệu lưu trong trình duyệt của máy này. Sao lưu thường xuyên.</div></div>
+    <div class="hang hang-cong-cu">
+      <button id="nut-nhap-file">📂 Nhập file</button>
+      <button id="nut-dan-ma">📋 Dán mã</button>
+      <button id="nut-csv" class="nut-chinh">⬇️ Xuất Excel (CSV)</button>
+      <button id="nut-sao-luu">💾 Sao lưu</button>
+      <button id="nut-khoa">🔒 Khoá</button>
+      <input type="file" id="chon-file" accept=".json,application/json" multiple class="an">
+    </div>
+  </div>
+
+  <div class="the">
+    <div class="hang loc">
+      <select id="loc-de"></select>
+      <select id="loc-truong"></select>
+      <select id="loc-lop"></select>
+      <input id="loc-ten" placeholder="Tìm tên học sinh…" style="min-width:180px">
+      <label class="nho"><input type="checkbox" id="loc-canh"> Chỉ bài có rời trang / cảnh báo</label>
+    </div>
+    <div class="thong-ke" id="thong-ke"></div>
+  </div>
+
+  <div class="the"><div class="cuon"><table id="bang"></table></div><p class="nho" id="bang-rong"></p></div>
+
+  <div class="the" id="khoi-ti-le"><h2>Tỉ lệ làm đúng từng câu</h2><p class="nho">Chọn một đề ở ô lọc để xem. Câu có tỉ lệ thấp là chỗ cả lớp cần học lại.</p><div class="cuon" id="ti-le"></div></div>
+
+  <div class="the" id="khoi-ds-de">
+    <div class="dau"><h2>🗂️ Các đề đang có</h2>
+      <div class="hang hang-cong-cu"><input id="tim-de" class="o" placeholder="🔍 Tìm đề…" autocomplete="off" style="width:200px">
+        <button id="mo-het-cay" title="Mở mọi thư mục">⊞ Mở hết</button><button id="thu-gon-cay" title="Đóng mọi thư mục">⊟ Thu gọn</button></div></div>
+    <p class="nho">Môn › Học kì › Giữa kì / Cuối kì / Theo Unit. Bấm tên đề để mở trang làm bài, bấm <b>📊 Kết quả</b> để lọc bảng điểm theo đề đó.</p>
+    <div id="ds-de" class="cay"></div>
+    <p class="nho">Mã mở đề của từng đề nằm trong file <code>bài kiểm tra/online/cau-hinh.json</code> trên máy soạn đề.</p>
+    <p class="nho">⚠️ Đề và đáp án nằm trong mã của trang (máy phải tự chấm), mã mở đề và PIN chỉ chặn người không biết mã — <b>chỉ dùng cho kiểm tra có giám sát hoặc luyện tập</b>, không thay cho đề giấy niêm phong. Bảng điểm có họ tên học sinh: giữ kín, không chia sẻ ngoài nhà trường.</p>
+    <div class="hang" style="margin-top:8px"><button class="nut-nguy" id="nut-xoa-het">🗑️ Xoá toàn bộ kết quả trên máy này…</button></div>
+  </div>
+</div>
+
+<div class="phu an" id="phu"><div class="hop" id="hop"></div></div>
+<div class="thong-bao an" id="thong-bao"></div>
+
+<script>
+/* ==========================================================================================
+   Mã dùng chung cho trang LÀM BÀI và trang GIÁO VIÊN (kiểm tra online lớp 6).
+   Script dung_de_online.py chèn nguyên file này vào cả hai trang — sửa ở đây, dựng lại là xong.
+   Không phụ thuộc thư viện nào (trừ qrcode.js, chỉ trang làm bài dùng).
+   ========================================================================================== */
+var KT = (function () {
+  'use strict';
+
+  var KHOA = {
+    ketQua: 'kt7.ketQua',            // [bản ghi]  — mọi lượt đã nộp trên máy này + bài GV đã nhập
+    dangLam: 'kt7.dangLam',          // {maDe: trạng thái lượt đang làm}
+    hocSinh: 'kt7.hocSinhGanNhat',   // {lop, truong} — điền sẵn cho lượt sau (không giữ tên)
+    moKhoaGV: 'kt7.giaoVienMoKhoa'   // hạn (ms) mở khoá trang giáo viên trên máy này
+  };
+
+  // ---------------------------------------------------------------- chữ & định dạng
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  /** Định dạng một dòng: **đậm**, *nghiêng*, ______ (chỗ trống). */
+  function md(s) {
+    return esc(s)
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/\*(.+?)\*/g, '<i>$1</i>')
+      .replace(/_{3,}/g, '<span class="cho-trong">$&</span>');
+  }
+  /** Định dạng đoạn văn: "\n\n" tách đoạn, "\n" xuống dòng. */
+  function mdKhoi(s) {
+    return String(s || '').split(/\n\s*\n/).map(function (p) {
+      return '<p>' + md(p.trim()).replace(/\n/g, '<br>') + '</p>';
+    }).join('');
+  }
+  /** Điểm lưu dạng số nguyên phần trăm (875 = 8,75) → chuỗi kiểu Việt Nam. */
+  function soVN(phanTram) {
+    var s = (Math.round(phanTram) / 100).toFixed(2).replace(/\.?0+$/, '');
+    return s.replace('.', ',');
+  }
+  function thoiGian(giay) {
+    giay = Math.max(0, Math.round(giay));
+    var p = Math.floor(giay / 60), g = giay % 60;
+    return p + ' phút ' + (g < 10 ? '0' : '') + g + ' giây';
+  }
+  function dongHo(giay) {
+    giay = Math.max(0, Math.ceil(giay));
+    var p = Math.floor(giay / 60), g = giay % 60;
+    return (p < 10 ? '0' : '') + p + ':' + (g < 10 ? '0' : '') + g;
+  }
+  function ngayGio(ms) {
+    var d = new Date(ms), h = function (n) { return (n < 10 ? '0' : '') + n; };
+    return h(d.getDate()) + '/' + h(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + h(d.getHours()) + ':' + h(d.getMinutes());
+  }
+  function khongDau(s) {
+    return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+  }
+
+  // ---------------------------------------------------------------- SHA-256 (đồng bộ, không cần HTTPS)
+  function sha256(chuoi) {
+    function xoay(v, n) { return (v >>> n) | (v << (32 - n)); }
+    var H = [], K = [], dem = 0;
+    for (var ung = 2; dem < 64; ung++) {
+      var nguyenTo = true;
+      for (var u = 2; u * u <= ung; u++) if (ung % u === 0) { nguyenTo = false; break; }
+      if (nguyenTo) {
+        if (dem < 8) H[dem] = (Math.pow(ung, 0.5) * 4294967296) | 0;
+        K[dem++] = (Math.pow(ung, 1 / 3) * 4294967296) | 0;
+      }
+    }
+    var b = new TextEncoder().encode(chuoi), l = b.length;
+    var dem64 = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(dem64);
+    m.set(b); m[l] = 0x80;
+    var dv = new DataView(m.buffer);
+    dv.setUint32(dem64 - 4, (l * 8) >>> 0);
+    dv.setUint32(dem64 - 8, Math.floor(l / 536870912));
+    var w = new Array(64);
+    for (var i = 0; i < dem64; i += 64) {
+      for (var j = 0; j < 16; j++) w[j] = dv.getUint32(i + j * 4) | 0;
+      for (j = 16; j < 64; j++) {
+        var s0 = xoay(w[j - 15], 7) ^ xoay(w[j - 15], 18) ^ (w[j - 15] >>> 3);
+        var s1 = xoay(w[j - 2], 17) ^ xoay(w[j - 2], 19) ^ (w[j - 2] >>> 10);
+        w[j] = (w[j - 16] + s0 + w[j - 7] + s1) | 0;
+      }
+      var a = H[0], bb = H[1], c = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+      for (j = 0; j < 64; j++) {
+        var t1 = (h + (xoay(e, 6) ^ xoay(e, 11) ^ xoay(e, 25)) + ((e & f) ^ (~e & g)) + K[j] + w[j]) | 0;
+        var t2 = ((xoay(a, 2) ^ xoay(a, 13) ^ xoay(a, 22)) + ((a & bb) ^ (a & c) ^ (bb & c))) | 0;
+        h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0;
+      }
+      H[0] = (H[0] + a) | 0; H[1] = (H[1] + bb) | 0; H[2] = (H[2] + c) | 0; H[3] = (H[3] + d) | 0;
+      H[4] = (H[4] + e) | 0; H[5] = (H[5] + f) | 0; H[6] = (H[6] + g) | 0; H[7] = (H[7] + h) | 0;
+    }
+    return H.map(function (x) { return ('0000000' + (x >>> 0).toString(16)).slice(-8); }).join('');
+  }
+  // Cùng công thức với dung_de_online.py
+  function bamPin(pin) { return sha256('kt7|pin|' + String(pin).trim()); }
+  function bamMaMoDe(maDe, ma) { return sha256('kt7|de|' + maDe + '|' + String(ma).trim().toUpperCase()); }
+
+  // ---------------------------------------------------------------- lưu trữ
+  function doc(khoa, macDinh) {
+    try { var v = JSON.parse(localStorage.getItem(khoa)); return v == null ? macDinh : v; }
+    catch (e) { return macDinh; }
+  }
+  function ghi(khoa, giaTri) {
+    try { localStorage.setItem(khoa, JSON.stringify(giaTri)); return true; }
+    catch (e) { return false; }
+  }
+
+  // ---------------------------------------------------------------- đề & chấm
+  /** Danh sách phẳng các câu theo thứ tự gốc: [{cau, nhom, phan}] */
+  function dsCau(de) {
+    var ds = [];
+    de.phan.forEach(function (phan) {
+      phan.nhom.forEach(function (nhom) {
+        nhom.cau.forEach(function (cau) { ds.push({ cau: cau, nhom: nhom, phan: phan }); });
+      });
+    });
+    return ds;
+  }
+  function chuanHoa(s) {
+    return String(s == null ? '' : s).normalize('NFC').toLowerCase()
+      .replace(/[‘’ʼ`´]/g, "'").replace(/[“”]/g, '"')
+      .replace(/\s+/g, ' ').trim().replace(/\s*[.!?]+$/, '').trim();
+  }
+  function daLam(cau, tl) {
+    if (cau.loai === 'chon') return typeof tl === 'number';
+    if (cau.loai === 'dien') return typeof tl === 'string' && tl.trim() !== '';
+    if (cau.loai === 'sapXep') return Array.isArray(tl) && tl.length > 0;
+    return false;
+  }
+  function cauGhep(cau, tl) {
+    var s = (tl || []).map(function (i) { return cau.manh[i]; }).join(' ');
+    return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+  }
+  function dung(cau, tl) {
+    if (!daLam(cau, tl)) return false;
+    if (cau.loai === 'chon') return tl === cau.dapAn;
+    var cua = chuanHoa(cau.loai === 'dien' ? tl : cauGhep(cau, tl));
+    return cau.dapAn.some(function (d) { return chuanHoa(d) === cua; });
+  }
+  /** Câu trả lời của HS thành chữ để hiển thị / xuất file. */
+  function hienThi(cau, tl) {
+    if (!daLam(cau, tl)) return '';
+    if (cau.loai === 'chon') return cau.phuongAn[tl] != null ? cau.phuongAn[tl].replace(/\*/g, '') : '?';
+    if (cau.loai === 'dien') return tl.trim();
+    return cauGhep(cau, tl) + (cau.cuoi || '');
+  }
+  function dapAnChu(cau) {
+    if (cau.loai === 'chon') return cau.phuongAn[cau.dapAn].replace(/\*/g, '');
+    if (cau.loai === 'sapXep') return cau.dapAn[0] + (cau.cuoi || '');
+    return cau.dapAn.join(' / ');
+  }
+  function phanTram(diem) { return Math.round(diem * 100); }
+  /** Chấm toàn bài. traLoi = {id: câu trả lời thô}. */
+  function cham(de, traLoi) {
+    var tong = 0, toiDa = 0, soDung = 0, chiTiet = [];
+    dsCau(de).forEach(function (x) {
+      var c = x.cau, tl = traLoi[c.id], ok = dung(c, tl), d = phanTram(c.diem);
+      toiDa += d; if (ok) { tong += d; soDung++; }
+      chiTiet.push({ id: c.id, loai: c.loai, traLoi: tl == null ? null : tl, hienThi: hienThi(c, tl),
+                     dung: ok, diem: ok ? d / 100 : 0, diemToiDa: d / 100 });
+    });
+    return { diem: tong, diemToiDa: toiDa, soDung: soDung, tongSoCau: chiTiet.length, chiTiet: chiTiet };
+  }
+
+  // ---------------------------------------------------------------- gói kết quả gọn cho mã QR
+  // Mảng vị trí (không dùng tên khoá) để mã QR nhỏ; trang giáo viên chấm lại từ câu trả lời thô.
+  function goiGon(bg, de) {
+    return [1, bg.de.maDe, bg.de.phienBan, bg.maLuot,
+      bg.hocSinh.hoTen, bg.hocSinh.gioiTinh, bg.hocSinh.lop, bg.hocSinh.truong,
+      Math.round(bg.batDau / 1000), Math.round(bg.nopLuc / 1000), bg.thoiGianChoPhepGiay,
+      bg.lyDoNop === 'het-gio' ? 'h' : 't', bg.giamSat.soLanRoiTrang, bg.giamSat.soLanThoatToanManHinh,
+      dsCau(de).map(function (x) { var t = bg.traLoiTho[x.cau.id]; return t == null ? null : t; }),
+      Math.round(bg.diem * 100)];
+  }
+  /** Gói gọn → bản ghi đầy đủ. de = đề tương ứng (có thể null nếu trang GV không có đề này). */
+  function moGoi(g, de, nguon) {
+    if (!Array.isArray(g) || g[0] !== 1) throw new Error('Mã kết quả không đúng định dạng.');
+    var bg = {
+      maLuot: g[3], hocSinh: { hoTen: g[4], gioiTinh: g[5], lop: g[6], truong: g[7] },
+      de: { maDe: g[1], phienBan: g[2], tieuDe: de ? de.tieuDe : g[1], mon: de ? de.mon : '' },
+      batDau: g[8] * 1000, nopLuc: g[9] * 1000, thoiGianLamGiay: g[9] - g[8], thoiGianChoPhepGiay: g[10],
+      lyDoNop: g[11] === 'h' ? 'het-gio' : 'tu-nop',
+      giamSat: { soLanRoiTrang: g[12], soLanThoatToanManHinh: g[13] },
+      traLoiTho: {}, nguon: nguon || 'nhap'
+    };
+    if (de && de.phienBan === g[2]) {
+      var ds = dsCau(de);
+      g[14].forEach(function (t, i) { if (ds[i] && t != null) bg.traLoiTho[ds[i].cau.id] = t; });
+      var kq = cham(de, bg.traLoiTho);
+      bg.diem = kq.diem / 100; bg.diemToiDa = kq.diemToiDa / 100; bg.soDung = kq.soDung;
+      bg.tongSoCau = kq.tongSoCau; bg.traLoi = kq.chiTiet;
+      if (kq.diem !== g[15]) bg.canhBao = 'Điểm chấm lại (' + soVN(kq.diem) + ') khác điểm trên máy học sinh (' + soVN(g[15]) + ').';
+    } else {
+      bg.diem = g[15] / 100; bg.diemToiDa = 10;
+      bg.canhBao = de ? 'Đề đã đổi phiên bản — giữ điểm của máy học sinh, không chấm lại được.'
+                      : 'Trang giáo viên không có đề này — giữ điểm của máy học sinh.';
+    }
+    return bg;
+  }
+  function b64url(bytes) {
+    var s = ''; for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+    return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function tuB64url(s) {
+    s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '=';
+    var bin = atob(s), b = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i);
+    return b;
+  }
+  function quaLuong(bytes, luong) {
+    return new Response(new Blob([bytes]).stream().pipeThrough(luong)).arrayBuffer()
+      .then(function (ab) { return new Uint8Array(ab); });
+  }
+  /** Gói gọn → chuỗi mã ("z…" = đã nén deflate, "j…" = không nén). */
+  function maHoa(goi) {
+    var bytes = new TextEncoder().encode(JSON.stringify(goi));
+    if (typeof CompressionStream === 'undefined') return Promise.resolve('j' + b64url(bytes));
+    return quaLuong(bytes, new CompressionStream('deflate-raw'))
+      .then(function (z) { return 'z' + b64url(z); }, function () { return 'j' + b64url(bytes); });
+  }
+  function giaiMa(ma) {
+    ma = String(ma || '').trim();
+    var m = ma.match(/[#&?]nhap=([^&\s]+)/); if (m) ma = decodeURIComponent(m[1]);
+    var loai = ma.charAt(0), bytes = tuB64url(ma.slice(1));
+    var p = loai === 'z' ? quaLuong(bytes, new DecompressionStream('deflate-raw'))
+          : loai === 'j' ? Promise.resolve(bytes) : Promise.reject(new Error('Mã kết quả không đúng định dạng.'));
+    return p.then(function (b) { return JSON.parse(new TextDecoder().decode(b)); });
+  }
+
+  // ---------------------------------------------------------------- tải file
+  function taiFile(ten, noiDung, kieu) {
+    var blob = new Blob([noiDung], { type: kieu || 'application/json;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = ten;
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  function tenTep(s) {
+    return khongDau(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'khong-ten';
+  }
+
+  return {
+    KHOA: KHOA, esc: esc, md: md, mdKhoi: mdKhoi, soVN: soVN, thoiGian: thoiGian, dongHo: dongHo,
+    ngayGio: ngayGio, khongDau: khongDau, sha256: sha256, bamPin: bamPin, bamMaMoDe: bamMaMoDe,
+    doc: doc, ghi: ghi, dsCau: dsCau, chuanHoa: chuanHoa, daLam: daLam, cauGhep: cauGhep, dung: dung,
+    hienThi: hienThi, dapAnChu: dapAnChu, cham: cham, goiGon: goiGon, moGoi: moGoi,
+    maHoa: maHoa, giaiMa: giaiMa, taiFile: taiFile, tenTep: tenTep
+  };
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var CAC_DE = [{"maDe":"toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01","phienBan":1,"mon":"Toán","tieuDe":"Toán 7 – Kiểm tra cuối học kì I – Đề số 01 (phần trắc nghiệm)","phamVi":"Chương I – V (Bài 1 – Bài 19), Toán 7 Kết nối tri thức với cuộc sống — Phần I – III (trắc nghiệm) của đề giấy","thoiGianPhut":45,"nguonDeGiay":"bài kiểm tra/toán/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01.md","cauTruc":{"ma":"toan-lop-7-cau-truc-de-so-01","phan":"B"},"ghiChu":"Bản online CHỈ gồm Phần I – III (trắc nghiệm, 7,0 điểm trên giấy) của đề giấy; Phần IV Tự luận (3,0 điểm) làm trên giấy 45 phút sau khi nộp bài online (cả buổi 90 phút). (1) Trang online chấm theo thang 10: nhiều lựa chọn 0,36 điểm/câu (12 câu = 4,32), mỗi ý Đúng – Sai tách thành một câu chọn Đúng/Sai 0,35 điểm (8 ý = 2,8), trả lời ngắn 0,72 điểm/câu (4 câu = 2,88). (2) Đúng – Sai chấm từng ý, KHÔNG chấm lũy tiến như bản giấy; giữ thứ tự ý (câu 1: Sai – Đúng – Đúng – Sai; câu 2: Đúng – Sai – Đúng – Đúng), mỗi ý ghi lại phần dẫn chung và cùng hình. (3) Điểm cả bài theo biểu điểm giấy: 0,25 × số câu nhiều lựa chọn đúng + điểm lũy tiến hai câu Đúng – Sai (0 / 0,1 / 0,25 / 0,5 / 1,0 theo số ý đúng) + 0,5 × số câu trả lời ngắn đúng + điểm Phần IV; cách nhanh gần đúng: điểm online × 0,7 + điểm Phần IV (có thể cao hơn tới khoảng 0,5 điểm vì Đúng – Sai không lũy tiến). (4) Nội dung, đáp án, hình các câu giữ nguyên như đề giấy; số chọn để không cần máy tính cầm tay. Đáp số trả lời ngắn: số thập phân nhận cả dấu phẩy và dấu chấm; câu 22 chỉ nhận số âm (−1,3), không nhận 1,3; câu 23, 24 nhận có hoặc không kèm đơn vị. (5) Chỉ Phần I xáo câu và xáo phương án; Phần II, III giữ thứ tự.","phan":[{"tieuDe":"PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN (4,32 điểm)","nhom":[{"huongDan":"Chọn phương án đúng. Mỗi câu 0,36 điểm. Không cần máy tính cầm tay.","nguLieu":null,"hopTu":null,"xaoCau":true,"cau":[{"id":"1","loai":"chon","de":"Khẳng định nào sau đây đúng?","phuongAn":["−7 ∉ ℚ","0,25 ∈ ℤ","−6/11 ∈ ℚ","1½ ∉ ℚ"],"dapAn":2,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"−6/11 viết được dưới dạng a/b với a, b là số nguyên, b ≠ 0 nên là số hữu tỉ. Số nguyên −7 = −7/1 và hỗn số 1½ = 3/2 cũng là số hữu tỉ; 0,25 = 1/4 không phải số nguyên."},{"id":"2","loai":"chon","de":"Kết quả của phép tính (−0,75) : 3/8 là:","phuongAn":["−2","−9/32","2","−1/2"],"dapAn":0,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Đổi −0,75 = −3/4 rồi nhân với số nghịch đảo của 3/8: −3/4 × 8/3 = −2. Không nhân thẳng, không chia ngược; số âm chia số dương được số âm."},{"id":"3","loai":"chon","de":"Kết quả của phép tính (−3/4)³ · (−3/4)⁴ viết dưới dạng một luỹ thừa là:","phuongAn":["(−3/4)¹²","(9/16)⁷","(−3/2)⁷","(−3/4)⁷"],"dapAn":3,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Nhân hai luỹ thừa cùng cơ số: giữ nguyên cơ số, cộng các số mũ: (−3/4)³⁺⁴ = (−3/4)⁷. Không nhân số mũ, không nhân hay cộng hai cơ số."},{"id":"4","loai":"chon","de":"Giá trị của biểu thức 5 − (−3/2)² · 4 là:","phuongAn":["11","−4","14","−31"],"dapAn":1,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Luỹ thừa trước: (−3/2)² = 9/4 (bình phương của số âm là số dương); rồi nhân: 9/4 · 4 = 9; cuối cùng trừ: 5 − 9 = −4."},{"id":"5","loai":"chon","de":"Số thập phân vô hạn tuần hoàn −1,3555… (chữ số 5 lặp lại mãi) được viết gọn là:","phuongAn":["−1,(35)","−1,3(5)","−1,(355)","−1,355"],"dapAn":1,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Chỉ chữ số 5 lặp lại nên chu kì là 5, chữ số 3 đứng trước chu kì: −1,3(5). Viết −1,(35) là nhóm 35 lặp lại — sai; −1,355 là số thập phân hữu hạn."},{"id":"6","loai":"chon","de":"Số nào sau đây là số vô tỉ?","phuongAn":["√121","−2,(13)","22/7","√42"],"dapAn":3,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"42 không là số chính phương (36 < 42 < 49) nên √42 là số vô tỉ. √121 = 11; số thập phân vô hạn tuần hoàn và phân số 22/7 đều là số hữu tỉ."},{"id":"7","loai":"chon","de":"Hai đường thẳng mm′ và nn′ cắt nhau tại I (như hình vẽ). Góc đối đỉnh với góc mIn′ là:","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-i-7.svg","phuongAn":["góc m′In′","góc mIn","góc m′In","góc mIm′"],"dapAn":2,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Hai góc đối đỉnh có mỗi cạnh của góc này là tia đối của một cạnh của góc kia: tia Im′ đối tia Im, tia In đối tia In′, nên góc m′In đối đỉnh với góc mIn′. Hai góc chung một cạnh là hai góc kề bù.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 230\" width=\"340\" height=\"230\">\n<rect x=\"0\" y=\"0\" width=\"340\" height=\"230\" fill=\"#ffffff\"/>\n<line x1=\"311.0\" y1=\"60.7\" x2=\"29.0\" y2=\"163.3\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"113.4\" y1=\"39.5\" x2=\"226.6\" y2=\"184.5\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"318.5\" y=\"63.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">m<\/text>\n<text x=\"21.5\" y=\"171.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">m′<\/text>\n<text x=\"106.0\" y=\"35.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">n′<\/text>\n<text x=\"234.0\" y=\"199.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">n<\/text>\n<circle cx=\"170.0\" cy=\"112.0\" r=\"3\" fill=\"#000\"/>\n<text x=\"156.0\" y=\"136.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">I<\/text>\n<path d=\"M 194.4 103.1 A 26 26 0 0 0 154.0 91.5\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<\/svg>"},{"id":"8","loai":"chon","de":"Cho định lí: “Nếu một tam giác có hai góc bằng nhau thì tam giác đó là tam giác cân.” Giả thiết của định lí là:","phuongAn":["Một tam giác có hai góc bằng nhau.","Tam giác đó là tam giác cân.","Một tam giác có hai cạnh bằng nhau.","Hai góc ở đáy của tam giác cân bằng nhau."],"dapAn":0,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Giả thiết là phần nằm giữa “Nếu” và “thì”: một tam giác có hai góc bằng nhau. Phần sau “thì” là kết luận."},{"id":"9","loai":"chon","de":"Tam giác DEF có góc D = 46°, góc E = 71° (như hình vẽ). Số đo góc F là:","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-i-9.svg","phuongAn":["117°","134°","63°","109°"],"dapAn":2,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Tổng ba góc của một tam giác bằng 180°: góc F = 180° − 46° − 71° = 63°. 117° là tổng hai góc đã cho, không phải góc F.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 240\" width=\"340\" height=\"240\">\n<rect x=\"0\" y=\"0\" width=\"340\" height=\"240\" fill=\"#ffffff\"/>\n<line x1=\"90.0\" y1=\"215.0\" x2=\"250.0\" y2=\"215.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"90.0\" y1=\"215.0\" x2=\"154.5\" y2=\"27.6\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"250.0\" y1=\"215.0\" x2=\"154.5\" y2=\"27.6\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"78.0\" y=\"221.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">E<\/text>\n<text x=\"262.0\" y=\"221.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">F<\/text>\n<text x=\"154.5\" y=\"17.6\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">D<\/text>\n<path d=\"M 116.0 215.0 A 26 26 0 0 0 98.5 190.4\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"136.0\" y=\"201.0\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">71°<\/text>\n<path d=\"M 238.2 191.8 A 26 26 0 0 0 224.0 215.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"206.0\" y=\"201.0\" font-family=\"Arial, sans-serif\" font-size=\"17\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">?<\/text>\n<path d=\"M 146.7 50.3 A 24 24 0 0 0 165.4 49.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"157.6\" y=\"76.5\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">46°<\/text>\n<\/svg>"},{"id":"10","loai":"chon","de":"Cho ΔPMN = ΔFDE. Khẳng định nào sau đây đúng?","phuongAn":["PM = DE","MN = DE","góc P = góc D","PN = FD"],"dapAn":1,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Các đỉnh tương ứng viết theo cùng thứ tự: P ứng với F, M ứng với D, N ứng với E. Nên MN = DE; còn PM = FD, PN = FE, góc P = góc F."},{"id":"11","loai":"chon","de":"Bạn Hà khảo sát các bạn trong lớp 7A. Dữ liệu nào sau đây là **số liệu**?","phuongAn":["Tên loại cây mỗi bạn muốn trồng ở vườn trường.","Mức độ yêu thích môn Toán (không thích, bình thường, thích, rất thích).","Phương tiện mỗi bạn dùng để đến trường.","Khối lượng cặp sách của mỗi bạn (kg)."],"dapAn":3,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Số liệu là dữ liệu được biểu diễn bằng số: khối lượng cặp sách (kg). Mức độ yêu thích sắp được thứ tự nhưng không phải là số."},{"id":"12","loai":"chon","de":"Biểu đồ hình quạt tròn biểu diễn tỉ lệ phần trăm khối lượng các loại rác thải sinh hoạt thu gom được trong một tuần ở một khu dân cư (như hình). Nhận xét nào sau đây đúng?","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-i-12.svg","phuongAn":["Rác hữu cơ chiếm nhiều hơn tổng của ba loại rác còn lại.","Rác nhựa và rác giấy chiếm hơn một nửa lượng rác.","Rác giấy chiếm nhiều hơn rác nhựa.","Rác loại khác chiếm chưa tới 10% lượng rác."],"dapAn":0,"xaoPhuongAn":true,"diem":0.36,"giaiThich":"Ba loại còn lại chiếm 18% + 15% + 12% = 45%, ít hơn 55% của rác hữu cơ. Nhựa và giấy chỉ chiếm 33%; giấy 15% ít hơn nhựa 18%; loại khác 12% nhiều hơn 10%.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 270\" width=\"340\" height=\"270\">\n<rect x=\"0\" y=\"0\" width=\"340\" height=\"270\" fill=\"#ffffff\"/>\n<path d=\"M 170.0 135.0 L 170.0 17.0 A 118 118 0 1 1 133.5 247.2 Z\" fill=\"#cfe3f7\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"237.6\" y=\"142.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Hữu cơ<\/text>\n<text x=\"237.6\" y=\"160.7\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">55%<\/text>\n<path d=\"M 170.0 135.0 L 133.5 247.2 A 118 118 0 0 1 52.9 149.8 Z\" fill=\"#fde2c4\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"106.4\" y=\"184.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Nhựa<\/text>\n<text x=\"106.4\" y=\"202.7\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">18%<\/text>\n<path d=\"M 170.0 135.0 L 52.9 149.8 A 118 118 0 0 1 89.2 49.0 Z\" fill=\"#d9efd2\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"92.3\" y=\"104.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Giấy<\/text>\n<text x=\"92.3\" y=\"122.0\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">15%<\/text>\n<path d=\"M 170.0 135.0 L 89.2 49.0 A 118 118 0 0 1 170.0 17.0 Z\" fill=\"#eadcf5\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"139.6\" y=\"55.2\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Khác<\/text>\n<text x=\"139.6\" y=\"73.2\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">12%<\/text>\n<\/svg>"}]}]},{"tieuDe":"PHẦN II. TRẮC NGHIỆM ĐÚNG – SAI (2,8 điểm)","nhom":[{"huongDan":"Câu 1 (gồm 4 ý). Với mỗi khẳng định, chọn Đúng hoặc Sai. Mỗi ý 0,35 điểm.","nguLieu":null,"hopTu":null,"xaoCau":false,"cau":[{"id":"13","loai":"chon","de":"Cho hình vẽ: a // b; đường thẳng c cắt a tại A, cắt b tại B; các góc tại A và B được đánh số 1, 2, 3, 4 như hình; góc A₁ = 64°. Khẳng định: **Góc A₃ và góc B₂ là hai góc đồng vị**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-1.svg","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: A₃ và B₂ cùng nằm giữa a và b, cùng một phía của c — đó là cặp góc trong cùng phía. Góc đồng vị với A₃ là B₃.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 360 230\" width=\"360\" height=\"230\">\n<rect x=\"0\" y=\"0\" width=\"360\" height=\"230\" fill=\"#ffffff\"/>\n<line x1=\"20.0\" y1=\"70.0\" x2=\"340.0\" y2=\"70.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"20.0\" y1=\"185.0\" x2=\"340.0\" y2=\"185.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"231.3\" y1=\"16.1\" x2=\"124.8\" y2=\"234.4\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"345.0\" y=\"75.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">a<\/text>\n<text x=\"345.0\" y=\"190.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">b<\/text>\n<text x=\"239.7\" y=\"9.1\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">c<\/text>\n<circle cx=\"205.0\" cy=\"70.0\" r=\"3\" fill=\"#000\"/>\n<circle cx=\"148.9\" cy=\"185.0\" r=\"3\" fill=\"#000\"/>\n<text x=\"157.0\" y=\"61.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">A<\/text>\n<text x=\"200.9\" y=\"176.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">B<\/text>\n<text x=\"223.7\" y=\"63.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"194.4\" y=\"58.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"186.3\" y=\"86.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"215.6\" y=\"92.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<text x=\"167.6\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"138.3\" y=\"173.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"130.3\" y=\"201.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"159.5\" y=\"207.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<path d=\"M 239.0 70.0 A 34 34 0 0 0 219.9 39.4\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"257.1\" y=\"47.4\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">64°<\/text>\n<\/svg>"},{"id":"14","loai":"chon","de":"Cho hình vẽ: a // b; đường thẳng c cắt a tại A, cắt b tại B; các góc tại A và B được đánh số 1, 2, 3, 4 như hình; góc A₁ = 64°. Khẳng định: **Góc A₄ và góc B₂ là hai góc so le trong**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-1.svg","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: A₄ và B₂ cùng nằm giữa a và b, ở hai phía của đường thẳng c nên là hai góc so le trong.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 360 230\" width=\"360\" height=\"230\">\n<rect x=\"0\" y=\"0\" width=\"360\" height=\"230\" fill=\"#ffffff\"/>\n<line x1=\"20.0\" y1=\"70.0\" x2=\"340.0\" y2=\"70.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"20.0\" y1=\"185.0\" x2=\"340.0\" y2=\"185.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"231.3\" y1=\"16.1\" x2=\"124.8\" y2=\"234.4\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"345.0\" y=\"75.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">a<\/text>\n<text x=\"345.0\" y=\"190.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">b<\/text>\n<text x=\"239.7\" y=\"9.1\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">c<\/text>\n<circle cx=\"205.0\" cy=\"70.0\" r=\"3\" fill=\"#000\"/>\n<circle cx=\"148.9\" cy=\"185.0\" r=\"3\" fill=\"#000\"/>\n<text x=\"157.0\" y=\"61.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">A<\/text>\n<text x=\"200.9\" y=\"176.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">B<\/text>\n<text x=\"223.7\" y=\"63.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"194.4\" y=\"58.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"186.3\" y=\"86.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"215.6\" y=\"92.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<text x=\"167.6\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"138.3\" y=\"173.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"130.3\" y=\"201.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"159.5\" y=\"207.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<path d=\"M 239.0 70.0 A 34 34 0 0 0 219.9 39.4\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"257.1\" y=\"47.4\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">64°<\/text>\n<\/svg>"},{"id":"15","loai":"chon","de":"Cho hình vẽ: a // b; đường thẳng c cắt a tại A, cắt b tại B; các góc tại A và B được đánh số 1, 2, 3, 4 như hình; góc A₁ = 64°. Khẳng định: **Qua điểm A chỉ có một đường thẳng song song với b**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-1.svg","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: theo tiên đề Euclid, qua một điểm nằm ngoài một đường thẳng chỉ có một đường thẳng song song với đường thẳng đó (chính là a).","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 360 230\" width=\"360\" height=\"230\">\n<rect x=\"0\" y=\"0\" width=\"360\" height=\"230\" fill=\"#ffffff\"/>\n<line x1=\"20.0\" y1=\"70.0\" x2=\"340.0\" y2=\"70.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"20.0\" y1=\"185.0\" x2=\"340.0\" y2=\"185.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"231.3\" y1=\"16.1\" x2=\"124.8\" y2=\"234.4\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"345.0\" y=\"75.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">a<\/text>\n<text x=\"345.0\" y=\"190.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">b<\/text>\n<text x=\"239.7\" y=\"9.1\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">c<\/text>\n<circle cx=\"205.0\" cy=\"70.0\" r=\"3\" fill=\"#000\"/>\n<circle cx=\"148.9\" cy=\"185.0\" r=\"3\" fill=\"#000\"/>\n<text x=\"157.0\" y=\"61.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">A<\/text>\n<text x=\"200.9\" y=\"176.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">B<\/text>\n<text x=\"223.7\" y=\"63.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"194.4\" y=\"58.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"186.3\" y=\"86.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"215.6\" y=\"92.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<text x=\"167.6\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"138.3\" y=\"173.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"130.3\" y=\"201.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"159.5\" y=\"207.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<path d=\"M 239.0 70.0 A 34 34 0 0 0 219.9 39.4\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"257.1\" y=\"47.4\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">64°<\/text>\n<\/svg>"},{"id":"16","loai":"chon","de":"Cho hình vẽ: a // b; đường thẳng c cắt a tại A, cắt b tại B; các góc tại A và B được đánh số 1, 2, 3, 4 như hình; góc A₁ = 64°. Khẳng định: **Góc B₂ = 64°**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-1.svg","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: góc A₄ = 180° − 64° = 116° (kề bù với A₁); a // b nên góc B₂ = góc A₄ = 116° (so le trong). B₂ không đồng vị với A₁.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 360 230\" width=\"360\" height=\"230\">\n<rect x=\"0\" y=\"0\" width=\"360\" height=\"230\" fill=\"#ffffff\"/>\n<line x1=\"20.0\" y1=\"70.0\" x2=\"340.0\" y2=\"70.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"20.0\" y1=\"185.0\" x2=\"340.0\" y2=\"185.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"231.3\" y1=\"16.1\" x2=\"124.8\" y2=\"234.4\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"345.0\" y=\"75.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">a<\/text>\n<text x=\"345.0\" y=\"190.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"start\" fill=\"#000\">b<\/text>\n<text x=\"239.7\" y=\"9.1\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">c<\/text>\n<circle cx=\"205.0\" cy=\"70.0\" r=\"3\" fill=\"#000\"/>\n<circle cx=\"148.9\" cy=\"185.0\" r=\"3\" fill=\"#000\"/>\n<text x=\"157.0\" y=\"61.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">A<\/text>\n<text x=\"200.9\" y=\"176.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">B<\/text>\n<text x=\"223.7\" y=\"63.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"194.4\" y=\"58.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"186.3\" y=\"86.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"215.6\" y=\"92.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<text x=\"167.6\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<text x=\"138.3\" y=\"173.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<text x=\"130.3\" y=\"201.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<text x=\"159.5\" y=\"207.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<path d=\"M 239.0 70.0 A 34 34 0 0 0 219.9 39.4\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"257.1\" y=\"47.4\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">64°<\/text>\n<\/svg>"}]},{"huongDan":"Câu 2 (gồm 4 ý). Với mỗi khẳng định, chọn Đúng hoặc Sai. Mỗi ý 0,35 điểm.","nguLieu":null,"hopTu":null,"xaoCau":false,"cau":[{"id":"17","loai":"chon","de":"Biểu đồ đoạn thẳng (như hình) biểu diễn lượng nước (m³) gia đình bạn Mai dùng trong mỗi tháng, từ tháng 1 đến tháng 6 của một năm. Khẳng định: **Trong tháng 4, gia đình bạn Mai dùng 24 m³ nước**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-2.svg","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: điểm ứng với tháng 4 ghi số 24.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 380 290\" width=\"380\" height=\"290\">\n<rect x=\"0\" y=\"0\" width=\"380\" height=\"290\" fill=\"#ffffff\"/>\n<text x=\"50.0\" y=\"245.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">0<\/text>\n<line x1=\"58.0\" y1=\"206.7\" x2=\"360.0\" y2=\"206.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"211.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">5<\/text>\n<line x1=\"58.0\" y1=\"173.3\" x2=\"360.0\" y2=\"173.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">10<\/text>\n<line x1=\"58.0\" y1=\"140.0\" x2=\"360.0\" y2=\"140.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"145.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">15<\/text>\n<line x1=\"58.0\" y1=\"106.7\" x2=\"360.0\" y2=\"106.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"111.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">20<\/text>\n<line x1=\"58.0\" y1=\"73.3\" x2=\"360.0\" y2=\"73.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"78.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">25<\/text>\n<line x1=\"58.0\" y1=\"40.0\" x2=\"360.0\" y2=\"40.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"45.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">30<\/text>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"368.0\" y2=\"240.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"58.0\" y2=\"26.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"52.0\" y=\"20.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"start\" fill=\"#000\">m³<\/text>\n<text x=\"368.0\" y=\"280.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">Tháng<\/text>\n<line x1=\"98.0\" y1=\"236.0\" x2=\"98.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"98.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<line x1=\"148.0\" y1=\"236.0\" x2=\"148.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"148.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<line x1=\"198.0\" y1=\"236.0\" x2=\"198.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"198.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<line x1=\"248.0\" y1=\"236.0\" x2=\"248.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"248.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<line x1=\"298.0\" y1=\"236.0\" x2=\"298.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"298.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">5<\/text>\n<line x1=\"348.0\" y1=\"236.0\" x2=\"348.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"348.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">6<\/text>\n<line x1=\"98.0\" y1=\"120.0\" x2=\"148.0\" y2=\"133.3\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"148.0\" y1=\"133.3\" x2=\"198.0\" y2=\"100.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"198.0\" y1=\"100.0\" x2=\"248.0\" y2=\"80.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"248.0\" y1=\"80.0\" x2=\"298.0\" y2=\"60.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"298.0\" y1=\"60.0\" x2=\"348.0\" y2=\"86.7\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<circle cx=\"98.0\" cy=\"120.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"98.0\" y=\"110.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">18<\/text>\n<circle cx=\"148.0\" cy=\"133.3\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"148.0\" y=\"123.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">16<\/text>\n<circle cx=\"198.0\" cy=\"100.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"198.0\" y=\"90.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">21<\/text>\n<circle cx=\"248.0\" cy=\"80.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"248.0\" y=\"70.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">24<\/text>\n<circle cx=\"298.0\" cy=\"60.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"298.0\" y=\"50.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">27<\/text>\n<circle cx=\"348.0\" cy=\"86.7\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"348.0\" y=\"76.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">23<\/text>\n<\/svg>"},{"id":"18","loai":"chon","de":"Biểu đồ đoạn thẳng (như hình) biểu diễn lượng nước (m³) gia đình bạn Mai dùng trong mỗi tháng, từ tháng 1 đến tháng 6 của một năm. Khẳng định: **Tháng gia đình bạn Mai dùng ít nước nhất là tháng 1**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-2.svg","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: tháng 1 dùng 18 m³ nhưng tháng 2 chỉ dùng 16 m³ — tháng 2 dùng ít nhất.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 380 290\" width=\"380\" height=\"290\">\n<rect x=\"0\" y=\"0\" width=\"380\" height=\"290\" fill=\"#ffffff\"/>\n<text x=\"50.0\" y=\"245.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">0<\/text>\n<line x1=\"58.0\" y1=\"206.7\" x2=\"360.0\" y2=\"206.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"211.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">5<\/text>\n<line x1=\"58.0\" y1=\"173.3\" x2=\"360.0\" y2=\"173.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">10<\/text>\n<line x1=\"58.0\" y1=\"140.0\" x2=\"360.0\" y2=\"140.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"145.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">15<\/text>\n<line x1=\"58.0\" y1=\"106.7\" x2=\"360.0\" y2=\"106.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"111.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">20<\/text>\n<line x1=\"58.0\" y1=\"73.3\" x2=\"360.0\" y2=\"73.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"78.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">25<\/text>\n<line x1=\"58.0\" y1=\"40.0\" x2=\"360.0\" y2=\"40.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"45.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">30<\/text>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"368.0\" y2=\"240.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"58.0\" y2=\"26.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"52.0\" y=\"20.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"start\" fill=\"#000\">m³<\/text>\n<text x=\"368.0\" y=\"280.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">Tháng<\/text>\n<line x1=\"98.0\" y1=\"236.0\" x2=\"98.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"98.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<line x1=\"148.0\" y1=\"236.0\" x2=\"148.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"148.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<line x1=\"198.0\" y1=\"236.0\" x2=\"198.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"198.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<line x1=\"248.0\" y1=\"236.0\" x2=\"248.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"248.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<line x1=\"298.0\" y1=\"236.0\" x2=\"298.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"298.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">5<\/text>\n<line x1=\"348.0\" y1=\"236.0\" x2=\"348.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"348.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">6<\/text>\n<line x1=\"98.0\" y1=\"120.0\" x2=\"148.0\" y2=\"133.3\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"148.0\" y1=\"133.3\" x2=\"198.0\" y2=\"100.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"198.0\" y1=\"100.0\" x2=\"248.0\" y2=\"80.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"248.0\" y1=\"80.0\" x2=\"298.0\" y2=\"60.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"298.0\" y1=\"60.0\" x2=\"348.0\" y2=\"86.7\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<circle cx=\"98.0\" cy=\"120.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"98.0\" y=\"110.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">18<\/text>\n<circle cx=\"148.0\" cy=\"133.3\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"148.0\" y=\"123.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">16<\/text>\n<circle cx=\"198.0\" cy=\"100.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"198.0\" y=\"90.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">21<\/text>\n<circle cx=\"248.0\" cy=\"80.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"248.0\" y=\"70.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">24<\/text>\n<circle cx=\"298.0\" cy=\"60.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"298.0\" y=\"50.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">27<\/text>\n<circle cx=\"348.0\" cy=\"86.7\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"348.0\" y=\"76.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">23<\/text>\n<\/svg>"},{"id":"19","loai":"chon","de":"Biểu đồ đoạn thẳng (như hình) biểu diễn lượng nước (m³) gia đình bạn Mai dùng trong mỗi tháng, từ tháng 1 đến tháng 6 của một năm. Khẳng định: **Từ tháng 2 đến tháng 5, lượng nước dùng của tháng sau luôn nhiều hơn tháng trước**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-2.svg","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: 16 < 21 < 24 < 27 — đường gấp khúc đi lên liên tục từ tháng 2 đến tháng 5.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 380 290\" width=\"380\" height=\"290\">\n<rect x=\"0\" y=\"0\" width=\"380\" height=\"290\" fill=\"#ffffff\"/>\n<text x=\"50.0\" y=\"245.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">0<\/text>\n<line x1=\"58.0\" y1=\"206.7\" x2=\"360.0\" y2=\"206.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"211.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">5<\/text>\n<line x1=\"58.0\" y1=\"173.3\" x2=\"360.0\" y2=\"173.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">10<\/text>\n<line x1=\"58.0\" y1=\"140.0\" x2=\"360.0\" y2=\"140.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"145.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">15<\/text>\n<line x1=\"58.0\" y1=\"106.7\" x2=\"360.0\" y2=\"106.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"111.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">20<\/text>\n<line x1=\"58.0\" y1=\"73.3\" x2=\"360.0\" y2=\"73.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"78.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">25<\/text>\n<line x1=\"58.0\" y1=\"40.0\" x2=\"360.0\" y2=\"40.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"45.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">30<\/text>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"368.0\" y2=\"240.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"58.0\" y2=\"26.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"52.0\" y=\"20.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"start\" fill=\"#000\">m³<\/text>\n<text x=\"368.0\" y=\"280.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">Tháng<\/text>\n<line x1=\"98.0\" y1=\"236.0\" x2=\"98.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"98.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<line x1=\"148.0\" y1=\"236.0\" x2=\"148.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"148.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<line x1=\"198.0\" y1=\"236.0\" x2=\"198.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"198.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<line x1=\"248.0\" y1=\"236.0\" x2=\"248.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"248.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<line x1=\"298.0\" y1=\"236.0\" x2=\"298.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"298.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">5<\/text>\n<line x1=\"348.0\" y1=\"236.0\" x2=\"348.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"348.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">6<\/text>\n<line x1=\"98.0\" y1=\"120.0\" x2=\"148.0\" y2=\"133.3\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"148.0\" y1=\"133.3\" x2=\"198.0\" y2=\"100.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"198.0\" y1=\"100.0\" x2=\"248.0\" y2=\"80.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"248.0\" y1=\"80.0\" x2=\"298.0\" y2=\"60.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"298.0\" y1=\"60.0\" x2=\"348.0\" y2=\"86.7\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<circle cx=\"98.0\" cy=\"120.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"98.0\" y=\"110.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">18<\/text>\n<circle cx=\"148.0\" cy=\"133.3\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"148.0\" y=\"123.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">16<\/text>\n<circle cx=\"198.0\" cy=\"100.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"198.0\" y=\"90.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">21<\/text>\n<circle cx=\"248.0\" cy=\"80.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"248.0\" y=\"70.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">24<\/text>\n<circle cx=\"298.0\" cy=\"60.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"298.0\" y=\"50.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">27<\/text>\n<circle cx=\"348.0\" cy=\"86.7\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"348.0\" y=\"76.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">23<\/text>\n<\/svg>"},{"id":"20","loai":"chon","de":"Biểu đồ đoạn thẳng (như hình) biểu diễn lượng nước (m³) gia đình bạn Mai dùng trong mỗi tháng, từ tháng 1 đến tháng 6 của một năm. Khẳng định: **Lượng nước dùng tăng nhiều nhất là từ tháng 2 sang tháng 3**.","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-ii-2.svg","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: tháng 2 → 3 tăng 5 m³; tháng 3 → 4 và 4 → 5 chỉ tăng 3 m³; các tháng còn lại giảm. Đoạn thẳng tháng 2 – 3 dốc lên nhiều nhất.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 380 290\" width=\"380\" height=\"290\">\n<rect x=\"0\" y=\"0\" width=\"380\" height=\"290\" fill=\"#ffffff\"/>\n<text x=\"50.0\" y=\"245.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">0<\/text>\n<line x1=\"58.0\" y1=\"206.7\" x2=\"360.0\" y2=\"206.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"211.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">5<\/text>\n<line x1=\"58.0\" y1=\"173.3\" x2=\"360.0\" y2=\"173.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"178.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">10<\/text>\n<line x1=\"58.0\" y1=\"140.0\" x2=\"360.0\" y2=\"140.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"145.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">15<\/text>\n<line x1=\"58.0\" y1=\"106.7\" x2=\"360.0\" y2=\"106.7\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"111.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">20<\/text>\n<line x1=\"58.0\" y1=\"73.3\" x2=\"360.0\" y2=\"73.3\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"78.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">25<\/text>\n<line x1=\"58.0\" y1=\"40.0\" x2=\"360.0\" y2=\"40.0\" stroke=\"#c8c8c8\" stroke-width=\"1\"/>\n<text x=\"50.0\" y=\"45.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">30<\/text>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"368.0\" y2=\"240.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"58.0\" y1=\"240.0\" x2=\"58.0\" y2=\"26.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<text x=\"52.0\" y=\"20.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"start\" fill=\"#000\">m³<\/text>\n<text x=\"368.0\" y=\"280.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"end\" fill=\"#000\">Tháng<\/text>\n<line x1=\"98.0\" y1=\"236.0\" x2=\"98.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"98.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">1<\/text>\n<line x1=\"148.0\" y1=\"236.0\" x2=\"148.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"148.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">2<\/text>\n<line x1=\"198.0\" y1=\"236.0\" x2=\"198.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"198.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">3<\/text>\n<line x1=\"248.0\" y1=\"236.0\" x2=\"248.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"248.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">4<\/text>\n<line x1=\"298.0\" y1=\"236.0\" x2=\"298.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"298.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">5<\/text>\n<line x1=\"348.0\" y1=\"236.0\" x2=\"348.0\" y2=\"244.0\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"348.0\" y=\"260.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">6<\/text>\n<line x1=\"98.0\" y1=\"120.0\" x2=\"148.0\" y2=\"133.3\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"148.0\" y1=\"133.3\" x2=\"198.0\" y2=\"100.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"198.0\" y1=\"100.0\" x2=\"248.0\" y2=\"80.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"248.0\" y1=\"80.0\" x2=\"298.0\" y2=\"60.0\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<line x1=\"298.0\" y1=\"60.0\" x2=\"348.0\" y2=\"86.7\" stroke=\"#1f5fa8\" stroke-width=\"2.2\"/>\n<circle cx=\"98.0\" cy=\"120.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"98.0\" y=\"110.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">18<\/text>\n<circle cx=\"148.0\" cy=\"133.3\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"148.0\" y=\"123.3\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">16<\/text>\n<circle cx=\"198.0\" cy=\"100.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"198.0\" y=\"90.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">21<\/text>\n<circle cx=\"248.0\" cy=\"80.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"248.0\" y=\"70.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">24<\/text>\n<circle cx=\"298.0\" cy=\"60.0\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"298.0\" y=\"50.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">27<\/text>\n<circle cx=\"348.0\" cy=\"86.7\" r=\"4\" fill=\"#1f5fa8\"/>\n<text x=\"348.0\" y=\"76.7\" font-family=\"Arial, sans-serif\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">23<\/text>\n<\/svg>"}]}]},{"tieuDe":"PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN (2,88 điểm)","nhom":[{"huongDan":"Chỉ ghi đáp số, đúng dạng mỗi câu yêu cầu (số thập phân dùng dấu phẩy, ví dụ 0,5). Mỗi câu 0,72 điểm.","nguLieu":null,"hopTu":null,"xaoCau":false,"cau":[{"id":"21","loai":"dien","de":"Làm tròn số 8,2(46) với độ chính xác 0,005. Viết kết quả dưới dạng số thập phân.","dapAn":["8,25","8.25"],"diem":0.72,"giaiThich":"8,2(46) = 8,246464… Độ chính xác 0,005 nghĩa là làm tròn đến hàng phần trăm; chữ số hàng phần nghìn là 6 ≥ 5 nên làm tròn lên: 8,25."},{"id":"22","loai":"dien","de":"Tính giá trị của biểu thức 2√1,69 − |−3,9|. Viết kết quả dưới dạng số thập phân (số âm ghi cả dấu −).","dapAn":["-1,3","- 1,3","−1,3","− 1,3","-1.3","- 1.3","−1.3","− 1.3"],"diem":0.72,"giaiThich":"√1,69 = 1,3 (vì 1,3² = 1,69) và |−3,9| = 3,9. Nên 2 · 1,3 − 3,9 = 2,6 − 3,9 = −1,3. Giá trị tuyệt đối không bao giờ âm."},{"id":"23","loai":"dien","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-iii-3.svg","de":"Một cột ăng-ten TH dựng thẳng đứng trên mặt đất phẳng (TH vuông góc với mặt đất tại H). Hai dây cáp TA và TB néo xuống hai điểm A, B trên mặt đất, ở hai phía của chân cột H (như hình). Biết góc TAH = 52° và góc HTB = 41°. Tính số đo góc ATB giữa hai dây cáp (ghi số đo theo độ).","dapAn":["79","79°","79 °","79 độ"],"diem":0.72,"giaiThich":"Tam giác TAH vuông tại H nên góc ATH = 90° − 52° = 38° (hai góc nhọn phụ nhau). Góc ATB = góc ATH + góc HTB = 38° + 41° = 79°.","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 380 250\" width=\"380\" height=\"250\">\n<rect x=\"0\" y=\"0\" width=\"380\" height=\"250\" fill=\"#ffffff\"/>\n<line x1=\"15.0\" y1=\"215.0\" x2=\"365.0\" y2=\"215.0\" stroke=\"#555\" stroke-width=\"1.5\"/>\n<line x1=\"190.0\" y1=\"40.0\" x2=\"190.0\" y2=\"215.0\" stroke=\"#000\" stroke-width=\"3\"/>\n<line x1=\"190.0\" y1=\"40.0\" x2=\"53.3\" y2=\"215.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<line x1=\"190.0\" y1=\"40.0\" x2=\"342.1\" y2=\"215.0\" stroke=\"#000\" stroke-width=\"2\"/>\n<path d=\"M 190.0 203.0 L 202.0 203.0 L 202.0 215.0\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"190.0\" y=\"30.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">T<\/text>\n<text x=\"190.0\" y=\"237.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">H<\/text>\n<text x=\"49.3\" y=\"237.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">A<\/text>\n<text x=\"346.1\" y=\"237.0\" font-family=\"Arial, sans-serif\" font-size=\"16\" font-style=\"italic\" text-anchor=\"middle\" fill=\"#000\">B<\/text>\n<path d=\"M 83.3 215.0 A 30 30 0 0 0 71.7 191.4\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"102.4\" y=\"199.0\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">52°<\/text>\n<path d=\"M 190.0 74.0 A 34 34 0 0 0 212.3 65.7\" fill=\"none\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"214.9\" y=\"96.6\" font-family=\"Arial, sans-serif\" font-size=\"15\" text-anchor=\"middle\" fill=\"#000\">41°<\/text>\n<\/svg>"},{"id":"24","loai":"dien","hinh":"hinh/toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01-iii-4.svg","de":"Biểu đồ hình quạt tròn (như hình) biểu diễn tỉ lệ phần trăm số cốc đồ uống mỗi loại mà quầy đồ uống của một trường bán được trong một tuần (tỉ lệ của nước cam được ghi dấu ?). Tuần đó quầy bán được tất cả 480 cốc đồ uống. Hỏi quầy bán được bao nhiêu cốc nước cam? (Ghi đáp số là một số tự nhiên.)","dapAn":["96","96 cốc"],"diem":0.72,"giaiThich":"Nước cam chiếm 100% − 38% − 27% − 15% = 20%. Số cốc nước cam: 480 · 20% = 480 · 20 : 100 = 96 (cốc).","hinhSvg":"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 340 270\" width=\"340\" height=\"270\">\n<rect x=\"0\" y=\"0\" width=\"340\" height=\"270\" fill=\"#ffffff\"/>\n<path d=\"M 170.0 135.0 L 170.0 17.0 A 118 118 0 0 1 250.8 221.0 Z\" fill=\"#cfe3f7\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"233.6\" y=\"106.8\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Nước lọc<\/text>\n<text x=\"233.6\" y=\"124.8\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">38%<\/text>\n<path d=\"M 170.0 135.0 L 250.8 221.0 A 118 118 0 0 1 74.5 204.4 Z\" fill=\"#fde2c4\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"163.6\" y=\"200.1\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Sữa<\/text>\n<text x=\"163.6\" y=\"218.1\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">27%<\/text>\n<path d=\"M 170.0 135.0 L 74.5 204.4 A 118 118 0 0 1 74.5 65.6 Z\" fill=\"#d9efd2\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"101.6\" y=\"132.0\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Nước cam<\/text>\n<text x=\"101.6\" y=\"150.0\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">?<\/text>\n<path d=\"M 170.0 135.0 L 74.5 65.6 A 118 118 0 0 1 170.0 17.0 Z\" fill=\"#eadcf5\" stroke=\"#000\" stroke-width=\"1.5\"/>\n<text x=\"132.5\" y=\"58.4\" font-family=\"Arial, sans-serif\" font-size=\"14\" text-anchor=\"middle\" fill=\"#000\">Trà chanh<\/text>\n<text x=\"132.5\" y=\"76.4\" font-family=\"Arial, sans-serif\" font-size=\"15\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#000\">15%<\/text>\n<\/svg>"}]}]}]},{"maDe":"toan-lop-7-kiem-tra-giua-ki-1-de-so-01","phienBan":1,"mon":"Toán","tieuDe":"Toán 7 – Kiểm tra giữa học kì I – Đề số 01 (phần trắc nghiệm)","phamVi":"Chương I – II (Bài 1 – Bài 7), Toán 7 Kết nối tri thức với cuộc sống — Phần I – III (trắc nghiệm) của đề giấy","thoiGianPhut":30,"nguonDeGiay":"bài kiểm tra/toán/toan-lop-7-kiem-tra-giua-ki-1-de-so-01.md","cauTruc":{"ma":"toan-lop-7-cau-truc-de-so-01","phan":"A"},"ghiChu":"Bản online CHỈ gồm Phần I – III (trắc nghiệm, 7,0 điểm trên giấy) của đề giấy; Phần IV Tự luận (3,0 điểm) làm trên giấy 30 phút sau khi nộp bài online. (1) Trang online chấm theo thang 10: nhiều lựa chọn 0,72 điểm/câu (6 câu = 4,32), mỗi ý Đúng – Sai tách thành một câu chọn Đúng/Sai 0,35 điểm (8 ý = 2,8), trả lời ngắn 0,72 điểm/câu (4 câu = 2,88). (2) Đúng – Sai chấm từng ý, KHÔNG chấm lũy tiến như bản giấy; giữ thứ tự ý (câu 1: Đúng – Sai – Đúng – Đúng; câu 2: Sai – Đúng – Sai – Sai), mỗi ý ghi lại phần dẫn chung. (3) Điểm cả bài theo biểu điểm giấy: 0,5 × số câu nhiều lựa chọn đúng + điểm lũy tiến hai câu Đúng – Sai (0 / 0,1 / 0,25 / 0,5 / 1,0 theo số ý đúng) + 0,5 × số câu trả lời ngắn đúng + điểm Phần IV; cách nhanh gần đúng: điểm online × 0,7 + điểm Phần IV (có thể cao hơn tới khoảng 0,5 điểm vì Đúng – Sai không lũy tiến). (4) Nội dung, đáp án các câu giữ nguyên như đề giấy; số chọn để không cần máy tính cầm tay. Đáp số trả lời ngắn: số thập phân nhận cả dấu phẩy và dấu chấm, có hoặc không kèm đơn vị. (5) Chỉ Phần I xáo câu và xáo phương án; Phần II, III giữ thứ tự.","phan":[{"tieuDe":"PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN (4,32 điểm)","nhom":[{"huongDan":"Chọn phương án đúng. Mỗi câu 0,72 điểm. Không cần máy tính cầm tay.","nguLieu":null,"hopTu":null,"xaoCau":true,"cau":[{"id":"1","loai":"chon","de":"Số đối của số hữu tỉ −0,85 là:","phuongAn":["20/17","−17/20","0,85","−20/17"],"dapAn":2,"xaoPhuongAn":true,"diem":0.72,"giaiThich":"Số đối của số hữu tỉ m là −m, nên số đối của −0,85 là 0,85. Số đối khác số nghịch đảo (−20/17); còn −17/20 chỉ là −0,85 viết dưới dạng phân số."},{"id":"2","loai":"chon","de":"Kết quả của phép tính (−7)/12 : 1,75 là:","phuongAn":["−1/3","−49/48","1/3","−3"],"dapAn":0,"xaoPhuongAn":true,"diem":0.72,"giaiThich":"Viết 1,75 = 7/4 rồi nhân với số nghịch đảo: (−7)/12 × 4/7 = (−4)/12 = −1/3. Thương của hai số khác dấu là số âm; đừng nhân với 7/4 hay chia ngược."},{"id":"3","loai":"chon","de":"Kết quả của phép tính (−1,5)⁸ : (−1,5)² viết dưới dạng một luỹ thừa là:","phuongAn":["(−1,5)⁴","(−1,5)¹⁰","1⁶","(−1,5)⁶"],"dapAn":3,"xaoPhuongAn":true,"diem":0.72,"giaiThich":"Chia hai luỹ thừa cùng cơ số: giữ nguyên cơ số, lấy số mũ của số bị chia trừ số mũ của số chia: (−1,5)⁸⁻² = (−1,5)⁶. Không chia hai số mũ, không cộng số mũ."},{"id":"4","loai":"chon","de":"Số thập phân vô hạn tuần hoàn 2,15353… (chữ số 5 và 3 lặp lại mãi) được viết gọn là:","phuongAn":["2,(153)","2,1(53)","2,15(3)","2,(15)"],"dapAn":1,"xaoPhuongAn":true,"diem":0.72,"giaiThich":"Sau dấu phẩy, chữ số 1 không lặp, nhóm chữ số 53 lặp lại mãi nên chu kì là 53: 2,15353… = 2,1(53). Chu kì chỉ gồm nhóm chữ số lặp lại."},{"id":"5","loai":"chon","de":"Trong các số sau, số nào là số vô tỉ?","phuongAn":["√35","√196","−2,(18)","3,1416"],"dapAn":0,"xaoPhuongAn":true,"diem":0.72,"giaiThich":"35 không là số chính phương nên √35 là số vô tỉ. √196 = 14 là số hữu tỉ; −2,(18) là số thập phân vô hạn tuần hoàn (hữu tỉ); 3,1416 là số thập phân hữu hạn."},{"id":"6","loai":"chon","de":"Các số 5,1; √26; −5,15; −√25 được sắp xếp theo thứ tự **tăng dần** là:","phuongAn":["−√25 < −5,15 < √26 < 5,1","−5,15 < −√25 < 5,1 < √26","−√25 < −5,15 < 5,1 < √26","−5,15 < −√25 < √26 < 5,1"],"dapAn":3,"xaoPhuongAn":true,"diem":0.72,"giaiThich":"−√25 = −5 và 5,15 > 5 nên −5,15 < −5. Lại có 5,1² = 26,01 > 26 nên √26 < 5,1. Vậy −5,15 < −√25 < √26 < 5,1."}]}]},{"tieuDe":"PHẦN II. TRẮC NGHIỆM ĐÚNG – SAI (2,8 điểm)","nhom":[{"huongDan":"Câu 1 (gồm 4 ý). Với mỗi khẳng định, chọn Đúng hoặc Sai. Mỗi ý 0,35 điểm.","nguLieu":null,"hopTu":null,"xaoCau":false,"cau":[{"id":"7","loai":"chon","de":"Cho ba số hữu tỉ: −11/4; 0; −3. Khẳng định: **Số −3 là số hữu tỉ âm**.","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: −3 < 0 nên −3 là số hữu tỉ âm (số nguyên cũng là số hữu tỉ)."},{"id":"8","loai":"chon","de":"Cho ba số hữu tỉ: −11/4; 0; −3. Khẳng định: **Số 0 là số hữu tỉ dương**.","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: số 0 không là số hữu tỉ dương, cũng không là số hữu tỉ âm."},{"id":"9","loai":"chon","de":"Cho ba số hữu tỉ: −11/4; 0; −3. Khẳng định: **Trên trục số, điểm −11/4 nằm giữa hai điểm −3 và −2**.","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: −11/4 = −2,75 và −3 < −2,75 < −2."},{"id":"10","loai":"chon","de":"Cho ba số hữu tỉ: −11/4; 0; −3. Khẳng định: **−11/4 < −8/3**.","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: quy đồng mẫu dương, −11/4 = (−33)/12 và −8/3 = (−32)/12; vì −33 < −32 nên −11/4 < −8/3. Đừng so sánh hai số âm như hai số dương."}]},{"huongDan":"Câu 2 (gồm 4 ý). Với mỗi khẳng định, chọn Đúng hoặc Sai. Mỗi ý 0,35 điểm.","nguLieu":null,"hopTu":null,"xaoCau":false,"cau":[{"id":"11","loai":"chon","de":"Cho ba số thực a = −√16; b = √18; c = −0,(4). Khẳng định: **a là số vô tỉ**.","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: a = −√16 = −4 là số nguyên, tức là số hữu tỉ. Có dấu căn chưa chắc là số vô tỉ."},{"id":"12","loai":"chon","de":"Cho ba số thực a = −√16; b = √18; c = −0,(4). Khẳng định: **c là số hữu tỉ**.","phuongAn":["Đúng","Sai"],"dapAn":0,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Đúng: c = −0,(4) = −0,444… là số thập phân vô hạn tuần hoàn, nên là số hữu tỉ."},{"id":"13","loai":"chon","de":"Cho ba số thực a = −√16; b = √18; c = −0,(4). Khẳng định: **|a| = −4**.","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: a = −4 nên |a| = 4. Giá trị tuyệt đối là khoảng cách từ điểm a đến gốc O nên không bao giờ âm."},{"id":"14","loai":"chon","de":"Cho ba số thực a = −√16; b = √18; c = −0,(4). Khẳng định: **Trên trục số, điểm b nằm giữa hai điểm 4 và 4,2**.","phuongAn":["Đúng","Sai"],"dapAn":1,"xaoPhuongAn":false,"diem":0.35,"giaiThich":"Sai: 4,2² = 17,64 < 18 nên 4,2 < √18, tức điểm b nằm sau điểm 4,2 (√18 ≈ 4,24)."}]}]},{"tieuDe":"PHẦN III. TRẮC NGHIỆM TRẢ LỜI NGẮN (2,88 điểm)","nhom":[{"huongDan":"Chỉ ghi đáp số, đúng dạng mỗi câu yêu cầu (số thập phân dùng dấu phẩy, ví dụ 0,5). Mỗi câu 0,72 điểm.","nguLieu":null,"hopTu":null,"xaoCau":false,"cau":[{"id":"15","loai":"dien","de":"Biết [(−1,2)³]⁴ = (−1,2)ⁿ. Tìm số tự nhiên n. Ghi đáp số là một số tự nhiên.","dapAn":["12","n = 12","n=12"],"diem":0.72,"giaiThich":"Luỹ thừa của một luỹ thừa: giữ nguyên cơ số và nhân hai số mũ: [(−1,2)³]⁴ = (−1,2)³ˣ⁴ = (−1,2)¹². Vậy n = 12 (không cộng số mũ)."},{"id":"16","loai":"dien","de":"Làm tròn số 15,3(72) với độ chính xác 0,05. Viết kết quả dưới dạng số thập phân.","dapAn":["15,4","15.4"],"diem":0.72,"giaiThich":"Độ chính xác 0,05 thì làm tròn đến hàng phần mười. 15,3(72) = 15,37272…; chữ số hàng phần trăm là 7 ≥ 5 nên được 15,4."},{"id":"17","loai":"dien","de":"Bác Tư có một cuộn dây thép dài 12,6 m. Bác cắt ra 2/7 cuộn dây để làm giàn cho cây mướp, rồi cắt tiếp 5,2 m để buộc hàng rào. Hỏi cuộn dây thép còn lại dài bao nhiêu mét? Viết kết quả dưới dạng số thập phân.","dapAn":["3,8","3.8","3,8 m","3.8 m","3,8m","3.8m","3,8 mét","3.8 mét"],"diem":0.72,"giaiThich":"Đoạn làm giàn: 12,6 × 2/7 = 3,6 m. Còn lại: 12,6 − 3,6 − 5,2 = 3,8 m."},{"id":"18","loai":"dien","de":"Một sân chơi hình vuông có diện tích 441 m². Người ta mở rộng sân chơi thành một hình vuông mới, mỗi cạnh dài thêm 4 m. Tính diện tích của sân chơi mới (đơn vị: m²). Ghi đáp số là một số.","dapAn":["625","625 m²","625m²","625 m2","625m2"],"diem":0.72,"giaiThich":"Cạnh sân cũ là √441 = 21 m (vì 21² = 441). Cạnh sân mới 21 + 4 = 25 m, diện tích 25² = 625 m². Không cộng thẳng 4² vào 441."}]}]}]}];
+  var CH = {"pinBam":"2cbcb838c9d10c0c0a2110a112627b98b18b4b7209c69111205410f1c0276159","dungLuc":"5be443b482aa"};   // {pinBam, dungLuc}
+  // Cây đề do script sinh: de = [{maDe, mon, hk, nhom, nhan, ct:{ma, nhan}|null}] đã xếp Môn › Học kì › Nhóm; ct = cấu trúc đề
+  var CAY = {"de":[{"maDe":"toan-lop-7-kiem-tra-giua-ki-1-de-so-01","mon":"Toán","hk":"Học kì I","nhom":"Giữa học kì I","nhan":"Đề số 01 (phần trắc nghiệm)","ct":{"ma":"toan-lop-7-cau-truc-de-so-01","nhan":"Cấu trúc 01 · A"}},{"maDe":"toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01","mon":"Toán","hk":"Học kì I","nhom":"Cuối học kì I","nhan":"Đề số 01 (phần trắc nghiệm)","ct":{"ma":"toan-lop-7-cau-truc-de-so-01","nhan":"Cấu trúc 01 · B"}}],"ct":[{"ma":"toan-lop-7-cau-truc-de-so-01","mon":"Toán","nhan":"Cấu trúc 01","tieuDe":"CẤU TRÚC ĐỀ SỐ 01 — KIỂM TRA ĐỊNH KÌ CẢ NĂM HỌC — TOÁN 7 — KẾT NỐI TRI THỨC"}]} || { de: [], ct: [] };
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var THEO_MA = {}; CAC_DE.forEach(function (d) { THEO_MA[d.maDe] = d; });
+  var HAN_MO_KHOA = 12 * 3600 * 1000;
+  var sapXep = { cot: 'nopLuc', giam: true };
+
+  function thongBao(chu, ms) {
+    var tb = $('#thong-bao'); tb.textContent = chu; tb.classList.remove('an');
+    clearTimeout(thongBao.h); thongBao.h = setTimeout(function () { tb.classList.add('an'); }, ms || 4000);
+  }
+  function moHop(html) { $('#hop').innerHTML = html; $('#phu').classList.remove('an'); }
+  function dongHop() { $('#phu').classList.add('an'); }
+  $('#phu').onclick = function (e) { if (e.target.id === 'phu') dongHop(); };
+
+  function dsKQ() { return KT.doc(KT.KHOA.ketQua, []); }
+  function ghiKQ(ds) { if (!KT.ghi(KT.KHOA.ketQua, ds)) thongBao('⚠️ Không ghi được vào bộ nhớ trình duyệt (đầy hoặc bị chặn).', 7000); }
+
+  /** Thêm các bản ghi, bỏ trùng theo maLuot. Trả về số bài mới. */
+  function themBanGhi(moi) {
+    var ds = dsKQ(), co = {}, dem = 0;
+    ds.forEach(function (b) { co[b.maLuot] = 1; });
+    moi.forEach(function (b) {
+      if (!b || !b.maLuot || !b.hocSinh || !b.de) return;
+      if (co[b.maLuot]) return;
+      co[b.maLuot] = 1; ds.push(b); dem++;
+    });
+    ghiKQ(ds);
+    return dem;
+  }
+  /** Bản ghi đầy đủ từ file: chấm lại nếu có đề, để phòng file bị sửa tay. */
+  function chuanHoaBanGhi(b, nguon) {
+    var de = THEO_MA[b.de && b.de.maDe];
+    if (de && b.traLoiTho && de.phienBan === b.de.phienBan) {
+      var kq = KT.cham(de, b.traLoiTho);
+      if (Math.round(b.diem * 100) !== kq.diem) b.canhBao = 'Điểm trong file (' + KT.soVN(b.diem * 100) + ') khác điểm chấm lại (' + KT.soVN(kq.diem) + ') — đã dùng điểm chấm lại.';
+      b.diem = kq.diem / 100; b.diemToiDa = kq.diemToiDa / 100; b.soDung = kq.soDung; b.tongSoCau = kq.tongSoCau; b.traLoi = kq.chiTiet;
+    }
+    if (b.nguon === 'may-nay') b.nguon = nguon;
+    delete b.daMoLuotMoi;
+    return b;
+  }
+  function nhapMa(ma, nguon) {
+    return KT.giaiMa(ma).then(function (g) {
+      var bg = KT.moGoi(g, THEO_MA[g[1]] || null, nguon);
+      var n = themBanGhi([bg]);
+      return { bg: bg, moi: n };
+    });
+  }
+
+  // ------------------------------------------------------------ mở khoá
+  function daMoKhoa() { return KT.doc(KT.KHOA.moKhoaGV, 0) > Date.now(); }
+  function moKhoa() {
+    if (KT.bamPin($('#o-pin').value) !== CH.pinBam) { $('#loi-pin').textContent = 'Mã PIN chưa đúng.'; return; }
+    KT.ghi(KT.KHOA.moKhoaGV, Date.now() + HAN_MO_KHOA);
+    vaoTrang();
+  }
+  $('#mo-khoa').onclick = moKhoa;
+  $('#o-pin').onkeydown = function (e) { if (e.key === 'Enter') moKhoa(); };
+  $('#nut-khoa').onclick = function () { KT.ghi(KT.KHOA.moKhoaGV, 0); location.hash = ''; location.reload(); };
+
+  function maTrongDiaChi() { var m = location.hash.match(/nhap=([^&]+)/); return m ? decodeURIComponent(m[1]) : null; }
+
+  function vaoTrang() {
+    $('#man-khoa').classList.add('an'); $('#man-chinh').classList.remove('an');
+    var ma = maTrongDiaChi();
+    if (ma) {
+      history.replaceState(null, '', location.pathname + location.search);
+      nhapMa(ma, 'nhap-qr').then(function (r) {
+        var hs = r.bg.hocSinh;
+        moHop('<h2>' + (r.moi ? '✅ Đã nhận bài' : 'ℹ️ Bài này đã có trong danh sách') + '</h2>' +
+          '<p style="font-size:1.15rem"><b>' + KT.esc(hs.hoTen) + '</b> · ' + KT.esc(hs.lop) + ' · ' + KT.esc(hs.truong) + '</p>' +
+          '<p>' + KT.esc(r.bg.de.tieuDe) + ' — <b style="font-size:1.3rem">' + KT.soVN(r.bg.diem * 100) + ' điểm</b></p>' +
+          (r.bg.giamSat.soLanRoiTrang || r.bg.giamSat.soLanThoatToanManHinh ? '<p class="canh">Rời trang ' + r.bg.giamSat.soLanRoiTrang + ' lần · thoát toàn màn hình ' + r.bg.giamSat.soLanThoatToanManHinh + ' lần</p>' : '') +
+          (r.bg.canhBao ? '<p class="canh">' + KT.esc(r.bg.canhBao) + '</p>' : '') +
+          '<p class="nho">Quét tiếp mã của học sinh khác bằng camera điện thoại.</p><button class="nut-chinh" id="ok-nhan">Đóng</button>');
+        $('#ok-nhan').onclick = dongHop;
+        veTatCa();
+      }).catch(function (e) { thongBao('❌ Không đọc được mã: ' + e.message, 7000); veTatCa(); });
+    }
+    veTatCa();
+  }
+
+  // ------------------------------------------------------------ lọc & bảng
+  function giaTriLoc() {
+    return { de: $('#loc-de').value, truong: $('#loc-truong').value, lop: $('#loc-lop').value,
+             ten: KT.khongDau($('#loc-ten').value).toLowerCase().trim(), canh: $('#loc-canh').checked };
+  }
+  function datLuaChon(sel, cac, nhanTatCa, giuLai) {
+    sel.innerHTML = '<option value="">' + nhanTatCa + '</option>' + cac.map(function (c) {
+      return '<option value="' + KT.esc(c[0]) + '"' + (c[0] === giuLai ? ' selected' : '') + '>' + KT.esc(c[1]) + '</option>';
+    }).join('');
+  }
+  function veLoc(ds) {
+    var l = giaTriLoc(), de = {}, truong = {}, lop = {};
+    ds.forEach(function (b) {
+      de[b.de.maDe] = b.de.tieuDe;
+      truong[b.hocSinh.truong] = 1;
+      if (!l.truong || b.hocSinh.truong === l.truong) lop[b.hocSinh.lop] = 1;
+    });
+    veLocDe(de, l.de);
+    datLuaChon($('#loc-truong'), Object.keys(truong).sort().map(function (k) { return [k, k]; }), 'Mọi trường', l.truong);
+    datLuaChon($('#loc-lop'), Object.keys(lop).sort().map(function (k) { return [k, 'Lớp ' + k]; }), 'Mọi lớp', l.lop);
+  }
+  /** Ô "Mọi đề": nhóm theo cây (Môn › Học kì › Nhóm); đề chỉ còn trong kết quả cũ xếp cuối. */
+  function veLocDe(deTuKQ, giuLai) {
+    var nhom = [], theoNhom = {}, coTrongCay = {};
+    CAY.de.forEach(function (d) {
+      var k = d.mon + ' › ' + d.hk + ' › ' + d.nhom;
+      if (!theoNhom[k]) { theoNhom[k] = []; nhom.push(k); }
+      theoNhom[k].push([d.maDe, d.nhan]); coTrongCay[d.maDe] = 1;
+    });
+    var cu = Object.keys(deTuKQ).filter(function (k) { return !coTrongCay[k]; });
+    if (cu.length) { nhom.push('Đề không còn trên trang'); theoNhom['Đề không còn trên trang'] = cu.map(function (k) { return [k, deTuKQ[k]]; }); }
+    $('#loc-de').innerHTML = '<option value="">Mọi đề</option>' + nhom.map(function (k) {
+      return '<optgroup label="' + KT.esc(k) + '">' + theoNhom[k].map(function (c) {
+        return '<option value="' + KT.esc(c[0]) + '"' + (c[0] === giuLai ? ' selected' : '') + '>' + KT.esc(c[1]) + '</option>';
+      }).join('') + '</optgroup>';
+    }).join('');
+  }
+  function locDS(ds) {
+    var l = giaTriLoc();
+    return ds.filter(function (b) {
+      var gs = b.giamSat || {};
+      return (!l.de || b.de.maDe === l.de) && (!l.truong || b.hocSinh.truong === l.truong) && (!l.lop || b.hocSinh.lop === l.lop) &&
+        (!l.ten || KT.khongDau(b.hocSinh.hoTen).toLowerCase().indexOf(l.ten) >= 0) &&
+        (!l.canh || gs.soLanRoiTrang > 0 || gs.soLanThoatToanManHinh > 0 || b.canhBao);
+    });
+  }
+  var COT = [
+    ['stt', '#'], ['hoTen', 'Họ và tên'], ['gioiTinh', 'Giới tính'], ['lop', 'Lớp'], ['truong', 'Trường'], ['de', 'Đề'],
+    ['diem', 'Điểm', 1], ['soDung', 'Số câu đúng', 1], ['thoiGianLamGiay', 'Thời gian làm', 1], ['nopLuc', 'Nộp lúc'],
+    ['lyDoNop', 'Cách nộp'], ['roi', 'Rời trang', 1], ['tmh', 'Thoát TMH', 1], ['nguon', 'Nguồn']
+  ];
+  function giaTriCot(b, cot) {
+    var gs = b.giamSat || {};
+    switch (cot) {
+      case 'hoTen': return KT.khongDau(b.hocSinh.hoTen.split(' ').slice(-1)[0] + ' ' + b.hocSinh.hoTen).toLowerCase();
+      case 'gioiTinh': case 'lop': case 'truong': return b.hocSinh[cot];
+      case 'de': return b.de.tieuDe;
+      case 'roi': return gs.soLanRoiTrang || 0;
+      case 'tmh': return gs.soLanThoatToanManHinh || 0;
+      default: return b[cot];
+    }
+  }
+  function veBang(ds) {
+    ds = ds.slice().sort(function (a, b) {
+      var x = giaTriCot(a, sapXep.cot), y = giaTriCot(b, sapXep.cot);
+      var s = typeof x === 'number' ? x - y : String(x).localeCompare(String(y), 'vi');
+      return sapXep.giam ? -s : s;
+    });
+    var h = '<thead><tr>' + COT.map(function (c) {
+      return '<th data-cot="' + c[0] + '"' + (c[2] ? ' class="so"' : '') + '>' + c[1] + (sapXep.cot === c[0] ? (sapXep.giam ? ' ▼' : ' ▲') : '') + '</th>';
+    }).join('') + '</tr></thead><tbody>';
+    ds.forEach(function (b, i) {
+      var gs = b.giamSat || {}, hs = b.hocSinh;
+      h += '<tr data-ma="' + KT.esc(b.maLuot) + '"><td>' + (i + 1) + '</td><td><b>' + KT.esc(hs.hoTen) + '</b>' + (b.canhBao ? ' <span class="canh" title="' + KT.esc(b.canhBao) + '">!</span>' : '') +
+        '</td><td>' + KT.esc(hs.gioiTinh) + '</td><td>' + KT.esc(hs.lop) + '</td><td>' + KT.esc(hs.truong) + '</td><td>' + KT.esc(b.de.tieuDe) +
+        '</td><td class="so"><b>' + KT.soVN(b.diem * 100) + '</b></td><td class="so">' + (b.soDung != null ? b.soDung + '/' + b.tongSoCau : '') +
+        '</td><td class="so">' + KT.dongHo(b.thoiGianLamGiay) + '</td><td>' + KT.ngayGio(b.nopLuc) + '</td><td>' + (b.lyDoNop === 'het-gio' ? 'Hết giờ' : 'Tự nộp') +
+        '</td><td class="so">' + (gs.soLanRoiTrang ? '<span class="canh">' + gs.soLanRoiTrang + '</span>' : 0) +
+        '</td><td class="so">' + (gs.soLanThoatToanManHinh ? '<span class="canh">' + gs.soLanThoatToanManHinh + '</span>' : 0) +
+        '</td><td>' + ({ 'may-nay': 'Máy này', 'nhap-qr': 'Quét QR', 'nhap-file': 'File', 'nhap-ma': 'Dán mã' }[b.nguon] || KT.esc(b.nguon || '')) + '</td></tr>';
+    });
+    $('#bang').innerHTML = h + '</tbody>';
+    $('#bang-rong').textContent = ds.length ? '' : 'Chưa có bài nào khớp bộ lọc. Quét mã QR trên máy học sinh hoặc bấm "Nhập file".';
+  }
+  function veThongKe(ds) {
+    var n = ds.length, diem = ds.map(function (b) { return Math.round(b.diem * 100); });
+    var tb = n ? diem.reduce(function (a, b) { return a + b; }, 0) / n : 0;
+    var dem = function (f) { return ds.filter(f).length; };
+    var o = function (nhan, gt) { return '<div class="o-tk"><span class="nho">' + nhan + '</span><b>' + gt + '</b></div>'; };
+    $('#thong-ke').innerHTML = o('Số bài', n) + o('Điểm trung bình', n ? KT.soVN(tb) : '–') +
+      o('Cao nhất', n ? KT.soVN(Math.max.apply(null, diem)) : '–') + o('Thấp nhất', n ? KT.soVN(Math.min.apply(null, diem)) : '–') +
+      o('Từ 8 trở lên', dem(function (b) { return b.diem >= 8; })) + o('Dưới 5', dem(function (b) { return b.diem < 5; })) +
+      o('Có rời trang', dem(function (b) { return (b.giamSat || {}).soLanRoiTrang > 0 || (b.giamSat || {}).soLanThoatToanManHinh > 0; }));
+  }
+  function veTiLe(ds) {
+    var maDe = $('#loc-de').value, de = THEO_MA[maDe], vung = $('#ti-le');
+    if (!de) { vung.innerHTML = ''; return; }
+    var cung = ds.filter(function (b) { return b.de.phienBan === de.phienBan && b.traLoiTho; });
+    if (!cung.length) { vung.innerHTML = '<p class="nho">Chưa có bài của đề này.</p>'; return; }
+    var h = '<table><thead><tr><th>Câu (số gốc)</th><th>Phần</th><th>Đáp án</th><th class="so">Đúng</th><th>Tỉ lệ</th></tr></thead><tbody>';
+    KT.dsCau(de).forEach(function (x) {
+      var d = cung.filter(function (b) { return KT.dung(x.cau, b.traLoiTho[x.cau.id]); }).length, p = Math.round(100 * d / cung.length);
+      h += '<tr><td>' + KT.esc(x.cau.id) + '</td><td>' + KT.esc(x.phan.tieuDe.replace(/\(.*\)/, '')) + '</td><td style="white-space:normal">' + KT.esc(KT.dapAnChu(x.cau)) +
+        '</td><td class="so">' + d + '/' + cung.length + '</td><td><div class="thanh-ti-le" title="' + p + '%"><i style="width:' + p + '%;background:' +
+        (p < 50 ? 'var(--sai)' : p < 75 ? '#f59e0b' : 'var(--dung)') + '"></i></div> ' + p + '%</td></tr>';
+    });
+    vung.innerHTML = h + '</tbody></table>';
+  }
+  // ------------------------------------------------------------ cây "Các đề đang có"
+  var KHOA_CAY = 'kt7-gv-cay-dong';   // các thư mục GV đã thu gọn (mặc định mọi thư mục mở)
+  var cayDong = KT.doc(KHOA_CAY, {});
+  function danhDau(chu, tu) {
+    var h = KT.esc(chu); if (!tu.length) return h;
+    var kd = KT.khongDau(chu).toLowerCase(), vung = [];
+    if (kd.length !== chu.length) return h;
+    tu.forEach(function (w) { var i = kd.indexOf(w); if (i >= 0) vung.push([i, i + w.length]); });
+    if (!vung.length) return h;
+    vung.sort(function (a, b) { return a[0] - b[0]; });
+    var ra = '', cuoi = 0;   // khongDau giữ nguyên độ dài chuỗi (chỉ bỏ dấu) nên vị trí khớp với chữ gốc
+    vung.forEach(function (v) { if (v[0] < cuoi) return; ra += KT.esc(chu.slice(cuoi, v[0])) + '<mark>' + KT.esc(chu.slice(v[0], v[1])) + '</mark>'; cuoi = v[1]; });
+    return ra + KT.esc(chu.slice(cuoi));
+  }
+  function veDsDe(ds) {
+    var vung = $('#ds-de');
+    if (!CAY.de.length) { vung.innerHTML = '<p class="nho">Chưa có đề nào.</p>'; return; }
+    var soBai = {}; ds.forEach(function (b) { soBai[b.de.maDe] = (soBai[b.de.maDe] || 0) + 1; });
+    var tu = KT.khongDau($('#tim-de').value).toLowerCase().trim().split(/\s+/).filter(Boolean), dangChon = $('#loc-de').value;
+    // Gom lá thành cây Môn › Học kì › Nhóm, bỏ lá không khớp ô tìm
+    var cay = [], tim = {};
+    function con(cha, ten) { var k = cha.k + '/' + ten; if (!tim[k]) { tim[k] = { k: k, ten: ten, con: [], la: [] }; cha.con.push(tim[k]); } return tim[k]; }
+    var goc = { k: '', con: [] };
+    CAY.de.forEach(function (d) {
+      var de = THEO_MA[d.maDe]; if (!de) return;
+      var chu = KT.khongDau([d.mon, d.hk, d.nhom, d.nhan, de.tieuDe].join(' ')).toLowerCase();
+      if (!tu.every(function (w) { return chu.indexOf(w) >= 0; })) return;
+      con(con(con(goc, d.mon), d.hk), d.nhom).la.push(d);
+    });
+    cay = goc.con;
+    function dem(n) { return n.la.length + n.con.reduce(function (a, c) { return a + dem(c); }, 0); }
+    function demBai(n) { return n.la.reduce(function (a, d) { return a + (soBai[d.maDe] || 0); }, 0) + n.con.reduce(function (a, c) { return a + demBai(c); }, 0); }
+    function la(d) {
+      var de = THEO_MA[d.maDe], n = soBai[d.maDe] || 0;
+      return '<li class="la' + (d.maDe === dangChon ? ' chon' : '') + '" title="' + KT.esc(de.tieuDe) + '">📄 ' +
+        '<a href="' + KT.esc(d.maDe) + '.html" target="_blank" rel="noopener">' + danhDau(d.nhan, tu) + '</a>' +
+        '<span class="nho">' + de.thoiGianPhut + ' phút · ' + KT.dsCau(de).length + ' câu · phiên bản ' + KT.esc(String(de.phienBan)) + '</span>' +
+        (d.ct ? '<a class="ct-nhan" href="' + KT.esc(d.ct.ma) + '.html" target="_blank" rel="noopener" title="Xem cấu trúc đề">📐 ' + KT.esc(d.ct.nhan) + '</a>' : '') +
+        '<span class="so-bai' + (n ? '' : ' khong') + '">' + n + ' bài</span>' +
+        '<button class="nut-nho" data-xem="' + KT.esc(d.maDe) + '">📊 Kết quả</button></li>';
+    }
+    function thuMuc(n, capMon) {
+      var mo = tu.length ? true : !cayDong[n.k], b = demBai(n);
+      var ct = capMon ? CAY.ct.filter(function (c) { return c.mon === n.ten; }) : [];
+      return '<li><details data-k="' + KT.esc(n.k) + '"' + (mo ? ' open' : '') + '><summary><span class="tm"></span><span class="ten-tm">' + KT.esc(n.ten) +
+        '</span><span class="dem-cay">' + dem(n) + ' đề' + (b ? ' · ' + b + ' bài' : '') + '</span></summary><ul>' +
+        ct.map(function (c) {
+          return '<li class="la" title="' + KT.esc(c.tieuDe) + '">📐 <a href="' + KT.esc(c.ma) + '.html" target="_blank" rel="noopener">' + KT.esc(c.nhan) +
+            '</a><span class="nho">ma trận + bản đặc tả</span></li>';
+        }).join('') +
+        n.con.map(function (c) { return thuMuc(c, false); }).join('') + n.la.map(la).join('') + '</ul></details></li>';
+    }
+    vung.innerHTML = cay.length ? '<ul>' + cay.map(function (n) { return thuMuc(n, true); }).join('') + '</ul>'
+      : '<p class="nho">Không có đề nào khớp "' + KT.esc($('#tim-de').value) + '".</p>';
+  }
+  $('#ds-de').addEventListener('toggle', function (e) {
+    var d = e.target; if (!d.dataset || d.dataset.k == null || $('#tim-de').value.trim()) return;   // đang tìm: không ghi nhớ
+    if (d.open) delete cayDong[d.dataset.k]; else cayDong[d.dataset.k] = 1;
+    KT.ghi(KHOA_CAY, cayDong);
+  }, true);
+  $('#ds-de').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-xem]'); if (!b) return;
+    $('#loc-de').value = b.dataset.xem; veTatCa();
+    $('#thong-ke').closest('.the').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  $('#tim-de').oninput = function () { veDsDe(dsKQ()); };
+  $('#mo-het-cay').onclick = function () { cayDong = {}; KT.ghi(KHOA_CAY, cayDong); veDsDe(dsKQ()); };
+  $('#thu-gon-cay').onclick = function () {
+    Array.prototype.forEach.call($('#ds-de').querySelectorAll('details[data-k]'), function (d) { cayDong[d.dataset.k] = 1; });
+    KT.ghi(KHOA_CAY, cayDong); veDsDe(dsKQ());
+  };
+  function veTatCa() {
+    var ds = dsKQ();
+    veLoc(ds);
+    var loc = locDS(ds);
+    veThongKe(loc); veBang(loc); veTiLe(loc); veDsDe(ds);
+  }
+  ['#loc-de', '#loc-truong', '#loc-lop', '#loc-canh'].forEach(function (s) { $(s).onchange = veTatCa; });
+  $('#loc-ten').oninput = veTatCa;
+  $('#bang').onclick = function (e) {
+    var th = e.target.closest('th');
+    if (th) { var c = th.dataset.cot; if (c === 'stt') return; sapXep = { cot: c, giam: sapXep.cot === c ? !sapXep.giam : c === 'diem' }; veTatCa(); return; }
+    var tr = e.target.closest('tr[data-ma]'); if (tr) chiTiet(tr.dataset.ma);
+  };
+
+  // ------------------------------------------------------------ chi tiết một bài
+  function chiTiet(maLuot) {
+    var b = dsKQ().filter(function (x) { return x.maLuot === maLuot; })[0]; if (!b) return;
+    var hs = b.hocSinh, gs = b.giamSat || {}, de = THEO_MA[b.de.maDe];
+    var h = '<div class="dau"><h2>' + KT.esc(hs.hoTen) + ' — ' + KT.soVN(b.diem * 100) + ' điểm</h2><button id="dong-ct">Đóng</button></div>' +
+      '<p>' + KT.esc(hs.gioiTinh) + ' · Lớp ' + KT.esc(hs.lop) + ' · ' + KT.esc(hs.truong) + '<br>' + KT.esc(b.de.tieuDe) + ' (phiên bản ' + b.de.phienBan + ')<br>' +
+      'Bắt đầu ' + KT.ngayGio(b.batDau) + ' · nộp ' + KT.ngayGio(b.nopLuc) + ' (' + (b.lyDoNop === 'het-gio' ? 'hết giờ, máy tự nộp' : 'tự nộp') + ') · làm ' + KT.thoiGian(b.thoiGianLamGiay) + '<br>' +
+      'Rời trang <b>' + (gs.soLanRoiTrang || 0) + '</b> lần · thoát toàn màn hình <b>' + (gs.soLanThoatToanManHinh || 0) + '</b> lần' +
+      (gs.toanManHinh === 'khong-ho-tro' ? ' <span class="nho">(máy không hỗ trợ toàn màn hình, vd iPhone)</span>' : '') + '<br>' +
+      '<span class="nho">Mã bài ' + KT.esc(b.maLuot) + '</span></p>' + (b.canhBao ? '<p class="canh">' + KT.esc(b.canhBao) + '</p>' : '');
+    if (gs.suKien && gs.suKien.length) {
+      var ten = { 'bat-dau': 'Bắt đầu', 'roi-trang': 'Rời trang', 'quay-lai': 'Quay lại', 'thoat-toan-man-hinh': 'Thoát toàn màn hình',
+                  'mo-lai-trang': 'Mở lại trang', 'nop-bai': 'Nộp bài', 'het-gio': 'Hết giờ' };
+      h += '<details><summary>Nhật kí làm bài (' + gs.suKien.length + ' sự kiện)</summary><p class="nho">' + gs.suKien.map(function (s) {
+        return KT.dongHo((s.t - b.batDau) / 1000) + ' ' + (ten[s.loai] || s.loai);
+      }).join(' · ') + '</p></details>';
+    }
+    if (b.traLoi && b.traLoi.length) {
+      var theoId = {}; if (de) KT.dsCau(de).forEach(function (x) { theoId[x.cau.id] = x.cau; });
+      h += '<div class="cuon"><table class="bang-ct"><thead><tr><th>Câu</th><th>Học sinh trả lời</th><th>Đáp án</th><th class="so">Điểm</th></tr></thead><tbody>';
+      b.traLoi.forEach(function (t) {
+        h += '<tr><td>' + KT.esc(t.id) + '</td><td>' + (t.hienThi ? KT.esc(t.hienThi) : '<i class="nho">bỏ trống</i>') + ' <span class="nhan ' + (t.dung ? 'dung">✓' : 'sai">✗') +
+          '</span></td><td>' + (theoId[t.id] ? KT.esc(KT.dapAnChu(theoId[t.id])) : '') + '</td><td class="so">' + KT.soVN(t.diem * 100) + '/' + KT.soVN(t.diemToiDa * 100) + '</td></tr>';
+      });
+      h += '</tbody></table></div>';
+    }
+    h += '<div class="hang" style="margin-top:12px"><button class="nut-nguy" id="xoa-bai">🗑️ Xoá bài này</button></div>';
+    moHop(h);
+    $('#dong-ct').onclick = dongHop;
+    $('#xoa-bai').onclick = function () {
+      if (!confirm('Xoá bài của ' + hs.hoTen + '? Không hoàn tác được.')) return;
+      ghiKQ(dsKQ().filter(function (x) { return x.maLuot !== maLuot; })); dongHop(); veTatCa();
+    };
+  }
+
+  // ------------------------------------------------------------ nhập / xuất
+  $('#nut-nhap-file').onclick = function () { $('#chon-file').click(); };
+  $('#chon-file').onchange = function () {
+    var tep = Array.prototype.slice.call(this.files), moi = 0, loi = 0, xong = 0, input = this;
+    if (!tep.length) return;
+    tep.forEach(function (f) {
+      f.text().then(function (s) {
+        var d = JSON.parse(s), ds = Array.isArray(d) ? d : (d && Array.isArray(d.ketQua) ? d.ketQua : [d]);
+        moi += themBanGhi(ds.map(function (b) { return chuanHoaBanGhi(b, 'nhap-file'); }));
+      }).catch(function () { loi++; }).then(function () {
+        if (++xong === tep.length) { input.value = ''; veTatCa(); thongBao('Đã nhập ' + moi + ' bài mới' + (loi ? ' · ' + loi + ' file lỗi' : '') + '.'); }
+      });
+    });
+  };
+  $('#nut-dan-ma').onclick = function () {
+    moHop('<h2>Dán mã kết quả</h2><p class="nho">Mỗi dòng một mã (học sinh bấm "Sao chép mã" rồi gửi). Dán được cả đường link quét từ QR.</p>' +
+      '<textarea class="o" id="o-ma" rows="7" style="font:12px monospace"></textarea><div class="hang" style="margin-top:10px">' +
+      '<button id="huy-ma">Huỷ</button><button class="nut-chinh" id="ok-ma">Nhập</button></div>');
+    $('#huy-ma').onclick = dongHop;
+    $('#ok-ma').onclick = function () {
+      var dong = $('#o-ma').value.split(/\s+/).filter(Boolean), moi = 0, loi = 0;
+      Promise.all(dong.map(function (m) {
+        return nhapMa(m, 'nhap-ma').then(function (r) { moi += r.moi; }, function () { loi++; });
+      })).then(function () { dongHop(); veTatCa(); thongBao('Đã nhập ' + moi + ' bài mới' + (loi ? ' · ' + loi + ' mã lỗi' : '') + '.'); });
+    };
+  };
+  function oCSV(v) { v = v == null ? '' : String(v); return /[",;\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  $('#nut-csv').onclick = function () {
+    var ds = locDS(dsKQ()), maDe = $('#loc-de').value, de = THEO_MA[maDe];
+    var cotCau = de ? KT.dsCau(de).map(function (x) { return x.cau.id; }) : [];
+    var dau = ['STT', 'Họ và tên', 'Giới tính', 'Lớp', 'Trường', 'Mã đề', 'Tên đề', 'Phiên bản đề', 'Điểm', 'Điểm tối đa', 'Số câu đúng', 'Tổng số câu',
+      'Bắt đầu', 'Nộp lúc', 'Thời gian làm (phút)', 'Thời gian cho phép (phút)', 'Cách nộp', 'Số lần rời trang', 'Số lần thoát toàn màn hình', 'Nguồn', 'Mã bài', 'Cảnh báo']
+      .concat(cotCau.map(function (id) { return 'Câu ' + id; }));
+    var dong = [dau.map(oCSV).join(',')];
+    ds.forEach(function (b, i) {
+      var gs = b.giamSat || {}, hs = b.hocSinh, theo = {};
+      (b.traLoi || []).forEach(function (t) { theo[t.id] = t; });
+      dong.push([i + 1, hs.hoTen, hs.gioiTinh, hs.lop, hs.truong, b.de.maDe, b.de.tieuDe, b.de.phienBan,
+        KT.soVN(b.diem * 100), KT.soVN((b.diemToiDa || 10) * 100), b.soDung, b.tongSoCau, KT.ngayGio(b.batDau), KT.ngayGio(b.nopLuc),
+        KT.soVN(Math.round(b.thoiGianLamGiay / 60 * 100)), b.thoiGianChoPhepGiay / 60, b.lyDoNop === 'het-gio' ? 'Hết giờ' : 'Tự nộp',
+        gs.soLanRoiTrang || 0, gs.soLanThoatToanManHinh || 0, b.nguon, b.maLuot, b.canhBao || '']
+        .concat(cotCau.map(function (id) { var t = theo[id]; return t ? (t.dung ? '✓ ' : '✗ ') + (t.hienThi || '') : ''; }))
+        .map(oCSV).join(','));
+    });
+    var ngay = new Date().toISOString().slice(0, 10);
+    KT.taiFile('ket-qua-kiem-tra-' + (maDe || 'tat-ca') + '-' + ngay + '.csv', '﻿' + dong.join('\r\n'), 'text/csv;charset=utf-8');
+  };
+  $('#nut-sao-luu').onclick = function () {
+    var ds = dsKQ();
+    KT.taiFile('sao-luu-kiem-tra-' + new Date().toISOString().slice(0, 10) + '.json', JSON.stringify({ loai: 'sao-luu-kt7', luc: Date.now(), ketQua: ds }));
+    thongBao('Đã tải file sao lưu ' + ds.length + ' bài. Muốn khôi phục: bấm "Nhập file".');
+  };
+  $('#nut-xoa-het').onclick = function () {
+    var n = dsKQ().length;
+    var go = prompt('Sẽ xoá ' + n + ' bài trên máy này. Hãy bấm "Sao lưu" trước.\nGõ XOA để xác nhận:');
+    if (go !== 'XOA') return;
+    ghiKQ([]); veTatCa(); thongBao('Đã xoá toàn bộ kết quả trên máy này.');
+  };
+
+  // ------------------------------------------------------------ khởi động
+  if (maTrongDiaChi()) $('#dang-cho').textContent = '📥 Có một bài làm đang chờ nhận — nhập PIN để lưu vào danh sách.';
+  if (daMoKhoa()) vaoTrang(); else $('#o-pin').focus();
+  window.addEventListener('hashchange', function () { if (daMoKhoa() && maTrongDiaChi()) vaoTrang(); });
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../gop-y/gop-y.js" data-loai="test_teacher" data-tep="lop-7/bài kiểm tra/online/giao-vien.html" data-nguon="lop-7/bài kiểm tra/online/giao-vien.html" data-phien-ban="3c20b4a62ade">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

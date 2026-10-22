@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- Trang do scripts/dung_de_online.py sinh ra — khong sua tay. -->
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Kiểm tra online — Lớp 7</title>
+<style>
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:#f1f5fb;color:#1f2937;font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.khung{max-width:980px;margin:0 auto;padding:16px}h1{color:#1e3a8a;margin:.3em 0}
+.nho{color:#64748b;font-size:.9rem}
+.cong-cu{position:sticky;top:0;z-index:5;background:#f1f5fb;padding:8px 0 10px;border-bottom:1px solid #e2e8f0}
+.hang-tim{display:flex;flex-wrap:wrap;gap:8px}
+#tim{flex:1 1 260px;font:inherit;padding:10px 14px;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff}
+#tim:focus,#loc-ct:focus{outline:2px solid #93c5fd;border-color:#2563eb}
+#loc-ct{flex:0 1 auto;font:inherit;font-size:.92rem;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff;max-width:100%}
+.tab{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:2px}
+.tab button{flex:0 0 auto;font:inherit;font-weight:600;border:1.5px solid #c7d2fe;background:#fff;color:#1e3a8a;border-radius:999px;padding:6px 14px;cursor:pointer}
+.tab button[aria-pressed="true"]{background:#1e3a8a;border-color:#1e3a8a;color:#fff}
+.tab .dem{display:inline-block;min-width:1.6em;text-align:center;font-size:.8rem;border-radius:999px;background:#e0e7ff;color:#1e3a8a;padding:0 6px;margin-left:2px}
+.tab button[aria-pressed="true"] .dem{background:#3b5bbd;color:#fff}
+h2{color:#1e3a8a;font-size:1.35rem;margin:26px 0 2px;scroll-margin-top:130px}
+.hk{margin:10px 0 0;padding-left:12px;border-left:3px solid #c7d2fe}
+h3{font-size:1.08rem;margin:14px 0 2px;color:#334155}
+h4{font-size:.95rem;margin:10px 0 6px;color:#2563eb}
+.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.the-de{position:relative;display:flex;flex-direction:column;gap:2px;background:#fff;border:1px solid #e2e8f0;border-left:5px solid #2563eb;border-radius:12px;padding:10px 12px}
+.the-de:hover{box-shadow:0 2px 10px rgba(0,0,0,.08);border-color:#93c5fd}.the-de b{font-size:1.02rem;line-height:1.3}
+.the-de .mo{color:inherit;text-decoration:none}.the-de .mo::after{content:"";position:absolute;inset:0;border-radius:12px}
+.hang-ct{margin-top:4px}
+.ct{position:relative;z-index:1;display:inline-block;font-size:.78rem;font-weight:700;border-radius:999px;padding:1px 9px;background:#e0e7ff;color:#1e3a8a;text-decoration:none}
+a.ct:hover{background:#c7d2fe}.ct.khong{background:#f1f5f9;color:#94a3b8;font-weight:600}
+.the-ct{display:block;background:#fff;border:1px solid #e2e8f0;border-left:5px solid #6366f1;border-radius:12px;padding:10px 14px;color:inherit;text-decoration:none}
+.the-ct:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}.the-ct span{display:block}
+#khong-thay{margin:24px 0;text-align:center}
+@media (max-width:600px){.cong-cu{position:static}h2{scroll-margin-top:12px}}
+.chan{margin-top:28px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.chan a{color:#64748b}
+</style><!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head><body><main class="khung">
+<p><a id="ve-trang-chinh" href="../index.html">🏠 Trang bài giảng</a></p>
+<h1>📝 Kiểm tra online — Lớp 7</h1>
+<p class="nho">Chọn môn → học kì → đề thầy cô giao. Em cần <b>mã mở đề</b> thầy cô ghi trên bảng.</p>
+<div class="cong-cu">
+<div class="hang-tim"><input id="tim" type="search" placeholder="🔍 Tìm đề: Unit 3, giữa kì, cuối học kì II…" autocomplete="off"><select id="loc-ct" aria-label="Lọc theo cấu trúc đề"><option value="*">📐 Mọi cấu trúc đề</option><option value="toan-lop-7-cau-truc-de-so-01">📐 Cấu trúc 01 · Toán (2)</option><option value="">Chưa gắn cấu trúc</option></select></div>
+<nav class="tab" aria-label="Chọn môn"><button type="button" data-mon="*" aria-pressed="true">Tất cả <span class="dem">2</span></button><button type="button" data-mon="Toán" aria-pressed="false">🔢 Toán <span class="dem">2</span></button></nav>
+</div>
+<section class="mon-khoi" id="mon-toan" data-mon="Toán"><h2>🔢 Toán <span class="nho">· <span class="dem">2</span> đề</span></h2><div class="hk"><h3>Học kì I</h3><div class="nhom"><h4>Giữa học kì I <span class="nho">· <span class="dem">1</span> đề</span></h4><div class="luoi"><div class="the-de" data-ct="toan-lop-7-cau-truc-de-so-01" data-tim="toan hoc ki i giua hoc ki i toan 7 – kiem tra giua hoc ki i – de so 01 (phan trac nghiem) de so 01 (phan trac nghiem)" title="Toán 7 – Kiểm tra giữa học kì I – Đề số 01 (phần trắc nghiệm)"><a class="mo" href="toan-lop-7-kiem-tra-giua-ki-1-de-so-01.html"><b>Đề số 01 (phần trắc nghiệm)</b></a><span class="nho">⏱️ 30 phút · 📝 18 câu</span><span class="hang-ct"><a class="ct" href="toan-lop-7-cau-truc-de-so-01.html#phan-a" title="CẤU TRÚC ĐỀ SỐ 01 — KIỂM TRA ĐỊNH KÌ CẢ NĂM HỌC — TOÁN 7 — KẾT NỐI TRI THỨC">📐 Cấu trúc 01 · A</a></span></div></div></div><div class="nhom"><h4>Cuối học kì I <span class="nho">· <span class="dem">1</span> đề</span></h4><div class="luoi"><div class="the-de" data-ct="toan-lop-7-cau-truc-de-so-01" data-tim="toan hoc ki i cuoi hoc ki i toan 7 – kiem tra cuoi hoc ki i – de so 01 (phan trac nghiem) de so 01 (phan trac nghiem)" title="Toán 7 – Kiểm tra cuối học kì I – Đề số 01 (phần trắc nghiệm)"><a class="mo" href="toan-lop-7-kiem-tra-cuoi-ki-1-de-so-01.html"><b>Đề số 01 (phần trắc nghiệm)</b></a><span class="nho">⏱️ 45 phút · 📝 24 câu</span><span class="hang-ct"><a class="ct" href="toan-lop-7-cau-truc-de-so-01.html#phan-b" title="CẤU TRÚC ĐỀ SỐ 01 — KIỂM TRA ĐỊNH KÌ CẢ NĂM HỌC — TOÁN 7 — KẾT NỐI TRI THỨC">📐 Cấu trúc 01 · B</a></span></div></div></div></div></section>
+<p id="khong-thay" class="nho" hidden>Không có đề nào khớp. Thử gõ từ khác hoặc chọn <b>Tất cả</b>.</p>
+<section class="khoi-ct"><h2 id="cau-truc-de">📐 Cấu trúc đề <span class="nho">· dành cho thầy cô</span></h2><p class="nho">Mỗi cấu trúc gồm ma trận, bản đặc tả (Biết – Hiểu – Vận dụng) và tỉ lệ trắc nghiệm – tự luận. Chọn cấu trúc hợp với trường mình rồi chọn đề có cùng nhãn 📐.</p><div class="luoi"><a class="the-ct" href="toan-lop-7-cau-truc-de-so-01.html"><b>📐 Cấu trúc 01 · Toán</b><span>CẤU TRÚC ĐỀ SỐ 01 — KIỂM TRA ĐỊNH KÌ CẢ NĂM HỌC — TOÁN 7 — KẾT NỐI TRI THỨC</span><span class="nho">A. Giữa học kì I — 60 phút · B. Cuối học kì I — 90 phút · C. Giữa học kì II — 60 phút · D. Cuối học kì II — 90 phút — 2 đề online</span></a></div></section>
+<div class="chan"><span class="nho">2 đề</span><a href="giao-vien.html">Trang giáo viên</a></div>
+</main>
+<script>if(location.protocol==='file:')document.getElementById('ve-trang-chinh').href='../../bài giảng/index.html';
+(function(){
+var $=function(s){return document.querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var KHOA='kt7-index-mon',tim=$('#tim'),locCt=$('#loc-ct'),nut=$$('.tab button');
+function kd(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase()}
+var mon='*';try{mon=localStorage.getItem(KHOA)||'*'}catch(e){}
+var neo=location.hash.slice(1);nut.forEach(function(b){var s=b.dataset.mon==='*'?null:document.querySelector('.mon-khoi[data-mon="'+b.dataset.mon+'"]');if(s&&s.id===neo)mon=b.dataset.mon});
+if(!nut.some(function(b){return b.dataset.mon===mon}))mon='*';
+function ve(){
+var tu=kd(tim.value).trim().split(/\s+/).filter(Boolean),ct=locCt?locCt.value:'*',tong=0,demMon={};
+nut.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mon===mon?'true':'false')});
+$$('.mon-khoi').forEach(function(s){var nM=0;
+ $$('.nhom',s).forEach(function(g){var n=0;$$('.the-de',g).forEach(function(t){
+  var hien=(ct==='*'||t.dataset.ct===ct)&&tu.every(function(w){return t.dataset.tim.indexOf(w)>=0});t.hidden=!hien;if(hien)n++});
+  g.hidden=!n;g.querySelector('.dem').textContent=n;nM+=n});
+ $$('.hk',s).forEach(function(h){h.hidden=!$$('.nhom',h).some(function(g){return !g.hidden})});
+ demMon[s.dataset.mon]=nM;s.querySelector('h2 .dem').textContent=nM;
+ s.hidden=!nM||(mon!=='*'&&s.dataset.mon!==mon);if(!s.hidden)tong+=nM});
+nut.forEach(function(b){var d=b.querySelector('.dem');d.textContent=b.dataset.mon==='*'?Object.keys(demMon).reduce(function(a,k){return a+demMon[k]},0):demMon[b.dataset.mon]});
+$('#khong-thay').hidden=!!tong}
+nut.forEach(function(b){b.addEventListener('click',function(){mon=b.dataset.mon;try{localStorage.setItem(KHOA,mon)}catch(e){}ve()})});
+tim.addEventListener('input',ve);if(locCt)locCt.addEventListener('change',ve);
+ve();})();</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../gop-y/gop-y.js" data-loai="index" data-tep="lop-7/bài kiểm tra/online/index.html" data-nguon="lop-7/bài kiểm tra/online/index.html" data-phien-ban="cd1e069714b5">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body></html>

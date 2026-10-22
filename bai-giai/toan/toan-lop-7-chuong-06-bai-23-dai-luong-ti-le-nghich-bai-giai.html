@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 23. Đại lượng tỉ lệ nghịch — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M14 50h36' stroke='%23ffc83d' stroke-width='5' stroke-linecap='round'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round'%3E%3Ccircle cx='32' cy='32' r='9.5'/%3E%3Cpath d='M22.5 32C22.5 19 28 11.5 39 10.5'/%3E%3C/g%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương VI. Tỉ lệ thức và đại lượng tỉ lệ</div>
+    <div class="hang1">
+      <h1>Bài 23. Đại lượng tỉ lệ nghịch — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương VI. Tỉ lệ thức và đại lượng tỉ lệ</div><h1>Bài 23. Đại lượng tỉ lệ nghịch — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 5 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-dinh-nghia"><b class="ten">Đại lượng tỉ lệ nghịch</b>
+      Nếu đại lượng <span class="m">y</span> liên hệ với đại lượng <span class="m">x</span> theo công thức <span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span> (<span class="m">a</span> là một hằng số khác 0) thì ta nói <span class="m">y</span> <b>tỉ lệ nghịch</b> với <span class="m">x</span> theo <b>hệ số tỉ lệ</b> <span class="m">a</span>.</div>
+    <div class="kt" id="kt-chu-y"><b class="ten">Chú ý</b>
+      Nếu <span class="m">y</span> tỉ lệ nghịch với <span class="m">x</span> theo hệ số tỉ lệ <span class="m">a</span> thì <span class="m">x</span> cũng tỉ lệ nghịch với <span class="m">y</span> theo hệ số tỉ lệ <span class="m">a</span> và ta nói hai đại lượng <span class="m">x</span> và <span class="m">y</span> tỉ lệ nghịch với nhau.</div>
+    <div class="kt" id="kt-nhan-xet"><b class="ten">Nhận xét</b>
+      Nếu hai đại lượng <span class="m">y</span> và <span class="m">x</span> tỉ lệ nghịch với nhau thì:<br>
+      • Tích hai giá trị tương ứng của chúng luôn không đổi (và bằng hệ số tỉ lệ): <span class="m">x<sub>1</sub>y<sub>1</sub> = x<sub>2</sub>y<sub>2</sub> = x<sub>3</sub>y<sub>3</sub> = … = a</span>.<br>
+      • Tỉ số hai giá trị bất kì của đại lượng này bằng nghịch đảo của tỉ số hai giá trị tương ứng của đại lượng kia: <span class="m"><span class="frac"><b>y<sub>1</sub></b><span>y<sub>2</sub></span></span> = <span class="frac"><b>x<sub>2</sub></b><span>x<sub>1</sub></span></span></span>; <span class="m"><span class="frac"><b>y<sub>1</sub></b><span>y<sub>3</sub></span></span> = <span class="frac"><b>x<sub>3</sub></b><span>x<sub>1</sub></span></span></span>; …</div>
+    <div class="kt" id="kt-giai-toan"><b class="ten">Giải toán về đại lượng tỉ lệ nghịch</b>
+      Để giải toán về đại lượng tỉ lệ nghịch, ta cần nhận biết được hai đại lượng tỉ lệ nghịch trong bài toán. Từ đó ta có thể lập các tỉ số bằng nhau và dựa vào tính chất của dãy tỉ số bằng nhau để tìm các yếu tố chưa biết.</div>
+    <div class="kt" id="kt-bcnn"><b class="ten">Chú ý (sau Ví dụ 4)</b>
+      Trong thực hành, để tiện lợi từ dãy đẳng thức <span class="m">4x = 3y = 2z</span> ta thường chia <span class="m">4x</span>; <span class="m">3y</span>; <span class="m">2z</span> cho 12 (là BCNN của 4; 3; 2) để được dãy tỉ số bằng nhau <span class="m"><span class="frac"><b>x</b><span>3</span></span> = <span class="frac"><b>y</b><span>4</span></span> = <span class="frac"><b>z</b><span>6</span></span></span>. Sau đó giải tiếp tương tự như trên.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập hai — Bài 23. Đại lượng tỉ lệ nghịch (trang 15–18).</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Điền bảng</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một ô tô đi từ thành phố <span class="m">A</span> đến thành phố <span class="m">B</span> trên quãng đường 180 km. Gọi <span class="m">t</span> (h) là thời gian để ô tô đi từ <span class="m">A</span> đến <span class="m">B</span> với vận tốc <span class="m">v</span> (km/h).</p>
+    <p>Thay mỗi dấu “?” trong bảng sau bằng số thích hợp.</p>
+    <table><tr><th><span class="m">v</span> (km/h)</th><td>40</td><td>50</td><td>60</td><td>80</td></tr>
+      <tr><th><span class="m">t</span> (h)</th><td>?</td><td>?</td><td>?</td><td>?</td></tr></table></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Quãng đường cố định 180 km. Đi nhanh hơn thì mất nhiều thời gian hơn hay ít hơn?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Thời gian = quãng đường : vận tốc.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính thời gian ứng với từng vận tốc</h4>
+      <p><span class="m">180 : 40 = 4,5</span>; &nbsp; <span class="m">180 : 50 = 3,6</span>; &nbsp; <span class="m">180 : 60 = 3</span>; &nbsp; <span class="m">180 : 80 = 2,25</span>.</p>
+      <table><tr><th><span class="m">v</span> (km/h)</th><td>40</td><td>50</td><td>60</td><td>80</td></tr>
+        <tr><th><span class="m">t</span> (h)</th><td style="background:#e6f7f1">4,5</td><td style="background:#e6f7f1">3,6</td><td style="background:#e6f7f1">3</td><td style="background:#e6f7f1">2,25</td></tr></table>
+      <p class="vi-sao">Như Pi nói: vận tốc tăng gấp đôi (40 lên 80 km/h) thì thời gian giảm đi một nửa (4,5 h xuống 2,25 h).</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Với <span class="m">v = 40</span>; <span class="m">50</span>; <span class="m">60</span>; <span class="m">80</span> (km/h) thì <span class="m">t = 4,5</span>; <span class="m">3,6</span>; <span class="m">3</span>; <span class="m">2,25</span> (h).</div>
+    <div class="bay">Nhân thay vì chia: <span class="m">40 · 180 = 7 200</span> giờ — vô lí. Thời gian đi = quãng đường <b>chia</b> vận tốc.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Lập công thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết công thức tính thời gian <span class="m">t</span> theo vận tốc tương ứng <span class="m">v</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ở mọi cột của bảng HĐ1, tích <span class="m">v · t</span> bằng bao nhiêu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Quãng đường 180 km không đổi; thời gian = quãng đường : vận tốc.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết công thức</h4>
+      <p><span class="m">t = <span class="frac"><b>180</b><span>v</span></span></span>.</p>
+      <p class="vi-sao">Công thức có dạng <span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span> với <span class="m">a = 180</span>. Kiểm tra ở bảng HĐ1: <span class="m">40 · 4,5 = 50 · 3,6 = 60 · 3</span> <span class="m">= 80 · 2,25 = 180</span>.</p>
+      <a class="xem-lai" href="#kt-dinh-nghia">📌 Xem lại: đại lượng tỉ lệ nghịch</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">t = <span class="frac"><b>180</b><span>v</span></span></span>.</div>
+    <div class="bay">Viết <span class="m">t = <span class="frac"><b>v</b><span>180</span></span></span>. Thử <span class="m">v = 60</span>: <span class="m"><span class="frac"><b>60</b><span>180</span></span> = <span class="frac"><b>1</b><span>3</span></span></span> giờ (20 phút) cho 180 km — sai so với bảng (3 giờ).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="ch" data-ten="Câu hỏi" data-muc="th">
+  <div class="bai-dau"><span class="so">Câu hỏi</span><span class="nhan th">Thông hiểu</span><span class="nhan">Nhận biết tỉ lệ nghịch</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Trong HĐ2, thời gian <span class="m">t</span> có tỉ lệ nghịch với vận tốc <span class="m">v</span> không? Vận tốc <span class="m">v</span> có tỉ lệ nghịch với thời gian <span class="m">t</span> không?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Khác với tỉ lệ thuận, khi đổi chiều thì hệ số tỉ lệ nghịch có đổi không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> So <span class="m">t = <span class="frac"><b>180</b><span>v</span></span></span> với dạng <span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span>. Từ <span class="m"><i>vt</i> = 180</span>, viết <span class="m">v</span> theo <span class="m">t</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4><i>t</i> theo <i>v</i></h4>
+      <p><span class="m">t = <span class="frac"><b>180</b><span>v</span></span></span> có dạng <span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span> với <span class="m">a = 180 ≠ 0</span>. Vậy <span class="m">t</span> tỉ lệ nghịch với <span class="m">v</span> theo hệ số tỉ lệ 180.</p>
+      <a class="xem-lai" href="#kt-dinh-nghia">📌 Xem lại: đại lượng tỉ lệ nghịch</a></div>
+    <div class="buoc" data-so="2"><h4><i>v</i> theo <i>t</i></h4>
+      <p>Từ <span class="m">t = <span class="frac"><b>180</b><span>v</span></span></span> suy ra <span class="m">v · t = 180</span>, nên <span class="m">v = <span class="frac"><b>180</b><span>t</span></span></span>. Vậy <span class="m">v</span> cũng tỉ lệ nghịch với <span class="m">t</span> theo hệ số tỉ lệ 180.</p>
+      <a class="xem-lai" href="#kt-chu-y">📌 Xem lại: chú ý — hệ số giữ nguyên</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Có. <span class="m">t</span> tỉ lệ nghịch với <span class="m">v</span> theo hệ số tỉ lệ 180; <span class="m">v</span> cũng tỉ lệ nghịch với <span class="m">t</span> theo hệ số tỉ lệ 180.</div>
+    <div class="bay">Nhớ nhầm sang tỉ lệ thuận, ghi hệ số chiều ngược lại là <span class="m"><span class="frac"><b>1</b><span>180</span></span></span>. Với tỉ lệ nghịch, hai chiều có <b>cùng</b> hệ số <span class="m">a</span> (vì <span class="m"><i>xy</i> = a</span>).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan th">Thông hiểu</span><span class="nhan">Nhận biết tỉ lệ nghịch</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Chiều dài và chiều rộng của các hình chữ nhật có cùng diện tích bằng 12 cm² có phải là hai đại lượng tỉ lệ nghịch không? Nếu có thì hệ số tỉ lệ là bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Diện tích hình chữ nhật = dài × rộng. Tích này ở đây cố định bằng bao nhiêu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Gọi chiều dài <span class="m">x</span> (cm), chiều rộng <span class="m">y</span> (cm): <span class="m"><i>xy</i> = 12</span>. Viết <span class="m">y</span> theo <span class="m">x</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Lập công thức</h4>
+      <p>Gọi <span class="m">x</span> (cm) và <span class="m">y</span> (cm) là chiều dài và chiều rộng. Diện tích bằng 12 cm² nên <span class="m"><i>xy</i> = 12</span>, suy ra <span class="m">y = <span class="frac"><b>12</b><span>x</span></span></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Công thức có dạng <span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span> với <span class="m">a = 12</span>. Vậy chiều dài và chiều rộng là hai đại lượng tỉ lệ nghịch, hệ số tỉ lệ 12.</p>
+      <p class="vi-sao">Chẳng hạn dài 4 cm thì rộng 3 cm; dài gấp đôi thành 8 cm thì rộng giảm một nửa còn 1,5 cm.</p>
+      <a class="xem-lai" href="#kt-dinh-nghia">📌 Xem lại: đại lượng tỉ lệ nghịch</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Có. Chiều dài và chiều rộng tỉ lệ nghịch với nhau, hệ số tỉ lệ là 12.</div>
+    <div class="bay">Nói “dài tăng thì rộng giảm nên tỉ lệ nghịch” mà không viết công thức. “Một cái tăng, cái kia giảm” chưa đủ; phải có <b>tích không đổi</b> <span class="m">(<i>xy</i> = 12)</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd" data-ten="Vận dụng" data-muc="vd">
+  <div class="bai-dau"><span class="so">Vận dụng</span><span class="nhan vd">Vận dụng</span><span class="nhan">Điền bảng</span><span class="trang-thai"></span></div>
+  <div class="de"><p>a) Một cửa hàng bán gạo cần đóng 300 kg gạo thành các túi gạo có khối lượng như nhau. Thay mỗi dấu “?” trong bảng sau bằng số thích hợp.</p>
+    <table><tr><th>Lượng gạo trong mỗi túi (kg)</th><td>5</td><td>10</td><td>?</td><td>?</td></tr>
+      <tr><th>Số túi tương ứng</th><td>?</td><td>?</td><td>15</td><td>12</td></tr></table>
+    <p>b) Số túi gạo và số kilôgam gạo trong mỗi túi có phải là hai đại lượng tỉ lệ nghịch không? Nếu có thì hệ số tỉ lệ là bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Tổng lượng gạo luôn là 300 kg. Vậy (gạo mỗi túi) × (số túi) bằng bao nhiêu?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Lượng gạo mỗi túi × số túi = 300. Biết một số thì lấy 300 chia cho số đó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Câu a: điền bảng</h4>
+      <p><span class="m">300 : 5 = 60</span> (túi); &nbsp; <span class="m">300 : 10 = 30</span> (túi); &nbsp; <span class="m">300 : 15 = 20</span> (kg); &nbsp; <span class="m">300 : 12 = 25</span> (kg).</p>
+      <table><tr><th>Lượng gạo mỗi túi (kg)</th><td>5</td><td>10</td><td style="background:#e6f7f1">20</td><td style="background:#e6f7f1">25</td></tr>
+        <tr><th>Số túi tương ứng</th><td style="background:#e6f7f1">60</td><td style="background:#e6f7f1">30</td><td>15</td><td>12</td></tr></table></div>
+    <div class="buoc" data-so="2"><h4>Câu b: nhận biết tỉ lệ nghịch</h4>
+      <p>Gọi <span class="m">x</span> (kg) là lượng gạo mỗi túi, <span class="m">y</span> là số túi: <span class="m"><i>xy</i> = 300</span>, tức là <span class="m">y = <span class="frac"><b>300</b><span>x</span></span></span>.</p>
+      <p>Vậy số túi và số kilôgam gạo mỗi túi là hai đại lượng tỉ lệ nghịch, hệ số tỉ lệ 300.</p>
+      <a class="xem-lai" href="#kt-nhan-xet">📌 Xem lại: tích hai giá trị tương ứng không đổi</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) 5 kg → 60 túi; 10 kg → 30 túi; 15 túi → 20 kg mỗi túi; 12 túi → 25 kg mỗi túi. &nbsp; b) Có, hai đại lượng tỉ lệ nghịch với hệ số tỉ lệ 300.</div>
+    <div class="bay">Ở hai ô cuối, điền “15 kg” và “12 kg” (chép lại số túi). Đó là số túi; lượng gạo mỗi túi phải tính: <span class="m">300 : 15 = 20</span> kg.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một nhà thầu ước tính rằng có thể hoàn thành một hợp đồng xây dựng trong 12 tháng với 280 công nhân. Nếu được yêu cầu phải hoàn thành hợp đồng trong 10 tháng thì nhà thầu đó phải thuê bao nhiêu công nhân (biết năng suất lao động của mỗi công nhân là như nhau)?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Rút ngắn thời gian thì phải thuê nhiều người hơn hay ít hơn 280?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Số công nhân và thời gian hoàn thành là hai đại lượng tỉ lệ nghịch. Như Ví dụ 3: <span class="m"><span class="frac"><b>x</b><span>280</span></span> = <span class="frac"><b>12</b><span>10</span></span></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhận biết tỉ lệ nghịch</h4>
+      <p>Gọi <span class="m">x</span> là số công nhân cần thuê. Năng suất mỗi người như nhau, nên số công nhân và thời gian hoàn thành cùng một công việc là hai đại lượng tỉ lệ nghịch.</p>
+      <a class="xem-lai" href="#kt-giai-toan">📌 Xem lại: giải toán về đại lượng tỉ lệ nghịch</a></div>
+    <div class="buoc" data-so="2"><h4>Lập tỉ lệ thức và tính</h4>
+      <p>Tỉ số hai giá trị của đại lượng này bằng nghịch đảo tỉ số hai giá trị tương ứng của đại lượng kia: <span class="m"><span class="frac"><b>x</b><span>280</span></span> = <span class="frac"><b>12</b><span>10</span></span></span>.</p>
+      <p>Suy ra <span class="m">x = <span class="frac"><b>280 · 12</b><span>10</span></span> = 336</span> (công nhân).</p>
+      <a class="xem-lai" href="#kt-nhan-xet">📌 Xem lại: tỉ số bằng nghịch đảo tỉ số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Nhà thầu phải thuê 336 công nhân.</div>
+    <div class="bay">Lập như tỉ lệ thuận <span class="m"><span class="frac"><b>x</b><span>280</span></span> = <span class="frac"><b>10</b><span>12</span></span></span> → <span class="m">x</span> khoảng 233 người: ít người hơn mà xong sớm hơn — vô lí. Thời gian giảm thì số người phải tăng.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Công việc cần <span class="m">280 · 12 = 3 360</span> “tháng công”. Muốn xong trong 10 tháng thì mỗi tháng cần <span class="m">3 360 : 10 = 336</span> người.</div>
+  </div>
+</article>
+
+<article class="the bai" id="lt3" data-ten="Luyện tập 3" data-muc="vd">
+  <div class="bai-dau"><span class="so">Luyện tập 3</span><span class="nhan vd">Vận dụng</span><span class="nhan">Chia tỉ lệ nghịch</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bạn An mua tổng cộng 34 quyển vở gồm ba loại: loại 120 trang giá 12 nghìn đồng một quyển, loại 200 trang giá 18 nghìn đồng một quyển và loại 240 trang giá 20 nghìn đồng một quyển. Hỏi An mua bao nhiêu quyển vở mỗi loại, biết rằng số tiền bạn ấy dành để mua mỗi loại vở là như nhau?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Số tiền mỗi loại như nhau: giá × số quyển giống nhau ở cả ba loại. Số trang chỉ là thông tin để gọi tên!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Gọi số quyển ba loại là <span class="m">x, y, z</span>: <span class="m">12x = 18y = 20z</span> và <span class="m">x + y + z = 34</span>. Chia cả dãy cho BCNN<span class="m">(12, 18, 20) = 180</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Lập dãy đẳng thức</h4>
+      <p>Gọi <span class="m">x, y, z</span> lần lượt là số quyển vở loại 120 trang, 200 trang, 240 trang. Ta có <span class="m">x + y + z = 34</span>.</p>
+      <p>Số tiền mua mỗi loại như nhau nên <span class="m">12x = 18y = 20z</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Đưa về dãy tỉ số bằng nhau</h4>
+      <p>BCNN<span class="m">(12, 18, 20) = 180</span>. Chia mỗi tích cho 180: <span class="m"><span class="frac"><b>12x</b><span>180</span></span> = <span class="frac"><b>18y</b><span>180</span></span> = <span class="frac"><b>20z</b><span>180</span></span></span>, tức là <span class="m"><span class="frac"><b>x</b><span>15</span></span> = <span class="frac"><b>y</b><span>10</span></span> = <span class="frac"><b>z</b><span>9</span></span></span>.</p>
+      <p class="vi-sao"><span class="m"><span class="frac"><b>12x</b><span>180</span></span> = <span class="frac"><b>x</b><span>15</span></span></span> vì <span class="m">180 : 12 = 15</span>; tương tự <span class="m">180 : 18 = 10</span>, <span class="m">180 : 20 = 9</span>.</p>
+      <a class="xem-lai" href="#kt-bcnn">📌 Xem lại: chia cho BCNN</a></div>
+    <div class="buoc" data-so="3"><h4>Áp dụng tính chất dãy tỉ số bằng nhau</h4>
+      <p><span class="m"><span class="frac"><b>x</b><span>15</span></span> = <span class="frac"><b>y</b><span>10</span></span> = <span class="frac"><b>z</b><span>9</span></span> = <span class="frac"><b>x + y + z</b><span>15 + 10 + 9</span></span></span> <span class="m">= <span class="frac"><b>34</b><span>34</span></span> = 1</span>.</p>
+      <p><span class="m">x = 15</span>; &nbsp; <span class="m">y = 10</span>; &nbsp; <span class="m">z = 9</span>.</p>
+      <p class="vi-sao">Thử lại: <span class="m">12 · 15 = 18 · 10 = 20 · 9</span> <span class="m">= 180</span> (nghìn đồng) ✓; <span class="m">15 + 10 + 9 = 34</span> ✓.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">An mua 15 quyển loại 120 trang, 10 quyển loại 200 trang và 9 quyển loại 240 trang.</div>
+    <div class="bay">Chia 34 tỉ lệ <b>thuận</b> với giá 12; 18; 20 (vở đắt mua nhiều hơn). Tiền mỗi loại như nhau thì vở đắt hơn phải mua <b>ít</b> quyển hơn — số quyển tỉ lệ nghịch với giá.</div>
+    <div class="gv-note">Số trang (120, 200, 240) không dùng trong tính toán — là thông tin gây nhiễu, có thể hỏi lớp vì sao bỏ qua được.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b622" data-ten="Bài 6.22" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 6.22</span><span class="nhan th">Thông hiểu</span><span class="nhan">Điền bảng</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho biết <span class="m">x</span> và <span class="m">y</span> là hai đại lượng tỉ lệ nghịch. Thay mỗi dấu “?” trong bảng sau bằng số thích hợp.</p>
+    <table><tr><th><span class="m">x</span></th><td>2</td><td>4</td><td>5</td><td>?</td><td>?</td><td>?</td></tr>
+      <tr><th><span class="m">y</span></th><td><span class="m">−6</span></td><td>?</td><td>?</td><td>3</td><td>10</td><td>0,5</td></tr></table>
+    <p>Viết công thức mô tả mối quan hệ phụ thuộc giữa hai đại lượng <span class="m">x</span> và <span class="m">y</span>.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Cột đầu cho đủ <span class="m">x</span> và <span class="m">y</span>. Tích của chúng chính là hệ số tỉ lệ!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">a = <i>xy</i> = 2 · (−6)</span>. Biết một đại lượng thì đại lượng kia bằng <span class="m">a</span> chia cho nó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm hệ số tỉ lệ</h4>
+      <p><span class="m">a = 2 · (−6) = −12</span>, nên <span class="m">y = <span class="frac"><b>−12</b><span>x</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-nhan-xet">📌 Xem lại: tích hai giá trị tương ứng không đổi</a></div>
+    <div class="buoc" data-so="2"><h4>Điền các ô còn thiếu</h4>
+      <p><span class="m">x = 4</span>: <span class="m">y = <span class="frac"><b>−12</b><span>4</span></span> = −3</span>; &nbsp; <span class="m">x = 5</span>: <span class="m">y = <span class="frac"><b>−12</b><span>5</span></span> = −2,4</span>.</p>
+      <p><span class="m">y = 3</span>: <span class="m">x = <span class="frac"><b>−12</b><span>3</span></span> = −4</span>; &nbsp; <span class="m">y = 10</span>: <span class="m">x = <span class="frac"><b>−12</b><span>10</span></span> = −1,2</span>; &nbsp; <span class="m">y = 0,5</span>: <span class="m">x = <span class="frac"><b>−12</b><span>0,5</span></span> = −24</span>.</p>
+      <table><tr><th><span class="m">x</span></th><td>2</td><td>4</td><td>5</td><td style="background:#e6f7f1"><span class="m">−4</span></td><td style="background:#e6f7f1"><span class="m">−1,2</span></td><td style="background:#e6f7f1"><span class="m">−24</span></td></tr>
+        <tr><th><span class="m">y</span></th><td><span class="m">−6</span></td><td style="background:#e6f7f1"><span class="m">−3</span></td><td style="background:#e6f7f1"><span class="m">−2,4</span></td><td>3</td><td>10</td><td>0,5</td></tr></table>
+      <p class="vi-sao"><span class="m">x</span> cũng tỉ lệ nghịch với <span class="m">y</span> theo cùng hệ số <span class="m">−12</span>, nên <span class="m">x = <span class="frac"><b>−12</b><span>y</span></span></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">x = 4 → y = −3</span>; <span class="m">x = 5 → y = −2,4</span>; <span class="m">y = 3 → x = −4</span>; <span class="m">y = 10 → x = −1,2</span>; <span class="m">y = 0,5 → x = −24</span>. Công thức: <span class="m">y = <span class="frac"><b>−12</b><span>x</span></span></span>.</div>
+    <div class="bay">Tính <span class="m">−12 : 0,5 = −6</span> (nhầm chia thành nhân). Chia cho <span class="m">0,5</span> là nhân với 2: <span class="m">−12 : 0,5 = −24</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b623" data-ten="Bài 6.23" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 6.23</span><span class="nhan th">Thông hiểu</span><span class="nhan">Nhận biết tỉ lệ nghịch</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Theo bảng giá trị dưới đây, hai đại lượng <span class="m">x</span> và <span class="m">y</span> có phải là hai đại lượng tỉ lệ nghịch không?</p>
+    <p>a)</p>
+    <table><tr><th><span class="m">x</span></th><td>3</td><td>6</td><td>16</td><td>24</td></tr>
+      <tr><th><span class="m">y</span></th><td>160</td><td>80</td><td>30</td><td>20</td></tr></table>
+    <p>b)</p>
+    <table><tr><th><span class="m">x</span></th><td>4</td><td>8</td><td>25</td><td>32</td></tr>
+      <tr><th><span class="m">y</span></th><td>160</td><td>80</td><td>26</td><td>20</td></tr></table></div>
+  <div class="thu chi-hs"><b>🎯 Thử nhanh — có tỉ lệ nghịch không?</b>
+    <div class="cau-thu"><span class="noi-dung">Bảng a</span><button class="chon chu" data-dung="1">Có</button><button class="chon chu" data-dung="0">Không</button><span class="phan-hoi" data-dung-txt="Đúng! Mọi tích xy đều bằng 480." data-sai-txt="Thử lại: tính 3 · 160, 6 · 80, 16 · 30, 24 · 20."></span></div>
+    <div class="cau-thu"><span class="noi-dung">Bảng b</span><button class="chon chu" data-dung="0">Có</button><button class="chon chu" data-dung="1">Không</button><span class="phan-hoi" data-dung-txt="Đúng! 25 · 26 = 650, khác 640." data-sai-txt="Thử lại: 25 · 26 có bằng 4 · 160 không?"></span></div>
+  </div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Với tỉ lệ nghịch, em kiểm tra tích <span class="m"><i>xy</i></span> ở mọi cột chứ không phải thương.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Tính tích <span class="m"><i>xy</i></span> ở từng cột. Tất cả bằng nhau thì tỉ lệ nghịch.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Bảng a</h4>
+      <p><span class="m">3 · 160 = 480</span>; <span class="m">6 · 80 = 480</span>; <span class="m">16 · 30 = 480</span>; <span class="m">24 · 20 = 480</span>.</p>
+      <p>Các tích đều bằng 480, nên <span class="m">y = <span class="frac"><b>480</b><span>x</span></span></span>: <span class="m">x</span> và <span class="m">y</span> là hai đại lượng tỉ lệ nghịch.</p>
+      <a class="xem-lai" href="#kt-nhan-xet">📌 Xem lại: tích hai giá trị tương ứng không đổi</a></div>
+    <div class="buoc" data-so="2"><h4>Bảng b</h4>
+      <p><span class="m">4 · 160 = 640</span>; <span class="m">8 · 80 = 640</span>; nhưng <span class="m">25 · 26 = 650 ≠ 640</span>.</p>
+      <p>Tích không giữ nguyên, nên <span class="m">x</span> và <span class="m">y</span> không phải là hai đại lượng tỉ lệ nghịch.</p>
+      <p class="vi-sao">Nếu tỉ lệ nghịch với hệ số 640 thì ở cột <span class="m">x = 25</span>, <span class="m">y</span> phải là <span class="m">640 : 25 = 25,6</span> chứ không phải 26.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Có (<span class="m"><i>xy</i> = 480</span> ở mọi cột, <span class="m">y = <span class="frac"><b>480</b><span>x</span></span></span>). &nbsp; b) Không (<span class="m">4 · 160 = 640</span> nhưng <span class="m">25 · 26 = 650</span>).</div>
+    <div class="bay">Thấy “<span class="m">x</span> tăng thì <span class="m">y</span> giảm” ở bảng b rồi kết luận “có”. Đó chưa phải dấu hiệu tỉ lệ nghịch; phải kiểm tra tích <span class="m"><i>xy</i></span> không đổi.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b624" data-ten="Bài 6.24" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 6.24</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bắc cầu tỉ lệ</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Cho biết <span class="m">y</span> tỉ lệ nghịch với <span class="m">x</span> theo hệ số tỉ lệ <span class="m">a</span>, <span class="m">x</span> tỉ lệ nghịch với <span class="m">z</span> theo hệ số tỉ lệ <span class="m">b</span>. Hỏi <span class="m">y</span> tỉ lệ thuận hay tỉ lệ nghịch với <span class="m">z</span> và hệ số tỉ lệ bằng bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Thay <span class="m">x = <span class="frac"><b>b</b><span>z</span></span></span> vào <span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span>. Chia cho một phân số thì làm thế nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">y = <span class="frac"><b>a</b><span>x</span></span> = a : x</span> và <span class="m">x = <span class="frac"><b>b</b><span>z</span></span></span>. Khi đó <span class="m">y = a : <span class="frac"><b>b</b><span>z</span></span> = a · <span class="frac"><b>z</b><span>b</span></span></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Viết hai công thức</h4>
+      <p><span class="m">y = <span class="frac"><b>a</b><span>x</span></span></span> <span class="m">(a ≠ 0)</span> và <span class="m">x = <span class="frac"><b>b</b><span>z</span></span></span> <span class="m">(b ≠ 0)</span>.</p>
+      <a class="xem-lai" href="#kt-dinh-nghia">📌 Xem lại: đại lượng tỉ lệ nghịch</a></div>
+    <div class="buoc" data-so="2"><h4>Thay vào và rút gọn</h4>
+      <p><span class="m">y = a : x = a : <span class="frac"><b>b</b><span>z</span></span> = a · <span class="frac"><b>z</b><span>b</span></span></span> <span class="m">= <span class="frac"><b>a</b><span>b</span></span>z</span>.</p>
+      <p class="vi-sao">Chia cho phân số <span class="m"><span class="frac"><b>b</b><span>z</span></span></span> là nhân với số nghịch đảo <span class="m"><span class="frac"><b>z</b><span>b</span></span></span>. Kết quả có dạng <span class="m">y = <i>kz</i></span> với <span class="m">k = <span class="frac"><b>a</b><span>b</span></span> ≠ 0</span> — đó là dạng tỉ lệ <b>thuận</b>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so"><span class="m">y</span> tỉ lệ thuận với <span class="m">z</span> theo hệ số tỉ lệ <span class="m"><span class="frac"><b>a</b><span>b</span></span></span>.</div>
+    <div class="bay">Đoán “nghịch với nghịch thì vẫn nghịch”. Hai lần “nghịch” triệt tiêu nhau: <span class="m">z</span> tăng → <span class="m">x</span> giảm → <span class="m">y</span> tăng, nên <span class="m">y</span> tỉ lệ thuận với <span class="m">z</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Thử với số: <span class="m">a = 6</span>, <span class="m">b = 2</span>. Lấy <span class="m">z = 1</span>: <span class="m">x = 2</span>, <span class="m">y = 3</span>. Lấy <span class="m">z = 2</span>: <span class="m">x = 1</span>, <span class="m">y = 6</span>. <span class="m">z</span> gấp đôi thì <span class="m">y</span> cũng gấp đôi, và <span class="m">y = 3z = <span class="frac"><b>6</b><span>2</span></span>z</span>.</div>
+  </div>
+</article>
+
+<article class="the bai" id="b625" data-ten="Bài 6.25" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 6.25</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Với cùng số tiền để mua 17 tập giấy A4 loại I có thể mua bao nhiêu tập giấy A4 loại II, biết rằng giá tiền giấy loại II chỉ bằng 85% giá tiền giấy loại I?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Giấy loại II rẻ hơn. Cùng số tiền thì mua được nhiều hơn hay ít hơn 17 tập?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Cùng số tiền thì số tập mua được và giá mỗi tập là hai đại lượng tỉ lệ nghịch: (giá loại I) · 17 = (giá loại II) · <i>x</i>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Nhận biết tỉ lệ nghịch</h4>
+      <p>Gọi <span class="m">x</span> là số tập giấy loại II mua được. Với cùng số tiền, số tập mua được và giá mỗi tập là hai đại lượng tỉ lệ nghịch.</p>
+      <p>Giá loại II bằng 85% = <span class="m">0,85</span> giá loại I, nên tỉ số giá (loại II : loại I) là <span class="m">0,85</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Lập tỉ lệ và tính</h4>
+      <p>Tỉ số số tập bằng nghịch đảo tỉ số giá: <span class="m"><span class="frac"><b>x</b><span>17</span></span> = <span class="frac"><b>1</b><span>0,85</span></span></span>.</p>
+      <p>Suy ra <span class="m">x = <span class="frac"><b>17</b><span>0,85</span></span> = <span class="frac"><b>1 700</b><span>85</span></span> = 20</span> (tập).</p>
+      <a class="xem-lai" href="#kt-nhan-xet">📌 Xem lại: tỉ số bằng nghịch đảo tỉ số</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Có thể mua 20 tập giấy A4 loại II.</div>
+    <div class="bay">Tính <span class="m">17 · 0,85 = 14,45</span> tập. Giấy rẻ hơn thì cùng tiền mua được <b>nhiều</b> hơn, nên phải chia: <span class="m">17 : 0,85 = 20</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+    <div class="them">Giả sử một tập loại I giá 100 nghìn đồng thì 17 tập hết 1 700 nghìn. Một tập loại II giá 85 nghìn, nên mua được <span class="m">1 700 : 85 = 20</span> tập.</div>
+  </div>
+</article>
+
+<article class="the bai" id="b626" data-ten="Bài 6.26" data-muc="vdc">
+  <div class="bai-dau"><span class="so">Bài 6.26</span><span class="nhan vdc">Vận dụng cao</span><span class="nhan">Chia tỉ lệ nghịch</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Ba đội máy cày làm trên ba cánh đồng cùng diện tích. Đội thứ nhất hoàn thành công việc trong 4 ngày, đội thứ hai trong 6 ngày và đội thứ ba trong 8 ngày. Hỏi mỗi đội có mấy máy cày, biết rằng số máy của đội thứ nhất nhiều hơn số máy của đội thứ hai là 2 máy và năng suất của các máy như nhau?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ba cánh đồng như nhau. Đội nào làm nhanh nhất thì có nhiều máy nhất hay ít máy nhất?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Số máy tỉ lệ nghịch với số ngày: <span class="m">4x = 6y = 8z</span>, và <span class="m">x − y = 2</span>. Chia cả dãy cho BCNN<span class="m">(4, 6, 8) = 24</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Lập dãy đẳng thức</h4>
+      <p>Gọi <span class="m">x, y, z</span> lần lượt là số máy cày của đội thứ nhất, thứ hai, thứ ba. Ta có <span class="m">x − y = 2</span>.</p>
+      <p>Cùng diện tích, năng suất các máy như nhau nên số máy và số ngày hoàn thành là hai đại lượng tỉ lệ nghịch: <span class="m">4x = 6y = 8z</span>.</p>
+      <a class="xem-lai" href="#kt-nhan-xet">📌 Xem lại: tích hai giá trị tương ứng không đổi</a></div>
+    <div class="buoc" data-so="2"><h4>Đưa về dãy tỉ số bằng nhau</h4>
+      <p>BCNN<span class="m">(4, 6, 8) = 24</span>. Chia cho 24: <span class="m"><span class="frac"><b>x</b><span>6</span></span> = <span class="frac"><b>y</b><span>4</span></span> = <span class="frac"><b>z</b><span>3</span></span></span>.</p>
+      <a class="xem-lai" href="#kt-bcnn">📌 Xem lại: chia cho BCNN</a></div>
+    <div class="buoc" data-so="3"><h4>Áp dụng tính chất dãy tỉ số bằng nhau</h4>
+      <p><span class="m"><span class="frac"><b>x</b><span>6</span></span> = <span class="frac"><b>y</b><span>4</span></span> = <span class="frac"><b>z</b><span>3</span></span> = <span class="frac"><b>x − y</b><span>6 − 4</span></span> = <span class="frac"><b>2</b><span>2</span></span> = 1</span>.</p>
+      <p><span class="m">x = 6</span>; &nbsp; <span class="m">y = 4</span>; &nbsp; <span class="m">z = 3</span>.</p>
+      <p class="vi-sao">Thử lại: <span class="m">4 · 6 = 6 · 4 = 8 · 3 = 24</span> ✓; <span class="m">6 − 4 = 2</span> ✓.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Đội thứ nhất có 6 máy, đội thứ hai có 4 máy, đội thứ ba có 3 máy cày.</div>
+    <div class="bay">Viết <span class="m"><span class="frac"><b>x</b><span>4</span></span> = <span class="frac"><b>y</b><span>6</span></span> = <span class="frac"><b>z</b><span>8</span></span></span> (tỉ lệ thuận với số ngày) → <span class="m"><span class="frac"><b>x − y</b><span>4 − 6</span></span> = −1</span>, ra số máy âm. Làm nhanh hơn thì phải có nhiều máy hơn: số máy tỉ lệ <b>nghịch</b> với số ngày.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 23. Đại lượng tỉ lệ nghịch — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c06-b23';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-06-bai-23-dai-luong-ti-le-nghich-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-06-bai-23-dai-luong-ti-le-nghich-bai-giai.nguon.html" data-phien-ban="b4991a6a767c">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+</body>
+</html>

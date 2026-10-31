@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 36. Hình hộp chữ nhật và hình lập phương — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M11 49Q22 44 32 51Q42 44 53 49' fill='none' stroke='%23ffc83d' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M13 17Q23 13 31 19V47Q23 41 13 45Z' fill='%23fff'/%3E%3Cpath d='M51 17Q41 13 33 19V47Q41 41 51 45Z' fill='%23fff'/%3E%3Cpath d='M39 16V31l3.5-3 3.5 3V17.5' fill='%23ffc83d'/%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương X. Một số hình khối trong thực tiễn</div>
+    <div class="hang1">
+      <h1>Bài 36. Hình hộp chữ nhật và hình lập phương — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương X. Một số hình khối trong thực tiễn</div><h1>Bài 36. Hình hộp chữ nhật và hình lập phương — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 5 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-yeu-to"><b class="ten">Các yếu tố của hình hộp chữ nhật</b>
+      Hình hộp chữ nhật có 6 mặt là các hình chữ nhật, 8 đỉnh, 12 cạnh, 4 đường chéo, các cạnh bên song song và bằng nhau. Hình lập phương là hình hộp chữ nhật có 6 mặt là các hình vuông.</div>
+    <div class="kt" id="kt-sxq"><b class="ten">Diện tích xung quanh</b>
+      Hình hộp chữ nhật có ba kích thước <span class="m">a, b, c</span>: <span class="m"><i>S</i><sub>xq</sub> = 2(a + b)c</span>. Hình lập phương cạnh <span class="m">a</span>: <span class="m"><i>S</i><sub>xq</sub> = 4a<sup>2</sup></span>. Diện tích xung quanh chỉ gồm bốn mặt bên, bằng chu vi đáy nhân chiều cao.</div>
+    <div class="kt" id="kt-v"><b class="ten">Thể tích</b>
+      Thể tích hình hộp chữ nhật <span class="m">V = <i>abc</i></span>. Thể tích hình lập phương <span class="m">V = a<sup>3</sup></span>.</div>
+    <div class="kt" id="kt-don-vi"><b class="ten">Chú ý về đơn vị</b>
+      Khi tính diện tích, thể tích của một hình, các kích thước của nó phải cùng đơn vị độ dài. Đã học ở Tiểu học: <span class="m">1 dm<sup>3</sup> = 1 000 cm<sup>3</sup></span>, 1 m<sup>3</sup> = 1 000 dm<sup>3</sup>, <span class="m">1 lít = 1 dm<sup>3</sup></span>.</div>
+    <div class="kt" id="kt-tong-mat"><b class="ten">Diện tích vật liệu làm hộp (Ví dụ 1)</b>
+      Diện tích vật liệu bằng tổng diện tích các mặt có thật của vật: khay không nắp = diện tích xung quanh + diện tích một đáy; hộp kín = diện tích xung quanh + diện tích hai đáy.</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập hai — Bài 36 (trang 85 – 91).</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="hd1" data-ten="HĐ1" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ1</span><span class="nhan nb">Nhận biết</span><span class="nhan">Nhận dạng hình</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hình nào dưới đây là đồ vật hoặc kiến trúc có dạng hình hộp chữ nhật, có dạng hình lập phương?</p>
+    <p class="nguon">a) hộp quà buộc nơ; b) khối rubik; c) ngôi nhà mái dốc hình tam giác.</p>
+    <p>Em hãy tìm thêm một số hình ảnh có dạng hình hộp chữ nhật, hình lập phương trong thực tế.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hình lập phương thì mọi mặt đều là hình vuông. Hộp quà có mặt nào không vuông không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đếm xem mỗi vật có mấy mặt phẳng, các mặt là hình gì (chữ nhật hay vuông), có mặt nào là tam giác không.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Xét từng hình</h4>
+      <p>a) Hộp quà có 6 mặt đều là hình chữ nhật, mặt dài hơn mặt ngắn → dạng <b>hình hộp chữ nhật</b>.</p>
+      <p>b) Khối rubik có 6 mặt đều là hình vuông bằng nhau → dạng <b>hình lập phương</b>.</p>
+      <p>c) Ngôi nhà có hai đầu hồi là tam giác, mái dốc → <b>không</b> phải hình hộp chữ nhật, cũng không phải hình lập phương.</p>
+      <p class="vi-sao">Hình hộp chữ nhật có 6 mặt là hình chữ nhật; hình lập phương là hình hộp chữ nhật đặc biệt có 6 mặt là hình vuông. Ngôi nhà có mặt tam giác nên không thuộc hai loại này.</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: các yếu tố</a></div>
+    <div class="buoc" data-so="2"><h4>Tìm thêm ví dụ</h4>
+      <p>Hình hộp chữ nhật: viên gạch, hộp sữa, tủ lạnh, quyển sách dày, bể cá, toà nhà, hộp bánh, thùng carton.</p>
+      <p>Hình lập phương: xúc xắc, khối rubik, hộp quà vuông, viên đá lạnh, thùng gỗ vuông.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Hộp quà: hình hộp chữ nhật. b) Khối rubik: hình lập phương. c) Ngôi nhà: không phải hai dạng trên. Ví dụ thêm: viên gạch, hộp sữa, tủ lạnh (hình hộp chữ nhật); xúc xắc, viên đá lạnh (hình lập phương).</div>
+    <div class="bay">Thấy ngôi nhà “có nhiều mặt phẳng” liền gọi là hình hộp chữ nhật. Cần kiểm tra <b>cả 6 mặt</b> đều là hình chữ nhật; chỉ một mặt tam giác là không được.</div>
+    <div class="gv-note">Câu mở: chấp nhận mọi ví dụ đúng. Có thể gợi để HS nhận ra ngôi nhà c) là hình lăng trụ đứng tam giác (sẽ học ở Bài 37) nhưng chưa cần nêu tên.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd2" data-ten="HĐ2" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Đỉnh, cạnh, đường chéo</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Quan sát Hình 10.1.</p>
+    <p>① Nêu tên các đỉnh, cạnh, đường chéo của hình hộp chữ nhật <span class="m"><i>ABCD</i>.<i>A′B′C′D′</i></span>. Hình hộp chữ nhật có bao nhiêu đỉnh? Có bao nhiêu cạnh? Có bao nhiêu đường chéo?</p>
+    <p>② Gọi tên các mặt bên, mặt đáy của hình hộp chữ nhật <span class="m"><i>ABCD</i>.<i>A′B′C′D′</i></span>.</p>
+    <svg viewBox="-40 -153.8 281.8 175.8" role="img" aria-label="Hình hộp chữ nhật ABCD.A'B'C'D', đường chéo A'C nét đứt" style="max-width:300px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,-100 170,-100 201.8,-131.8 31.8,-131.8" fill="#dbe7fb" fill-opacity="0.6" stroke="none"/>', '<polygon points="0,-0 170,-0 170,-100 0,-100" fill="#f6f1d6" fill-opacity="0.6" stroke="none"/>', '<polygon points="170,-0 201.8,-31.8 201.8,-131.8 170,-100" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<line x1="0" y1="-0" x2="170" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="201.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="31.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-31.8" x2="0" y2="-0" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="0" y1="-100" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-100" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-131.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-131.8" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="0" y1="-0" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-31.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-131.8" x2="170" y2="-0" stroke="#c93c3c" stroke-width="1.5" stroke-dasharray="6 5"/>', '<text x="-9" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text>', '<text x="179" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text>', '<text x="216.8" y="-24.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text>', '<text x="20.8" y="-36.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text>', '<text x="-12" y="-95" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B′</text>', '<text x="158" y="-105" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C′</text>', '<text x="212.8" y="-135.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D′</text>', '<text x="22.8" y="-137.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A′</text>']</g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đường chéo nối hai đỉnh <b>không cùng nằm trên một mặt</b>. Từ <span class="m"><i>A′</i></span> em nối tới đỉnh nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đếm theo nhóm: 4 cạnh đáy dưới, 4 cạnh đáy trên, 4 cạnh bên. Mỗi đỉnh của đáy trên có đúng một đường chéo đi qua.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>① Đỉnh và cạnh</h4>
+      <p>8 đỉnh: <span class="m">A, B, C, D, <i>A′</i>, <i>B′</i>, <i>C′</i>, <i>D′</i></span>.</p>
+      <p>12 cạnh: 4 cạnh đáy dưới <span class="m"><i>AB</i>, <i>BC</i>, <i>CD</i>, <i>DA</i></span>; 4 cạnh đáy trên <span class="m"><i>A′B′</i>, <i>B′C′</i>, <i>C′D′</i>, <i>D′A′</i></span>; 4 cạnh bên <span class="m"><i>AA′</i>, <i>BB′</i>, <i>CC′</i>, <i>DD′</i></span>.</p>
+      <p class="vi-sao">Đếm theo nhóm (đáy dưới – đáy trên – cạnh bên) để không sót, không trùng.</p></div>
+    <div class="buoc" data-so="2"><h4>① Đường chéo</h4>
+      <svg viewBox="-40 -153.8 281.8 175.8" role="img" aria-label="Bốn đường chéo A'C, B'D, C'A, D'B của hình hộp" style="max-width:300px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,-100 170,-100 201.8,-131.8 31.8,-131.8" fill="#dbe7fb" fill-opacity="0.6" stroke="none"/>', '<polygon points="0,-0 170,-0 170,-100 0,-100" fill="#f6f1d6" fill-opacity="0.6" stroke="none"/>', '<polygon points="170,-0 201.8,-31.8 201.8,-131.8 170,-100" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<line x1="0" y1="-0" x2="170" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="201.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="31.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-31.8" x2="0" y2="-0" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="0" y1="-100" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-100" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-131.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-131.8" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="0" y1="-0" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-31.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-131.8" x2="170" y2="-0" stroke="#c93c3c" stroke-width="1.5" stroke-dasharray="6 5"/>', '<line x1="0" y1="-100" x2="201.8" y2="-31.8" stroke="#c93c3c" stroke-width="1.5" stroke-dasharray="6 5"/>', '<line x1="170" y1="-100" x2="31.8" y2="-31.8" stroke="#c93c3c" stroke-width="1.5" stroke-dasharray="6 5"/>', '<line x1="201.8" y1="-131.8" x2="0" y2="-0" stroke="#c93c3c" stroke-width="1.5" stroke-dasharray="6 5"/>', '<text x="-9" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text>', '<text x="179" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text>', '<text x="216.8" y="-24.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text>', '<text x="20.8" y="-36.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text>', '<text x="-12" y="-95" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B′</text>', '<text x="158" y="-105" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C′</text>', '<text x="212.8" y="-135.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D′</text>', '<text x="22.8" y="-137.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A′</text>']</g></svg>
+      <p>4 đường chéo: <span class="m"><i>A′C</i>, <i>B′D</i>, <i>C′A</i>, <i>D′B</i></span>.</p>
+      <p class="vi-sao">Đường chéo của hình hộp nối một đỉnh với đỉnh “xa nhất”, không cùng nằm trên bất kì mặt nào với nó. Từ <span class="m"><i>A′</i></span>, các đỉnh <span class="m">A, <i>B′</i>, <i>D′</i></span> cùng mặt với <span class="m"><i>A′</i></span>; <span class="m">B, D</span> cũng cùng một mặt bên với <span class="m"><i>A′</i></span>; <span class="m"><i>C′</i></span> cùng mặt trên; chỉ còn <span class="m">C</span>.</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: 4 đường chéo</a></div>
+    <div class="buoc" data-so="3"><h4>② Mặt bên, mặt đáy</h4>
+      <p>Hai mặt đáy: <span class="m"><i>ABCD</i></span> và <span class="m"><i>A′B′C′D′</i></span>.</p>
+      <p>Bốn mặt bên: <span class="m"><i>ABB′A′</i>, <i>BCC′B′</i>, <i>CDD′C′</i>, <i>DAA′D′</i></span>.</p>
+      <p class="vi-sao">Mỗi mặt bên chứa một cạnh đáy dưới và cạnh đáy trên tương ứng, nên đi vòng quanh đáy <span class="m"><i>AB</i> → <i>BC</i> → <i>CD</i> → <i>DA</i></span> là kể đủ 4 mặt bên.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">① 8 đỉnh <span class="m">A, B, C, D, <i>A′</i>, <i>B′</i>, <i>C′</i>, <i>D′</i></span>; 12 cạnh <span class="m"><i>AB</i>, <i>BC</i>, <i>CD</i>, <i>DA</i>, <i>A′B′</i>, <i>B′C′</i>, <i>C′D′</i>, <i>D′A′</i>, <i>AA′</i>, <i>BB′</i>, <i>CC′</i>, <i>DD′</i></span>; 4 đường chéo <span class="m"><i>A′C</i>, <i>B′D</i>, <i>C′A</i>, <i>D′B</i></span>. ② Mặt đáy <span class="m"><i>ABCD</i>, <i>A′B′C′D′</i></span>; mặt bên <span class="m"><i>ABB′A′</i>, <i>BCC′B′</i>, <i>CDD′C′</i>, <i>DAA′D′</i></span>.</div>
+    <div class="bay">Gọi <span class="m"><i>AC</i></span> hay <span class="m"><i>A′C′</i></span> là “đường chéo của hình hộp”. Đó là đường chéo của <b>một mặt</b> (hình chữ nhật), không phải đường chéo của hình hộp — hình hộp chỉ có 4 đường chéo, đều đi xuyên qua bên trong.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK: <span class="m">B</span> trước trái, <span class="m">C</span> trước phải, <span class="m">A</span> sau trái (ba cạnh khuất). Tên mặt bên có thể viết theo thứ tự đỉnh khác (<span class="m"><i>AA′B′B</i></span>) vẫn đúng.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd3" data-ten="HĐ3" data-muc="nb">
+  <div class="bai-dau"><span class="so">HĐ3</span><span class="nhan nb">Nhận biết</span><span class="nhan">Hình lập phương</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Quan sát Hình 10.2 và gọi tên đỉnh, cạnh, đường chéo, mặt đáy, mặt bên của hình lập phương <span class="m"><i>MNPQ</i>.<i>ABCD</i></span>.</p>
+    <svg viewBox="-40 -173.8 231.8 195.8" role="img" aria-label="Hình lập phương MNPQ.ABCD: mặt trên MNPQ, mặt dưới ABCD" style="max-width:300px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,-120 120,-120 151.8,-151.8 31.8,-151.8" fill="#dbe7fb" fill-opacity="0.6" stroke="none"/>', '<polygon points="0,-0 120,-0 120,-120 0,-120" fill="#f6f1d6" fill-opacity="0.6" stroke="none"/>', '<polygon points="120,-0 151.8,-31.8 151.8,-151.8 120,-120" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<line x1="0" y1="-0" x2="120" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="120" y1="-0" x2="151.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="151.8" y1="-31.8" x2="31.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-31.8" x2="0" y2="-0" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="0" y1="-120" x2="120" y2="-120" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="120" y1="-120" x2="151.8" y2="-151.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="151.8" y1="-151.8" x2="31.8" y2="-151.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-151.8" x2="0" y2="-120" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="0" y1="-0" x2="0" y2="-120" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="120" y1="-0" x2="120" y2="-120" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="151.8" y1="-31.8" x2="151.8" y2="-151.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-31.8" x2="31.8" y2="-151.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<text x="-9" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text>', '<text x="129" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text>', '<text x="166.8" y="-24.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text>', '<text x="20.8" y="-36.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text>', '<text x="-12" y="-115" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">N</text>', '<text x="108" y="-125" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">P</text>', '<text x="162.8" y="-155.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">Q</text>', '<text x="22.8" y="-157.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">M</text>']</g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ở đây mặt trên là <span class="m"><i>MNPQ</i></span>, mặt dưới là <span class="m"><i>ABCD</i></span> — đừng lẫn với cách đặt tên của Hình 10.1.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đỉnh <span class="m">A</span> nằm ngay dưới <span class="m">M</span>, <span class="m">B</span> dưới <span class="m">N</span>, <span class="m">C</span> dưới <span class="m">P</span>, <span class="m">D</span> dưới <span class="m">Q</span>. Hình lập phương cũng là hình hộp chữ nhật nên các yếu tố đếm y như HĐ2.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đỉnh và cạnh</h4>
+      <p>8 đỉnh: <span class="m">M, N, P, Q, A, B, C, D</span>.</p>
+      <p>12 cạnh: mặt trên <span class="m"><i>MN</i>, <i>NP</i>, <i>PQ</i>, <i>QM</i></span>; mặt dưới <span class="m"><i>AB</i>, <i>BC</i>, <i>CD</i>, <i>DA</i></span>; cạnh bên <span class="m"><i>MA</i>, <i>NB</i>, <i>PC</i>, <i>QD</i></span>.</p>
+      <p class="vi-sao">Hình lập phương là hình hộp chữ nhật đặc biệt nên vẫn có 8 đỉnh, 12 cạnh (12 cạnh này bằng nhau).</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: các yếu tố</a></div>
+    <div class="buoc" data-so="2"><h4>Đường chéo</h4>
+      <p>4 đường chéo: <span class="m"><i>MC</i>, <i>ND</i>, <i>PA</i>, <i>QB</i></span>.</p>
+      <p class="vi-sao"><span class="m">M</span> ở sau trái trên, đỉnh xa nhất là <span class="m">C</span> ở trước phải dưới. Tương tự <span class="m">N</span> (trước trái trên) nối <span class="m">D</span> (sau phải dưới).</p></div>
+    <div class="buoc" data-so="3"><h4>Mặt đáy, mặt bên</h4>
+      <p>Mặt đáy: <span class="m"><i>MNPQ</i></span> và <span class="m"><i>ABCD</i></span>. Mặt bên: <span class="m"><i>MNBA</i>, <i>NPCB</i>, <i>PQDC</i>, <i>QMAD</i></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Đỉnh <span class="m">M, N, P, Q, A, B, C, D</span>; cạnh <span class="m"><i>MN</i>, <i>NP</i>, <i>PQ</i>, <i>QM</i>, <i>AB</i>, <i>BC</i>, <i>CD</i>, <i>DA</i>, <i>MA</i>, <i>NB</i>, <i>PC</i>, <i>QD</i></span>; đường chéo <span class="m"><i>MC</i>, <i>ND</i>, <i>PA</i>, <i>QB</i></span>; mặt đáy <span class="m"><i>MNPQ</i>, <i>ABCD</i></span>; mặt bên <span class="m"><i>MNBA</i>, <i>NPCB</i>, <i>PQDC</i>, <i>QMAD</i></span>.</div>
+    <div class="bay">Viết đường chéo <span class="m"><i>MB</i></span> vì “<span class="m">M</span> và <span class="m">B</span> không cùng mặt dưới”. Nhưng <span class="m">M, N, B, A</span> cùng nằm trên mặt bên <span class="m"><i>MNBA</i></span> → <span class="m"><i>MB</i></span> chỉ là đường chéo của mặt đó.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK (<span class="m">N</span> trước trái, <span class="m">P</span> trước phải; <span class="m">A</span> là đỉnh khuất). Chấp nhận mọi cách sắp xếp thứ tự đỉnh trong tên mặt.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="th" data-ten="Thực hành" data-muc="th">
+  <div class="bai-dau"><span class="so">Thực hành</span><span class="nhan th">Thông hiểu</span><span class="nhan">Cắt gấp hình hộp</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Sử dụng bìa cứng, cắt và gấp một chiếc hộp có dạng hình hộp chữ nhật với kích thước như Hình 10.3 (dài 5 cm, rộng 4 cm, cao 3 cm) theo hướng dẫn sau:</p>
+    <p><i>Bước 1.</i> Vẽ hình khai triển của hình hộp chữ nhật theo kích thước đã cho như Hình 10.4.</p>
+    <p><i>Bước 2.</i> Cắt theo viền.</p>
+    <p><i>Bước 3.</i> Gấp theo đường màu cam để được hình hộp chữ nhật (H.10.5).</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hộp 5 cm × 4 cm × 3 cm có 6 mặt: mỗi cỡ mặt xuất hiện mấy lần trên hình khai triển?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Vẽ mặt đáy 5 cm × 4 cm ở giữa; hai bên trái, phải gắn hai mặt bên 3 cm × 4 cm; phía trên và dưới gắn hai mặt bên 5 cm × 3 cm; mặt trên cùng (nắp) 5 cm × 4 cm gắn tiếp lên trên.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Vẽ hình khai triển</h4>
+      <p>Theo Hình 10.4: hình chữ nhật giữa 5 cm × 4 cm (mặt đáy). Phía trên nó: hình chữ nhật 5 cm × 3 cm rồi hình chữ nhật 5 cm × 4 cm (nắp). Phía dưới: hình chữ nhật 5 cm × 3 cm. Bên trái và bên phải mặt đáy: hai hình chữ nhật 3 cm × 4 cm.</p>
+      <p class="vi-sao">Hình hộp có 3 cặp mặt đối diện bằng nhau: 2 mặt 5 × 4, 2 mặt 5 × 3, 2 mặt 4 × 3. Hình khai triển phải có đủ 6 hình chữ nhật đó, và hai hình kề nhau phải chung một cạnh có độ dài bằng nhau.</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: 6 mặt</a></div>
+    <div class="buoc" data-so="2"><h4>Kiểm tra trước khi cắt</h4>
+      <p>Tổng diện tích bìa của hình khai triển: <span class="m">2 · (5 · 4 + 5 · 3 + 4 · 3) = 2 · 47 = 94 (cm<sup>2</sup>)</span>. Đếm đủ 6 mặt rồi mới cắt theo viền ngoài, gấp theo các đường màu cam (viền mặt đáy và đường giữa hai hình phía trên).</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Sản phẩm là chiếc hộp 5 cm × 4 cm × 3 cm; hình khai triển gồm 6 hình chữ nhật: hai hình 5 cm × 4 cm, hai hình 5 cm × 3 cm, hai hình 4 cm × 3 cm (tổng diện tích 94 cm<sup>2</sup>).</div>
+    <div class="bay">Vẽ hai mặt bên trái, phải với cạnh 3 cm gắn vào cạnh 4 cm của đáy nhưng lại để chiều kia là 5 cm → gấp lên bị thừa. Cạnh chung của hai mặt kề nhau phải <b>bằng nhau</b>.</div>
+    <div class="gv-note">Bài thực hành, không chấm đáp số; kiểm sản phẩm gấp kín, các mép khít. Có thể hỏi thêm: “Tại sao không thể xếp 6 hình chữ nhật thành một hàng ngang?”.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd1" data-ten="Vận dụng 1" data-muc="th">
+  <div class="bai-dau"><span class="so">Vận dụng 1</span><span class="nhan th">Thông hiểu</span><span class="nhan">Cắt gấp hình lập phương</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Hãy cắt và gấp hình lập phương có cạnh 4 cm.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Hình lập phương cạnh 4 cm cần bao nhiêu hình vuông 4 cm × 4 cm? Xếp chúng thế nào để gấp được?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Làm giống Thực hành nhưng mọi mặt đều là hình vuông cạnh 4 cm. Dạng chữ thập (4 hình vuông xếp dọc, 2 hình vuông gắn hai bên hình vuông thứ hai) là dễ gấp nhất.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Vẽ hình khai triển</h4>
+      <p>Vẽ 4 hình vuông cạnh 4 cm nối tiếp nhau thành một cột; gắn thêm 2 hình vuông cạnh 4 cm vào hai bên trái, phải của hình vuông thứ hai (từ trên xuống). Được hình chữ thập gồm 6 hình vuông.</p>
+      <p class="vi-sao">Hình lập phương có 6 mặt là 6 hình vuông bằng nhau (cạnh 4 cm). Hai hình vuông kề nhau trên hình khai triển luôn chung một cạnh 4 cm nên gấp khít.</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: hình lập phương</a></div>
+    <div class="buoc" data-so="2"><h4>Cắt và gấp</h4>
+      <p>Cắt theo viền ngoài, gấp theo các cạnh chung giữa các hình vuông. Diện tích bìa dùng: <span class="m">6 · 4<sup>2</sup> = 96 (cm<sup>2</sup>)</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Hình khai triển gồm 6 hình vuông cạnh 4 cm (chẳng hạn xếp dạng chữ thập); gấp lại được hình lập phương cạnh 4 cm, diện tích bìa 96 cm<sup>2</sup>.</div>
+    <div class="bay">Xếp 6 hình vuông thành một hàng dài hoặc thành hình chữ nhật 2 × 3 rồi gấp → không thành hình lập phương (các mặt chồng lên nhau). Hình khai triển phải “bao” được cả 6 mặt.</div>
+    <div class="gv-note">Có 11 cách khai triển khác nhau của hình lập phương; HS dùng cách nào gấp được đều đúng.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd4" data-ten="HĐ4" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ4</span><span class="nhan th">Thông hiểu</span><span class="nhan">Hình khai triển</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Quan sát hình hộp chữ nhật (H.10.6a) và hình khai triển của nó (H.10.6b). Hãy chỉ ra sự tương ứng giữa các mặt của hình hộp chữ nhật với các hình chữ nhật ở hình khai triển. Hình chữ nhật nào ở hình khai triển là các mặt bên, là các mặt đáy?</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px"><svg viewBox="-40 -153.8 281.8 175.8" role="img" aria-label="Hình hộp chữ nhật ABCD.A'B'C'D' với BC = a, CD = b, DD' = c" style="max-width:300px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,-100 170,-100 201.8,-131.8 31.8,-131.8" fill="#dbe7fb" fill-opacity="0.6" stroke="none"/>', '<polygon points="0,-0 170,-0 170,-100 0,-100" fill="#f6f1d6" fill-opacity="0.6" stroke="none"/>', '<polygon points="170,-0 201.8,-31.8 201.8,-131.8 170,-100" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<line x1="0" y1="-0" x2="170" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="201.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="31.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-31.8" x2="0" y2="-0" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="0" y1="-100" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-100" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-131.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-131.8" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="0" y1="-0" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-31.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<text x="-9" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text>', '<text x="179" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text>', '<text x="216.8" y="-24.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text>', '<text x="20.8" y="-36.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text>', '<text x="-12" y="-95" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B′</text>', '<text x="158" y="-105" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C′</text>', '<text x="212.8" y="-135.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D′</text>', '<text x="22.8" y="-137.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A′</text>', '<text x="85" y="18" fill="#c93c3c" font-size="14" text-anchor="middle">a</text>', '<text x="201.9" y="-5.9" fill="#c93c3c" font-size="14" text-anchor="middle">b</text>', '<text x="215.8" y="-77.8" fill="#c93c3c" font-size="14" text-anchor="middle">c</text>']</g></svg><svg viewBox="-14 -69 338 208" role="img" aria-label="Hình khai triển hình hộp chữ nhật: bốn hình chữ nhật (1)–(4) cùng chiều cao c, hai hình (5), (6) là hai đáy" style="max-width:330px"><g font-family="Cambria Math,Times New Roman,serif">['<rect x="0" y="0" width="55" height="60" fill="#dbe7fb" fill-opacity=".55" stroke="#1f2430" stroke-width="1.6"/>', '<text x="27.5" y="35" fill="#2f6fdb" font-size="14" text-anchor="middle">(1)</text>', '<text x="27.5" y="75" fill="#c93c3c" font-size="14" text-anchor="middle" font-style="italic">b</text>', '<rect x="55" y="0" width="90" height="60" fill="#f6f1d6" fill-opacity=".55" stroke="#1f2430" stroke-width="1.6"/>', '<text x="100" y="35" fill="#2f6fdb" font-size="14" text-anchor="middle">(2)</text>', '<text x="100" y="54" fill="#c93c3c" font-size="14" text-anchor="middle" font-style="italic">a</text>', '<rect x="145" y="0" width="55" height="60" fill="#dbe7fb" fill-opacity=".55" stroke="#1f2430" stroke-width="1.6"/>', '<text x="172.5" y="35" fill="#2f6fdb" font-size="14" text-anchor="middle">(3)</text>', '<text x="172.5" y="75" fill="#c93c3c" font-size="14" text-anchor="middle" font-style="italic">b</text>', '<rect x="200" y="0" width="90" height="60" fill="#f6f1d6" fill-opacity=".55" stroke="#1f2430" stroke-width="1.6"/>', '<text x="245" y="35" fill="#2f6fdb" font-size="14" text-anchor="middle">(4)</text>', '<text x="245" y="75" fill="#c93c3c" font-size="14" text-anchor="middle" font-style="italic">a</text>', '<rect x="55" y="-55" width="90" height="55" fill="#e9e9ef" fill-opacity=".55" stroke="#1f2430" stroke-width="1.6"/>', '<text x="100" y="-22.5" fill="#2f6fdb" font-size="14" text-anchor="middle">(5)</text>', '<rect x="55" y="60" width="90" height="55" fill="#e9e9ef" fill-opacity=".55" stroke="#1f2430" stroke-width="1.6"/>', '<text x="100" y="92.5" fill="#2f6fdb" font-size="14" text-anchor="middle">(6)</text>', '<text x="300" y="35" fill="#c93c3c" font-size="14" text-anchor="start" font-style="italic">c</text>']</g></svg></div></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bốn hình chữ nhật (1), (2), (3), (4) xếp thành một hàng, cùng chiều cao <span class="m">c</span>. Chiều cao <span class="m">c</span> là cạnh nào của hình hộp?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đọc kích thước: hình (1) rộng <span class="m">b</span>, cao <span class="m">c</span> → nó là mặt có hai cạnh <span class="m">b</span> và <span class="m">c</span>; trên hình hộp, mặt nào có cạnh <span class="m">b = <i>CD</i></span> và cạnh <span class="m">c = <i>DD′</i></span>?</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Ghép theo kích thước</h4>
+      <p>Hình (1) và (3) có kích thước <span class="m">b × c</span> → ứng với hai mặt bên <span class="m"><i>ABB′A′</i></span> và <span class="m"><i>CDD′C′</i></span> (có cạnh <span class="m"><i>AB</i> = <i>CD</i> = b</span>).</p>
+      <p>Hình (2) và (4) có kích thước <span class="m">a × c</span> → ứng với hai mặt bên <span class="m"><i>BCC′B′</i></span> và <span class="m"><i>DAA′D′</i></span> (có cạnh <span class="m"><i>BC</i> = <i>AD</i> = a</span>).</p>
+      <p>Hình (5) và (6) có kích thước <span class="m">a × b</span> → ứng với hai mặt đáy <span class="m"><i>A′B′C′D′</i></span> và <span class="m"><i>ABCD</i></span>.</p>
+      <p class="vi-sao">Mỗi mặt của hình hộp là một hình chữ nhật có hai kích thước lấy từ <span class="m">a, b, c</span>; mặt nào có cùng hai kích thước với hình nào thì tương ứng với hình đó. Đi vòng quanh hộp, các mặt bên kề nhau lần lượt là <span class="m">b, a, b, a</span>, đúng thứ tự (1), (2), (3), (4).</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: 6 mặt</a></div>
+    <div class="buoc" data-so="2"><h4>Kết luận</h4>
+      <p>Bốn hình (1), (2), (3), (4) là các <b>mặt bên</b>; hai hình (5), (6) là các <b>mặt đáy</b>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">(1), (3) ↔ hai mặt bên <span class="m"><i>ABB′A′</i>, <i>CDD′C′</i></span>; (2), (4) ↔ hai mặt bên <span class="m"><i>BCC′B′</i>, <i>DAA′D′</i></span>; (5), (6) ↔ hai mặt đáy <span class="m"><i>A′B′C′D′</i>, <i>ABCD</i></span>. Các hình (1) – (4) là mặt bên, (5) và (6) là mặt đáy.</div>
+    <div class="bay">Nghĩ (5) và (6) là mặt bên vì chúng “nằm trên, nằm dưới” trong hình khai triển. Vị trí trên giấy không quyết định — kích thước <span class="m">a × b</span> không chứa chiều cao <span class="m">c</span> nên chúng là mặt đáy.</div>
+    <div class="gv-note">Chấp nhận ghép (1) ↔ <span class="m"><i>CDD′C′</i></span>, (3) ↔ <span class="m"><i>ABB′A′</i></span> (và tương tự cho (2), (4)) — chỉ cần đúng cặp kích thước.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="hd5" data-ten="HĐ5" data-muc="th">
+  <div class="bai-dau"><span class="so">HĐ5</span><span class="nhan th">Thông hiểu</span><span class="nhan">Dựng công thức</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Tính tổng diện tích các hình chữ nhật (1), (2), (3), (4). So sánh kết quả vừa tìm với tích của chu vi đáy và chiều cao của hình hộp chữ nhật.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Bốn hình chữ nhật đứng sát nhau thành một hình chữ nhật lớn. Chiều dài của hình lớn đó là gì so với đáy hộp?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Diện tích mỗi hình = chiều rộng × <span class="m">c</span>. Cộng bốn tích rồi đặt <span class="m">c</span> làm thừa số chung.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính tổng diện tích</h4>
+      <p><span class="m"><i>bc</i> + <i>ac</i> + <i>bc</i> + <i>ac</i> = (b + a + b + a) · c = 2(a + b) · c</span>.</p>
+      <p class="vi-sao">Bốn hình cùng chiều cao <span class="m">c</span>, ghép sát nhau thành một hình chữ nhật lớn có chiều dài <span class="m">b + a + b + a</span> và chiều cao <span class="m">c</span>.</p></div>
+    <div class="buoc" data-so="2"><h4>So sánh với chu vi đáy × chiều cao</h4>
+      <p>Chu vi đáy <span class="m"><i>ABCD</i></span> là <span class="m">2(a + b)</span>; chiều cao hình hộp là <span class="m">c</span>. Tích của chúng là <span class="m">2(a + b) · c</span> — đúng bằng tổng vừa tính.</p>
+      <p class="vi-sao">Đây chính là lí do có công thức <span class="m"><i>S</i><sub>xq</sub> = 2(a + b)c</span>: diện tích xung quanh = chu vi đáy × chiều cao.</p>
+      <a class="xem-lai" href="#kt-sxq">📌 Xem lại: diện tích xung quanh</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Tổng diện tích bốn hình (1), (2), (3), (4) bằng <span class="m">2(a + b)c</span>, đúng bằng tích của chu vi đáy <span class="m">2(a + b)</span> với chiều cao <span class="m">c</span>.</div>
+    <div class="bay">Cộng cả (5), (6) vào tổng rồi thấy không bằng chu vi đáy × chiều cao. Đề chỉ hỏi bốn hình (1) – (4) — tức là bốn mặt bên.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt1" data-ten="Luyện tập 1" data-muc="vd">
+  <div class="bai-dau"><span class="so">Luyện tập 1</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán thực tế</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Bác Tú thuê thợ sơn xung quanh bốn mặt ngoài của thành bể nước có dạng hình hộp chữ nhật có chiều dài 3 m, chiều rộng 2 m, chiều cao 1,5 m với giá 20 000 đồng/m<sup>2</sup>. Hỏi bác Tú phải trả chi phí là bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 “Sơn xung quanh bốn mặt ngoài của thành bể” — tức là sơn những mặt nào? Có sơn đáy không?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Diện tích cần sơn là diện tích xung quanh <span class="m"><i>S</i><sub>xq</sub> = 2(a + b)c</span>. Tiền = diện tích × đơn giá.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính diện tích cần sơn</h4>
+      <p>Diện tích xung quanh của bể: <span class="m"><i>S</i><sub>xq</sub> = 2 · (3 + 2) · 1,5 = 15</span> (m<sup>2</sup>).</p>
+      <p class="vi-sao">Bốn mặt ngoài của thành bể chính là bốn mặt bên của hình hộp chữ nhật; chiều cao của hộp là 1,5 m.</p>
+      <a class="xem-lai" href="#kt-sxq">📌 Xem lại: diện tích xung quanh</a></div>
+    <div class="buoc" data-so="2"><h4>Tính chi phí</h4>
+      <p>Số tiền phải trả: <span class="m">15 · 20 000 = 300 000 (đồng)</span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Diện tích sơn 15 m<sup>2</sup>; bác Tú phải trả 300 000 đồng.</div>
+    <div class="bay">Tính cả đáy: 15 + 3 · 2 = 21 (m<sup>2</sup>) → 420 000 đồng. Đề nói rõ “bốn mặt ngoài của thành bể” nên không có đáy.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="lt2" data-ten="Luyện tập 2" data-muc="th">
+  <div class="bai-dau"><span class="so">Luyện tập 2</span><span class="nhan th">Thông hiểu</span><span class="nhan">Tìm cạnh từ diện tích</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một hình lập phương có cạnh bằng <span class="m">a</span> cm, diện tích xung quanh bằng 100 cm<sup>2</sup>. Hỏi thể tích của hình lập phương đó bằng bao nhiêu?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Từ <span class="m">4a<sup>2</sup> = 100</span> em tìm được <span class="m">a<sup>2</sup></span>. Số dương nào bình phương lên bằng 25?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Diện tích xung quanh của hình lập phương là <span class="m">4a<sup>2</sup></span>. Tìm <span class="m">a</span> trước, rồi mới tính <span class="m">V = a<sup>3</sup></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tìm cạnh <i>a</i></h4>
+      <p><span class="m">4a<sup>2</sup> = 100</span> nên <span class="m">a<sup>2</sup> = 100 : 4 = 25</span>. Vì <span class="m">a &gt; 0</span> và <span class="m">5<sup>2</sup> = 25</span> nên <span class="m">a = 5</span> (cm).</p>
+      <p class="vi-sao">Diện tích xung quanh gồm 4 mặt bên, mỗi mặt là hình vuông diện tích <span class="m">a<sup>2</sup></span>. Độ dài cạnh là số dương nên chỉ lấy <span class="m">a = 5</span>.</p>
+      <a class="xem-lai" href="#kt-sxq">📌 Xem lại: <i>S</i><sub>xq</sub> = 4<i>a</i><sup>2</sup></a></div>
+    <div class="buoc" data-so="2"><h4>Tính thể tích</h4>
+      <p><span class="m">V = a<sup>3</sup> = 5<sup>3</sup> = 125 (cm<sup>3</sup>)</span>.</p>
+      <a class="xem-lai" href="#kt-v">📌 Xem lại: thể tích</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Cạnh <span class="m">a = 5</span> cm; thể tích hình lập phương là 125 cm<sup>3</sup>.</div>
+    <div class="bay">Chia 100 cho 6 (coi diện tích xung quanh là cả 6 mặt) → không ra số đẹp. Diện tích <b>xung quanh</b> chỉ gồm 4 mặt bên.</div>
+    <div class="gv-note">HS có thể viết <span class="m">a = √25 = 5</span> (căn bậc hai số học, Bài 6) — chấp nhận; không viết <span class="m">a = ±5</span>.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="vd2" data-ten="Vận dụng 2" data-muc="vd">
+  <div class="bai-dau"><span class="so">Vận dụng 2</span><span class="nhan vd">Vận dụng</span><span class="nhan">Dung tích</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một chiếc thùng giữ nhiệt (H.10.10) có lòng trong có dạng một hình hộp chữ nhật với chiều dài 50 cm, chiều rộng 30 cm, chiều cao 30 cm. Tính dung tích của thùng giữ nhiệt đó.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 “Dung tích” là lượng chất lỏng chứa được, thường đo bằng lít. <span class="m">1 lít</span> bằng bao nhiêu <span class="m">cm<sup>3</sup></span>?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Dung tích của thùng bằng thể tích lòng trong: <span class="m">V = <i>abc</i></span>. Đổi sang lít để dễ hình dung (<span class="m">1 lít = 1 dm<sup>3</sup> = 1 000 cm<sup>3</sup></span>).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tính thể tích lòng thùng</h4>
+      <p><span class="m">V = 50 · 30 · 30 = 45 000 (cm<sup>3</sup>)</span>.</p>
+      <a class="xem-lai" href="#kt-v">📌 Xem lại: thể tích</a></div>
+    <div class="buoc" data-so="2"><h4>Đổi đơn vị</h4>
+      <p><span class="m">45 000 cm<sup>3</sup> = 45 dm<sup>3</sup> = 45 lít</span>.</p>
+      <p class="vi-sao">Ba kích thước đều là cm nên thể tích ra cm<sup>3</sup>; <span class="m">1 000 cm<sup>3</sup> = 1 dm<sup>3</sup> = 1 lít</span>.</p>
+      <a class="xem-lai" href="#kt-don-vi">📌 Xem lại: đơn vị</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Dung tích thùng giữ nhiệt là 45 000 cm<sup>3</sup>, tức 45 lít.</div>
+    <div class="bay">Đổi <span class="m">45 000 cm<sup>3</sup> = 450 lít</span> (chia cho 100 như đổi cm sang m). Đơn vị khối: <span class="m">1 dm<sup>3</sup> = 10 · 10 · 10 = 1 000 cm<sup>3</sup></span>.</div>
+    <div class="gv-note">Chấp nhận đáp số 45 000 cm<sup>3</sup>, 45 dm<sup>3</sup> hoặc 45 lít.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b101" data-ten="Bài 10.1" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 10.1</span><span class="nhan th">Thông hiểu</span><span class="nhan">Đếm khối</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Có bao nhiêu hình lập phương nhỏ trong Hình 10.11?</p>
+    <svg viewBox="-68.9 -180 167.2 190" role="img" aria-label="Khối gồm 9 hình lập phương nhỏ xếp thành ba tầng" style="max-width:230px"><g font-family="Cambria Math,Times New Roman,serif"><polygon points="0,-68 29.4,-85 0,-102 -29.4,-85" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-34 -29.4,-51 -29.4,-85 0,-68" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-34 29.4,-51 29.4,-85 0,-68" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="29.4,-51 58.9,-68 29.4,-85 0,-68" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="29.4,-17 0,-34 0,-68 29.4,-51" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="29.4,-17 58.9,-34 58.9,-68 29.4,-51" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-29.4,-51 0,-68 -29.4,-85 -58.9,-68" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-29.4,-17 -58.9,-34 -58.9,-68 -29.4,-51" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-29.4,-17 0,-34 0,-68 -29.4,-51" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-34 29.4,-51 0,-68 -29.4,-51" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,0 -29.4,-17 -29.4,-51 0,-34" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,0 29.4,-17 29.4,-51 0,-34" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="58.9,-34 88.3,-51 58.9,-68 29.4,-51" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="58.9,0 29.4,-17 29.4,-51 58.9,-34" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="58.9,0 88.3,-17 88.3,-51 58.9,-34" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-102 29.4,-119 0,-136 -29.4,-119" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-68 -29.4,-85 -29.4,-119 0,-102" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-68 29.4,-85 29.4,-119 0,-102" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-29.4,-85 0,-102 -29.4,-119 -58.9,-102" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-29.4,-51 -58.9,-68 -58.9,-102 -29.4,-85" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="-29.4,-51 0,-68 0,-102 -29.4,-85" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="29.4,-85 58.9,-102 29.4,-119 0,-102" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="29.4,-51 0,-68 0,-102 29.4,-85" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="29.4,-51 58.9,-68 58.9,-102 29.4,-85" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-136 29.4,-153 0,-170 -29.4,-153" fill="#7ec850" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-102 -29.4,-119 -29.4,-153 0,-136" fill="#f2d84b" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0,-102 29.4,-119 29.4,-153 0,-136" fill="#e5574a" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/></g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Có những hình lập phương bị che khuất hoàn toàn: khối trên cùng phải <b>đứng trên</b> một khối nào đó!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đếm theo từng tầng từ trên xuống. Mỗi khối ở tầng trên phải có một khối đỡ ngay bên dưới nó.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Tầng trên cùng</h4>
+      <p>Thấy 1 hình lập phương.</p></div>
+    <div class="buoc" data-so="2"><h4>Tầng giữa</h4>
+      <p>Thấy 2 hình lập phương (trái và phải). Khối trên cùng nằm ở giữa, phía sau hai khối này, nên dưới nó phải có 1 khối bị che. Tầng giữa có <span class="m">2 + 1 = 3</span> hình.</p>
+      <p class="vi-sao">Khối trên cùng không thể lơ lửng: nó đứng trên một khối mà ta không nhìn thấy vì bị khối trên che mặt trên, hai khối hai bên che hai mặt bên.</p></div>
+    <div class="buoc" data-so="3"><h4>Tầng dưới cùng</h4>
+      <svg viewBox="-10 -24 330 120" role="img" aria-label="Sơ đồ ba tầng nhìn từ trên: 5, 3, 1 hình lập phương" style="max-width:330px"><g font-family="Cambria Math,Times New Roman,serif"><text x="39" y="-8" fill="#1f2430" font-size="13" text-anchor="middle">Tầng dưới: 5</text><rect x="26" y="36" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><rect x="52" y="36" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><rect x="26" y="10" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><rect x="52" y="10" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><rect x="52" y="62" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><text x="159" y="-8" fill="#1f2430" font-size="13" text-anchor="middle">Tầng giữa: 3</text><rect x="146" y="10" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><rect x="172" y="10" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><rect x="172" y="36" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/><text x="279" y="-8" fill="#1f2430" font-size="13" text-anchor="middle">Tầng trên: 1</text><rect x="292" y="10" width="26" height="26" fill="#7ec850" fill-opacity=".55" stroke="#333"/></g></svg>
+      <p>Thấy 3 hình lập phương (trái, giữa, phải). Ba khối tầng giữa cần ba khối đỡ: khối trái tầng giữa đứng trên khối trái tầng dưới (đã thấy); khối phải và khối bị che ở tầng giữa đứng trên 2 khối nữa bị che hoàn toàn. Tầng dưới có <span class="m">3 + 2 = 5</span> hình.</p>
+      <p class="vi-sao">Sơ đồ nhìn từ trên: tầng dưới là khối 2 × 2 thêm một khối ở phía trước phải; tầng giữa là 3 ô hình chữ L; tầng trên 1 ô.</p></div>
+    <div class="buoc" data-so="4"><h4>Cộng lại</h4>
+      <p><span class="m">1 + 3 + 5 = 9</span> hình lập phương nhỏ.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Có 9 hình lập phương nhỏ (tầng trên 1, tầng giữa 3, tầng dưới 5).</div>
+    <div class="bay">Chỉ đếm những khối nhìn thấy: <span class="m">1 + 2 + 3 = 6</span>. Thiếu 3 khối bị che hoàn toàn (1 ở tầng giữa, 2 ở tầng dưới) đang đỡ các khối phía trên.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK: tầng dưới chỉ thấy <b>hai</b> mặt trên màu xanh (khối trái tầng dưới bị khối trên che mặt trên), ba khối thấy được. Đáp số 9 giả thiết khối xếp “đặc” (mọi khối phía trên đều có khối đỡ) — nếu HS lập luận khối có thể rỗng phía sau thì ghi nhận lập luận nhưng đáp số chuẩn là 9.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b102" data-ten="Bài 10.2" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 10.2</span><span class="nhan nb">Nhận biết</span><span class="nhan">Đỉnh, cạnh, đường chéo, mặt</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Gọi tên các đỉnh, cạnh, đường chéo, mặt của hình hộp chữ nhật trong Hình 10.12.</p>
+    <svg viewBox="-40 -153.8 281.8 175.8" role="img" aria-label="Hình hộp chữ nhật: mặt trên ABCD, mặt dưới EFGH" style="max-width:300px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,-100 170,-100 201.8,-131.8 31.8,-131.8" fill="#dbe7fb" fill-opacity="0.6" stroke="none"/>', '<polygon points="0,-0 170,-0 170,-100 0,-100" fill="#f6f1d6" fill-opacity="0.6" stroke="none"/>', '<polygon points="170,-0 201.8,-31.8 201.8,-131.8 170,-100" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<line x1="0" y1="-0" x2="170" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="201.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="31.8" y2="-31.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="31.8" y1="-31.8" x2="0" y2="-0" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<line x1="0" y1="-100" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-100" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-131.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-131.8" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="0" y1="-0" x2="0" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="170" y1="-0" x2="170" y2="-100" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="201.8" y1="-31.8" x2="201.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="31.8" y1="-31.8" x2="31.8" y2="-131.8" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<text x="-9" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">F</text>', '<text x="179" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">G</text>', '<text x="216.8" y="-24.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">H</text>', '<text x="20.8" y="-36.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">E</text>', '<text x="-12" y="-95" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text>', '<text x="158" y="-105" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text>', '<text x="212.8" y="-135.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text>', '<text x="22.8" y="-137.8" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text>']</g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Mặt trên là <span class="m"><i>ABCD</i></span>, mặt dưới là <span class="m"><i>EFGH</i></span>; <span class="m">E</span> nằm ngay dưới <span class="m">A</span>. Đỉnh nào xa <span class="m">A</span> nhất?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Làm như HĐ2: đếm 8 đỉnh, 12 cạnh theo ba nhóm, 4 đường chéo (mỗi đỉnh mặt trên nối với đỉnh “chéo góc” ở mặt dưới), 6 mặt.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đỉnh và cạnh</h4>
+      <p>8 đỉnh: <span class="m">A, B, C, D, E, F, G, H</span>.</p>
+      <p>12 cạnh: <span class="m"><i>AB</i>, <i>BC</i>, <i>CD</i>, <i>DA</i></span> (mặt trên); <span class="m"><i>EF</i>, <i>FG</i>, <i>GH</i>, <i>HE</i></span> (mặt dưới); <span class="m"><i>AE</i>, <i>BF</i>, <i>CG</i>, <i>DH</i></span> (cạnh bên).</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: các yếu tố</a></div>
+    <div class="buoc" data-so="2"><h4>Đường chéo</h4>
+      <p>4 đường chéo: <span class="m"><i>AG</i>, <i>BH</i>, <i>CE</i>, <i>DF</i></span>.</p>
+      <p class="vi-sao"><span class="m">A</span> ở sau trái trên nối với <span class="m">G</span> ở trước phải dưới; <span class="m">B</span> (trước trái trên) nối <span class="m">H</span> (sau phải dưới); <span class="m">C</span> (trước phải trên) nối <span class="m">E</span> (sau trái dưới); <span class="m">D</span> (sau phải trên) nối <span class="m">F</span> (trước trái dưới).</p></div>
+    <div class="buoc" data-so="3"><h4>Mặt</h4>
+      <p>6 mặt: <span class="m"><i>ABCD</i></span>, <span class="m"><i>EFGH</i></span> (hai mặt đáy); <span class="m"><i>ABFE</i>, <i>BCGF</i>, <i>CDHG</i>, <i>DAEH</i></span> (bốn mặt bên).</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Đỉnh <span class="m">A, B, C, D, E, F, G, H</span>; cạnh <span class="m"><i>AB</i>, <i>BC</i>, <i>CD</i>, <i>DA</i>, <i>EF</i>, <i>FG</i>, <i>GH</i>, <i>HE</i>, <i>AE</i>, <i>BF</i>, <i>CG</i>, <i>DH</i></span>; đường chéo <span class="m"><i>AG</i>, <i>BH</i>, <i>CE</i>, <i>DF</i></span>; mặt <span class="m"><i>ABCD</i>, <i>EFGH</i>, <i>ABFE</i>, <i>BCGF</i>, <i>CDHG</i>, <i>DAEH</i></span>.</div>
+    <div class="bay">Ghi đường chéo <span class="m"><i>AC</i>, <i>BD</i>, <i>EG</i>, <i>FH</i></span> — đó là đường chéo của hai mặt đáy, không phải đường chéo của hình hộp.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK (<span class="m">E</span> là đỉnh khuất với ba cạnh nét đứt <span class="m"><i>AE</i>, <i>EF</i>, <i>EH</i></span>).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b103" data-ten="Bài 10.3" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 10.3</span><span class="nhan th">Thông hiểu</span><span class="nhan">Vẽ hình khai triển</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Vẽ lên một miếng bìa hình khai triển của hình hộp chữ nhật (tương tự hình bên) với kích thước tuỳ chọn. Cắt rời hình đã vẽ rồi gấp theo đường màu cam để được một hình hộp chữ nhật.</p>
+    <p class="nguon">Hình mẫu: một cột bốn hình chữ nhật nối tiếp nhau theo chiều dọc và hai hình chữ nhật hai bên gắn vào hình chữ nhật trên cùng; các cạnh tương ứng bằng nhau được đánh dấu bằng cùng số vạch.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Trên hình mẫu, các cạnh đánh dấu cùng số vạch là các cạnh bằng nhau — em phải vẽ chúng bằng nhau thật.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Chọn ba kích thước, ví dụ <span class="m">a = 6</span> cm, <span class="m">b = 4</span> cm, <span class="m">c = 3</span> cm. Cột dọc gồm bốn hình chữ nhật cùng chiều rộng <span class="m">a</span>, chiều cao lần lượt <span class="m">b, c, b, c</span>; hai hình bên có kích thước <span class="m">c × b</span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Chọn kích thước và vẽ cột dọc</h4>
+      <p>Chọn hộp 6 cm × 4 cm × 3 cm. Vẽ bốn hình chữ nhật rộng 6 cm nối tiếp theo chiều dọc, cao lần lượt 4 cm (đáy), 3 cm (mặt bên), 4 cm (nắp), 3 cm (mặt bên).</p>
+      <p class="vi-sao">Bốn hình này là bốn mặt “quấn quanh” cạnh 6 cm: đáy – bên – nắp – bên, nên chúng cùng rộng 6 cm và chiều cao xen kẽ 4 cm, 3 cm.</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: 6 mặt</a></div>
+    <div class="buoc" data-so="2"><h4>Vẽ hai mặt bên còn lại</h4>
+      <p>Gắn vào hai bên trái, phải của hình chữ nhật trên cùng (6 cm × 4 cm) hai hình chữ nhật 3 cm × 4 cm, cạnh 4 cm trùng với cạnh 4 cm của hình trên cùng.</p>
+      <p class="vi-sao">Hai mặt còn lại có kích thước <span class="m">c × b = 3 × 4</span>; cạnh chung với hình kề phải bằng nhau (4 cm) thì gấp mới khít — đúng như các vạch đánh dấu trên hình mẫu.</p></div>
+    <div class="buoc" data-so="3"><h4>Cắt và gấp</h4>
+      <p>Cắt theo viền ngoài, gấp theo các cạnh chung (đường màu cam). Kiểm tra: 6 mặt gồm hai mặt 6 × 4, hai mặt 6 × 3, hai mặt 4 × 3.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Kích thước tuỳ chọn, chẳng hạn hộp 6 cm × 4 cm × 3 cm: cột dọc bốn hình chữ nhật rộng 6 cm cao 4 cm, 3 cm, 4 cm, 3 cm; hai hình 3 cm × 4 cm gắn hai bên hình trên cùng. Gấp lại được hình hộp chữ nhật.</div>
+    <div class="bay">Vẽ bốn hình trong cột cao bằng nhau (ví dụ đều 4 cm) → gấp lại hai mặt bên bị thừa. Trong cột, chiều cao phải xen kẽ hai kích thước khác nhau.</div>
+    <div class="gv-note">Bài thực hành, đáp án mở. Chấm sản phẩm: gấp kín, không thừa không thiếu mặt. HS vẽ hình khai triển dạng khác (như Hình 10.4) cũng chấp nhận.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b104" data-ten="Bài 10.4" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 10.4</span><span class="nhan nb">Nhận biết</span><span class="nhan">Thể tích</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một xe đông lạnh có thùng hàng dạng hình hộp chữ nhật, kích thước lòng thùng hàng dài 5,6 m, rộng 2 m, cao 2 m. Tính thể tích của lòng thùng hàng.</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Ba kích thước đã cùng đơn vị mét chưa?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">V = <i>abc</i></span> với <span class="m">a = 5,6</span>; <span class="m">b = 2</span>; <span class="m">c = 2</span> (đều là mét).</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Áp dụng công thức thể tích</h4>
+      <p><span class="m">V = 5,6 · 2 · 2 = 22,4</span> (m<sup>3</sup>).</p>
+      <p class="vi-sao">Lòng thùng là hình hộp chữ nhật với ba kích thước dài, rộng, cao cùng đơn vị m nên thể tích ra m<sup>3</sup>.</p>
+      <a class="xem-lai" href="#kt-v">📌 Xem lại: thể tích</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Thể tích lòng thùng hàng là 22,4 m<sup>3</sup>.</div>
+    <div class="bay">Ghi đơn vị m<sup>2</sup> cho thể tích. Thể tích luôn là đơn vị <b>khối</b> (m<sup>3</sup>).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b105" data-ten="Bài 10.5" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 10.5</span><span class="nhan vd">Vận dụng</span><span class="nhan">Tìm kích thước từ thể tích</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một hộp sữa tươi có dạng hình hộp chữ nhật với dung tích 1 lít, chiều cao 20 cm, chiều dài 10 cm.</p>
+    <p>a) Tính chiều rộng của hộp sữa.</p>
+    <p>b) Tính diện tích vật liệu dùng để làm vỏ hộp sữa? (Coi như phần mép hộp không đáng kể).</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Dung tích 1 lít nhưng kích thước lại cho bằng cm — phải đổi 1 lít ra cm<sup>3</sup> trước!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> <span class="m">1 lít = 1 000 cm<sup>3</sup></span>. Gọi chiều rộng là <span class="m">x</span> cm thì <span class="m">10 · x · 20 = 1 000</span>. Vỏ hộp kín gồm cả 6 mặt.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Đổi đơn vị và tìm chiều rộng</h4>
+      <p>Thể tích hộp: <span class="m">1 lít = 1 dm<sup>3</sup> = 1 000 cm<sup>3</sup></span>.</p>
+      <p>Gọi chiều rộng là <span class="m">x</span> (cm): <span class="m">10 · x · 20 = 1 000</span>, suy ra <span class="m">200x = 1 000</span>, <span class="m">x = 1 000 : 200 = 5</span>. Chiều rộng hộp sữa là 5 cm.</p>
+      <p class="vi-sao">Thể tích = dài × rộng × cao; biết thể tích và hai kích thước thì chia để tìm kích thước còn lại. Phải đưa về cùng đơn vị cm trước khi tính.</p>
+      <a class="xem-lai" href="#kt-don-vi">📌 Xem lại: đơn vị</a></div>
+    <div class="buoc" data-so="2"><h4>b) Diện tích vỏ hộp</h4>
+      <p>Diện tích xung quanh: <span class="m"><i>S</i><sub>xq</sub> = 2 · (10 + 5) · 20 = 600 (cm<sup>2</sup>)</span>.</p>
+      <p>Diện tích hai đáy: <span class="m">2 · 10 · 5 = 100 (cm<sup>2</sup>)</span>.</p>
+      <p>Diện tích vật liệu: <span class="m">600 + 100 = 700 (cm<sup>2</sup>)</span>.</p>
+      <p class="vi-sao">Hộp sữa kín nên vỏ hộp gồm 4 mặt bên và 2 mặt đáy.</p>
+      <a class="xem-lai" href="#kt-tong-mat">📌 Xem lại: diện tích vật liệu</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Chiều rộng hộp sữa là 5 cm. b) Diện tích vật liệu làm vỏ hộp là 700 cm<sup>2</sup>.</div>
+    <div class="bay">Lấy <span class="m">1 : (10 · 20)</span> vì quên đổi lít → ra 0,005 “cm” vô lí. Khi thấy đơn vị khác nhau, đổi về cùng một đơn vị trước.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b106" data-ten="Bài 10.6" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 10.6</span><span class="nhan vd">Vận dụng</span><span class="nhan">Bài toán mực nước</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một bể nước có dạng hình hộp chữ nhật với chiều dài 2 m. Lúc đầu bể không có nước. Sau khi đổ vào bể 120 thùng nước, mỗi thùng chứa 20 lít nước thì mực nước của bể dâng cao 0,8 m.</p>
+    <p>a) Tính chiều rộng của bể nước.</p>
+    <p>b) Người ta đổ thêm 60 thùng nước nữa thì đầy bể. Hỏi bể cao bao nhiêu mét?</p></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Lượng nước đổ vào chính là thể tích phần bể có nước — một hình hộp chữ nhật cao 0,8 m. Hãy đổi lít ra m<sup>3</sup>.</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> 1 000 lít = 1 m<sup>3</sup>. Thể tích nước = dài × rộng × chiều cao mực nước. Câu b: tổng cộng <span class="m">120 + 60 = 180</span> thùng.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Thể tích nước và chiều rộng bể</h4>
+      <p>Thể tích nước đã đổ: 120 · 20 = 2 400 (lít) = 2,4 m<sup>3</sup>.</p>
+      <p>Gọi chiều rộng bể là <span class="m">x</span> (m): <span class="m">2 · x · 0,8 = 2,4</span>, suy ra <span class="m">1,6x = 2,4</span>, <span class="m">x = 2,4 : 1,6 = 1,5</span>. Chiều rộng bể là 1,5 m.</p>
+      <p class="vi-sao">Phần nước trong bể là hình hộp chữ nhật dài 2 m, rộng <span class="m">x</span>, cao 0,8 m; thể tích của nó bằng lượng nước đổ vào. <span class="m">1 lít = 1 dm<sup>3</sup></span>, 1 000 dm<sup>3</sup> = 1 m<sup>3</sup>.</p>
+      <a class="xem-lai" href="#kt-v">📌 Xem lại: thể tích</a></div>
+    <div class="buoc" data-so="2"><h4>b) Chiều cao bể</h4>
+      <p>Tổng lượng nước khi đầy bể: (120 + 60) · 20 = 3 600 (lít) = 3,6 m<sup>3</sup>.</p>
+      <p>Gọi chiều cao bể là <span class="m">h</span> (m): <span class="m">2 · 1,5 · h = 3,6</span>, suy ra <span class="m">3h = 3,6</span>, <span class="m">h = 1,2</span>. Bể cao 1,2 m.</p>
+      <p class="vi-sao">Khi đầy, nước chiếm trọn bể nên thể tích bể = thể tích 180 thùng nước.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Chiều rộng bể là 1,5 m. b) Bể cao 1,2 m.</div>
+    <div class="bay">Câu b chỉ dùng 60 thùng (1 200 lít) rồi tính chiều cao 0,4 m và quên cộng 0,8 m ban đầu. Cách đó vẫn đúng nếu cộng lại: <span class="m">0,8 + 0,4 = 1,2</span> (m), nhưng dễ quên.</div>
+    <div class="gv-note">Cách khác cho câu b: 120 thùng ứng với 0,8 m thì 180 thùng ứng với <span class="m">0,8 · 180 : 120 = 1,2</span> (m) — dùng tỉ lệ thuận (Bài 22), chấp nhận.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Bài 36. Hình hộp chữ nhật và hình lập phương — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c10-b36';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-10-bai-36-hinh-hop-chu-nhat-va-hinh-lap-phuong-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-10-bai-36-hinh-hop-chu-nhat-va-hinh-lap-phuong-bai-giai.nguon.html" data-phien-ban="e6b3a002ac03">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+<!-- thong-ke:dau (do thong-ke/gan_khach.py chèn, đừng sửa tay) -->
+<script id="thong-ke-nap" data-may="../../../thong-ke/khach.js" data-web="../../thong-ke/khach.js" data-lop="7">(function(n){var d=n.dataset,s=document.createElement('script');s.defer=true;s.src=location.protocol==='file:'?d.may:d.web;document.head.appendChild(s)})(document.currentScript);</script>
+<!-- thong-ke:cuoi -->
+</body>
+</html>

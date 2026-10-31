@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luyện tập (sau Bài 37) — Bài tập &amp; lời giải · Toán 7 (Kết nối tri thức)</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --ink:#1f2430; --muted:#5c6577; --line:#e3e7f0;
+  --brand:#2f6fdb; --brand-soft:#e8f0ff;
+  --warm:#b76e00; --warm-soft:#fff6e5;
+  --green:#0f8a68; --green-soft:#e6f7f1;
+  --red:#c93c3c; --red-soft:#fdeceb;
+  --purple:#6b4fc9; --purple-soft:#f1ecff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:120px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif}
+.m{font-family:"Cambria Math","Times New Roman",Georgia,serif; font-style:normal; white-space:nowrap; font-size:1.06em}
+.m i{font-style:italic}
+button{font:inherit; cursor:pointer}
+a{color:var(--brand)}
+
+/* ---------- Thanh trên cùng ---------- */
+.top{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(20,30,60,.05)}
+.top-in{max-width:880px; margin:0 auto; padding:10px 16px 8px}
+.crumb{font-size:13px; color:var(--muted)}
+.crumb a{color:var(--muted); text-decoration:none}
+.hang1{display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between}
+h1{font-size:21px; margin:2px 0; line-height:1.3}
+.che-do{display:inline-flex; background:#eef1f7; border-radius:999px; padding:4px}
+.che-do button{border:0; background:transparent; padding:7px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:15px}
+.che-do button[aria-pressed="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex; gap:6px; overflow-x:auto; padding:8px 0 2px; scrollbar-width:thin}
+.chip{flex:none; text-decoration:none; color:var(--ink); background:#f1f3f8; border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:14px; font-weight:600; white-space:nowrap}
+.chip::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:#c5cbd8; margin-right:6px; vertical-align:1px}
+.chip.hieu::before{background:var(--green)}
+.chip.chua::before{background:#f0a020}
+.tien-do{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); padding-top:4px}
+.thanh{flex:1; height:6px; background:#e8ebf2; border-radius:9px; overflow:hidden}
+.thanh i{display:block; height:100%; width:0; background:var(--green); transition:width .4s}
+
+main{max-width:880px; margin:0 auto; padding:18px 16px 60px}
+
+/* ---------- Thẻ chung ---------- */
+.the{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px; margin:0 0 18px}
+.huong-dan{background:var(--brand-soft); border-color:#cfdcf8}
+.huong-dan h2{margin:0 0 6px; font-size:17px}
+.huong-dan ol{margin:0; padding-left:22px}
+.chi-gv{display:none}
+body[data-mode="gv"] .chi-gv{display:block}
+body[data-mode="gv"] .chi-hs{display:none !important}
+
+/* Kiến thức cần nhớ */
+details.nho{background:var(--warm-soft); border:1px solid #f3d9a6; border-radius:var(--r); padding:0; margin:0 0 18px}
+details.nho>summary{list-style:none; padding:14px 20px; font-weight:700; cursor:pointer}
+details.nho>summary::-webkit-details-marker{display:none}
+details.nho>summary::after{content:"▾"; float:right; color:var(--warm)}
+details.nho[open]>summary::after{content:"▴"}
+.nho-in{padding:0 20px 14px}
+.kt{background:#fff; border-radius:10px; padding:10px 14px; margin:8px 0; border-left:4px solid #f0b44c; scroll-margin-top:130px}
+.kt b.ten{display:block; color:var(--warm); font-size:14px; text-transform:uppercase; letter-spacing:.02em}
+.kt.nhay{animation:nhay 1.6s}
+@keyframes nhay{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px #f7c56a}}
+.nguon{font-size:13px; color:var(--muted)}
+
+/* Bảng đáp án nhanh (GV) */
+table{border-collapse:collapse; width:100%; font-size:15px}
+th,td{border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:#f3f5fa}
+
+/* ---------- Thẻ bài tập ---------- */
+.bai{scroll-margin-top:130px}
+.bai-dau{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+.so{font-weight:800; font-size:19px}
+.nhan{font-size:12.5px; font-weight:700; padding:2px 9px; border-radius:999px; background:#eef1f7; color:var(--muted)}
+.nhan.nb{background:var(--green-soft); color:var(--green)}
+.nhan.th{background:var(--brand-soft); color:var(--brand)}
+.nhan.vd{background:var(--purple-soft); color:var(--purple)}
+.nhan.vdc{background:#fdeceb; color:var(--red)}
+.nhan.mo{background:var(--warm-soft); color:var(--warm)}
+.trang-thai{margin-left:auto; font-size:13px; font-weight:700}
+.de{background:#fafbfe; border:1px dashed #cfd6e4; border-radius:10px; padding:12px 16px}
+.de p{margin:.3em 0}
+.tu-lam{color:var(--muted); font-size:15px; margin:12px 0 8px}
+
+.nut-hang{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+.nut{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:9px 16px; font-weight:600; font-size:15.5px; min-height:44px}
+.nut:hover{border-color:#b9c3d8}
+.nut.chinh{background:var(--brand); border-color:var(--brand); color:#fff}
+.nut.chinh:hover{background:#255fc2}
+.nut[hidden]{display:none}
+
+.goi-y{background:var(--purple-soft); border-radius:10px; padding:10px 14px; margin:8px 0}
+.goi-y b{color:var(--purple)}
+
+/* Các bước giải */
+.loi-giai{margin-top:6px}
+.buoc{display:none; position:relative; padding:10px 14px 10px 50px; margin:8px 0; border-radius:10px; background:#fff; border:1px solid var(--line); animation:hien .35s ease}
+.buoc.hien{display:block}
+.buoc::before{content:attr(data-so); position:absolute; left:12px; top:10px; width:26px; height:26px; border-radius:50%;
+  background:var(--brand); color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
+.buoc h4{margin:0 0 2px; font-size:16px}
+.buoc p{margin:.25em 0}
+.vi-sao{color:var(--muted); font-size:15px}
+.vi-sao::before{content:"🤔 Vì sao? "; font-weight:700; color:var(--ink)}
+.xem-lai{font-size:14px; font-weight:600; text-decoration:none; background:var(--warm-soft); color:var(--warm); padding:2px 8px; border-radius:6px; display:inline-block; margin-top:4px}
+@keyframes hien{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+.ket{display:none}
+.ket.hien{display:block; animation:hien .35s ease}
+.dap-so{background:var(--green-soft); border:1.5px solid #9fd9c4; border-radius:10px; padding:10px 14px; margin:10px 0}
+.dap-so::before{content:"✅ Đáp số"; display:block; font-weight:800; color:var(--green); font-size:14px; text-transform:uppercase}
+.bay{background:var(--red-soft); border-radius:10px; padding:10px 14px; margin:10px 0}
+.bay::before{content:"⚠️ Bẫy hay gặp"; display:block; font-weight:800; color:var(--red); font-size:14px; text-transform:uppercase}
+.gv-note{display:none; background:#f3f5fa; border-radius:10px; padding:10px 14px; margin:10px 0; font-size:15px}
+.gv-note::before{content:"🧑‍🏫 Ghi chú cho giáo viên"; display:block; font-weight:800; font-size:14px; color:var(--muted); text-transform:uppercase}
+
+.hieu-chua{border-top:1px solid var(--line); margin-top:12px; padding-top:10px}
+.hieu-chua p{margin:0 0 6px; font-weight:600}
+.nut.ok[aria-pressed="true"]{background:var(--green-soft); border-color:var(--green); color:var(--green)}
+.nut.no[aria-pressed="true"]{background:var(--warm-soft); border-color:#f0a020; color:var(--warm)}
+.them{display:none; background:var(--warm-soft); border-radius:10px; padding:10px 14px; margin-top:8px}
+.them.hien{display:block; animation:hien .35s ease}
+.them::before{content:"🔁 Nói cách khác cho dễ hiểu"; display:block; font-weight:800; color:var(--warm); font-size:14px; text-transform:uppercase}
+
+/* Thử nhanh */
+.thu{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+.thu>b{display:block; font-size:14px; text-transform:uppercase; color:var(--brand)}
+.cau-thu{display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.cau-thu:last-of-type{border-bottom:0}
+.cau-thu .noi-dung{min-width:90px; font-size:18px}
+.chon{border:1.5px solid var(--line); background:#fff; border-radius:9px; min-width:52px; min-height:42px; font-size:20px; font-family:"Cambria Math","Times New Roman",serif}
+.chon.dung{background:var(--green-soft); border-color:var(--green)}
+.chon.sai{background:var(--red-soft); border-color:var(--red)}
+.chon.chu{font-family:inherit; font-size:15px; padding:0 12px}
+.lm{font-family:"Times New Roman",Georgia,serif; font-weight:600; letter-spacing:.04em; white-space:nowrap}
+/* Phân số đứng: <span class="frac"><b>tử</b><span>mẫu</span></span> — hỗn số: 2<span class="frac">…</span> */
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:.92em; line-height:1.2; margin:0 2px; white-space:nowrap}
+.frac>b{border-bottom:1.5px solid currentColor; padding:0 4px; font-weight:inherit}
+.frac>span{padding:0 4px}
+.phan-hoi{font-size:14.5px}
+.phan-hoi.dung{color:var(--green)} .phan-hoi.sai{color:var(--red)}
+
+svg{max-width:100%; height:auto; display:block; margin:6px auto}
+
+/* Chế độ giáo viên: hiện hết, gọn */
+/* GV: đề → đáp số → (nút) các bước giải thích, ẩn mặc định → bẫy, ghi chú */
+body[data-mode="gv"] .bai{display:flex; flex-direction:column}
+body[data-mode="gv"] .ket{display:contents}
+body[data-mode="gv"] .bai-dau{order:1} body[data-mode="gv"] .de{order:2}
+body[data-mode="gv"] .dap-so{order:3} body[data-mode="gv"] .nut-buoc-gv{order:4}
+body[data-mode="gv"] .loi-giai{order:5} body[data-mode="gv"] .bay{order:6}
+body[data-mode="gv"] .gv-note{order:7} body[data-mode="gv"] .them{order:9}
+body[data-mode="gv"] .buoc{display:none; animation:none; padding-top:6px; padding-bottom:6px}
+body[data-mode="gv"] .bai.mo-buoc .buoc{display:block; animation:hien .3s ease}
+.nut-buoc-gv{align-self:flex-start; margin:0 0 4px}
+body[data-mode="gv"] .nut-buoc-gv{display:inline-block}
+.gv-tat-ca{margin-top:10px}
+body[data-mode="gv"] .nut-hang,
+body[data-mode="gv"] .goi-y,
+body[data-mode="gv"] .tu-lam,
+body[data-mode="gv"] .hieu-chua,
+body[data-mode="gv"] .thu,
+body[data-mode="gv"] .trang-thai,
+body[data-mode="gv"] .tien-do{display:none !important}
+body[data-mode="gv"] .them,
+body[data-mode="gv"] .gv-note{display:block}
+
+/* ---------- Vùng "Suy nghĩ trước" ---------- */
+.de{font-size:18px; background:#fff; border:0; border-left:4px solid var(--brand); border-radius:0; padding:4px 0 4px 16px}
+.nghi{margin:14px 0 4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px}
+.loi-nhac{margin:0; font-size:15px; color:var(--muted); flex:1 1 260px}
+.tro-giup{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin-left:auto}
+.nut-nho{border:1px solid var(--line); background:transparent; border-radius:999px; padding:4px 12px; font-size:13.5px; color:var(--muted); min-height:34px}
+.nut-nho:hover:not(:disabled){color:var(--ink); border-color:#b9c3d8}
+.nut-nho:disabled{opacity:.55; cursor:default}
+.nut-link{border:0; background:none; padding:4px; font-size:13px; color:var(--muted); text-decoration:underline; min-height:34px}
+.nut-nho[hidden],.nut-link[hidden]{display:none}
+.dem-nghi{flex-basis:100%; margin:0; font-size:13px; color:var(--muted); text-align:right; min-height:1em}
+body[data-mode="gv"] .de{font-size:17px}
+
+/* ---------- Phần (nhóm bài) ---------- */
+.phan-tieu-de{scroll-margin-top:130px; margin:30px 0 12px; padding:0 0 6px; font-size:20px; line-height:1.35;
+  border-bottom:2px solid var(--line); color:#1f2f57}
+.phan-tieu-de small{display:block; font-size:14px; font-weight:400; color:var(--muted)}
+.phan-tieu-de:first-of-type{margin-top:8px}
+
+/* ---------- Trích dẫn văn bản (bằng chứng) ---------- */
+.trich{margin:8px 0; padding:8px 14px; border-left:3px solid #c9b27a; background:#fbf8f1; border-radius:0 8px 8px 0;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.65; color:#3b3222}
+.trich p{margin:.2em 0}
+.trich cite{display:block; font-family:inherit; font-style:normal; font-size:13px; color:var(--muted); margin-top:4px}
+.trich.tho p{margin:0}
+
+/* ---------- Bài viết tham khảo (chỉ GV) ---------- */
+.tham-khao{display:none; margin:10px 0; padding:16px 22px; background:#fffdf7; border:1px solid #eadfc4; border-radius:10px;
+  font-family:"Times New Roman","Noto Serif",Cambria,serif; font-size:16.5px; line-height:1.75; color:#2e2a22}
+.tham-khao::before{content:"📄 Bài viết tham khảo — dành cho giáo viên đối chiếu, không phát cho học sinh chép"; display:block;
+  font-family:"Segoe UI",system-ui,sans-serif; font-weight:800; font-size:13px; color:var(--muted); text-transform:uppercase; margin-bottom:6px}
+.tham-khao p{margin:.5em 0; text-indent:1.6em}
+.tham-khao h5{margin:.2em 0 .4em; text-align:center; font-size:17px}
+body[data-mode="gv"] .tham-khao{display:block; order:8}
+
+/* ---------- Biến thể môn Ngữ văn ---------- */
+body[data-mon="ngu-van"] .dap-so::before{content:"✍️ Gợi ý trả lời"}
+body[data-mon="ngu-van"] .bay::before{content:"⚠️ Chỗ dễ trượt"}
+body[data-mon="ngu-van"] .them::before{content:"🌱 Nghĩ theo cách khác"}
+body[data-mon="ngu-van"] .dap-so{font-size:16.5px; line-height:1.7}
+body[data-mon="ngu-van"] .de{font-size:17.5px}
+body[data-bang="khong"] #khoi-bang{display:none !important}
+/* Câu hỏi mở (không phải môn Văn): đáp án là câu trả lời mẫu */
+body:not([data-mon="ngu-van"]) .bai[data-muc="mo"] .dap-so::before{content:"💬 Câu trả lời mẫu"}
+/* Ngữ liệu tiếng Anh */
+body[data-mon="tieng-anh"] .de{font-size:17.5px}
+body[data-mon="tieng-anh"] .en{font-style:italic}
+body[data-mon="tieng-anh"] .kt b.ten{text-transform:none} /* in hoa làm hỏng IPA: /æ/ → /Æ/ */
+body[data-mon="tieng-anh"] .bay::before{content:"⚠️ Lỗi hay gặp"}
+.chi-van{display:none} body[data-mon="ngu-van"] .chi-van{display:inline}
+body[data-mon="ngu-van"] .nhan-dap{font-size:0} body[data-mon="ngu-van"] .nhan-dap::after{content:"gợi ý trả lời"; font-size:1rem}
+
+.chan{text-align:center; color:var(--muted); font-size:13px; margin-top:30px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  h1{font-size:18px}
+  .the{padding:14px}
+  .buoc{padding-left:44px}
+  .buoc::before{left:9px}
+}
+.in-tieu-de{display:none}
+@media print{
+  /* Ban in: chi co de bai va dap so */
+  .top,.huong-dan,details.nho,#khoi-bang,.cuoi-trang,.chan,.nghi,.thu,.goi-y,.loi-giai,.bay,.gv-note,.them,
+  .hieu-chua,.nut-buoc-gv,.trang-thai,.tham-khao,.nhan:not(.nb):not(.th):not(.vd):not(.vdc):not(.mo){display:none !important}
+  .in-tieu-de{display:block; margin:0 0 10px} .in-tieu-de h1{font-size:17pt; margin:2px 0}
+  body{background:#fff; font-size:12.5pt} main{padding:0; max-width:none}
+  .ket{display:block !important} .dap-so{display:block !important; margin:6px 0 0; padding:6px 10px}
+  .de{font-size:12.5pt}
+  .the{border:0; border-bottom:1px solid #ccc; border-radius:0; padding:8px 0 10px; margin:0; box-shadow:none}
+  .bai{display:block !important; break-inside:avoid}
+}
+</style>
+<!-- bieu-tuong:dau (do bieu-tuong/gan_bieu_tuong.py chèn, đừng sửa tay) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../bieu-tuong/favicon-32.png" data-may="../../../bieu-tuong/favicon-32.png">
+<link rel="apple-touch-icon" href="../../bieu-tuong/apple-touch-icon.png" data-may="../../../bieu-tuong/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='n' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232f5fb3'/%3E%3Cstop offset='1' stop-color='%234b7bd1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url%28%23n%29'/%3E%3Cpath d='M11 49Q22 44 32 51Q42 44 53 49' fill='none' stroke='%23ffc83d' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M13 17Q23 13 31 19V47Q23 41 13 45Z' fill='%23fff'/%3E%3Cpath d='M51 17Q41 13 33 19V47Q41 41 51 45Z' fill='%23fff'/%3E%3Cpath d='M39 16V31l3.5-3 3.5 3V17.5' fill='%23ffc83d'/%3E%3C/svg%3E">
+<script>(function(){if(location.protocol!=='file:')return;document.querySelectorAll('link[data-may]').forEach(function(l){l.href=l.dataset.may})})();</script>
+<!-- bieu-tuong:cuoi -->
+</head>
+<body data-mode="hs" data-mon="toan" data-bang="co">
+
+<header class="top">
+  <div class="top-in">
+    <div class="crumb"><a href="../index.html">📚 Các bài giải</a> › Toán 7 › Chương X. Một số hình khối trong thực tiễn</div>
+    <div class="hang1">
+      <h1>Luyện tập (sau Bài 37) — Bài tập &amp; lời giải</h1>
+      <div class="che-do" role="group" aria-label="Chế độ xem">
+        <button type="button" data-chon-mode="hs" aria-pressed="true">🎒 Học sinh</button>
+        <button type="button" data-chon-mode="gv" aria-pressed="false">🧑‍🏫 Giáo viên</button>
+      </div>
+    </div>
+    <nav class="chips" id="chips" aria-label="Danh sách bài"></nav>
+    <div class="tien-do"><span id="dem">Em đã hiểu 0/9 bài</span><div class="thanh"><i id="thanh"></i></div></div>
+  </div>
+</header>
+
+<main>
+<div class="in-tieu-de"><div class="nguon">Toán 7 › Chương X. Một số hình khối trong thực tiễn</div><h1>Luyện tập (sau Bài 37) — Bài tập &amp; lời giải</h1></div>
+
+<!-- ===== Hướng dẫn dùng trang ===== -->
+<section class="the huong-dan chi-hs">
+  <h2>🎒 Cách học với trang này</h2>
+  <ol>
+    <li><b>Đọc kĩ đề, tự làm ra giấy nháp trước.</b> Nút gợi ý chỉ mở sau vài chục giây — đó là thời gian để em động não.</li>
+    <li>Bí quá thì bấm <b>💡 Cần gợi ý</b>: mỗi lần bấm chỉ mở thêm <b>một bước</b>. Mở càng ít bước càng giỏi!</li>
+    <li>Cuối bài, bấm <b>👍 Hiểu rồi</b> hoặc <b>🤔 Chưa hiểu lắm</b> để đánh dấu tiến độ.</li>
+  </ol>
+</section>
+<section class="the huong-dan chi-gv">
+  <h2>🧑‍🏫 Chế độ giáo viên</h2>
+  <p style="margin:0">Mỗi bài hiện <b>đề → <span class="nhan-dap">đáp số</span></b> ngay, kèm <b>chỗ học sinh hay sai</b> và <b>ghi chú dạy</b><span class="chi-van">; bài Viết có thêm <b>bài viết tham khảo</b> để đối chiếu</span>. Các bước giải thích được thu gọn — bấm <b>👣 Xem các bước</b> ở từng bài, hoặc mở tất cả bằng nút dưới đây. Bấm <kbd>Ctrl</kbd> + <kbd>P</kbd> để in — bản in chỉ gồm <b>đề bài và đáp số</b>.</p>
+  <button class="nut-nho gv-tat-ca" id="gv-tat-ca">👣 Hiện tất cả các bước giải thích</button>
+</section>
+
+<details class="nho" open>
+  <summary>📌 Kiến thức cần nhớ (trích SGK) <span class="nguon" style="font-weight:400">— 4 ý, bấm để mở / thu gọn</span></summary>
+  <div class="nho-in">
+    <div class="kt" id="kt-yeu-to"><b class="ten">Hình lăng trụ đứng (Bài 37)</b>
+      Hai mặt đáy song song với nhau; các mặt bên là những hình chữ nhật; các cạnh bên song song và bằng nhau. Độ dài một cạnh bên gọi là chiều cao của lăng trụ đứng.</div>
+    <div class="kt" id="kt-sxq"><b class="ten">Diện tích xung quanh</b>
+      <span class="m"><i>S</i><sub>xq</sub> = C · h</span>, trong đó <span class="m">C</span> là chu vi một đáy, <span class="m">h</span> là chiều cao của lăng trụ.</div>
+    <div class="kt" id="kt-v"><b class="ten">Thể tích</b>
+      <span class="m">V = <i>S</i><sub>đáy</sub> · h</span>, trong đó <span class="m"><i>S</i><sub>đáy</sub></span> là diện tích một đáy, <span class="m">h</span> là chiều cao của lăng trụ đứng.</div>
+    <div class="kt" id="kt-tp"><b class="ten">Diện tích toàn phần (Ví dụ 3)</b>
+      <span class="m"><i>S</i><sub>tp</sub> = <i>S</i><sub>xq</sub> + 2<i>S</i><sub>đáy</sub></span> — tổng diện tích tất cả các mặt. Diện tích tam giác vuông = nửa tích hai cạnh góc vuông; diện tích hình thang = (tổng hai đáy) × chiều cao : 2 (đã học).</div>
+    <p class="nguon">Nguồn: SGK Toán 7, Kết nối tri thức với cuộc sống, Tập hai — Luyện tập (trang 100 – 101); Bài 37.</p>
+  </div>
+</details>
+
+<!-- ===== Bảng đáp án nhanh (GV) — JS tự dựng từ các ô Đáp số ===== -->
+<section class="the chi-gv" id="khoi-bang">
+  <h2 style="margin:0 0 8px; font-size:17px">⚡ Bảng đáp án nhanh</h2>
+  <table id="bang-dap-an"><tr><th style="width:120px">Bài</th><th>Đáp số</th><th style="width:110px">Mức độ</th></tr></table>
+</section>
+
+<article class="the bai" id="b1017" data-ten="Bài 10.17" data-muc="nb">
+  <div class="bai-dau"><span class="so">Bài 10.17</span><span class="nhan nb">Nhận biết</span><span class="nhan">Yếu tố của lăng trụ tứ giác</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Viết tên đỉnh, cạnh, mặt bên, mặt đáy của hình lăng trụ đứng tứ giác ở Hình 10.40.</p>
+    <svg viewBox="-1.1 -190.9 270 212.9" role="img" aria-label="Hình lăng trụ đứng tứ giác MNPQ.M'N'P'Q'" style="max-width:300px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="40,-130 150,-130 228.9,-168.9 38.9,-168.9" fill="#dbe7fb" fill-opacity="0.6" stroke="none"/>', '<polygon points="40,-0 150,-0 150,-130 40,-130" fill="#f6f1d6" fill-opacity="0.6" stroke="none"/>', '<polygon points="150,-0 228.9,-38.9 228.9,-168.9 150,-130" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<polygon points="40,-0 38.9,-38.9 38.9,-168.9 40,-130" fill="#e9e9ef" fill-opacity="0.6" stroke="none"/>', '<line x1="40" y1="-0" x2="150" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="150" y1="-0" x2="228.9" y2="-38.9" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="38.9" y1="-38.9" x2="40" y2="-0" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="40" y1="-130" x2="150" y2="-130" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="150" y1="-130" x2="228.9" y2="-168.9" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="228.9" y1="-168.9" x2="38.9" y2="-168.9" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="38.9" y1="-168.9" x2="40" y2="-130" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="40" y1="-0" x2="40" y2="-130" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="150" y1="-0" x2="150" y2="-130" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="228.9" y1="-38.9" x2="228.9" y2="-168.9" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="38.9" y1="-38.9" x2="38.9" y2="-168.9" stroke="#1f2430" stroke-width="1.8"/>', '<line x1="228.9" y1="-38.9" x2="38.9" y2="-38.9" stroke="#1f2430" stroke-width="1.8" stroke-dasharray="6 5"/>', '<text x="30" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">N′</text>', '<text x="160" y="17" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">P′</text>', '<text x="243.9" y="-33.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">Q′</text>', '<text x="23.9" y="-33.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">M′</text>', '<text x="27" y="-124" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">N</text>', '<text x="163" y="-124" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">P</text>', '<text x="241.9" y="-172.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">Q</text>', '<text x="25.9" y="-172.9" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">M</text>']</g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Đáy là tứ giác nên có <b>4</b> mặt bên và <b>4</b> cạnh bên. Mặt đáy ở đây là <span class="m"><i>MNPQ</i></span> và mặt nào?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Mỗi mặt bên chứa một cạnh đáy trên và cạnh đáy dưới tương ứng, ví dụ cạnh <span class="m"><i>MN</i></span> và <span class="m"><i>M′N′</i></span> nằm trên mặt bên <span class="m"><i>MNN′M′</i></span>.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Đỉnh</h4>
+      <p>8 đỉnh: <span class="m">M, N, P, Q, <i>M′</i>, <i>N′</i>, <i>P′</i>, <i>Q′</i></span>.</p></div>
+    <div class="buoc" data-so="2"><h4>Cạnh</h4>
+      <p>Cạnh đáy: <span class="m"><i>MN</i>, <i>NP</i>, <i>PQ</i>, <i>QM</i>, <i>M′N′</i>, <i>N′P′</i>, <i>P′Q′</i>, <i>Q′M′</i></span>. Cạnh bên: <span class="m"><i>MM′</i>, <i>NN′</i>, <i>PP′</i>, <i>QQ′</i></span>.</p>
+      <p class="vi-sao">Lăng trụ đứng tứ giác có 2 đáy, mỗi đáy 4 cạnh, và 4 cạnh bên nối các đỉnh tương ứng — tổng 12 cạnh.</p>
+      <a class="xem-lai" href="#kt-yeu-to">📌 Xem lại: cạnh bên</a></div>
+    <div class="buoc" data-so="3"><h4>Mặt bên, mặt đáy</h4>
+      <p>Mặt bên (hình chữ nhật): <span class="m"><i>MNN′M′</i>, <i>NPP′N′</i>, <i>PQQ′P′</i>, <i>QMM′Q′</i></span>. Mặt đáy: <span class="m"><i>MNPQ</i></span> và <span class="m"><i>M′N′P′Q′</i></span>.</p></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Đỉnh <span class="m">M, N, P, Q, <i>M′</i>, <i>N′</i>, <i>P′</i>, <i>Q′</i></span>; cạnh <span class="m"><i>MN</i>, <i>NP</i>, <i>PQ</i>, <i>QM</i>, <i>M′N′</i>, <i>N′P′</i>, <i>P′Q′</i>, <i>Q′M′</i>, <i>MM′</i>, <i>NN′</i>, <i>PP′</i>, <i>QQ′</i></span>; mặt bên <span class="m"><i>MNN′M′</i>, <i>NPP′N′</i>, <i>PQQ′P′</i>, <i>QMM′Q′</i></span>; mặt đáy <span class="m"><i>MNPQ</i>, <i>M′N′P′Q′</i></span>.</div>
+    <div class="bay">Gọi <span class="m"><i>MNN′M′</i></span> là mặt đáy vì nó “đứng” và to. Mặt đáy là hai mặt tứ giác song song <span class="m"><i>MNPQ</i></span>, <span class="m"><i>M′N′P′Q′</i></span>; mặt bên luôn là hình chữ nhật.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK (<span class="m">N, P</span> ở trước; cạnh khuất <span class="m"><i>M′Q′</i></span>). Thứ tự đỉnh trong tên mặt có thể khác.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b1018" data-ten="Bài 10.18" data-muc="th">
+  <div class="bai-dau"><span class="so">Bài 10.18</span><span class="nhan th">Thông hiểu</span><span class="nhan">Thể tích, diện tích toàn phần</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Một cái bánh ngọt có dạng hình lăng trụ đứng tam giác, kích thước như Hình 10.41 (đáy là tam giác vuông có hai cạnh góc vuông 6 cm và 8 cm, cạnh huyền 10 cm; cạnh bên 3 cm).</p>
+    <p>a) Tính thể tích cái bánh.</p>
+    <p>b) Nếu phải làm một chiếc hộp để đựng vừa khít cái bánh này thì diện tích vật liệu cần dùng là bao nhiêu (coi mép dán không đáng kể)?</p>
+    <svg viewBox="-52 -12 224 134" role="img" aria-label="Tam giác vuông có hai cạnh góc vuông 6 cm, 8 cm và cạnh huyền 10 cm" style="max-width:240px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,90 120,90 0,0" fill="#dff3ea" fill-opacity="0.7" stroke="#1f2430"/>', '<path d="M0 78 h12 v-12" fill="none" stroke="#1f2430" stroke-width="1.4"/>', '<text x="60" y="107" fill="#c93c3c" font-size="14" text-anchor="middle">8 cm</text>', '<text x="-10" y="50" fill="#c93c3c" font-size="14" text-anchor="end">6 cm</text>', '<text x="74" y="39" fill="#c93c3c" font-size="14" text-anchor="start">10 cm</text>']</g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Chiều cao của lăng trụ là cạnh nào: 3 cm hay 6 cm? Hộp đựng vừa khít bánh thì có mấy mặt?</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Đáy là tam giác vuông: <span class="m"><i>S</i><sub>đáy</sub> = <span class="frac"><b>1</b><span>2</span></span> · 6 · 8</span>. Chiều cao lăng trụ <span class="m">h = 3</span> cm. Hộp kín gồm 3 mặt bên và 2 đáy.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>a) Thể tích</h4>
+      <p><span class="m"><i>S</i><sub>đáy</sub> = <span class="frac"><b>1</b><span>2</span></span> · 6 · 8 = 24 (cm<sup>2</sup>)</span>.</p>
+      <p><span class="m">V = <i>S</i><sub>đáy</sub> · h = 24 · 3 = 72 (cm<sup>3</sup>)</span>.</p>
+      <p class="vi-sao">Chiều cao lăng trụ là độ dài cạnh bên (3 cm), không phải cạnh 6 cm của tam giác đáy.</p>
+      <a class="xem-lai" href="#kt-v">📌 Xem lại: thể tích</a></div>
+    <div class="buoc" data-so="2"><h4>b) Diện tích vật liệu làm hộp</h4>
+      <p>Chu vi đáy: <span class="m">C = 6 + 8 + 10 = 24 (cm)</span>. Diện tích xung quanh: <span class="m"><i>S</i><sub>xq</sub> = 24 · 3 = 72 (cm<sup>2</sup>)</span>.</p>
+      <p>Diện tích toàn phần: <span class="m"><i>S</i><sub>tp</sub> = 72 + 2 · 24 = 120 (cm<sup>2</sup>)</span>.</p>
+      <p class="vi-sao">Hộp đựng vừa khít nên có đúng hình dạng cái bánh; vật liệu phủ kín 5 mặt: 3 mặt bên hình chữ nhật và 2 đáy tam giác.</p>
+      <a class="xem-lai" href="#kt-tp">📌 Xem lại: diện tích toàn phần</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">a) Thể tích bánh là 72 cm<sup>3</sup>. b) Diện tích vật liệu làm hộp là 120 cm<sup>2</sup>.</div>
+    <div class="bay">Lấy <span class="m">h = 6</span> hoặc tính <span class="m"><i>S</i><sub>đáy</sub> = 6 · 8 = 48</span> (quên chia 2). Tam giác vuông có diện tích bằng <b>nửa</b> tích hai cạnh góc vuông.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK: cạnh 3 cm là cạnh bên (chiều cao lăng trụ). Thể tích 72 cm<sup>3</sup> và diện tích xung quanh 72 cm<sup>2</sup> trùng số — nhắc HS phân biệt đơn vị.</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<article class="the bai" id="b1019" data-ten="Bài 10.19" data-muc="vd">
+  <div class="bai-dau"><span class="so">Bài 10.19</span><span class="nhan vd">Vận dụng</span><span class="nhan">Thể tích lăng trụ đáy hình thang</span><span class="trang-thai"></span></div>
+  <div class="de"><p>Người ta đào một đoạn mương có dạng hình lăng trụ đứng tứ giác như Hình 10.42. Biết mương có chiều dài 20 m, sâu 1,5 m, bề mặt có chiều rộng 1,8 m và đáy mương rộng 1,2 m. Tính thể tích đất phải đào lên.</p>
+    <svg viewBox="-60 -20 262 187" role="img" aria-label="Mặt cắt mương: hình thang ABCD có DC = 1,8 m, AB = 1,2 m, đường cao AH = 1,5 m" style="max-width:260px"><g font-family="Cambria Math,Times New Roman,serif">['<polygon points="0,0 162,0 135,135 27,135" fill="#e8d9c4" fill-opacity="0.7" stroke="#1f2430"/>', '<line x1="27" y1="135" x2="27" y2="0" stroke="#6b4fc9" stroke-width="1.5" stroke-dasharray="6 5"/>', '<path d="M39 12 h-12 v-12" fill="none" stroke="#1f2430" stroke-width="1.4"/>', '<text x="-10" y="-4" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">D</text>', '<text x="172" y="-4" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">C</text>', '<text x="19" y="151" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">A</text>', '<text x="143" y="151" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">B</text>', '<text x="35" y="-5" fill="#2f6fdb" font-size="15" text-anchor="middle" font-style="italic">H</text>', '<text x="101" y="-8" fill="#c93c3c" font-size="14" text-anchor="middle">1,8 m</text>', '<text x="81" y="153" fill="#c93c3c" font-size="14" text-anchor="middle">1,2 m</text>', '<text x="35" y="72.5" fill="#6b4fc9" font-size="14" text-anchor="start">1,5 m</text>']</g></svg></div>
+  <div class="nghi chi-hs">
+    <p class="loi-nhac">🧠 Mặt cắt ngang của mương là hình thang — đó là <b>đáy</b> của lăng trụ. Chiều cao lăng trụ là chiều dài mương!</p>
+    <div class="tro-giup"><button class="nut-nho" data-tro-giup>💡 Cần gợi ý</button><button class="nut-link" data-hien-het hidden>xem hết lời giải</button></div>
+    <p class="dem-nghi"></p>
+  </div>
+  <div class="goi-y" hidden><b>Gợi ý:</b> Diện tích hình thang <span class="m"><i>ABCD</i></span> = (đáy lớn + đáy nhỏ) × chiều cao : 2. Rồi <span class="m">V = <i>S</i><sub>đáy</sub> · h</span> với <span class="m">h = 20</span> m.</div>
+  <div class="loi-giai">
+    <div class="buoc" data-so="1"><h4>Diện tích đáy (hình thang)</h4>
+      <p><span class="m"><i>S</i><sub>đáy</sub> = <span class="frac"><b>(1,8 + 1,2) · 1,5</b><span>2</span></span> = <span class="frac"><b>3 · 1,5</b><span>2</span></span> = 2,25</span> (m<sup>2</sup>).</p>
+      <p class="vi-sao">Hình thang <span class="m"><i>ABCD</i></span> có hai đáy <span class="m"><i>DC</i> = 1,8</span> m, <span class="m"><i>AB</i> = 1,2</span> m và chiều cao <span class="m"><i>AH</i> = 1,5</span> m (độ sâu mương).</p>
+      <a class="xem-lai" href="#kt-tp">📌 Xem lại: diện tích hình thang</a></div>
+    <div class="buoc" data-so="2"><h4>Thể tích đất đào</h4>
+      <p><span class="m">V = <i>S</i><sub>đáy</sub> · h = 2,25 · 20 = 45</span> (m<sup>3</sup>).</p>
+      <p class="vi-sao">Đoạn mương là lăng trụ đứng có đáy là hình thang và chiều cao bằng chiều dài mương 20 m (cạnh bên <span class="m"><i>CC′</i></span>).</p>
+      <a class="xem-lai" href="#kt-v">📌 Xem lại: thể tích</a></div>
+  </div>
+  <div class="ket">
+    <div class="dap-so">Thể tích đất phải đào lên là 45 m<sup>3</sup>.</div>
+    <div class="bay">Lấy chiều cao lăng trụ là 1,5 m (độ sâu) và nhân với chu vi hay diện tích gì đó có 20 m. Ở đây 1,5 m là chiều cao của <b>hình thang đáy</b>; chiều cao lăng trụ là 20 m.</div>
+    <div class="gv-note">Hình đã đối chiếu hình SGK (<span class="m">H</span> trên <span class="m"><i>DC</i></span>, <span class="m"><i>AH</i> ⊥ <i>DC</i></span>, cạnh bên <span class="m"><i>CC′</i> = 20</span> m).</div>
+    <div class="hieu-chua"><p>Em hiểu bài này chưa?</p><div class="nut-hang" style="display:flex"><button class="nut ok" data-hieu="1">👍 Hiểu rồi</button><button class="nut no" data-hieu="0">🤔 Chưa hiểu lắm</button></div></div>
+  </div>
+</article>
+
+<section class="the chi-hs cuoi-trang" style="text-align:center">
+  <p style="margin:0 0 10px">🎉 Làm xong hết rồi? Em có thể xem lại những bài đánh dấu <b style="color:var(--warm)">🤔 chưa hiểu</b> ở thanh trên cùng (chấm màu cam).</p>
+  <button class="nut" id="lam-lai">↺ Xoá đánh dấu, làm lại từ đầu</button>
+</section>
+
+<p class="chan">Toán 7 · Kết nối tri thức với cuộc sống · Luyện tập (sau Bài 37) — Lời giải do nhóm biên soạn, không phải đáp án chính thức của SGK.</p>
+</main>
+
+<script>
+(function(){
+  var KEY = 'bai-giai:toan-7:c10-lt2';
+  var luu = {}; try{ luu = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  function ghi(){ try{ localStorage.setItem(KEY, JSON.stringify(luu)); }catch(e){} }
+  var bais = [].slice.call(document.querySelectorAll('.bai'));
+
+  // --- Dựng thanh chọn bài + bảng đáp án nhanh từ chính các bài ---
+  var MUC = {nb:'Nhận biết', th:'Thông hiểu', vd:'Vận dụng', vdc:'Vận dụng cao', mo:'Câu hỏi mở'};
+  var nav = document.getElementById('chips'), bang = document.getElementById('bang-dap-an');
+  var phans = [].slice.call(document.querySelectorAll('.phan-tieu-de'));
+  // Trang có chia phần (Ngữ văn…): mỗi chip = một phần; không chia phần (Toán): mỗi chip = một bài
+  (phans.length ? phans : bais).forEach(function(x){
+    var a = document.createElement('a'); a.className = 'chip'; a.href = '#' + x.id; a.dataset.chip = x.id;
+    a.textContent = x.dataset.chip || (x.dataset.ten || '').replace(/^Bài /, ''); nav.appendChild(a);
+  });
+  function phanCua(bai){   // tiêu đề phần đứng ngay trước bài
+    var p = null; phans.forEach(function(h){ if (h.compareDocumentPosition(bai) & Node.DOCUMENT_POSITION_FOLLOWING) p = h; });
+    return p;
+  }
+  bais.forEach(function(bai){
+    var tr = document.createElement('tr'), ds = bai.querySelector('.dap-so');
+    tr.innerHTML = '<td><a href="#' + bai.id + '"></a></td><td></td><td>' + (MUC[bai.dataset.muc] || '') + '</td>';
+    var ph = phanCua(bai);   // trang chia phần: ghi kèm tên phần (mỗi phần đánh số bài lại từ 1)
+    tr.cells[0].firstChild.textContent = (ph ? ph.dataset.chip + ' · ' : '') + bai.dataset.ten;
+    tr.cells[1].innerHTML = ds ? ds.innerHTML : '';
+    bang.appendChild(tr);
+  });
+
+  // --- Chữ cái đơn trong công thức (x, A, M…) in nghiêng; ngoặc, số, kí hiệu để đứng ---
+  document.querySelectorAll('.m').forEach(function(m){
+    var w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT), ns = [];
+    while (w.nextNode()) ns.push(w.currentNode);
+    ns.forEach(function(t){
+      var h = t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(^|[^A-Za-zÀ-ỹ])([A-Za-z])(?![A-Za-zÀ-ỹ])/g, '$1<i>$2</i>');
+      if (h === t.nodeValue) return;
+      var s = document.createElement('span'); s.innerHTML = h; t.parentNode.replaceChild(s, t);
+    });
+  });
+  // Trên điện thoại: thu gọn hộp kiến thức để bài tập hiện lên sớm
+  if (window.matchMedia('(max-width:600px)').matches) document.querySelector('details.nho').open = false;
+
+  // --- Chế độ Học sinh / Giáo viên ---
+  function datMode(m){
+    document.body.dataset.mode = m;
+    document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.chonMode === m); });
+    luu._mode = m; ghi();
+  }
+  document.querySelectorAll('[data-chon-mode]').forEach(function(b){ b.onclick = function(){ datMode(b.dataset.chonMode); }; });
+  if (location.hash === '#gv') luu._mode = 'gv';
+  datMode(luu._mode || 'hs');
+
+  // --- Tiến độ ---
+  function capNhat(){
+    var n = 0;
+    bais.forEach(function(bai){
+      var s = luu[bai.id], chip = document.querySelector('[data-chip="'+bai.id+'"]'), tt = bai.querySelector('.trang-thai');
+      if (chip){ chip.classList.toggle('hieu', s === 1); chip.classList.toggle('chua', s === 0); }
+      tt.textContent = s === 1 ? '✅ Đã hiểu' : s === 0 ? '🤔 Cần xem lại' : '';
+      tt.style.color = s === 1 ? 'var(--green)' : 'var(--warm)';
+      bai.querySelectorAll('[data-hieu]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.hieu === s)); });
+      var th = bai.querySelector('.them'); if (th) th.classList.toggle('hien', s === 0);
+      if (s === 1) n++;
+    });
+    phans.forEach(function(h){   // chip phần: xanh khi mọi câu trong phần đã hiểu, cam khi có câu cần xem lại
+      var ds = bais.filter(function(b){ return phanCua(b) === h; }), chip = document.querySelector('[data-chip="'+h.id+'"]');
+      chip.classList.toggle('hieu', ds.length > 0 && ds.every(function(b){ return luu[b.id] === 1; }));
+      chip.classList.toggle('chua', ds.some(function(b){ return luu[b.id] === 0; }));
+    });
+    document.getElementById('dem').textContent = 'Em đã hiểu ' + n + '/' + bais.length + (phans.length ? ' câu' : ' bài');
+    document.getElementById('thanh').style.width = (100 * n / bais.length) + '%';
+  }
+
+  // --- Giáo viên: nút mở / thu các bước giải thích ---
+  function nhanBuoc(bai, n){ return bai.classList.contains('mo-buoc') ? '▴ Ẩn các bước giải thích' : '👣 Xem ' + n + ' bước giải thích'; }
+  bais.forEach(function(bai){
+    var n = bai.querySelectorAll('.buoc').length;
+    var nb = document.createElement('button'); nb.className = 'nut-nho nut-buoc-gv chi-gv'; nb.textContent = nhanBuoc(bai, n);
+    nb.onclick = function(){ bai.classList.toggle('mo-buoc'); nb.textContent = nhanBuoc(bai, n); capNhatTatCa(); };
+    bai.querySelector('.loi-giai').before(nb);
+  });
+  var nutTatCa = document.getElementById('gv-tat-ca');
+  function capNhatTatCa(){
+    var het = bais.every(function(b){ return b.classList.contains('mo-buoc'); });
+    nutTatCa.textContent = het ? '▴ Thu gọn tất cả các bước' : '👣 Hiện tất cả các bước giải thích';
+    return het;
+  }
+  nutTatCa.onclick = function(){
+    var mo = !capNhatTatCa();
+    bais.forEach(function(b){
+      b.classList.toggle('mo-buoc', mo);
+      var nb = b.querySelector('.nut-buoc-gv'); nb.textContent = nhanBuoc(b, b.querySelectorAll('.buoc').length);
+    });
+    capNhatTatCa();
+  };
+
+  var CHO_GIAY = 20;   // thời gian "suy nghĩ trước" rồi nút gợi ý mới mở
+  bais.forEach(function(bai){
+    var buocs = [].slice.call(bai.querySelectorAll('.buoc')), ket = bai.querySelector('.ket');
+    var goiY = bai.querySelector('.goi-y'), nutTG = bai.querySelector('[data-tro-giup]');
+    var nutHet = bai.querySelector('[data-hien-het]'), dem = bai.querySelector('.dem-nghi');
+    var buoc = 0;          // 0 = chưa mở gì; 1 = đã mở gợi ý; 1 + k = đã mở k bước
+    var conLai = CHO_GIAY, dongHo = null;
+
+    function ve(){
+      var da = Math.max(0, buoc - 1), xong = da >= buocs.length;
+      goiY.hidden = buoc < 1;
+      buocs.forEach(function(b, i){ b.classList.toggle('hien', i < da); });
+      ket.classList.toggle('hien', xong);
+      nutTG.hidden = xong; nutHet.hidden = xong || buoc < 1;
+      nutTG.textContent = buoc === 0 ? '💡 Cần gợi ý' : '👣 Mở bước ' + (da + 1) + '/' + buocs.length;
+      if (xong) dem.textContent = '';
+    }
+    function moKhoa(){
+      clearInterval(dongHo); dongHo = null; conLai = 0; nutTG.disabled = false;
+      dem.textContent = buoc ? '' : 'Bí quá thì dùng gợi ý nhé — nhưng chỉ mở từng chút một.';
+    }
+    function batDauDem(){
+      if (dongHo || conLai <= 0) return;
+      nutTG.disabled = true;
+      var bao = function(){ dem.textContent = '🧠 Suy nghĩ thêm ' + conLai + ' giây nữa rồi mới xem gợi ý nhé…'; };
+      bao();
+      dongHo = setInterval(function(){ if (--conLai <= 0) moKhoa(); else bao(); }, 1000);
+    }
+    nutTG.onclick = function(){ buoc++; ve(); (buocs[buoc - 2] || goiY).scrollIntoView({behavior:'smooth', block:'nearest'}); };
+    nutHet.onclick = function(){ buoc = buocs.length + 1; ve(); };
+    if (luu[bai.id] !== undefined){ buoc = buocs.length + 1; conLai = 0; }   // đã làm rồi → mở sẵn
+    else if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, ob){ if (es[0].isIntersecting){ batDauDem(); ob.disconnect(); } }, {threshold:.5}).observe(bai);
+    } else batDauDem();
+    ve();
+    bai.querySelectorAll('[data-hieu]').forEach(function(b){
+      b.onclick = function(){ luu[bai.id] = +b.dataset.hieu; ghi(); capNhat(); };
+    });
+  });
+
+  // --- Thử nhanh ∈ / ∉ ---
+  document.querySelectorAll('.cau-thu').forEach(function(c){
+    var ph = c.querySelector('.phan-hoi');
+    c.querySelectorAll('.chon').forEach(function(b){
+      b.onclick = function(){
+        c.querySelectorAll('.chon').forEach(function(x){ x.classList.remove('dung','sai'); });
+        var ok = b.dataset.dung === '1';
+        b.classList.add(ok ? 'dung' : 'sai');
+        ph.className = 'phan-hoi ' + (ok ? 'dung' : 'sai');
+        ph.textContent = ok ? '✓ ' + ph.dataset.dungTxt : '✗ ' + ph.dataset.saiTxt;
+      };
+    });
+  });
+
+  // --- Nút "Xem lại" kiến thức: mở hộp và nháy sáng mục ---
+  document.querySelectorAll('.xem-lai').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelector('details.nho').open = true;
+      var kt = document.querySelector(a.getAttribute('href'));
+      kt.classList.remove('nhay'); void kt.offsetWidth; kt.classList.add('nhay');
+    });
+  });
+
+  document.getElementById('lam-lai').onclick = function(){
+    if (!confirm('Xoá hết đánh dấu “hiểu / chưa hiểu”?')) return;
+    var m = luu._mode; luu = {_mode: m}; ghi(); location.reload();
+  };
+
+  capNhat();
+})();
+</script>
+<!-- phap-ly:dau (do phap-ly/phap_ly.py chèn, đừng sửa tay) -->
+<style>#ct-phap-ly{clear:both;margin:40px 0 0;padding:18px 16px 84px;border-top:1px solid #dde3ee;background:#f7f9fc;color:#5b6475;font:13px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;text-align:center}#ct-phap-ly p{margin:2px auto;max-width:980px;color:inherit;font:inherit}#ct-phap-ly a{color:#2f5fb3;text-decoration:underline;text-underline-offset:2px}#ct-phap-ly a:hover{color:#163f86}#ct-phap-ly .ct-dam{font-weight:600;color:#3b4456}@media print{#ct-phap-ly{margin-top:16px;padding:6px 0 0;background:none;font-size:8.5pt}}</style>
+<footer id="ct-phap-ly" role="contentinfo">
+<p><span class="ct-dam">© 2026 Nhóm giao-guc-pho-thong</span> · Tài liệu miễn phí cho <b>dạy và học</b>, <b>không</b> dùng cho mục đích thương mại. Người dùng tự chịu trách nhiệm khi sử dụng.</p>
+<p><a href="../../dieu-khoan-su-dung.html" data-may="../../../phap-ly/lop-7/dieu-khoan-su-dung.html">Điều khoản sử dụng</a> · <a href="../../ban-quyen.html" data-may="../../../phap-ly/lop-7/ban-quyen.html">Bản quyền</a> · Nội dung gốc theo giấy phép <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.vi" rel="license noopener" target="_blank">CC BY-NC-SA 4.0</a> · Nội dung trích từ SGK thuộc Nhà xuất bản Giáo dục Việt Nam và các tác giả.</p>
+</footer>
+<script>(function(f){if(location.protocol!=='file:')return;f.querySelectorAll('a[data-may]').forEach(function(a){a.href=a.dataset.may})})(document.getElementById('ct-phap-ly'));</script>
+<!-- phap-ly:cuoi -->
+<!-- gop-y:dau (do gop-y/gan_gop_y.py chèn, đừng sửa tay) -->
+<script id="gop-y-nap" data-may="../../../gop-y/gop-y.js" data-web="../../gop-y/gop-y.js" data-loai="solution" data-mon="toan" data-tep="lop-7/bài giải/toán/toan-lop-7-chuong-10-luyen-tap-02-bai-giai.html" data-nguon="lop-7/bài giải/toán/nguon/toan-lop-7-chuong-10-luyen-tap-02-bai-giai.nguon.html" data-phien-ban="21cd04ba629f">(function(n){var L=window.__gopYLoi=[];addEventListener('error',function(e){if(L.length<8&&e.message)L.push({t_s:0,message:String(e.message).slice(0,300),source:(e.filename||'').split('/').pop()+':'+(e.lineno||'')})});var d=n.dataset,m=location.protocol==='file:',s=document.createElement('script');s.defer=true;s.src=m?d.may:d.web;s.onerror=function(){var t=document.createElement('script');t.src=m?d.web:d.may;document.head.appendChild(t)};document.head.appendChild(s)})(document.currentScript);</script>
+<!-- gop-y:cuoi -->
+<!-- thong-ke:dau (do thong-ke/gan_khach.py chèn, đừng sửa tay) -->
+<script id="thong-ke-nap" data-may="../../../thong-ke/khach.js" data-web="../../thong-ke/khach.js" data-lop="7">(function(n){var d=n.dataset,s=document.createElement('script');s.defer=true;s.src=location.protocol==='file:'?d.may:d.web;document.head.appendChild(s)})(document.currentScript);</script>
+<!-- thong-ke:cuoi -->
+</body>
+</html>
